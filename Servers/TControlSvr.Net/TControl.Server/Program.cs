@@ -12,11 +12,10 @@ builder.Services.AddSerilog((services, lc) => lc
 
 builder.Services.Configure<ControlServerOptions>(builder.Configuration.GetSection("Control"));
 
-// OS-specific ops behind interfaces; cross-platform no-op defaults (see PORT_STATUS.md). A Windows
-// implementation can be registered here instead to enable real service control / platform metrics.
-builder.Services.AddSingleton<IServiceController, NoOpServiceController>();
-builder.Services.AddSingleton<IPlatformMonitor, NoOpPlatformMonitor>();
-builder.Services.AddSingleton<IFileDeploy, NoOpFileDeploy>();
+builder.Services.AddSingleton<IServiceController, LocalProcessController>();
+builder.Services.AddSingleton<IPlatformMonitor, LocalPlatformMonitor>();
+builder.Services.AddSingleton<IFileDeploy, LocalFileDeploy>();
+builder.Services.AddHostedService<FourDev.Hosting.ManagedProcessLifetime>();
 
 builder.Services.AddHostedService<ControlWorker>();
 

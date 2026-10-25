@@ -38,11 +38,17 @@ internal sealed class MapTestHarness
         return t;
     }
 
-    public MapTestHarness(TemplateStore? templates = null)
+    public MapTestHarness(TemplateStore? templates = null, IMapEntryStore? entryStore = null)
     {
         Options = new MapServerOptions { ServerId = 1, Channels = new byte[] { 1 } };
         Service = new MapService(Options, State, World, gameDb: null,
-            templates ?? new TemplateStore(), NullLogger<MapService>.Instance);
+            templates ?? new TemplateStore(), NullLogger<MapService>.Instance, entryStore ?? new TestEntryStore());
+    }
+
+    private sealed class TestEntryStore : IMapEntryStore
+    {
+        public Task<bool> ValidateAsync(MapEntry entry) => Task.FromResult(true);
+        public Task<bool> EnterAsync(MapEntry entry) => Task.FromResult(true);
     }
 
     // ---- client packet builders ----

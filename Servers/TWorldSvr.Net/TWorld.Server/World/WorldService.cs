@@ -2,6 +2,7 @@
 using TWorld.Data;
 using TWorld.Protocol;
 using TWorld.Server.Net;
+using TWorld.Server.Security;
 
 namespace TWorld.Server.World;
 
@@ -23,10 +24,12 @@ public sealed partial class WorldService
     private readonly GlobalDatabase? _globalDb;
     private readonly ILogger<WorldService> _log;
     private uint _fakeGuildSeq; // used only when no DB is configured (tests)
+    private readonly Func<ServerSession, ushort, bool>? _authorizePeer;
 
     public WorldService(WorldState state, GuildDatabase? guildDb, ILogger<WorldService> log,
         SocialDatabase? socialDb = null, RankDatabase? rankDb = null, BowDatabase? bowDb = null,
-        BrDatabase? brDb = null, GameDatabase? gameDb = null, GlobalDatabase? globalDb = null)
+        BrDatabase? brDb = null, GameDatabase? gameDb = null, GlobalDatabase? globalDb = null,
+        Func<ServerSession, ushort, bool>? authorizePeer = null)
     {
         _state = state;
         _guildDb = guildDb;
@@ -37,6 +40,7 @@ public sealed partial class WorldService
         _gameDb = gameDb;
         _globalDb = globalDb;
         _log = log;
+        _authorizePeer = authorizePeer;
     }
 
     public WorldState State => _state;
@@ -53,6 +57,12 @@ public sealed partial class WorldService
         var r = new PacketReader(packet);
         try
         {
+            if (!(_authorizePeer?.Invoke(session, r.Id) ?? AuthorizePeer(session, r.Id)))
+            {
+                _log.LogWarning("Unauthorized message 0x{Id:X4} from {Endpoint} ({Role}).", r.Id, conn.RemoteEndPoint, conn.Identity.Role);
+                conn.Close();
+                return;
+            }
             switch (r.Id)
             {
                 // --- Phase 1: map connect + character session ---
@@ -143,6 +153,8 @@ public sealed partial class WorldService
     private void OnMW_CONNECT_ACK(ServerSession session, PacketReader r)
     {
         ushort wServerId = r.ReadUInt16();
+        if (_authorizePeer is null && (session.Conn.Identity.ServerId != wServerId || session.WId != 0))
+        { session.Conn.Close(); return; }
         byte count = r.ReadByte();
         if (_state.Servers.ContainsKey(wServerId))
         {

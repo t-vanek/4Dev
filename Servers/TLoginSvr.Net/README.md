@@ -102,9 +102,15 @@ owner id is normalized to the client registration flag in both the individual an
 For a repeatable 400-account burst test using a disposable database, see
 [`Tools/ServerBenchmarks`](../../Tools/ServerBenchmarks/README.md). The benchmark does not read or modify player rows.
 
-- **Anti-cheat (exec checksum / HWID / 2FA / email) is wired but disabled**, exactly as in the C++ build
-  (`m_hExecFile` is never loaded; the SMTP path is commented out). HWID/2FA validators auto-pass; the
-  `GetCheckFilePoint` value sent in group/channel/char lists is `0`.
+- **Second-factor bypass removed:** a database `Security` result stays challenge-required; this client
+  build supplies no verifiable trusted-device identity. Failed or pending logins expose no map key,
+  character or routing data and cannot use authenticated handlers. A new login attempt clears any
+  previous account authentication. Duplicate-login recovery verifies the password before removing its
+  existing login row, and the retried login still enforces `Security`.
+- **Second-factor delivery/verification remains unfinished.** Accounts for which the DB requires 2FA
+  cannot log in until a real challenge flow is integrated. The unavailable email sender throws instead
+  of claiming successful delivery. OpenIddict was not added.
+- Exec-checksum/HWID anti-cheat is still disabled (`m_hExecFile` is not loaded); `GetCheckFilePoint` is `0`.
 - On Ctrl+C / SIGTERM the server runs `TClearLoginCurrentUser`, mirroring the C++ `OnExit`.
 - Implemented messages: LOGIN, AGREEMENT, GROUPLIST, CHANNELLIST, CHARLIST, CREATECHAR, DELCHAR, START,
   TESTVERSION, VETERAN, SECURITYCONFIRM, TERMINATE, HOTSEND (no-op). The dev-only `TESTLOGIN` is omitted.

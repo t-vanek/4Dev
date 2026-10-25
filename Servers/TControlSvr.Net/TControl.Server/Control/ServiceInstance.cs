@@ -24,6 +24,9 @@ public sealed class ServiceInstance
     public long LatestStop { get; set; }
     public long PickTime { get; set; }
     public bool ManagerControl { get; set; }
+    public LocalProcessOptions? Process { get; init; }
+    public Security.PeerTlsClientOptions? PeerTls { get; init; }
+    public long RestartAfterTick { get; set; }
 
     /// <summary>The live outbound connection (a <see cref="ServerSession"/>) or null when not connected.</summary>
     public ServerSession? Conn { get; set; }

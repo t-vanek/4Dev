@@ -16,7 +16,8 @@ public sealed class ManagerSession
     /// <summary>Authenticated (logged-in) flag — C++ <c>m_bManager</c>.</summary>
     public bool IsManager { get; set; }
     /// <summary>Operator authority level (lower = more privileged) — C++ <c>m_bAuthority</c>.</summary>
-    public byte Authority { get; set; }
+    public byte Authority { get; set; } = byte.MaxValue;
+    public bool ReadOnly { get; set; }
     /// <summary>Session sequence id used to route ACKs back — C++ <c>m_dwID</c>.</summary>
     public uint Id { get; set; }
     public string StrId { get; set; } = "";

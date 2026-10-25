@@ -7,6 +7,22 @@ and SQL baselines, so it interoperates with the already-ported `TWorldSvr.Net`.
 
 See **[PORT_STATUS.md](PORT_STATUS.md)** for the handler-by-handler port map and the faithful-degradation notes.
 
+## Authenticated server links
+
+World and Map connectors now require a `PeerTls` section on each corresponding `Control:Servers` entry:
+`CertificatePath` (Control's client-auth PFX), `CertificatePassword` (prefer environment configuration,
+e.g. `Control__Servers__0__PeerTls__CertificatePassword`), `ServerName` (the server certificate SAN), and
+`ServerSha256` (64 hex digits of its leaf SHA-256 fingerprint). Authorize Control's certificate as
+`Role: "Control", ServerId: 0` at the target. Missing TLS configuration disables that connector and keeps
+Control's manager/process supervision running. Authentication failures never downgrade to plaintext.
+
+For Maps, configure the target's separate `Map:ControlPort` and use that as the Control service's `Port`;
+the public game-client port no longer accepts Control by source IP. For DB-loaded topology, add a
+matching `Control:Servers` override for every World/Map service needing TLS configuration. Existing
+Login/relay links and the Happy manager wire protocol are unchanged. Details and certificate requirements
+are in [World](../TWorldSvr.Net/README.md) and [Map](../TMapSvr.Net/README.md). Upgrade these binaries and
+their configuration together. Temporary test certificates are not deployment certificates.
+
 ## What it is
 
 TControlSvr plays two roles at once:
@@ -50,8 +66,9 @@ Protocol + end-to-end tests run with **no database**. The DB smoke test runs onl
 dotnet run --project TControl.Server -c Release
 ```
 
-With no connection string it boots **DB-less** (empty topology/events) and listens on **:3615** — useful
-for a wire smoke test. Point a GM tool at it, and add game servers to dial via the `Control:Servers` list.
+With no connection string it boots with the configured topology and listens on **:3615**, but **rejects
+every operator login**. A configured database that cannot be opened faults startup before the listener
+opens. Production operator authentication always uses `TOPLogin`; tests inject an explicit authenticator.
 
 ## Configuration
 
@@ -62,10 +79,15 @@ Bound from the `Control` section of `appsettings.json`, overridable by environme
 | Key | Default | Meaning |
 |---|---|---|
 | `Control:Port` | `3615` | TCP listen port for GM managers (`DEFAULT_CTL_PORT`; the C++ INI default was 3616). |
-| `Control:AutoStart` | `false` | Auto-restart stopped services. No-op unless a Windows service controller is wired. |
+| `Control:AutoStart` | `false` | Start configured local processes and restart unexpected exits. An operator stop suppresses restart until the next explicit start. |
+| `Control:RestartDelaySeconds` | `60` | Delay between restart attempts (1–3600 seconds). |
+| `Control:ProcessStateDirectory` | `"process-state"` | Private persistent ownership/restart records. Relative to the Control content root; keep the same directory across upgrades. |
+| `Control:LocalMachineId` | `0` | Machine id used for local metrics, configured processes and uploads. |
+| `Control:UploadRoot` | `""` | Local deployment directory; an empty value disables uploads. Relative paths resolve against the Control content root. |
+| `Control:MaxUploadBytes` | `536870912` | Maximum size of one upload, including its final chunk. |
 | `Control:ConnectIntervalSeconds` | `10` | How often the connector re-dials game servers that aren't connected. |
-| `Control:Servers` | `[]` | Explicit game-server dial list for DB-less mode: `{ Host, Port, Group, Type, ServerId, Name }` (`Type`: 2=login, 3=world, 4=map, 8=relay). When the DB is present, the topology is authoritative and this may be empty. |
-| `Control:Db:GlobalConnectionString` | `""` | `TGlobal_gsp` connection string. Empty ⇒ DB-less mode. |
+| `Control:Servers` | `[]` | Explicit dial list, optionally with `Process` below. An entry overrides a DB topology row with the same group/type/server id. Without `Process`, the peer is monitored but its OS process is not controlled. |
+| `Control:Db:GlobalConnectionString` | `""` | `TGlobal_gsp` connection string. Empty disables operator access. |
 
 Example (PowerShell):
 
@@ -73,6 +95,79 @@ Example (PowerShell):
 $env:Control__Db__GlobalConnectionString = 'Server=localhost,11433;Database=TGlobal_gsp;User Id=sa;Password=…;TrustServerCertificate=true'
 dotnet run --project TControl.Server -c Release
 ```
+
+## Local .NET processes
+
+Publish the game servers first. Configure executable paths locally; network requests can select only a
+known service id, never an executable, argument, environment variable or arbitrary PID. For example:
+
+```json
+{
+  "Control": {
+    "AutoStart": true,
+    "LocalMachineId": 1,
+    "ProcessStateDirectory": "C:/4Dev/runtime/control-processes",
+    "UploadRoot": "C:/4Dev/deploy",
+    "Servers": [
+      {
+        "Host": "127.0.0.1",
+        "Port": 3816,
+        "Group": 1,
+        "Type": 3,
+        "ServerId": 1,
+        "Name": "World",
+        "Process": {
+          "FileName": "TWorld.Server.exe",
+          "WorkingDirectory": "C:/4Dev/servers/world",
+          "Arguments": [],
+          "Environment": { "World__Port": "3816" },
+          "StopTimeoutSeconds": 45,
+          "ForceKillOnTimeout": false
+        }
+      }
+    ]
+  }
+}
+```
+
+On Linux use the published `TWorld.Server` executable. To run a framework-dependent DLL, set `FileName`
+to the absolute `dotnet` executable path and put the DLL path in `Arguments`. Paths are resolved against
+the configured working directory, which defaults to the Control content root. Managed processes require
+a loopback dial address. Their own DB settings are read from their working directory or environment;
+keep credentials outside tracked configuration.
+
+Control starts executables without a shell and records their PID, creation time, executable and private
+pipe credentials in `ProcessStateDirectory`. After Control maintenance it recovers only registered
+processes with matching identities. An externally started process is not adopted by PID or port.
+Shutdown uses a same-user named pipe with a random authentication token and a PID/creation-time
+handshake, then calls the game's normal `StopApplication` so map persistence can finish. A timeout
+reports failure and retains supervision; forceful process-tree termination requires
+`ForceKillOnTimeout=true` and a successful authenticated shutdown acknowledgement.
+
+Process waits run outside the single packet-processing task; results are committed back on that task.
+Other managers, monitor replies and event ticks keep running during a slow stop. A pending world stop
+temporarily inhibits group restarts; only a successful world stop commits group-wide suppression.
+Failed stops preserve the previous restart policy. Starting an already-running service explicitly
+re-enables its restart policy. Restart intent survives a supervisor restart, including a supervisor
+interruption after the game has already acknowledged shutdown.
+
+Exiting or restarting Control leaves games running. A new Control instance uses the same private state
+directory to resume management. Disconnecting a lifecycle-pipe client does not stop the game. The
+lifetime helper is included in each server project so that every server remains independently
+publishable. Rebuild/publish Control and the managed game servers together when upgrading from the
+earlier stdin-based lifecycle implementation.
+
+Only one supervisor may own a state directory at a time. The directory contains runtime secrets: keep
+it private to the server OS account and outside uploads/version control (the default `process-state/`
+name is Git-ignored). Linux requires mode `0700`; new state files use `0600`. Windows relies on the
+directory's account ACL and same-user/elevation checks on the pipe. An incomplete launch record is
+reported as not controllable to prevent duplicate launches; resolve its identity locally before retrying.
+
+Uploads are staged beside their destination and replace it only after a successful END packet. Cancel,
+disconnect, oversized data and malformed chunks discard the staged file and preserve the old target.
+Only the owning authenticated session can finish/cancel an upload. Names must be relative, use `/` for
+subdirectories, and contain no traversal, drive/stream paths, symlinks or junctions. Existing Unix file
+permissions are preserved; a newly uploaded executable needs its execution permission set locally.
 
 ## Docker
 
@@ -86,19 +181,25 @@ The topology (which servers to dial, at which private IP:port) comes from the DB
 
 ## Behaviour notes / known simplifications
 
-- **OS-specific ops are wired but disabled** behind interfaces (`Ops/`), exactly like the sibling ports'
-  anti-cheat. The C++ used the Windows Service Control Manager (remote start/stop/status), PDH performance
-  counters, and SMB admin-share file upload — none cross-platform. The defaults:
-  `NoOpServiceController` (start/stop are logged no-ops; **service "running" = a live TCP connection**),
-  `NoOpPlatformMonitor` (CPU/MEM/NET = 0), `NoOpFileDeploy` (upload accepted, discarded). A Windows
-  implementation can be registered in `Program.cs` behind the same seams. The DB-side patch/preversion
-  procs are still ported.
-- The connector **dials** each configured server and treats a live connection as RUNNING (replacing the
-  C++ "SCM detects RUNNING → connect out" trigger).
-- The GM manager side has **no client in this repo**, so it is wire-tested, not live-exercised. The
-  server-facing relay is live-tested end-to-end against `TWorldSvr.Net`.
+- **Local operations are implemented**: `LocalProcessController`, `LocalPlatformMonitor` and
+  `LocalFileDeploy` are registered by the executable. Windows SCM and remote SMB are outside the chosen
+  local-process deployment model. Remote peers can still be monitored over the existing TCP protocol.
+- Process state is independent of TCP connection health. Unexpected process exits update stop counters
+  and restart deadlines; a dropped monitor connection alone does not start a duplicate process.
+- `CT_PLATFORM_ACK` is emitted every second for `LocalMachineId`: host CPU %, physical memory used % and
+  aggregate network utilization % (not the C++ committed-memory counter). Remote metrics are not
+  fabricated. Windows uses system counters; Linux uses `/proc` and interface byte counters.
+- Every manager command has a central authorization policy. Unauthenticated/invalid-authority sessions
+  are denied; `CT_STLOGIN` can read service status and receive updates but cannot issue mutations.
+- The legacy GM client is `Tools/Happy`. Its rewrite and UI permission alignment are deferred; this
+  server change keeps the authorization policy. Automated tests exercise the manager wire flow rather
+  than the Happy GUI. Server relays are tested against a simulated world.
 - **Wire reconciliation with `TWorldSvr.Net`** (RESOLVED): `CTProtocol.h` defines
   `CT_SERVICEMONITOR_REQ = 0x931E` / `_ACK = 0x931F`; `TWorldSvr.Net/TWorld.Protocol/NetCode.cs` previously
   had them **swapped** (never live-exercised, since no control server existed). The swap has been fixed in
   the world port, and the 1 s monitor poll now round-trips end-to-end (verified live: poll `0x931F` →
   counts reply `0x931E`).
+
+Map session-key/ownership checks and authenticated World/Map admin links are implemented and covered by
+regressions. The Login bypass is closed by refusing second-factor-pending sessions; the real 2FA flow
+and restored-database/deployment validation remain open. Happy and Docker changes are deferred.

@@ -1,5 +1,45 @@
 # TWorldSvr.Net — Phases 1–4 (BoW + BR + battle-time + tournament config)
 
+## Peer authentication
+
+The World listener requires mutual TLS before dispatching any game-server packet. Configure
+`World:PeerTls:CertificatePath` (a PFX with private key and server-auth EKU), its password through
+`World__PeerTls__CertificatePassword`, and `World:PeerTls:Peers`. Each allowlist entry has `Sha256`
+(64 hex digits of the **leaf certificate's SHA-256 fingerprint**), `Role` (`Map` or `Control`),
+and `ServerId`. Map certificates bind to the exact `MAKEWORD(serverId, 4)` identity
+(`1025` / `0x0401` for map 1); Control uses `ServerId: 0`. Peers need separate private keys and
+client-auth EKU. Empty configuration refuses startup.
+
+Example (replace the fingerprint placeholders):
+
+```json
+"PeerTls": {
+  "CertificatePath": "certificates/world.pfx",
+  "Peers": [
+    { "Sha256": "<map-1-certificate-sha256>", "Role": "Map", "ServerId": 1025 },
+    { "Sha256": "<control-certificate-sha256>", "Role": "Control", "ServerId": 0 }
+  ]
+}
+```
+
+Trust comes from explicit certificate pins; certificates need not be in the OS trust store. Dates and
+EKU are checked; clients also check the server SAN/name. TLS 1.2/1.3 protects the entire connection.
+Revoke a certificate by removing its pin and restarting the listener; this private pin-based deployment
+does not use online CRL/OCSP. Protect PFX files/passwords under the server account. Windows imports
+temporary user key containers for Schannel; Linux uses ephemeral keys.
+
+Maps must register their pinned identity before gameplay traffic. Control must register before issuing
+allowed admin commands. A Map cannot become Control or send Control-only commands; local timer/DB
+messages are refused from Maps. Two existing in-game GM/corps CT messages remain allowed for registered
+Maps. Control's event and castle commands are explicitly allowed. Violations close the connection.
+
+Configure matching clients in [Map](../TMapSvr.Net/README.md) and [Control](../TControlSvr.Net/README.md).
+Upgrade all three binaries/configurations together: legacy plaintext links are refused. Loopback tests
+cover successful traffic, role/identity violations, unknown certificates, wrong server names/pins and
+plaintext connections. Restored SQL databases and Linux execution still require deployment validation.
+
+## Earlier port history
+
 A C# (.NET 10) reimplementation of the C++/ATL `Servers/TWorldSvr` — the cluster's central **world
 hub**. **Phase 1**: infrastructure + the core map-server-connect and character enter/leave/chat flow.
 **Phase 2**: the core guild lifecycle (DB-backed) + in-memory parties. **Phase 2b**: the full guild

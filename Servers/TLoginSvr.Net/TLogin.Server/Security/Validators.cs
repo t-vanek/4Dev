@@ -6,13 +6,13 @@ public interface IHwidValidator
     bool IsAllowed(string userId, string hwid, string macAddress, string pcName);
 }
 
-/// <summary>2FA "trusted device" gate. Default auto-passes (treats every device as trusted).</summary>
+/// <summary>2FA trusted-device gate. An empty device identity cannot establish trust.</summary>
 public interface ITwoFactorValidator
 {
     bool IsTrusted(string userId, string hwid, string macAddress, string pcName);
 }
 
-/// <summary>Security-code email sender. Default is a no-op (the C++ SMTP path is commented out).</summary>
+/// <summary>Security-code delivery. The unconfigured sender fails rather than claiming delivery.</summary>
 public interface IEmailSender
 {
     Task SendSecurityCodeAsync(string email, string code, CancellationToken ct = default);
@@ -23,12 +23,13 @@ public sealed class AutoPassHwidValidator : IHwidValidator
     public bool IsAllowed(string userId, string hwid, string macAddress, string pcName) => true;
 }
 
-public sealed class AutoPassTwoFactorValidator : ITwoFactorValidator
+public sealed class UntrustedDeviceValidator : ITwoFactorValidator
 {
-    public bool IsTrusted(string userId, string hwid, string macAddress, string pcName) => true;
+    public bool IsTrusted(string userId, string hwid, string macAddress, string pcName) => false;
 }
 
-public sealed class NoOpEmailSender : IEmailSender
+public sealed class UnavailableEmailSender : IEmailSender
 {
-    public Task SendSecurityCodeAsync(string email, string code, CancellationToken ct = default) => Task.CompletedTask;
+    public Task SendSecurityCodeAsync(string email, string code, CancellationToken ct = default) =>
+        throw new InvalidOperationException("Security-code delivery is not configured.");
 }

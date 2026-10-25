@@ -42,6 +42,7 @@ public sealed class ClientSession
 
     /// <summary>True once this map is the char's "main" server for the CHECKMAIN handshake.</summary>
     public bool IsMain { get; set; }
+    public bool EntryValidated { get; set; }
 
     /// <summary>Unlock applies only to this connection; the code and failed attempts are account-wide.</summary>
     public bool SecurityUnlocked { get; set; }

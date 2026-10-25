@@ -10,6 +10,7 @@ public sealed class WorldServerOptions
 
     public byte GroupId { get; set; } = 1;
     public byte ServerId { get; set; } = 1;
+    public Security.PeerTlsServerOptions PeerTls { get; set; } = new();
 
     /// <summary>Optional nation override; when null the value is read from TGetNation.</summary>
     public byte? Nation { get; set; }

@@ -24,10 +24,17 @@ public sealed partial class ControlService
     private readonly IServiceController _svcCtl;
     private readonly IPlatformMonitor _platform;
     private readonly IFileDeploy _fileDeploy;
+    private readonly IOperatorAuthenticator _authenticator;
+    private readonly ControlServerOptions _options;
+    private readonly CancellationTokenSource _operationCancellation;
+    private readonly Action<ProcessStopResult>? _stopCompletion;
+    private ManagerSession? _uploadOwner;
 
     public ControlService(
         ControlState state, ControlDatabase? db, ILogger<ControlService> log,
-        IServiceController svcCtl, IPlatformMonitor platform, IFileDeploy fileDeploy)
+        IServiceController svcCtl, IPlatformMonitor platform, IFileDeploy fileDeploy,
+        IOperatorAuthenticator? authenticator = null, ControlServerOptions? options = null,
+        CancellationToken stoppingToken = default, Action<ProcessStopResult>? stopCompletion = null)
     {
         _state = state;
         _db = db;
@@ -35,6 +42,10 @@ public sealed partial class ControlService
         _svcCtl = svcCtl;
         _platform = platform;
         _fileDeploy = fileDeploy;
+        _authenticator = authenticator ?? new DatabaseOperatorAuthenticator(db);
+        _options = options ?? new ControlServerOptions();
+        _operationCancellation = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+        _stopCompletion = stopCompletion;
     }
 
     public ControlState State => _state;
@@ -51,7 +62,7 @@ public sealed partial class ControlService
     public void OnManagerDisconnected(PacketConnection conn)
     {
         if (conn.State is not ManagerSession mgr) return;
-        if (mgr.Upload) { mgr.Upload = false; _fileDeploy.End(cancel: true); }
+        if (_uploadOwner == mgr) CancelUpload(mgr);
         _state.Sessions.Remove(mgr);
         _state.Managers.Remove(mgr);
     }
@@ -72,15 +83,18 @@ public sealed partial class ControlService
 
     public void OnServerDisconnected(PacketConnection conn, ServiceInstance svc)
     {
-        if (svc.Conn?.Conn == conn) svc.Conn = null;
+        if (svc.Conn?.Conn != conn) return;
+        svc.Conn = null;
         svc.RecvTick = 0;
-        SetServiceStatus(svc, Proto.SvcStopped, smsType: 0);
+        if (_svcCtl.GetStatus(svc) is not { } status || status == Proto.SvcStopped)
+            SetServiceStatus(svc, Proto.SvcStopped, smsType: 0);
     }
 
     // ===== dispatch =====
 
     public async Task DispatchAsync(PacketConnection conn, byte[] packet)
     {
+        DrainStopResults();
         var r = new PacketReader(packet);
         try
         {
@@ -98,6 +112,12 @@ public sealed partial class ControlService
     /// <summary>Packets from an inbound manager (GM tool).</summary>
     private async Task DispatchManagerAsync(ManagerSession mgr, PacketReader r, byte[] packet)
     {
+        if (r.Id is Msg.CT_OPLOGIN_REQ or Msg.CT_STLOGIN_REQ)
+        {
+            if (mgr.IsManager) { mgr.Send(new PacketWriter(Msg.CT_AUTHORITY_ACK)); return; }
+        }
+        else if (!AuthorizeMessage(mgr, r.Id)) return;
+
         switch (r.Id)
         {
             // --- login / topology / service control (.Manager.cs) ---
@@ -186,9 +206,35 @@ public sealed partial class ControlService
     /// non-service operators) send CT_AUTHORITY_ACK and deny.</summary>
     private bool CheckAuthority(ManagerSession mgr, ManagerClass cls)
     {
-        if (mgr.Authority <= (byte)cls) return true;
-        if (mgr.Authority <= (byte)ManagerClass.Service)
-            mgr.Send(new PacketWriter(Msg.CT_AUTHORITY_ACK).ToArray());
+        if (mgr.IsManager && mgr.Authority >= (byte)ManagerClass.All && mgr.Authority <= (byte)cls) return true;
+        mgr.Send(new PacketWriter(Msg.CT_AUTHORITY_ACK));
+        return false;
+    }
+
+    // Every manager message is covered, including legacy handlers without their own authority check.
+    private bool AuthorizeMessage(ManagerSession mgr, ushort id)
+    {
+        ManagerClass? required = id switch
+        {
+            Msg.CT_SERVICESTAT_REQ => ManagerClass.GmLevel3,
+            Msg.CT_SERVICECONTROL_REQ or Msg.CT_SERVICEAUTOSTART_REQ or Msg.CT_RECONNECT_REQ => ManagerClass.Service,
+            Msg.CT_SERVICEUPLOADSTART_REQ or Msg.CT_SERVICEUPLOAD_REQ or Msg.CT_SERVICEUPLOADEND_REQ
+                or Msg.CT_UPDATEPATCH_REQ or Msg.CT_PREVERSIONTABLE_REQ or Msg.CT_PREVERSIONUPDATE_REQ => ManagerClass.Control,
+            Msg.CT_ANNOUNCEMENT_REQ or Msg.CT_MONSPAWNFIND_REQ or Msg.CT_MONACTION_REQ
+                or Msg.CT_USERPROTECTED_REQ => ManagerClass.GmLevel1,
+            Msg.CT_USERKICKOUT_REQ or Msg.CT_USERMOVE_REQ or Msg.CT_USERPOSITION_REQ or Msg.CT_CHARMSG_REQ => ManagerClass.GmLevel2,
+            Msg.CT_CHATBAN_REQ or Msg.CT_EVENTCHANGE_REQ => ManagerClass.GmLevel3,
+            Msg.CT_EVENTLIST_REQ or Msg.CT_CASHITEMLIST_REQ => ManagerClass.User,
+            Msg.CT_SERVICEDATACLEAR_REQ or Msg.CT_CHATBANLIST_REQ or Msg.CT_CHATBANLISTDEL_REQ
+                or Msg.CT_ITEMFIND_REQ or Msg.CT_ITEMSTATE_REQ or Msg.CT_CASTLEINFO_REQ or Msg.CT_CASTLEGUILDCHG_REQ
+                or Msg.CT_CASTLEENABLE_REQ or Msg.CT_HELPMESSAGE_REQ or Msg.CT_RPSGAMEDATA_REQ or Msg.CT_RPSGAMECHANGE_REQ
+                or Msg.CT_TOURNAMENTEVENT_REQ or Msg.CT_EVENTQUARTERLIST_REQ or Msg.CT_EVENTQUARTERUPDATE_REQ
+                or Msg.CT_CMGIFT_REQ or Msg.CT_CMGIFTLIST_REQ or Msg.CT_CMGIFTCHARTUPDATE_REQ => ManagerClass.All,
+            _ => null,
+        };
+        if (required is { } permission && (!mgr.ReadOnly || id == Msg.CT_SERVICESTAT_REQ))
+            return CheckAuthority(mgr, permission);
+        mgr.Send(new PacketWriter(Msg.CT_AUTHORITY_ACK));
         return false;
     }
 
@@ -196,9 +242,20 @@ public sealed partial class ControlService
 
     public async Task OnTickAsync()
     {
+        DrainStopResults();
         long now = Environment.TickCount64;
         foreach (var svc in _state.Services.Values)
         {
+            if (!_pendingStops.ContainsKey(svc.Id) && _svcCtl.GetStatus(svc) is { } status)
+            {
+                SetServiceStatus(svc, status, 0);
+                if (status == Proto.SvcStopped && _state.AutoStart && svc.ManagerControl && now >= svc.RestartAfterTick
+                    && !_pendingStops.Values.Any(p => p.Service.IsWorld && p.Service.Group.GroupId == svc.Group.GroupId))
+                {
+                    svc.RestartAfterTick = now + _options.RestartDelaySeconds * 1000L;
+                    if (_svcCtl.Start(svc)) SetServiceStatus(svc, Proto.SvcRunning, 0);
+                }
+            }
             if (svc.Conn is { } conn)
             {
                 // 60s recv timeout -> notify managers + SMS (C++ OnCT_TIMER_REQ).
@@ -222,7 +279,19 @@ public sealed partial class ControlService
             }
         }
 
+        if (_platform.Sample(_options.LocalMachineId) is { } sample)
+            foreach (var manager in _state.Managers.Where(m => m.Authority <= (byte)ManagerClass.Service))
+                manager.Send(new PacketWriter(Msg.CT_PLATFORM_ACK).WriteByte(_options.LocalMachineId)
+                    .WriteUInt32(sample.Cpu).WriteUInt32(sample.Mem).WriteFloat(sample.Net));
+
         await CheckEventAsync();
+    }
+
+    public void CloseSessions()
+    {
+        if (_uploadOwner is { } owner) CancelUpload(owner);
+        foreach (var manager in _state.Sessions) manager.Conn.Close();
+        foreach (var service in _state.Connected) service.Conn!.Conn.Close();
     }
 
     // ===== shared helpers =====
@@ -235,6 +304,7 @@ public sealed partial class ControlService
         {
             svc.StopCount++;
             svc.LatestStop = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            svc.RestartAfterTick = Environment.TickCount64 + _options.RestartDelaySeconds * 1000L;
         }
         svc.Status = status;
         foreach (var m in _state.Managers)

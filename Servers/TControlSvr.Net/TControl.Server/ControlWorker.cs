@@ -10,10 +10,11 @@ using TControl.Server.Ops;
 
 namespace TControl.Server;
 
-internal enum BatchKind { Packet, ManagerConnected, ManagerDisconnected, ServerConnected, ServerDisconnected, Tick }
+internal enum BatchKind { Packet, ManagerConnected, ManagerDisconnected, ServerConnected, ServerDisconnected, Tick, StopCompleted }
 
 /// <summary>One unit of work for the single batch task.</summary>
-internal readonly record struct BatchItem(BatchKind Kind, PacketConnection? Conn = null, byte[]? Packet = null, ServiceInstance? Service = null);
+internal readonly record struct BatchItem(BatchKind Kind, PacketConnection? Conn = null, byte[]? Packet = null,
+    ServiceInstance? Service = null, ProcessStopResult? StopResult = null);
 
 /// <summary>
 /// Hosted service that boots the control server: load config → open DB (optional) → load topology + events
@@ -28,9 +29,10 @@ public sealed class ControlWorker : BackgroundService
     private readonly IServiceController _svcCtl;
     private readonly IPlatformMonitor _platform;
     private readonly IFileDeploy _fileDeploy;
+    private readonly IOperatorAuthenticator? _authenticator;
 
     public ControlWorker(IOptions<ControlServerOptions> opt, ILoggerFactory loggerFactory,
-        IServiceController svcCtl, IPlatformMonitor platform, IFileDeploy fileDeploy)
+        IServiceController svcCtl, IPlatformMonitor platform, IFileDeploy fileDeploy, IOperatorAuthenticator? authenticator = null)
     {
         _opt = opt.Value;
         _loggerFactory = loggerFactory;
@@ -38,10 +40,13 @@ public sealed class ControlWorker : BackgroundService
         _svcCtl = svcCtl;
         _platform = platform;
         _fileDeploy = fileDeploy;
+        _authenticator = authenticator;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (_opt.Port is < 1 or > 65535 || _opt.RestartDelaySeconds is < 1 or > 3600 || _opt.MaxUploadBytes <= 0)
+            throw new InvalidOperationException("Invalid Control port, restart delay or upload limit.");
         var state = new ControlState { AutoStart = _opt.AutoStart };
 
         ControlDatabase? db = null;
@@ -60,8 +65,8 @@ public sealed class ControlWorker : BackgroundService
             }
             catch (Exception ex)
             {
-                _log.LogWarning(ex, "Global DB unavailable at startup; continuing DB-less.");
-                db = null;
+                _log.LogError(ex, "Configured global DB is unavailable; refusing to start the control listener.");
+                throw;
             }
         }
 
@@ -74,26 +79,34 @@ public sealed class ControlWorker : BackgroundService
         _log.LogInformation("Control server: {Svc} service(s), {Grp} group(s), {Ev} event(s), myAddr='{Addr}', autoStart={Auto}.",
             state.Services.Count, state.Groups.Count, state.Events.Count, state.MyAddr, state.AutoStart);
 
-        var service = new ControlService(state, db, _loggerFactory.CreateLogger<ControlService>(), _svcCtl, _platform, _fileDeploy);
-
+        using var lifetime = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+        var token = lifetime.Token;
         var batch = Channel.CreateUnbounded<BatchItem>(new UnboundedChannelOptions { SingleReader = true });
-        var batchTask = RunBatchAsync(batch.Reader, service, stoppingToken);
-        var timerTask = RunTimerAsync(batch.Writer, stoppingToken);
+        var service = new ControlService(state, db, _loggerFactory.CreateLogger<ControlService>(), _svcCtl, _platform, _fileDeploy,
+            _authenticator, _opt, token,
+            result => batch.Writer.TryWrite(new BatchItem(BatchKind.StopCompleted, StopResult: result)));
+        var batchTask = RunBatchAsync(batch.Reader, service, token);
+        var timerTask = RunTimerAsync(batch.Writer, token);
         var connectors = state.Services.Values
-            .Select(svc => RunConnectorAsync(svc, batch.Writer, stoppingToken))
+            .Select(svc => RunConnectorAsync(svc, batch.Writer, token))
             .ToArray();
 
         var server = new PacketServer(_loggerFactory.CreateLogger<PacketServer>());
-        await server.ListenAsync(
+        var listener = server.ListenAsync(
             _opt.Port,
             onPacket: (conn, data) => { batch.Writer.TryWrite(new BatchItem(BatchKind.Packet, conn, data)); return ValueTask.CompletedTask; },
             onConnected: conn => { batch.Writer.TryWrite(new BatchItem(BatchKind.ManagerConnected, conn)); return ValueTask.CompletedTask; },
             onDisconnected: conn => { batch.Writer.TryWrite(new BatchItem(BatchKind.ManagerDisconnected, conn)); return ValueTask.CompletedTask; },
-            token: stoppingToken);
-
-        batch.Writer.TryComplete();
-        try { await Task.WhenAll(new[] { batchTask, timerTask }.Concat(connectors)); }
-        catch (OperationCanceledException) { }
+            token: token);
+        try { await await Task.WhenAny(new[] { listener, batchTask, timerTask }.Concat(connectors)); }
+        finally
+        {
+            lifetime.Cancel();
+            batch.Writer.TryComplete();
+            try { await Task.WhenAll(new[] { listener, batchTask, timerTask }.Concat(connectors)); }
+            catch (OperationCanceledException) { }
+            finally { await service.StopOperationsAsync(); service.CloseSessions(); }
+        }
     }
 
     private async Task RunBatchAsync(ChannelReader<BatchItem> reader, ControlService service, CancellationToken token)
@@ -110,6 +123,7 @@ public sealed class ControlWorker : BackgroundService
                     case BatchKind.ServerConnected: service.OnServerConnected(item.Conn!, item.Service!); break;
                     case BatchKind.ServerDisconnected: service.OnServerDisconnected(item.Conn!, item.Service!); break;
                     case BatchKind.Tick: await service.OnTickAsync(); break;
+                    case BatchKind.StopCompleted: service.CompleteStop(item.StopResult!); break;
                 }
             }
         }
@@ -134,12 +148,18 @@ public sealed class ControlWorker : BackgroundService
         var delay = TimeSpan.FromSeconds(Math.Max(1, _opt.ConnectIntervalSeconds));
         while (!token.IsCancellationRequested)
         {
+            if ((svc.IsWorld || svc.IsMap) && svc.PeerTls is null)
+            {
+                logger.LogWarning("Server {Service} requires configured PeerTls; connection denied.", svc.Id);
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return;
+            }
             await PacketClient.RunConnectionAsync(
                 svc.DialHost, svc.Port, logger,
                 onPacket: (conn, data) => { writer.TryWrite(new BatchItem(BatchKind.Packet, conn, data)); return ValueTask.CompletedTask; },
                 onConnected: conn => { writer.TryWrite(new BatchItem(BatchKind.ServerConnected, conn, Service: svc)); return ValueTask.CompletedTask; },
                 onDisconnected: conn => { writer.TryWrite(new BatchItem(BatchKind.ServerDisconnected, conn, Service: svc)); return ValueTask.CompletedTask; },
-                token);
+                token, svc.PeerTls);
             try { await Task.Delay(delay, token); } catch (OperationCanceledException) { break; }
         }
     }
@@ -193,20 +213,34 @@ public sealed class ControlWorker : BackgroundService
     {
         foreach (var cfg in _opt.Servers)
         {
+            if (cfg.Port is < 1 or > 65535) throw new InvalidOperationException("Configured server port must be 1–65535.");
+            if (cfg.Process is not null && cfg.Host != "localhost"
+                && (!System.Net.IPAddress.TryParse(cfg.Host, out var host) || !System.Net.IPAddress.IsLoopback(host)))
+                throw new InvalidOperationException("A locally managed process must have a loopback dial address.");
             var group = state.Groups.TryGetValue(cfg.Group, out var g) ? g : new TGroup { GroupId = cfg.Group, Name = $"G{cfg.Group}" };
             var type = state.SvrTypes.TryGetValue(cfg.Type, out var t) ? t : new TSvrType { Type = cfg.Type, Name = $"T{cfg.Type}" };
-            var machine = new TMachine { MachineId = 0, Name = cfg.Host };
+            var machine = new TMachine { MachineId = _opt.LocalMachineId, Name = cfg.Host };
             machine.PriAddr.Add(cfg.Host);
             machine.IpAddr.Add(cfg.Host);
             state.Groups.TryAdd(group.GroupId, group);
             state.SvrTypes.TryAdd(type.Type, type);
+            state.Machines[machine.MachineId] = machine;
             var svc = new ServiceInstance
             {
                 Id = Proto.MakeSvrId(cfg.Group, cfg.Type, cfg.ServerId),
                 ServerId = cfg.ServerId, Port = (ushort)cfg.Port, Name = string.IsNullOrEmpty(cfg.Name) ? machine.Name : cfg.Name,
                 Group = group, SvrType = type, Machine = machine,
+                Process = cfg.Process, PeerTls = cfg.PeerTls, ManagerControl = cfg.Process is not null,
             };
             state.Services[svc.Id] = svc;
+            svc.ManagerControl = _svcCtl.GetRestartIntent(svc) ?? svc.ManagerControl;
         }
+        // Recover a deliberately stopped world's group even if Control restarted during its stop.
+        foreach (var world in state.Services.Values.Where(s => s.Process is not null && s.IsWorld && !s.ManagerControl))
+            foreach (var member in state.Services.Values.Where(s => s.Group.GroupId == world.Group.GroupId))
+            {
+                member.ManagerControl = false;
+                _svcCtl.SetRestartIntent(member, false);
+            }
     }
 }

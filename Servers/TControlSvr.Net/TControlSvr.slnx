@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="TControl.TestProcess/TControl.TestProcess.csproj" />
   <Project Path="TControl.Protocol/TControl.Protocol.csproj" />
   <Project Path="TControl.Protocol.Tests/TControl.Protocol.Tests.csproj" />
   <Project Path="TControl.Data/TControl.Data.csproj" />

@@ -15,11 +15,10 @@ namespace TLogin.Server.Login;
 public sealed class LoginService
 {
     private readonly GlobalDatabase _global;
+    private readonly ILoginAuthenticationStore _authentication;
     private readonly IReadOnlyDictionary<byte, (GroupConfig Cfg, GameDatabase Db)> _groups;
     private readonly Nation _nation;
     private readonly IHwidValidator _hwid;
-    private readonly ITwoFactorValidator _twoFactor;
-    private readonly IEmailSender _email;
     private readonly IReadOnlyList<VeteranRow> _veteran;
     private readonly bool _validateChecksum;
     private readonly ILogger<LoginService> _log;
@@ -36,20 +35,18 @@ public sealed class LoginService
         IReadOnlyList<VeteranRow> veteran,
         IReadOnlyDictionary<byte, uint> currentUser,
         IHwidValidator hwid,
-        ITwoFactorValidator twoFactor,
-        IEmailSender email,
         bool validateChecksum,
         ILogger<LoginService> log,
-        int maxConcurrentLogins = 100)
+        int maxConcurrentLogins = 100,
+        ILoginAuthenticationStore? authentication = null)
     {
         _global = global;
+        _authentication = authentication ?? global;
         _groups = groups;
         _nation = nation;
         _veteran = veteran;
         _currentUser = new ConcurrentDictionary<byte, uint>(currentUser);
         _hwid = hwid;
-        _twoFactor = twoFactor;
-        _email = email;
         _validateChecksum = validateChecksum;
         _log = log;
         if (maxConcurrentLogins is < 1 or > 1024) throw new ArgumentOutOfRangeException(nameof(maxConcurrentLogins));
@@ -67,6 +64,8 @@ public sealed class LoginService
         var st = (LoginSessionState)conn.State!;
         try
         {
+            if (!st.LoggedIn && r.Id is not (Msg.CS_LOGIN_REQ or Msg.CS_TESTVERSION_REQ or Msg.CS_VETERAN_REQ
+                or Msg.CS_SECURITYCONFIRM_ACK)) return;
             switch (r.Id)
             {
                 case Msg.CS_LOGIN_REQ: await OnLoginAsync(conn, st, r); break;
@@ -100,6 +99,8 @@ public sealed class LoginService
 
     private async Task OnLoginAsync(PacketConnection conn, LoginSessionState st, PacketReader r)
     {
+        // A failed second attempt must not retain the first account's authenticated session.
+        st.ResetAuthentication();
         ushort version = r.ReadUInt16();
         if (version != Proto.ClientVersion)
         {
@@ -108,7 +109,7 @@ public sealed class LoginService
         }
 
         _ = r.ReadString();                    // Zombie3
-        st.Password = r.ReadString();
+        string password = r.ReadString();
         _ = r.ReadString();                    // Zombie1
         _ = r.ReadString();                    // Zombie2
         st.UserName = r.ReadString();
@@ -117,7 +118,7 @@ public sealed class LoginService
         byte channeling = 0;
         if (_nation == Nation.Japan) channeling = r.ReadByte();
 
-        if (st.UserName.Length > Proto.MaxName || st.Password.Length > Proto.MaxName)
+        if (st.UserName.Length > Proto.MaxName || password.Length > Proto.MaxName)
         {
             SendLoginAck(conn, st, LoginResult.Internal, default);
             return;
@@ -143,7 +144,7 @@ public sealed class LoginService
         await _loginGate.WaitAsync(token);
         try
         {
-            int ipCheck = await _global.CheckIpAsync(ip, token);
+            int ipCheck = await _authentication.CheckIpAsync(ip, token);
             if (ipCheck == (int)LoginResult.Block)
             {
                 SendLoginAck(conn, st, LoginResult.Block, default);
@@ -153,27 +154,26 @@ public sealed class LoginService
             st.CheckKey = unchecked(((long)(uint)Random.Shared.Next() << 32) | (uint)Random.Shared.Next());
 
             login = _nation == Nation.Japan
-                ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling, token)
-                : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck, token);
+                ? await _authentication.LoginJpAsync(st.UserName, password, ip, (byte)ipCheck, channeling, token)
+                : await _authentication.LoginAsync(st.UserName, password, ip, (byte)ipCheck, token);
 
-            // Re-login recovery: returning from in-game to character-select (and re-entering) reconnects and
-            // re-runs TLogin, which still finds this account's TCURRENTUSER lock and returns Duplicate. Since
-            // it's the same account reconnecting, kick the stale lock and retry once (single-world semantics).
-            if ((LoginResult)login.Ret == LoginResult.Duplicate && login.UserId != 0)
+            // Preserve return-to-character-select recovery, but never remove another account's
+            // current login merely because TLogin returned Duplicate before checking its password.
+            if ((LoginResult)login.Ret == LoginResult.Duplicate && login.UserId != 0
+                && await _authentication.CheckPasswordAsync(login.UserId, password, token) == 0)
             {
-                await _global.ReleaseCurrentUserAsync(login.UserId, token);
+                await _authentication.ReleaseCurrentUserAsync(login.UserId, token);
                 login = _nation == Nation.Japan
-                    ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling, token)
-                    : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck, token);
+                    ? await _authentication.LoginJpAsync(st.UserName, password, ip, (byte)ipCheck, channeling, token)
+                    : await _authentication.LoginAsync(st.UserName, password, ip, (byte)ipCheck, token);
             }
         }
         finally { _loginGate.Release(); }
 
         var result = (LoginResult)login.Ret;
 
-        // 2FA is wired but auto-passing: a Security result on a trusted device becomes Success.
-        if (result == LoginResult.Security && _twoFactor.IsTrusted(st.UserName, hwid, st.MacAddress, ""))
-            result = LoginResult.Success;
+        // This client build carries no verifiable device identity. LR_SECURITY must remain a
+        // challenge-required result until a real second-factor flow is configured and completed.
 
         SendLoginAck(conn, st, result, login);
 
@@ -201,6 +201,8 @@ public sealed class LoginService
 
     private void SendLoginAck(PacketConnection conn, LoginSessionState st, LoginResult result, LoginRow? login)
     {
+        // Failed/2FA-pending logins must never disclose a usable map-login key or character address.
+        if (result is not (LoginResult.Success or LoginResult.NeedAgreement)) login = null;
         var w = new PacketWriter(Msg.CS_LOGIN_ACK);
         w.WriteByte((byte)result);
         w.WriteUInt32(login?.UserId ?? 0);
@@ -220,6 +222,7 @@ public sealed class LoginService
 
     private async Task OnAgreementAsync(PacketConnection conn, LoginSessionState st, PacketReader r)
     {
+        if (!st.LoggedIn) return;
         st.Agreement = true;
         await _global.AgreementAsync(st.UserId);
     }

@@ -47,7 +47,7 @@ internal sealed class PacketSendQueue
         Interlocked.Add(ref _queuedBytes, -packet.Length);
     }
 
-    public async Task RunAsync(Socket socket, SessionCipher? cipher, CancellationToken token)
+    public async Task RunAsync(Socket socket, SessionCipher? cipher, CancellationToken token, Stream? stream = null)
     {
         var batch = ArrayPool<byte>.Shared.Rent(BatchBytes);
         try
@@ -68,6 +68,12 @@ internal sealed class PacketSendQueue
                     finally { Return(packet); }
                 }
                 int sent = 0;
+                if (stream is not null)
+                {
+                    await stream.WriteAsync(batch.AsMemory(0, length), token);
+                    Interlocked.Increment(ref _sendCalls);
+                    sent = length;
+                }
                 while (sent < length)
                 {
                     int n = await socket.SendAsync(batch.AsMemory(sent, length - sent), SocketFlags.None, token);

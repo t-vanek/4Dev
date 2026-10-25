@@ -3,17 +3,18 @@ using System.Net.Sockets;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
 using TWorld.Protocol;
+using TWorld.Server.Security;
 
 namespace TWorld.Server.Net;
 
 /// <summary>
-/// One inbound server-peer socket (a map / control / relay server). Server↔server traffic is
-/// <b>plaintext</b> — no cipher. The receive loop frames packets and hands each to <c>onPacket</c>
+/// One authenticated map/control peer over mutual TLS. The receive loop frames packets and hands each to <c>onPacket</c>
 /// (which enqueues to the world's single batch task); a serialized send loop writes outbound packets.
 /// </summary>
 public sealed class PacketConnection : IAsyncDisposable
 {
     private readonly Socket _socket;
+    private readonly Stream _stream;
     private readonly ILogger _logger;
     private readonly PacketFramer _framer = new();
     private readonly Channel<byte[]> _sendQueue =
@@ -24,14 +25,18 @@ public sealed class PacketConnection : IAsyncDisposable
     private Task? _sendLoop;
     private int _closed;
 
-    public PacketConnection(Socket socket, ILogger logger)
+    public PacketConnection(Socket socket, ILogger logger, Stream stream, PeerIdentity identity)
     {
         _socket = socket;
+        _stream = stream;
+        Identity = identity;
         _logger = logger;
         RemoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
     }
 
     public IPEndPoint? RemoteEndPoint { get; }
+    public PeerIdentity Identity { get; }
+    public void Close() { try { _cts.Cancel(); } catch (ObjectDisposedException) { } }
 
     /// <summary>Per-connection peer state (a <c>ServerSession</c>).</summary>
     public object? State { get; set; }
@@ -62,10 +67,11 @@ public sealed class PacketConnection : IAsyncDisposable
             int n;
             try
             {
-                n = await _socket.ReceiveAsync(buffer, SocketFlags.None, token);
+                n = await _stream.ReadAsync(buffer, token);
             }
             catch (OperationCanceledException) { break; }
             catch (SocketException) { break; }
+            catch (IOException) { break; }
             catch (ObjectDisposedException) { break; }
 
             if (n == 0) break; // peer closed
@@ -94,14 +100,14 @@ public sealed class PacketConnection : IAsyncDisposable
         {
             await foreach (var packet in _sendQueue.Reader.ReadAllAsync(token))
             {
-                int sent = 0;
-                while (sent < packet.Length)
-                    sent += await _socket.SendAsync(packet.AsMemory(sent), SocketFlags.None, token);
+                await _stream.WriteAsync(packet, token);
             }
         }
         catch (OperationCanceledException) { }
         catch (SocketException) { }
+        catch (IOException) { }
         catch (ObjectDisposedException) { }
+        finally { Close(); }
     }
 
     public async ValueTask DisposeAsync()
@@ -116,6 +122,7 @@ public sealed class PacketConnection : IAsyncDisposable
         }
 
         try { _socket.Shutdown(SocketShutdown.Both); } catch { }
+        await _stream.DisposeAsync();
         _socket.Dispose();
         _cts.Dispose();
     }

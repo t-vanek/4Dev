@@ -4,6 +4,7 @@ using System.Threading.Channels;
 using Microsoft.Extensions.Logging.Abstractions;
 using TWorld.Server.Net;
 using TWorld.Server.World;
+using TWorld.Server.Security;
 
 namespace TWorld.Server.Tests;
 
@@ -21,14 +22,16 @@ public sealed class WorldTestHost : IAsyncDisposable
     public WorldService Service { get; }
     public int Port { get; }
 
-    public WorldTestHost(Action<WorldState>? seed = null)
+    public WorldTestHost(Action<WorldState>? seed = null, IPeerAuthenticator? authenticator = null,
+        bool enforceAuthorization = false)
     {
         State = new WorldState();
         seed?.Invoke(State);
 
-        var service = new WorldService(State, null, NullLogger<WorldService>.Instance);
+        var service = new WorldService(State, null, NullLogger<WorldService>.Instance,
+            authorizePeer: enforceAuthorization ? null : (_, _) => true);
         Service = service;
-        var server = new PacketServer(NullLogger<PacketServer>.Instance);
+        var server = new PacketServer(NullLogger<PacketServer>.Instance, authenticator ?? new TestPeerAuthenticator());
         var batch = Channel.CreateUnbounded<(PacketConnection Conn, byte[]? Packet)>(new UnboundedChannelOptions { SingleReader = true });
 
         Port = FreeTcpPort();
@@ -50,11 +53,11 @@ public sealed class WorldTestHost : IAsyncDisposable
             token: _cts.Token);
     }
 
-    public async Task<TcpTestClient> ConnectAsync()
+    public async Task<TcpTestClient> ConnectAsync(PeerTlsClientOptions? tls = null)
     {
         for (int attempt = 0; attempt < 50; attempt++)
         {
-            try { return new TcpTestClient("127.0.0.1", Port); }
+            try { return new TcpTestClient("127.0.0.1", Port, tls); }
             catch (SocketException) { await Task.Delay(50, _cts.Token); }
         }
         throw new TimeoutException("Server did not start listening.");

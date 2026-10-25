@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
+using TMap.Server.Security;
 
 namespace TMap.Server.Net;
 
@@ -19,6 +20,7 @@ public sealed class ClientListener
 
     /// <summary>When true, accept clients in plaintext (no cipher). Mirrors the <c>NoCrypt</c> option.</summary>
     public bool NoCrypt { get; set; }
+    public IPeerAuthenticator? ControlAuthenticator { get; init; }
 
     public int ConnectionCount => _connections.Count;
 
@@ -59,8 +61,25 @@ public sealed class ClientListener
         Func<ClientConnection, ValueTask>? onDisconnected,
         CancellationToken token)
     {
-        var conn = new ClientConnection(socket, _logger);
-        conn.UseCrypt = !NoCrypt;
+        AuthenticatedPeer? peer = null;
+        if (ControlAuthenticator is not null)
+        {
+            try
+            {
+                peer = await ControlAuthenticator.AuthenticateAsync(socket, token);
+                if (peer.Identity.Role != PeerRole.Control)
+                    throw new System.Security.Authentication.AuthenticationException("Control identity required.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("Control TLS rejected: {Type}", ex.GetType().Name);
+                if (peer is not null) await peer.Stream.DisposeAsync();
+                socket.Dispose();
+                return;
+            }
+        }
+        var conn = new ClientConnection(socket, _logger, peer?.Stream, authenticatedControl: peer is not null);
+        conn.UseCrypt = peer is null && !NoCrypt;
         _connections.TryAdd(conn, 0);
         _logger.LogDebug("Client connected: {Endpoint}", conn.RemoteEndPoint);
 

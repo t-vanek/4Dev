@@ -16,6 +16,7 @@ namespace TControl.Server.Net;
 public sealed class PacketConnection : IAsyncDisposable
 {
     private readonly Socket _socket;
+    private readonly Stream? _stream;
     private readonly ILogger _logger;
     private readonly PacketFramer _framer = new();
     private readonly Channel<byte[]> _sendQueue =
@@ -26,9 +27,10 @@ public sealed class PacketConnection : IAsyncDisposable
     private Task? _sendLoop;
     private int _closed;
 
-    public PacketConnection(Socket socket, ILogger logger)
+    public PacketConnection(Socket socket, ILogger logger, Stream? stream = null)
     {
         _socket = socket;
+        _stream = stream;
         _logger = logger;
         RemoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
     }
@@ -41,7 +43,11 @@ public sealed class PacketConnection : IAsyncDisposable
     public void Send(byte[] packet) => _sendQueue.Writer.TryWrite(packet);
     public void Send(PacketWriter writer) => Send(writer.ToArray());
 
-    public void Close() => _cts.Cancel();
+    public void Close()
+    {
+        // Disconnect notifications may already be queued when shutdown closes every session.
+        try { _cts.Cancel(); } catch (ObjectDisposedException) { }
+    }
 
     public async Task RunAsync(Func<PacketConnection, byte[], ValueTask> onPacket, CancellationToken outerToken)
     {
@@ -66,10 +72,12 @@ public sealed class PacketConnection : IAsyncDisposable
             int n;
             try
             {
-                n = await _socket.ReceiveAsync(buffer, SocketFlags.None, token);
+                n = _stream is null ? await _socket.ReceiveAsync(buffer, SocketFlags.None, token)
+                    : await _stream.ReadAsync(buffer, token);
             }
             catch (OperationCanceledException) { break; }
             catch (SocketException) { break; }
+            catch (IOException) { break; }
             catch (ObjectDisposedException) { break; }
 
             if (n == 0) break; // peer closed
@@ -99,13 +107,16 @@ public sealed class PacketConnection : IAsyncDisposable
             await foreach (var packet in _sendQueue.Reader.ReadAllAsync(token))
             {
                 int sent = 0;
+                if (_stream is not null) { await _stream.WriteAsync(packet, token); sent = packet.Length; }
                 while (sent < packet.Length)
                     sent += await _socket.SendAsync(packet.AsMemory(sent), SocketFlags.None, token);
             }
         }
         catch (OperationCanceledException) { }
         catch (SocketException) { }
+        catch (IOException) { }
         catch (ObjectDisposedException) { }
+        finally { Close(); }
     }
 
     public async ValueTask DisposeAsync()
@@ -120,6 +131,7 @@ public sealed class PacketConnection : IAsyncDisposable
         }
 
         try { _socket.Shutdown(SocketShutdown.Both); } catch { }
+        if (_stream is not null) await _stream.DisposeAsync();
         _socket.Dispose();
         _cts.Dispose();
     }

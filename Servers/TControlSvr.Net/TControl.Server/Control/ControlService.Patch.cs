@@ -5,8 +5,8 @@ namespace TControl.Server.Control;
 /// <summary>
 /// Patch / preversion administration + the file-upload wire flow. The DB-side procs (TUpdateVersion,
 /// TBetaToVersion, TDeletePreVersion, TUpdatePreVersion, TPREVERSION read) are fully ported; the file
-/// transport goes through <see cref="Ops.IFileDeploy"/> whose default discards the bytes (the C++ wrote to
-/// an SMB admin share). C++ OnCT_UPDATEPATCH_REQ / OnCT_PREVERSION* / OnCT_SERVICEUPLOAD*.
+/// transport commits into a configured local deployment root (the C++ wrote to an SMB admin share).
+/// C++ OnCT_UPDATEPATCH_REQ / OnCT_PREVERSION* / OnCT_SERVICEUPLOAD*.
 /// </summary>
 public sealed partial class ControlService
 {
@@ -74,6 +74,12 @@ public sealed partial class ControlService
         byte machineId = r.ReadByte();
         string fileName = r.ReadString();
 
+        if (_uploadOwner is not null)
+        {
+            mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(1));
+            return;
+        }
+
         byte ret = _fileDeploy.Begin(machineId, fileName);
         if (ret != 0)
         {
@@ -81,29 +87,26 @@ public sealed partial class ControlService
             return;
         }
         mgr.Upload = true;
+        _uploadOwner = mgr;
         mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADSTART_ACK).WriteByte(Proto.AckSuccess).ToArray());
     }
 
     /// <summary>Write an upload chunk. C++ OnCT_SERVICEUPLOAD_REQ ([wSize][wSize bytes]).</summary>
     private void OnCT_SERVICEUPLOAD_REQ(ManagerSession mgr, PacketReader r)
     {
-        if (!mgr.Upload) return;
+        if (!OwnsUpload(mgr)) return;
+        if (r.Remaining < 2) { FailUpload(mgr); return; }
         ushort size = r.ReadUInt16();
-        if (size == 0)
+        if (size == 0 || r.Remaining != size)
         {
-            mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(4).ToArray());
-            mgr.Upload = false;
-            _fileDeploy.End(cancel: true);
+            FailUpload(mgr);
             return;
         }
         var data = r.ReadRemaining();
-        if (data.Length > size) data = data[..size];
         byte ret = _fileDeploy.Write(data);
         if (ret != 0)
         {
-            mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(4).ToArray());
-            mgr.Upload = false;
-            _fileDeploy.End(cancel: true);
+            FailUpload(mgr);
             return;
         }
         mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOAD_ACK).ToArray());
@@ -112,32 +115,54 @@ public sealed partial class ControlService
     /// <summary>Finish / cancel an upload. C++ OnCT_SERVICEUPLOADEND_REQ.</summary>
     private void OnCT_SERVICEUPLOADEND_REQ(ManagerSession mgr, PacketReader r)
     {
+        if (!OwnsUpload(mgr)) return;
+        if (r.Remaining < 1) { FailUpload(mgr); return; }
         byte cancel = r.ReadByte();
         if (cancel != 0)
         {
-            mgr.Upload = false;
-            _fileDeploy.End(cancel: true);
+            CancelUpload(mgr);
             return;
         }
 
         // Non-cancel END carries a trailing final chunk [wSize:WORD][wSize bytes] (C++ Handler.cpp:497-515).
+        if (r.Remaining < 2) { FailUpload(mgr); return; }
         ushort size = r.ReadUInt16();
+        if (r.Remaining != size) { FailUpload(mgr); return; }
         if (size != 0)
         {
             var data = r.ReadRemaining();
-            if (data.Length > size) data = data[..size];
             if (_fileDeploy.Write(data) != 0)
             {
-                mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(4).ToArray());
-                mgr.Upload = false;
-                _fileDeploy.End(cancel: true);
+                FailUpload(mgr);
                 return;
             }
         }
 
         byte ret = _fileDeploy.End(cancel: false);
         mgr.Upload = false;
+        _uploadOwner = null;
         mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(ret).ToArray());
+    }
+
+    private bool OwnsUpload(ManagerSession mgr)
+    {
+        if (_uploadOwner == mgr && mgr.Upload) return true;
+        mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(4));
+        return false;
+    }
+
+    private void CancelUpload(ManagerSession mgr)
+    {
+        if (_uploadOwner != mgr) return;
+        _fileDeploy.End(cancel: true);
+        mgr.Upload = false;
+        _uploadOwner = null;
+    }
+
+    private void FailUpload(ManagerSession mgr)
+    {
+        CancelUpload(mgr);
+        mgr.Send(new PacketWriter(Msg.CT_SERVICEUPLOADEND_ACK).WriteByte(4));
     }
 
     private async Task<List<PatchFile>> LoadPreVersionSafeAsync()

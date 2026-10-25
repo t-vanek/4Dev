@@ -30,8 +30,8 @@ public class EndToEndCharEnterTests
     {
         int port = FreeTcpPort();
         var state = new WorldState();
-        var service = new WorldService(state, null, NullLogger<WorldService>.Instance);
-        var server = new PacketServer(NullLogger<PacketServer>.Instance);
+        var service = new WorldService(state, null, NullLogger<WorldService>.Instance, authorizePeer: (_, _) => true);
+        var server = new PacketServer(NullLogger<PacketServer>.Instance, new TestPeerAuthenticator());
         var batch = Channel.CreateUnbounded<(PacketConnection Conn, byte[]? Packet)>(new UnboundedChannelOptions { SingleReader = true });
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));

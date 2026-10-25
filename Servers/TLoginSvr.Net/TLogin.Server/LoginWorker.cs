@@ -55,7 +55,7 @@ public sealed class LoginWorker : BackgroundService
 
         var service = new LoginService(
             global, groups, nation, veteran, userCounts,
-            new AutoPassHwidValidator(), new AutoPassTwoFactorValidator(), new NoOpEmailSender(),
+            new AutoPassHwidValidator(),
             _opt.ValidateClientChecksum,
             _loggerFactory.CreateLogger<LoginService>(), _opt.MaxConcurrentLogins);
 

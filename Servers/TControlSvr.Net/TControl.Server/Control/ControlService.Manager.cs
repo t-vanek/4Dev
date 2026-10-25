@@ -58,27 +58,29 @@ public sealed partial class ControlService
             return;
         }
         mgr.IsManager = true;
+        mgr.ReadOnly = true;
         mgr.Authority = (byte)authority;
         mgr.StrId = id;
+        mgr.Id = ++_state.ManagerSeq;
         _state.Managers.Add(mgr);
         mgr.Send(new PacketWriter(Msg.CT_STLOGIN_ACK).WriteByte(0).WriteByte(mgr.Authority).ToArray());
     }
 
     private async Task<int> OpLoginAuthorityAsync(string id, string pw)
     {
-        if (_db is null)
+        if (string.IsNullOrWhiteSpace(id) || id.Length > 50 || pw.Length is 0 or > 50) return 0;
+        try
         {
-            _log.LogWarning("No DB configured — granting operator '{Id}' full authority (DB-less dev mode).", id);
-            return (int)ManagerClass.All;
+            int authority = await _authenticator.AuthenticateAsync(id, pw, CancellationToken.None);
+            return authority is >= (int)ManagerClass.All and <= (int)ManagerClass.GmLevel3 ? authority : 0;
         }
-        try { return await _db.OpLoginAsync(id, pw, CancellationToken.None); }
         catch (Exception ex) { _log.LogWarning(ex, "TOPLogin failed."); return 0; }
     }
 
     /// <summary>Send the full service-status list. C++ OnCT_SERVICESTAT_REQ.</summary>
     private void OnCT_SERVICESTAT_REQ(ManagerSession mgr) => mgr.Send(BuildServiceStat());
 
-    /// <summary>Start/stop a service via the (no-op) service controller; world-stop cascades manager-control
+    /// <summary>Start/stop a configured local process; world-stop cascades manager-control
     /// off for the group. C++ OnCT_SERVICECONTROL_REQ.</summary>
     private void OnCT_SERVICECONTROL_REQ(ManagerSession mgr, PacketReader r)
     {
@@ -87,23 +89,30 @@ public sealed partial class ControlService
         uint serviceId = r.ReadUInt32();
         byte start = r.ReadByte();
         if (_state.FindService(serviceId) is not { } svc) return;
+        if (_pendingStops.ContainsKey(svc.Id)) { SendControlResult(mgr, false); return; }
 
         // C++ inits bRet=0; only the default (non STOPPED/RUNNING) case sets ACK_FAILED(1).
         byte ret = 0;
-        switch (svc.Status)
+        uint status = _svcCtl.GetStatus(svc) ?? svc.Status;
+        switch (status)
         {
             case Proto.SvcStopped:
-                if (start != 0 && _svcCtl.Start(svc)) { ret = 1; _log.LogInformation("Start service {Name}", svc.Name); }
+                if (start != 0 && _svcCtl.Start(svc))
+                {
+                    SetRestartIntent(svc, true);
+                    SetServiceStatus(svc, Proto.SvcRunning, 0);
+                    ret = 1;
+                    _log.LogInformation("Start service {Name}", svc.Name);
+                }
                 break;
             case Proto.SvcRunning:
-                if (start == 0 && _svcCtl.Stop(svc))
+                if (start == 0)
                 {
-                    svc.ManagerControl = false;
-                    if (svc.IsWorld)
-                        foreach (var s in _state.Services.Values)
-                            if (s.Group.GroupId == svc.Group.GroupId) s.ManagerControl = false;
-                    ret = 1;
+                    SetServiceStatus(svc, Proto.SvcStopPending, 0);
+                    BeginStop(svc, mgr);
+                    return;
                 }
+                else if (!svc.ManagerControl) { SetRestartIntent(svc, true); ret = 1; }
                 break;
             default:
                 ret = Proto.AckFailed;

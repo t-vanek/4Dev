@@ -11,6 +11,7 @@ builder.Services.AddSerilog((services, lc) => lc
 
 builder.Services.Configure<WorldServerOptions>(builder.Configuration.GetSection("World"));
 builder.Services.AddHostedService<WorldWorker>();
+builder.Services.AddHostedService<FourDev.Hosting.ManagedProcessLifetime>();
 
 var host = builder.Build();
 host.Run();

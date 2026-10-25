@@ -50,6 +50,7 @@ enc_temp_folder/
 *.tmp_proj
 
 # ----- .NET build output (restore/build regenerate it) -----
+**/process-state/
 **/obj/
 **/bin/
 !/Lib/3rdParty/**/bin/

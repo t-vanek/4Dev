@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
+using TWorld.Server.Security;
 
 namespace TWorld.Server.Net;
 
@@ -13,9 +14,11 @@ namespace TWorld.Server.Net;
 public sealed class PacketServer
 {
     private readonly ILogger _logger;
+    private readonly IPeerAuthenticator _authenticator;
     private readonly ConcurrentDictionary<PacketConnection, byte> _connections = new();
 
-    public PacketServer(ILogger logger) => _logger = logger;
+    public PacketServer(ILogger logger, IPeerAuthenticator authenticator)
+    { _logger = logger; _authenticator = authenticator; }
 
     public int ConnectionCount => _connections.Count;
 
@@ -56,7 +59,15 @@ public sealed class PacketServer
         Func<PacketConnection, ValueTask>? onDisconnected,
         CancellationToken token)
     {
-        var conn = new PacketConnection(socket, _logger);
+        AuthenticatedPeer peer;
+        try { peer = await _authenticator.AuthenticateAsync(socket, token); }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Peer TLS authentication rejected from {Endpoint}: {Type}", socket.RemoteEndPoint, ex.GetType().Name);
+            socket.Dispose();
+            return;
+        }
+        var conn = new PacketConnection(socket, _logger, peer.Stream, peer.Identity);
         _connections.TryAdd(conn, 0);
         _logger.LogInformation("Peer connected: {Endpoint}", conn.RemoteEndPoint);
 

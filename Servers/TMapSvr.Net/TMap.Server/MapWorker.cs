@@ -34,6 +34,9 @@ public sealed class MapWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (_opt.ControlPort is < 0 or > 65535 || _opt.ControlPort == _opt.Port)
+            throw new InvalidOperationException("ControlPort must be 0 (disabled) or a separate TCP port.");
+        using var controlTls = _opt.ControlPort == 0 ? null : new Security.TlsPeerAuthenticator(_opt.ControlTls);
         // Must run before anything reads Channels: the config binder appends array elements to the
         // property's default, so the bound list can carry duplicates. See MapServerOptions.Normalize.
         _opt.Normalize();
@@ -94,7 +97,7 @@ public sealed class MapWorker : BackgroundService
         }
 
         var state = new MapState();
-        var worldLink = new WorldLink(_opt.WorldIp, _opt.WorldPort, _loggerFactory.CreateLogger<WorldLink>());
+        var worldLink = new WorldLink(_opt.WorldIp, _opt.WorldPort, _loggerFactory.CreateLogger<WorldLink>(), _opt.WorldTls);
         var service = new MapService(_opt, state, worldLink, gameDb, templates, _loggerFactory.CreateLogger<MapService>());
         // A configured DB failure must not silently turn off account protection via the DB-free game fallback.
         if (gameDb is null && (!string.IsNullOrWhiteSpace(_opt.Db.GameConnectionString) || !string.IsNullOrWhiteSpace(_opt.Db.GlobalConnectionString)))
@@ -131,7 +134,14 @@ public sealed class MapWorker : BackgroundService
             onDisconnected: conn => { batch.Writer.TryWrite(BatchItem.ClientDisconnected(conn)); return ValueTask.CompletedTask; },
             token: stoppingToken);
 
-        await Task.WhenAll(listenTask, worldTask, timerTask);
+        var controlTask = controlTls is null ? Task.CompletedTask : new ClientListener(_loggerFactory.CreateLogger<ClientListener>())
+        { ControlAuthenticator = controlTls }.ListenAsync(_opt.ControlPort,
+            onPacket: (conn, p) => { batch.Writer.TryWrite(BatchItem.ClientPacket(conn, p)); return ValueTask.CompletedTask; },
+            onConnected: service.OnClientConnectedAsync,
+            onDisconnected: conn => { batch.Writer.TryWrite(BatchItem.ClientDisconnected(conn)); return ValueTask.CompletedTask; },
+            token: stoppingToken);
+
+        await Task.WhenAll(listenTask, controlTask, worldTask, timerTask);
         batch.Writer.TryComplete();
         await batchTask;
         await service.SaveAllCharDataAsync(); // final flush on shutdown (C++ SaveAllCharData); no-op DB-free

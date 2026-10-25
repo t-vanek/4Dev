@@ -9,9 +9,16 @@ public sealed class ControlServerOptions
     /// was 3616 — override via <c>Control__Port</c> to match your deployment.</summary>
     public int Port { get; set; } = 3615;
 
-    /// <summary>Auto-restart stopped services (C++ <c>AutoStart</c>). No-op unless a Windows service
-    /// controller is wired (the default controller cannot start remote services).</summary>
+    /// <summary>Start/restart configured local processes unless an operator deliberately stopped them.</summary>
     public bool AutoStart { get; set; }
+
+    public int RestartDelaySeconds { get; set; } = 60;
+    /// <summary>Private runtime directory for owned process identities and restart intent; survives Control restarts.</summary>
+    public string ProcessStateDirectory { get; set; } = "process-state";
+    public byte LocalMachineId { get; set; }
+    /// <summary>Local deployment directory. Uploads are disabled when empty.</summary>
+    public string UploadRoot { get; set; } = "";
+    public long MaxUploadBytes { get; set; } = 512L * 1024 * 1024;
 
     /// <summary>How often the connector re-dials configured game servers that are not currently connected.</summary>
     public int ConnectIntervalSeconds { get; set; } = 10;
@@ -36,4 +43,18 @@ public sealed class ConfiguredServer
     public byte Type { get; set; }
     public byte ServerId { get; set; } = 1;
     public string Name { get; set; } = "";
+    /// <summary>Optional local executable; never supplied by a network packet.</summary>
+    public LocalProcessOptions? Process { get; set; }
+    public Security.PeerTlsClientOptions? PeerTls { get; set; }
+}
+
+public sealed class LocalProcessOptions
+{
+    public string FileName { get; set; } = "";
+    public string WorkingDirectory { get; set; } = "";
+    public List<string> Arguments { get; set; } = new();
+    public Dictionary<string, string> Environment { get; set; } = new();
+    public int StopTimeoutSeconds { get; set; } = 45;
+    /// <summary>Explicit opt-in: forcefully terminate only after graceful shutdown times out.</summary>
+    public bool ForceKillOnTimeout { get; set; }
 }

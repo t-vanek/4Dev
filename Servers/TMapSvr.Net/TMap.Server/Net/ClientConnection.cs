@@ -15,6 +15,7 @@ namespace TMap.Server.Net;
 public sealed class ClientConnection : IClientChannel, IAsyncDisposable
 {
     private readonly Socket _socket;
+    private readonly Stream? _stream;
     private readonly ILogger _logger;
     private readonly SessionCipher _cipher = new();
     private readonly PacketFramer _framer = new();
@@ -25,14 +26,17 @@ public sealed class ClientConnection : IClientChannel, IAsyncDisposable
     private Task? _sendLoop;
     private int _closed;
 
-    public ClientConnection(Socket socket, ILogger logger)
+    public ClientConnection(Socket socket, ILogger logger, Stream? stream = null, bool authenticatedControl = false)
     {
         _socket = socket;
+        _stream = stream;
+        IsAuthenticatedControl = authenticatedControl;
         _logger = logger;
         RemoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
     }
 
     public IPEndPoint? RemoteEndPoint { get; }
+    public bool IsAuthenticatedControl { get; }
 
     /// <summary>Per-connection game state (a <c>ClientSession</c>).</summary>
     public object? State { get; set; }
@@ -88,10 +92,12 @@ public sealed class ClientConnection : IClientChannel, IAsyncDisposable
             int n;
             try
             {
-                n = await _socket.ReceiveAsync(buffer, SocketFlags.None, token);
+                n = _stream is null ? await _socket.ReceiveAsync(buffer, SocketFlags.None, token)
+                    : await _stream.ReadAsync(buffer, token);
             }
             catch (OperationCanceledException) { break; }
             catch (SocketException) { break; }
+            catch (IOException) { break; }
             catch (ObjectDisposedException) { break; }
 
             if (n == 0) break; // peer closed
@@ -124,13 +130,13 @@ public sealed class ClientConnection : IClientChannel, IAsyncDisposable
     {
         try
         {
-            await _sendQueue.RunAsync(_socket, _cipher, token);
+            await _sendQueue.RunAsync(_socket, _cipher, token, _stream);
         }
         catch (OperationCanceledException) { /* shutting down */ }
         catch (SocketException) { /* peer gone */ }
         catch (ObjectDisposedException) { /* socket disposed */ }
         catch (IOException) { /* peer closed */ }
-        finally { _cts.Cancel(); }
+        finally { try { _cts.Cancel(); } catch (ObjectDisposedException) { } }
     }
 
     public async ValueTask DisposeAsync()
@@ -148,6 +154,7 @@ public sealed class ClientConnection : IClientChannel, IAsyncDisposable
         if (_sendLoop is not null) { try { await _sendLoop; } catch { /* peer gone */ } }
         else _sendQueue.Drain();
         try { _socket.Shutdown(SocketShutdown.Both); } catch { /* already closed */ }
+        if (_stream is not null) await _stream.DisposeAsync();
         _socket.Dispose();
         _cts.Dispose();
     }

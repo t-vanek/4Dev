@@ -1,13 +1,13 @@
 # TControlSvr → TControlSvr.Net — Port Status
 
 Faithful C#/.NET 10 port of the C++/ATL `TControlSvr` operations hub. Byte-compatible wire/DB with this
-repo's `CTProtocol.h` + SQL baselines. **17 tests passing** (xUnit, DB-free) · listens on **:3615** ·
+repo's `CTProtocol.h` + SQL baselines. **84 server + 16 protocol tests passing** (xUnit, DB-free; the DB smoke is skipped without configuration) · listens on **:3615** ·
 connects out to game servers and interoperates with `TWorldSvr.Net`.
 
 **All 64 `CT_*` handlers + the `SM_DELSESSION`/`CT_TIMER`/`CT_NEWCONNECT` internals from the C++ dispatch
-are ported.** The Windows-only operational plumbing (Service Control Manager, PDH performance counters,
-SMB file upload) is abstracted behind `Ops/` interfaces with cross-platform no-op defaults, matching the
-sibling ports' "wired-but-disabled" philosophy.
+are ported.** Operational support targets **local .NET processes**: real process lifecycle and restart,
+local CPU/memory/network sampling, and bounded atomic file deployment replace the original SCM/PDH/SMB
+operations. Production registration contains no no-op implementations. Docker is outside this change.
 
 ---
 
@@ -20,11 +20,12 @@ sibling ports' "wired-but-disabled" philosophy.
   `TSERVER (bType<>6)` → services (keyed by `MAKESVRID`); `TEVENTCHART` → the event map; `TCASHSHOPITEMCHART`;
   `TLoadService(CTLSVR)` → own address.
 - [x] **Operator login / authority** — `CT_OPLOGIN` / `CT_STLOGIN` (via `TOPLogin`; dup-operator kick;
-  DB-less dev mode grants full authority), `CheckAuthority` (`CT_AUTHORITY_ACK` on denial), the topology
+  no DB means access denied), a central policy for every manager command, valid nonzero authority,
+  read-only status-tool sessions, `CheckAuthority` (`CT_AUTHORITY_ACK` on denial), the topology
   list burst (`GROUPLIST`/`MACHINELIST`/`SVRTYPELIST`/`SERVICEAUTOSTART`).
 - [x] **Service monitor / control** — the 1 s tick (`CT_TIMER` → `CT_SERVICEMONITOR` poll, 60 s timeout
   detection + SMS, `CT_SERVICEDATA` push to managers), `CT_SERVICESTAT`, `CT_SERVICECONTROL` (via the
-  no-op controller, world-stop group cascade), `CT_SERVICEAUTOSTART`, `CT_SERVICEDATACLEAR`,
+  local process controller, graceful shutdown and world-stop group cascade), `CT_SERVICEAUTOSTART`, `CT_SERVICEDATACLEAR`,
   `CT_SERVICECHANGE` broadcast, `CT_RECONNECT`, `CT_CTRLSVR` outbound registration.
 - [x] **GM-command relays** — `USERKICKOUT`, `USERMOVE`, `USERPOSITION`, `CHARMSG`, `ANNOUNCEMENT`,
   `CHATBAN` (+ two-phase gather/`CHATBAN_ACK`), `CHATBANLIST`/`CHATBANLISTDEL`, `USERPROTECTED`
@@ -42,23 +43,35 @@ sibling ports' "wired-but-disabled" philosophy.
   plus `SendEventToNewConnect` (push running events to a freshly-connected server).
 - [x] **Patch / preversion** — `CT_UPDATEPATCH` (`TUpdateVersion`), `CT_PREVERSIONTABLE`,
   `CT_PREVERSIONUPDATE` (`TBetaToVersion` → `TDeletePreVersion` → `TUpdatePreVersion` → list); the
-  `CT_SERVICEUPLOAD*` wire flow via `IFileDeploy` (no-op default).
+  `CT_SERVICEUPLOAD*` wire flow via `LocalFileDeploy` (staging, final chunk, atomic commit, limits and session ownership).
 
 ---
 
-## Faithful degradations (documented, matching the C++ "wired-but-disabled" pattern)
+## Local operations and validation boundaries
 
-- **Windows Service Control Manager** → `IServiceController` / `NoOpServiceController`. `Start`/`Stop`/
-  auto-start are logged no-ops; a service's status is derived from **connection liveness** (the connector
-  dials each configured server and treats a live connection as RUNNING). A Windows `ServiceController`
-  implementation can be dropped in behind the interface.
-- **PDH platform counters** → `IPlatformMonitor` / `NoOpPlatformMonitor` (CPU/MEM/NET = 0 → `CT_PLATFORM`).
-- **SMB admin-share file upload** → `IFileDeploy` / `NoOpFileDeploy` (upload wire flow accepted, bytes
-  discarded). The DB-side patch/preversion procs are still executed.
+- **Process lifecycle** → configured executables only, without a shell. Real child-process tests cover
+  graceful final flush, survival/recovery across supervisor restarts, durable manual-stop intent,
+  same-user token/identity verification, rejected stale identities and one supervisor per state root.
+  Process waits run outside the packet batch; monitoring and other managers stay responsive. Failed
+  stops preserve restart policy; only a confirmed world stop suppresses its group. A process not
+  registered by Control is not adopted. Configured DB startup failure is fatal.
+- **Platform counters** → local Windows/Linux CPU, physical memory and network utilization; the real
+  sampler and periodic `CT_PLATFORM_ACK` layout are tested. Linux execution still needs validation on Linux.
+- **File deployment** → local root, atomic commit, chunk-size and total-size validation, safe relative
+  paths and one authenticated upload owner. Tests cover final chunks, interleaved sessions, cancellation,
+  truncation, traversal and preservation of the original file. Remote SCM/SMB are not part of this mode.
 - **`OPTool_SMSEmergency`** — best-effort (no-op when no DB).
-- **Manager side not live-exercised** — no GM admin-tool client exists in this repo, so the operator-facing
-  handlers are wire-tested (xUnit) rather than driven by a real tool. The server-facing relay **is**
-  live-tested end-to-end against a simulated world.
+- **Manager validation** — the legacy client is `Tools/Happy`; its rewrite/UI alignment is deferred.
+  Operator handlers are wire-tested (xUnit), and the server relay is tested against a simulated world.
+  No Happy GUI session was used as validation for these server changes.
+- **DB smoke** — genuinely reported as skipped when `TCONTROL_TEST_GLOBAL` is absent; unit/integration
+  success does not claim validation against a restored SQL baseline.
+- **Security validation remains open** — Control's unauthenticated dispatch and DB-less privilege grants
+  are fixed. Map validates session keys/ownership and restores `TEnterServer`; World and direct Map admin
+  links require mutual TLS and peer roles. Login refuses second-factor-pending sessions without exposing
+  keys. A real second-factor challenge flow and restored-DB/Linux deployment validation are still needed.
+  Happy's manager protocol and Login/relay links retain their existing transport. Existing SqlClient
+  dependencies still report vulnerable `System.Security.Cryptography.Pkcs` 9.0.4; package remediation is outstanding.
 
 ## Byte-level audit (all 64 handlers + EVENTINFO)
 

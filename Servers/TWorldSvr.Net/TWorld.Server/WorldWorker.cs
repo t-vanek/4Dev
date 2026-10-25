@@ -34,6 +34,7 @@ public sealed class WorldWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        using var peerTls = new Security.TlsPeerAuthenticator(_opt.PeerTls);
         var state = new WorldState();
         if (_opt.CountryBalanceServers is { Length: > 0 } balance) state.CountryBalanceServers = new HashSet<byte>(balance);
 
@@ -112,7 +113,7 @@ public sealed class WorldWorker : BackgroundService
         var batchTask = RunBatchAsync(batch.Reader, service, stoppingToken);
         var timerTask = RunTimerAsync(batch.Writer, stoppingToken);
 
-        var server = new PacketServer(_loggerFactory.CreateLogger<PacketServer>());
+        var server = new PacketServer(_loggerFactory.CreateLogger<PacketServer>(), peerTls);
         await server.ListenAsync(
             _opt.Port,
             onPacket: (conn, data) => { batch.Writer.TryWrite(new BatchItem(conn, data)); return ValueTask.CompletedTask; },

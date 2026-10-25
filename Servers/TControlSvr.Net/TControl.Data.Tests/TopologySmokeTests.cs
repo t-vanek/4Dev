@@ -5,17 +5,16 @@ namespace TControl.Data.Tests;
 
 /// <summary>
 /// DB smoke tests, gated on the <c>TCONTROL_TEST_GLOBAL</c> connection string (a TGlobal_gsp). When unset,
-/// each test returns early (passes) so the suite stays green with no database — matching the sibling ports.
+/// the test is reported as skipped rather than counted as database validation.
 /// Example: <c>Server=localhost,11433;Database=TGlobal_gsp;User ID=sa;Password=...;TrustServerCertificate=True;Encrypt=False</c>.
 /// </summary>
 public class TopologySmokeTests
 {
     private static string? Cs => Environment.GetEnvironmentVariable("TCONTROL_TEST_GLOBAL");
 
-    [Fact]
+    [DatabaseFact]
     public async Task Loads_topology_from_the_global_database()
     {
-        if (string.IsNullOrWhiteSpace(Cs)) return; // no DB configured -> skip
         var db = new ControlDatabase(Cs!);
         await db.PingAsync(default);
 
@@ -27,5 +26,14 @@ public class TopologySmokeTests
         Assert.NotEmpty(groups);
         Assert.NotNull(svrTypes);
         Assert.NotNull(servers);
+    }
+}
+
+internal sealed class DatabaseFactAttribute : FactAttribute
+{
+    public DatabaseFactAttribute()
+    {
+        if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TCONTROL_TEST_GLOBAL")))
+            Skip = "TCONTROL_TEST_GLOBAL is not configured.";
     }
 }

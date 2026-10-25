@@ -19,7 +19,7 @@ namespace TMap.Server.Map;
 /// <item><b>A chat ban</b> holds back chat and comments with the time left (<c>SM_CHAT_BAN</c>); the world sends it on entering.</item>
 /// <item><b>The help messages</b> (<c>THELPMESSAGETABLE</c>): on entering, the tutorial one in the tutorial, else the event one while
 /// it runs, else the normal one; the event one starts and ends on the clock.</item>
-/// <item><b>The admin tool's own link</b> (the control server, from <c>ControlIp</c>, unencrypted, one at a time): announcements,
+/// <item><b>The admin tool's own link</b> (the authenticated Control server, mutual TLS, one at a time): announcements,
 /// kicks, the monster spawn finder, monster actions, the castles' state and the server monitor.</item>
 /// <item>Not a GM tool but with them: <c>CS_KICKOUTMAP_REQ</c> sends a player over a map's level cap back to its spawn point.</item>
 /// </list>
@@ -327,25 +327,24 @@ public sealed partial class MapService
 
     // ================================ the admin tool's link ================================
 
-    /// <summary>The control server's session (C++ <c>m_bHasAlreadyCTRLServer</c>): one, from <c>ControlIp</c>.</summary>
+    /// <summary>The authenticated control server's session: at most one.</summary>
     private ClientSession? _control;
 
-    /// <summary>C++ <c>Accept</c>'s control check: the first connection from the control server's address is its session, in plaintext.</summary>
+    /// <summary>Only the dedicated listener can supply an authenticated Control connection.</summary>
     private bool TakeControlSession(ClientConnection conn, ClientSession session)
     {
-        if (string.IsNullOrEmpty(_opt.ControlIp) || _control is not null) return false;
-        if (conn.RemoteEndPoint?.Address is not { } addr || !System.Net.IPAddress.TryParse(_opt.ControlIp, out var ctrl)) return false;
-        if (!(addr.IsIPv4MappedToIPv6 ? addr.MapToIPv4() : addr).Equals(ctrl)) return false;
-        conn.UseCrypt = false;
+        if (!conn.IsAuthenticatedControl) return false;
         session.IsControl = true;
-        _control = session;
-        _log.LogInformation("Control server connected from {Address}.", addr);
+        if (Interlocked.CompareExchange(ref _control, session, null) is not null) { conn.Close(); return false; }
+        conn.UseCrypt = false;
+        _log.LogInformation("Authenticated Control server connected from {Address}.", conn.RemoteEndPoint);
         return true;
     }
 
     /// <summary>The control server's messages (C++ the <c>SESSION_SERVER</c> branch of <c>OnReceive</c>).</summary>
     public void DispatchControl(ClientSession s, PacketReader r)
     {
+        if (!s.IsControl) return;
         switch (r.Id)
         {
             case Msg.CT_SERVICEMONITOR_ACK:

@@ -1,9 +1,12 @@
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using TControl.Protocol;
 using TControl.Server.Ops;
+using TControl.Server.Security;
 using Xunit;
 
 namespace TControl.Server.Tests;
@@ -23,30 +26,38 @@ public class EndToEndTests
     {
         int worldPort = FreePort();
         int ctrlPort = FreePort();
+        using var directory = new TestDirectory();
+        using var worldCertificate = Certificate(directory.Path, "world", true);
+        using var controlCertificate = Certificate(directory.Path, "control", false);
+        using var tls = new TlsPeerAuthenticator(new PeerTlsServerOptions
+        {
+            CertificatePath = Path.Combine(directory.Path, "world.pfx"), CertificatePassword = "test-only",
+            Peers = { new PeerCertificate { Sha256 = controlCertificate.GetCertHashString(HashAlgorithmName.SHA256), Role = PeerRole.Control } },
+        });
 
         using var worldRegistered = new ManualResetEventSlim(false);
         using var worldCts = new CancellationTokenSource();
-        var world = RunFakeWorldAsync(worldPort, worldRegistered, worldCts.Token);
+        var world = RunFakeWorldAsync(worldPort, worldRegistered, worldCts.Token, tls);
 
         var opt = Options.Create(new ControlServerOptions
         {
             Port = ctrlPort,
             ConnectIntervalSeconds = 1,
-            Servers = { new ConfiguredServer { Host = "127.0.0.1", Port = worldPort, Group = 1, Type = Proto.SVRGRP_WORLDSVR, ServerId = 1, Name = "WORLD" } },
+            Servers = { new ConfiguredServer { Host = "127.0.0.1", Port = worldPort, Group = 1, Type = Proto.SVRGRP_WORLDSVR, ServerId = 1, Name = "WORLD",
+                PeerTls = new PeerTlsClientOptions { CertificatePath = Path.Combine(directory.Path, "control.pfx"), CertificatePassword = "test-only",
+                    ServerName = "localhost", ServerSha256 = worldCertificate.GetCertHashString(HashAlgorithmName.SHA256) } } },
         });
 
         var worker = new ControlWorker(opt, NullLoggerFactory.Instance,
-            new NoOpServiceController(NullLogger<NoOpServiceController>.Instance),
-            new NoOpPlatformMonitor(),
-            new NoOpFileDeploy(NullLogger<NoOpFileDeploy>.Instance));
+            new TestServiceController(), new TestPlatformMonitor(), new TestFileDeploy(), new TestAuthenticator());
 
         await worker.StartAsync(CancellationToken.None);
         try
         {
             using var mgr = ConnectWithRetry(ctrlPort);
 
-            // Operator login (DB-less => authority ALL); expect ret == 0.
-            mgr.Send(new PacketWriter(Msg.CT_OPLOGIN_REQ).WriteString("op").WriteString("pw"));
+            // Explicit fake authentication; production DB-less mode rejects operator access.
+            mgr.Send(new PacketWriter(Msg.CT_OPLOGIN_REQ).WriteString("op").WriteString("correct"));
             var loginAck = new PacketReader(mgr.ReceiveUntil(Msg.CT_OPLOGIN_ACK, Timeout));
             _ = loginAck.Id;
             Assert.Equal(0, loginAck.ReadByte()); // ret
@@ -78,18 +89,20 @@ public class EndToEndTests
     }
 
     /// <summary>Accepts one control connection, acks the registration, and replies to CT_CHATBAN_REQ.</summary>
-    private static async Task RunFakeWorldAsync(int port, ManualResetEventSlim registered, CancellationToken token)
+    private static async Task RunFakeWorldAsync(int port, ManualResetEventSlim registered, CancellationToken token, TlsPeerAuthenticator tls)
     {
         var listener = new TcpListener(IPAddress.Loopback, port);
         listener.Start();
         try
         {
             using var socket = await listener.AcceptSocketAsync(token);
+            var peer = await tls.AuthenticateAsync(socket, token);
+            await using var stream = peer.Stream;
             var framer = new PacketFramer();
             var buffer = new byte[8192];
             while (!token.IsCancellationRequested)
             {
-                int n = await socket.ReceiveAsync(buffer, SocketFlags.None, token);
+                int n = await stream.ReadAsync(buffer, token);
                 if (n == 0) break;
                 framer.Append(buffer.AsSpan(0, n));
                 while (framer.TryReadPacket(out var packet))
@@ -107,7 +120,7 @@ public class EndToEndTests
                             uint managerId = r.ReadUInt32();
                             var ack = new PacketWriter(Msg.CT_CHATBAN_ACK)
                                 .WriteByte(1).WriteUInt32(banSeq).WriteUInt32(managerId).ToArray();
-                            await socket.SendAsync(ack, SocketFlags.None, token);
+                            await stream.WriteAsync(ack, token);
                             break;
                     }
                 }
@@ -125,5 +138,18 @@ public class EndToEndTests
         int port = ((IPEndPoint)l.LocalEndpoint).Port;
         l.Stop();
         return port;
+    }
+
+    private static X509Certificate2 Certificate(string root, string name, bool server)
+    {
+        using var key = RSA.Create(2048);
+        var request = new CertificateRequest("CN=" + name, key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(new OidCollection
+            { new(server ? "1.3.6.1.5.5.7.3.1" : "1.3.6.1.5.5.7.3.2") }, true));
+        var san = new SubjectAlternativeNameBuilder(); san.AddDnsName("localhost");
+        request.CertificateExtensions.Add(san.Build());
+        var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddMinutes(-1), DateTimeOffset.UtcNow.AddDays(1));
+        File.WriteAllBytes(Path.Combine(root, name + ".pfx"), certificate.Export(X509ContentType.Pfx, "test-only"));
+        return certificate;
     }
 }

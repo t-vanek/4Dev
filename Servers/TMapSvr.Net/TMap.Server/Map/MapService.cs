@@ -21,6 +21,7 @@ public sealed partial class MapService
     private readonly MapState _state;
     private readonly IWorldSink _world;
     private readonly GameDatabase? _gameDb;
+    private readonly IMapEntryStore? _entryStore;
     private readonly TemplateStore _templates;
     private readonly ILogger<MapService> _log;
 
@@ -32,12 +33,13 @@ public sealed partial class MapService
     public uint NowMs { get; set; }
 
     public MapService(MapServerOptions opt, MapState state, IWorldSink world, GameDatabase? gameDb,
-        TemplateStore templates, ILogger<MapService> log)
+        TemplateStore templates, ILogger<MapService> log, IMapEntryStore? entryStore = null)
     {
         _opt = opt;
         _state = state;
         _world = world;
         _gameDb = gameDb;
+        _entryStore = entryStore ?? gameDb;
         PostStore = gameDb;
         PetStore = gameDb;
         CompanionStore = gameDb;
@@ -118,6 +120,7 @@ public sealed partial class MapService
         try
         {
             if (session.IsControl) { DispatchControl(session, r); return; }                     // the admin tool's link (MapService.Gm.cs)
+            if (r.Id != Msg.CS_CONNECT_REQ && session.State is EnterState.Connected or EnterState.Entering) return;
             if (session.SecurityStateFailed) return;
             if (TournamentRefuses(session, r.Id)) return;                                       // MapService.TournamentMatch.cs
             if (SecurityRefuses(session, r.Id)) return;
@@ -556,7 +559,7 @@ public sealed partial class MapService
                 case Msg.MW_CHARSTATINFO_REQ: OnMW_CHARSTATINFO_REQ(r); break;
                 case Msg.MW_CHARSTATINFOANS_REQ: OnMW_CHARSTATINFOANS_REQ(r); break;
                 case Msg.MW_ROUTE_REQ: OnMW_ROUTE_REQ(r); break;
-                case Msg.MW_ENTERCHAR_REQ: OnMW_ENTERCHAR_REQ(r); break;
+                case Msg.MW_ENTERCHAR_REQ: await OnMW_ENTERCHAR_REQ(r); break;
                 case Msg.MW_MONTHRANKLIST_REQ: OnMW_MONTHRANKLIST_REQ(r); break;
                 case Msg.MW_MONTHRANKUPDATE_REQ: OnMW_MONTHRANKUPDATE_REQ(r); break;
                 case Msg.MW_MONTHRANKRESET_REQ: OnMW_MONTHRANKRESET_REQ(r); break;

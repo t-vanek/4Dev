@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using TWorld.Protocol;
+using TWorld.Server.Security;
 
 namespace TWorld.Server.Tests;
 
@@ -10,13 +11,14 @@ namespace TWorld.Server.Tests;
 public sealed class TcpTestClient : IDisposable
 {
     private readonly TcpClient _tcp;
-    private readonly NetworkStream _stream;
+    private readonly Stream _stream;
 
-    public TcpTestClient(string host, int port)
+    public TcpTestClient(string host, int port, PeerTlsClientOptions? tls = null)
     {
         _tcp = new TcpClient();
         _tcp.Connect(host, port);
-        _stream = _tcp.GetStream();
+        _stream = tls is null ? _tcp.GetStream()
+            : PeerTls.ConnectAsync(_tcp.Client, tls, default).GetAwaiter().GetResult();
     }
 
     public void Send(PacketWriter w)

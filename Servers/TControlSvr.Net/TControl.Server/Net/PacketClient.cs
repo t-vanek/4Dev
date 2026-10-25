@@ -19,7 +19,7 @@ public static class PacketClient
         Func<PacketConnection, byte[], ValueTask> onPacket,
         Func<PacketConnection, ValueTask>? onConnected,
         Func<PacketConnection, ValueTask>? onDisconnected,
-        CancellationToken token)
+        CancellationToken token, Security.PeerTlsClientOptions? tlsOptions = null)
     {
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
@@ -29,7 +29,18 @@ public static class PacketClient
         catch (OperationCanceledException) { socket.Dispose(); return false; }
         catch (SocketException) { socket.Dispose(); return false; }
 
-        var conn = new PacketConnection(socket, logger);
+        Stream? stream = null;
+        if (tlsOptions is not null)
+        {
+            try { stream = await Security.PeerTls.ConnectAsync(socket, tlsOptions, token); }
+            catch (Exception ex)
+            {
+                logger.LogWarning("Peer TLS to {Host}:{Port} failed: {Type}", host, port, ex.GetType().Name);
+                socket.Dispose();
+                return false;
+            }
+        }
+        var conn = new PacketConnection(socket, logger, stream);
         logger.LogInformation("Connected to game server {Host}:{Port}", host, port);
         try
         {

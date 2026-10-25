@@ -2,6 +2,27 @@
 
 ## Current implementation
 
+Entry now checks the supplied account/character/key against `TCURRENTUSER` in the global database and
+the non-deleted character's owner in `TCHARTABLE` before loading or announcing character data. The
+world-driven main-entry step rechecks credentials and calls the original `TEnterServer` procedure. Secondary
+connections revalidate on `MW_ENTERCHAR_REQ` without replacing the main route; promotion to main runs
+`TEnterServer` even on an existing socket. Missing
+databases, rejected credentials, a failed procedure or an unavailable character deny entry. Synthetic
+characters are confined to explicitly injected test stores. The client packet layout is unchanged.
+
+Set `Map:WorldTls:CertificatePath` to this Map's client-auth PFX, supply its password through
+`Map__WorldTls__CertificatePassword`, and set `Map:WorldTls:ServerName` (matching the World certificate
+SAN) and `Map:WorldTls:ServerSha256` (64 hex fingerprint). Add this Map's certificate and exact map id
+to the [World allowlist](../TWorldSvr.Net/README.md). No plaintext World fallback exists.
+
+Direct Control access uses a **separate** `Map:ControlPort` (default `0`, disabled). When enabled, configure
+`Map:ControlTls` with a server-auth PFX and a `Peers` allowlist containing Control's client certificate,
+`Role: "Control"`, `ServerId: 0`. Its password can be set through `Map__ControlTls__CertificatePassword`.
+Point Control's configured Map service at this new port and configure its `PeerTls` client options.
+`Map:ControlIp` no longer grants privileges on the game-client port. Existing client encryption is
+unchanged. Real socket tests cover the TLS World link, the dedicated Control listener, rejection of a
+Map certificate on that listener, and the removed IP-based privilege grant.
+
 The full port ledger is in [`PORT_STATUS.md`](PORT_STATUS.md); the phase descriptions below record the earlier work.
 Cash shop and GM tools are implemented and covered by their existing tests. The follow-up includes:
 
@@ -16,7 +37,8 @@ Cash shop and GM tools are implemented and covered by their existing tests. The 
 Migration `023_security_codes_and_cloaks.sql` supplies security columns and cloak/medal lookup indexes. Docker's migration
 job applies it before the servers start. `Map:Db:GlobalConnectionString` supplies the security-code database; if absent,
 the game connection's server/credentials are used with catalog `TGlobal_gsp`.
-Configured security-database failures refuse entry even when game-data loading falls back to DB-free operation.
+Configured security-database failures refuse entry. Production game entry requires both game and global data;
+DB-free synthetic gameplay is available only through the test harness.
 
 Tests include fake-channel gameplay, real encrypted loopback sockets, and isolated SQL transactions (set
 `T4DEV_TEST_ADMIN` to enable those). Reproducible performance checks are in

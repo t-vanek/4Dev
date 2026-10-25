@@ -11,6 +11,7 @@ builder.Services.AddSerilog((services, lc) => lc
 
 builder.Services.Configure<LoginServerOptions>(builder.Configuration.GetSection("Login"));
 builder.Services.AddHostedService<LoginWorker>();
+builder.Services.AddHostedService<FourDev.Hosting.ManagedProcessLifetime>();
 
 var host = builder.Build();
 host.Run();

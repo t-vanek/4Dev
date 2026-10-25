@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TControl.TestProcess\TControl.TestProcess.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\TControl.Protocol\TControl.Protocol.csproj" />
     <ProjectReference Include="..\TControl.Data\TControl.Data.csproj" />
     <ProjectReference Include="..\TControl.Server\TControl.Server.csproj" />

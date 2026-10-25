@@ -22,4 +22,13 @@ public sealed class LoginSessionState
     public string SecurityCode { get; set; } = "";
 
     public bool LoggedIn => UserId != 0;
+
+    public void ResetAuthentication()
+    {
+        UserId = 0;
+        UserName = Password = MacAddress = SecurityCode = "";
+        Agreement = false;
+        GroupId = CreateCount = 0;
+        CheckKey = 0;
+    }
 }

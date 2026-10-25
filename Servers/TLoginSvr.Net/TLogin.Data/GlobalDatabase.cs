@@ -9,7 +9,7 @@ namespace TLogin.Data;
 /// signatures and SELECT text are transcribed from <c>Servers/TLoginSvr/DBAccess.h</c>; procs are
 /// called positionally (see <see cref="SqlProc"/>).
 /// </summary>
-public sealed class GlobalDatabase
+public sealed class GlobalDatabase : ILoginAuthenticationStore
 {
     private readonly string _cs;
     public GlobalDatabase(string connectionString) => _cs = connectionString;

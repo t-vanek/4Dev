@@ -67,9 +67,18 @@ public sealed partial class MapService
             return;
         }
 
-        if (s.CharId != 0 && s.CharId != charId)
+        if (s.State != EnterState.Connected || s.CharId != 0)
         {
             _log.LogWarning("CONNECT for char {New} on a session already bound to {Old}.", charId, s.CharId);
+            return;
+        }
+
+        var entry = new MapEntry(userId, charId, key, _opt.GroupId, channel,
+            EntryIp(ip), port);
+        if (!await ValidateEntryAsync(entry, enter: false))
+        {
+            SendCS_CONNECT_ACK(s, ConnectResult.Internal, null);
+            s.Conn.Close();
             return;
         }
 
@@ -92,7 +101,15 @@ public sealed partial class MapService
         _state.Register(s);
 
         // Resolve the character up front (DB or synthesized) so the handshake ACKs carry real data.
-        await EnsureCharAsync(s);
+        try { await EnsureCharAsync(s); }
+        catch (Exception ex)
+        {
+            _log.LogWarning(ex, "Character load failed for {Char}; entry denied.", charId);
+            SendCS_CONNECT_ACK(s, ConnectResult.Internal, null);
+            s.Conn.Close();
+            _state.Remove(s);
+            return;
+        }
 
         if (!await LoadSecurityCode(s)) return;
         if (!NormalizeMeetingEntry(s)) return;
@@ -120,13 +137,26 @@ public sealed partial class MapService
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
         var s = _state.FindByChar(charId);
-        if (s is null) return;
+        if (s is null || s.Key != key) return;
+
+        // Also runs on promotion of an existing secondary connection to the main map.
+        {
+            var entry = new MapEntry(s.UserId, s.CharId, s.Key, _opt.GroupId, s.Channel,
+                EntryIp(s.ClientIp), s.ClientPort);
+            if (!await ValidateEntryAsync(entry, enter: true))
+            {
+                SendCS_CONNECT_ACK(s, ConnectResult.Internal, null);
+                s.Conn.Close();
+                _state.Remove(s);
+                return;
+            }
+            s.EntryValidated = true;
+        }
 
         await EnsureCharAsync(s);
         var ch = s.Char!;
 
-        // The C++ routes this through DM_ENTERMAPSVR (TEnterServer) then DM_LOADCHAR before replying. We fold
-        // that into an inline best-effort load and reply directly, with CN_SUCCESS.
+        // TEnterServer succeeded for this exact session before any successful world response.
         var w = new PacketWriter(Msg.MW_ENTERSVR_ACK);
         w.WriteUInt32(charId);
         w.WriteUInt32(key);
@@ -243,7 +273,7 @@ public sealed partial class MapService
         uint key = r.ReadUInt32();
         // channel, mapId, pos follow — validated in the C++; single-map deployment needs no cross-routing.
         var s = _state.FindByChar(charId);
-        if (s is null) return;
+        if (s is null || s.Key != key || !s.EntryValidated) return;
 
         var w = new PacketWriter(Msg.MW_ROUTE_ACK);
         w.WriteUInt32(charId);
@@ -252,12 +282,22 @@ public sealed partial class MapService
         _world.Send(w);
     }
 
-    private void OnMW_ENTERCHAR_REQ(PacketReader r)
+    private async Task OnMW_ENTERCHAR_REQ(PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
         var s = _state.FindByChar(charId);
-        if (s?.Char is not { } ch) { return; }
+        if (s is null || s.Key != key || s.Char is not { } ch) return;
+        // A secondary map joins an already-authenticated world character through ENTERCHAR rather
+        // than ENTERSVR. Recheck its credentials, but do not replace the main map's DB route.
+        if (!s.EntryValidated)
+        {
+            var entry = new MapEntry(s.UserId, s.CharId, s.Key, _opt.GroupId, s.Channel,
+                EntryIp(s.ClientIp), s.ClientPort);
+            if (!await ValidateEntryAsync(entry, enter: false))
+            { s.Conn.Close(); _state.Remove(s); return; }
+            s.EntryValidated = true;
+        }
 
         // The world tells the map the char's live state. We read the leading fields we model and overlay
         // them onto the loaded character (the deep block — recall-mons, soulmate, comment — is skipped;
@@ -322,7 +362,7 @@ public sealed partial class MapService
         for (int i = 0; i < count; i++) serverIds.Add(r.ReadByte());
 
         var s = _state.FindByChar(charId);
-        if (s is null) return;
+        if (s is null || s.Key != key || !s.EntryValidated) return;
 
         SendCS_CONNECT_ACK(s, result, serverIds);
 
@@ -566,7 +606,7 @@ public sealed partial class MapService
                 }
                 else
                 {
-                    _log.LogWarning("Char {Char} not found in TCHARTABLE; using defaults.", s.CharId);
+                    throw new InvalidDataException($"Character {s.CharId} is unavailable.");
                 }
 
                 await TryLoadInventoryAsync(ch);
@@ -587,12 +627,27 @@ public sealed partial class MapService
             }
             catch (Exception ex)
             {
-                _log.LogWarning(ex, "Char {Char} DB load failed; using defaults.", s.CharId);
+                _log.LogWarning(ex, "Char {Char} DB load failed; denying entry.", s.CharId);
+                throw;
             }
         }
 
         s.Char = ch;
     }
+
+    private async Task<bool> ValidateEntryAsync(MapEntry entry, bool enter)
+    {
+        if (_entryStore is null) return false;
+        try { return enter ? await _entryStore.EnterAsync(entry) : await _entryStore.ValidateAsync(entry); }
+        catch (Exception ex)
+        {
+            _log.LogWarning(ex, "Entry validation unavailable for character {Char}.", entry.CharId);
+            return false;
+        }
+    }
+
+    private static string EntryIp(uint ip) => new System.Net.IPAddress(
+        new byte[] { (byte)ip, (byte)(ip >> 8), (byte)(ip >> 16), (byte)(ip >> 24) }).ToString();
 
     /// <summary>
     /// Loads the character's inventory containers + items, learned/maintained skills and hotkey pages

@@ -15,6 +15,7 @@ public sealed class MapServerOptions
     /// the .NET TWorldSvr listens on 3815, so set this to 3815 when interoperating with that port).</summary>
     public string WorldIp { get; set; } = "127.0.0.1";
     public int WorldPort { get; set; } = 3816;
+    public Security.PeerTlsClientOptions WorldTls { get; set; } = new();
 
     /// <summary>This map server's identity in the topology. C++ <c>GroupID</c>/<c>ServerID</c>.</summary>
     public byte GroupId { get; set; } = 1;
@@ -38,9 +39,11 @@ public sealed class MapServerOptions
     /// <summary>UDP log-sink endpoint. C++ <c>LogIP</c>/<c>LogPort</c> (default 127.0.0.1:7000).</summary>
     public string LogIp { get; set; } = "127.0.0.1";
 
-    /// <summary>C++ <c>m_addrCtrl</c>: the control server's address. The first connection from it is the admin tool's link (in
-    /// plaintext, one at a time; MapService.Gm.cs). Empty: no control link.</summary>
+    /// <summary>Legacy configuration compatibility only. Source IP no longer grants Control privileges.</summary>
     public string ControlIp { get; set; } = "";
+    /// <summary>Dedicated mutual-TLS control listener; 0 disables direct Control access.</summary>
+    public int ControlPort { get; set; }
+    public Security.PeerTlsServerOptions ControlTls { get; set; } = new();
     public int LogPort { get; set; } = 7000;
 
     /// <summary>
