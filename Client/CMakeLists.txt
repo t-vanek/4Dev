@@ -56,12 +56,5 @@ add_subdirectory("${TCLIENT_LIB_OWN}/TChart/TChart" TChart)
 if(WIN32)
     add_subdirectory("${TCLIENT_LIB_OWN}/HwidLib/HwidLib" HwidLib)
 endif()
-add_subdirectory(TClient)
-
-# Copy TClient.exe into Game/ after each build, like the MSBuild project (OutDir=..\..\Game\).
 option(TCLIENT_DEPLOY_TO_GAME "Copy TClient.exe into the Game folder after building" OFF)
-if(TCLIENT_DEPLOY_TO_GAME)
-    add_custom_command(TARGET TClient POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:TClient>" "${TCLIENT_ROOT}/Game/TClient.exe"
-        COMMENT "Deploying TClient.exe to Game/")
-endif()
+add_subdirectory(TClient)

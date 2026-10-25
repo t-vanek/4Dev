@@ -27,10 +27,20 @@ Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments "-ar
 $llvm = "$vs\VC\Tools\Llvm\x64\bin"
 if (Test-Path $llvm) { $env:PATH = "$llvm;$env:PATH" }
 
+$originalCodePage = [int]([regex]::Match((& chcp.com), '\d+').Value)
 Push-Location $PSScriptRoot
 try {
-    $binaryDir = Join-Path $PSScriptRoot "..\build\$Preset"
-    if ($Clean -and (Test-Path $binaryDir)) { Remove-Item -Recurse -Force $binaryDir }
+    # CMake reads UTF-8. Matching cl's localized /showIncludes output keeps Ninja's header
+    # dependencies correct even when only a non-English Visual Studio language pack is installed.
+    chcp.com 65001 | Out-Null
+    $buildRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\build'))
+    $binaryDir = [IO.Path]::GetFullPath((Join-Path $buildRoot $Preset))
+    if ($Clean -and (Test-Path -LiteralPath $binaryDir)) {
+        if (-not $binaryDir.StartsWith($buildRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+            throw 'The clean target must be a preset directory inside the workspace build folder.'
+        }
+        Remove-Item -LiteralPath $binaryDir -Recurse -Force
+    }
 
     $deployFlag = if ($Deploy) { "ON" } else { "OFF" }
     cmake --preset $Preset "-DTCLIENT_DEPLOY_TO_GAME=$deployFlag"
@@ -38,5 +48,6 @@ try {
     if ($KeepGoing) { cmake --build --preset $Preset -- -k 0 } else { cmake --build --preset $Preset }
     if ($LASTEXITCODE) { throw "Build failed." }
 } finally {
+    chcp.com $originalCodePage | Out-Null
     Pop-Location
 }

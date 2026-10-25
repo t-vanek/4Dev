@@ -495,13 +495,13 @@ int TEdit::HandleImeComposition(
 	{
 		if( pbAttr && pbAttrLength )
 		{
-			pbAttr[0] = ' ';
+			pbAttr[0] = '\0';
 			*pbAttrLength = 0;
 		}
 
 		if( pbClause && pbClauseLength )
 		{
-			pbClause[0] = ' ';
+			pbClause[0] = '\0';
 			*pbClauseLength = 0;
 		}
 	}

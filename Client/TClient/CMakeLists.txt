@@ -318,6 +318,13 @@ if(WIN32)
         "/MANIFESTUAC:level='requireAdministrator' uiAccess='false'"
     )
 endif()
+# A TARGET post-build command must be declared in the directory that creates the target.
+if(TCLIENT_DEPLOY_TO_GAME)
+    add_custom_command(TARGET TClient POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:TClient>" "${TCLIENT_ROOT}/Game/TClient.exe"
+        COMMENT "Deploying TClient.exe to Game/")
+endif()
+
 # Fonts with Arial's metrics, for the text drawn from font files where Arial is not installed.
 add_custom_command(TARGET TClient POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:TClient>/Fonts"

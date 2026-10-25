@@ -7,9 +7,9 @@ unchanged.
 
 ## Requirements
 
-Visual Studio 2026 (or its Build Tools) with:
-- Desktop development with C++, x86/x64 tools and the Windows 11 SDK (10.0.26100)
-- C++ MFC for the latest build tools (x86 & x64)
+Visual Studio 2026 (or its Build Tools) with Desktop development with C++, x86/x64 tools and the
+Windows 11 SDK (10.0.26100). The CMake client uses its own window layer and SDK resource headers,
+so it does not require MFC.
 
 The repo-root `.vsconfig` lists exactly these components: in the Visual Studio Installer, use
 *More > Import configuration* and pick it (Visual Studio also offers to install them when it opens
@@ -26,7 +26,10 @@ CMake and Ninja come with Visual Studio. Everything else (DirectX 9 SDK, zlib, H
 .\Client\build.ps1 -Clean     # from scratch
 ```
 
-`build.ps1` enters the x86 developer environment itself. From an existing x86 developer prompt:
+`build.ps1` enters the x86 developer environment itself and temporarily uses UTF-8 console output
+so Ninja tracks header dependencies on localized Visual Studio installations. When upgrading a
+build created with a different console encoding, run once with `-Clean` to regenerate dependencies.
+From an existing x86 developer prompt:
 
 ```powershell
 cd Client
