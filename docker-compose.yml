@@ -1,92 +1,127 @@
 name: araz
 
-# Araz-4ever local stack:
-#   mssql           - SQL Server 2022
-#   mssql-importer  - one-shot: restores the .bak baselines (once), then runs Database/migrations in order
-#   loginsvr        - the .NET TLogin server (Servers/TLoginSvr.Net)
-#   worldsvr        - the .NET TWorld server (Servers/TWorldSvr.Net)
-#   patchsvr        - the .NET TPatch server (Servers/TPatchSvr.Net)
-#   controlsvr      - the .NET TControl server (Servers/TControlSvr.Net)
-#   mapsvr          - the .NET TMap server (Servers/TMapSvr.Net)
-#
-#   docker compose up --build
-#
-# SA_PASSWORD is read from the .env file next to this compose file.
-# The .bak baselines and the Database/ folder live here at the repo root.
-
+# One-PC development installation. Run scripts/configure-local-server.ps1 first.
+# .env and .runtime contain private credentials/certificates. SQL volumes survive rebuilds.
+# Control monitors Docker peers; Compose manages their processes.
 services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: araz-mssql
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:?Run scripts/configure-local-server.ps1 first}
       MSSQL_PID: Developer
     ports:
-      - "11433:1433"          # host 11433 -> container 1433 (avoids clashing with a local SQL on 1433)
+      - "127.0.0.1:11433:1433"
     volumes:
       - mssql-data:/var/opt/mssql
-      - ./TGLOBAL_RAGEZONE.bak:/backups/TGLOBAL_RAGEZONE.bak:ro
-      - ./TGAME_RAGEZONE.bak:/backups/TGAME_RAGEZONE.bak:ro
+      - ${BACKUP_DIRECTORY:-.}:/backups:ro
+    healthcheck:
+      test: ["CMD-SHELL", '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -b -Q "SELECT 1" > /dev/null']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
 
-  # Restores the databases on first boot (idempotent), then applies every Database/migrations/*.sql that
-  # has not been applied yet. Reuses the server image, which bundles sqlcmd at /opt/mssql-tools18/bin.
   mssql-importer:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: araz-mssql-importer
     depends_on:
-      - mssql
+      mssql:
+        condition: service_healthy
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
       SQL_HOST: mssql
+      LOCAL_TOPOLOGY_FILE: /local/configure-topology.sql
     volumes:
       - ./Database:/Database:ro
+      - ./.runtime/configure-topology.sql:/local/configure-topology.sql:ro
     entrypoint: ["/bin/bash", "/Database/run-migrations.sh"]
     restart: "no"
 
+  mailpit:
+    image: axllent/mailpit:v1.32.0
+    container_name: araz-mailpit
+    environment:
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_TLS_CERT: /run/certs/cert.pem
+      MP_SMTP_TLS_KEY: /run/certs/key.pem
+      MP_SMTP_REQUIRE_TLS: "true"
+    volumes:
+      - mailpit-data:/data
+      - ./.runtime/certs/mailpit/cert.pem:/run/certs/cert.pem:ro
+      - ./.runtime/certs/mailpit/key.pem:/run/certs/key.pem:ro
+    ports:
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped
+
   loginsvr:
-    build:
-      context: ./Servers/TLoginSvr.Net
-      dockerfile: Dockerfile
+    build: ./Servers/TLoginSvr.Net
     container_name: araz-loginsvr
     depends_on:
       mssql-importer:
         condition: service_completed_successfully
+      mailpit:
+        condition: service_started
     environment:
+      DOTNET_ENVIRONMENT: LocalDocker
+      SSL_CERT_FILE: /run/mail-ca/cert.pem
       Login__Port: "4816"
       Login__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
       Login__Db__GameConnectionStringsByDsn__TGAME_GSP: "Server=mssql,1433;Database=TGame_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
+    volumes:
+      - ./.runtime/config/login/appsettings.LocalDocker.json:/app/appsettings.LocalDocker.json:ro
+      - ./.runtime/certs/mailpit/cert.pem:/run/mail-ca/cert.pem:ro
     ports:
-      - "4816:4816"
+      - "127.0.0.1:4816:4816"
+    restart: unless-stopped
 
-  # World server. Accept-only inter-server hub; `World__Port` overrides its 3815 default to 3816 so it
-  # matches the map server's `WorldIp:WorldPort` default. `mapsvr` and `controlsvr` below are its peers
-  # in this stack; the rest of the C++ cluster (TRelay) has no counterpart here.
-  # See Servers/TWorldSvr.Net/README.md.
   worldsvr:
-    build:
-      context: ./Servers/TWorldSvr.Net
-      dockerfile: Dockerfile
+    build: ./Servers/TWorldSvr.Net
     container_name: araz-worldsvr
     depends_on:
       mssql-importer:
         condition: service_completed_successfully
     environment:
+      DOTNET_ENVIRONMENT: LocalDocker
       World__Port: "3816"
       World__GroupID: "1"
       World__ServerID: "1"
       World__Db__GameConnectionString: "Server=mssql,1433;Database=TGame_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
       World__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
-    ports:
-      - "3816:3816"
+    volumes:
+      - ./.runtime/config/world/appsettings.LocalDocker.json:/app/appsettings.LocalDocker.json:ro
+      - ./.runtime/certs/worldsvr/identity.pfx:/run/certs/identity.pfx:ro
+    restart: unless-stopped
 
-  # Patch server (Servers/TPatchSvr.Net). The launcher connects here first; the server replies with the
-  # download base URL + login endpoint + the list of patch files newer than the client's version (from
-  # TVERSION / TPREVERSION). Boots DB-less too (empty file lists). See Servers/TPatchSvr.Net/README.md.
+  mapsvr:
+    build: ./Servers/TMapSvr.Net
+    container_name: araz-mapsvr
+    depends_on:
+      mssql-importer:
+        condition: service_completed_successfully
+      worldsvr:
+        condition: service_started
+    environment:
+      DOTNET_ENVIRONMENT: LocalDocker
+      Map__Port: "5816"
+      Map__WorldIp: worldsvr
+      Map__WorldPort: "3816"
+      Map__GroupId: "1"
+      Map__ServerId: "1"
+      Map__Channels__0: "1"
+      Map__Db__GameConnectionString: "Server=mssql,1433;Database=TGame_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
+      Map__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
+    volumes:
+      - ./.runtime/config/map/appsettings.LocalDocker.json:/app/appsettings.LocalDocker.json:ro
+      - ./.runtime/certs/mapsvr/identity.pfx:/run/certs/identity.pfx:ro
+    ports:
+      - "127.0.0.1:5816:5816"
+    restart: unless-stopped
+
   patchsvr:
-    build:
-      context: ./Servers/TPatchSvr.Net
-      dockerfile: Dockerfile
+    build: ./Servers/TPatchSvr.Net
     container_name: araz-patchsvr
     depends_on:
       mssql-importer:
@@ -95,72 +130,41 @@ services:
       Patch__Port: "3716"
       Patch__ServerId: "1"
       Patch__GroupId: "0"
-      # Patch tables + topology procs live in TGlobal (TLoadService / TVERSION / TPREVERSION / TUSER_INTERFACE).
       Patch__Db__ConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
-      # Login endpoint handed to clients when TLoadService has no topology row (else the DB value wins).
       Patch__LoginAddress: "127.0.0.1"
       Patch__LoginPort: "4816"
+      # No external patch download host is configured for a local source build.
+      Patch__FtpUrl: ""
+      Patch__PreFtpUrl: ""
     ports:
-      - "3716:3716"
+      - "127.0.0.1:3716:3716"
+    restart: unless-stopped
 
-  # Control server (Servers/TControlSvr.Net). Connects OUT to the world server, registers via
-  # CT_CTRLSVR_REQ, and would relay GM commands from an admin tool. The DB gives it operator auth + the
-  # scheduled-event set; the explicit Servers__0 dial entry redirects the world dial to the in-network
-  # `worldsvr:3816` (the baseline TIPADDR points at a LAN IP not reachable here). NOTE: the live monitor
-  # poll requires the CT_SERVICEMONITOR REQ/ACK swap in TWorldSvr.Net/NetCode.cs to be reconciled first
-  # (see Servers/TControlSvr.Net/PORT_STATUS.md). See Servers/TControlSvr.Net/README.md.
   controlsvr:
-    build:
-      context: ./Servers/TControlSvr.Net
-      dockerfile: Dockerfile
+    build: ./Servers/TControlSvr.Net
     container_name: araz-controlsvr
     depends_on:
       mssql-importer:
         condition: service_completed_successfully
       worldsvr:
         condition: service_started
-    environment:
-      Control__Port: "3615"
-      Control__ConnectIntervalSeconds: "5"
-      Control__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
-      Control__Servers__0__Host: "worldsvr"
-      Control__Servers__0__Port: "3816"
-      Control__Servers__0__Group: "1"
-      Control__Servers__0__Type: "3"       # SVRGRP_WORLDSVR
-      Control__Servers__0__ServerId: "1"
-      Control__Servers__0__Name: "TWORLD_GSP"
-    ports:
-      - "3615:3615"
-
-  # Map server (Servers/TMapSvr.Net). The per-map/zone game server: listens for game clients on 5816 and
-  # dials the world on 3816, completing the map↔world handshake. This is the service that makes the stack
-  # end-to-end playable — a client goes patchsvr → loginsvr → here. It degrades DB-free (synthesized char)
-  # when the game DB is unreachable, so it still boots if a chart load fails.
-  # See Servers/TMapSvr.Net/README.md.
-  mapsvr:
-    build:
-      context: ./Servers/TMapSvr.Net
-      dockerfile: Dockerfile
-    container_name: araz-mapsvr
-    depends_on:
-      mssql-importer:
-        condition: service_completed_successfully
-      worldsvr:
+      mapsvr:
         condition: service_started
     environment:
-      Map__Port: "5816"
-      Map__WorldIp: "worldsvr"
-      Map__WorldPort: "3816"
-      Map__GroupId: "1"
-      Map__ServerId: "1"
-      # Channels is an array — `__0` is index 0. Announced in MW_CONNECT_ACK.
-      Map__Channels__0: "1"
-      Map__Db__GameConnectionString: "Server=mssql,1433;Database=TGame_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
-      Map__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
-      # Debug logging: the summon/monster traces and the dispatch `default:` arm's unhandled client packet ids.
-      Serilog__MinimumLevel__Default: "Debug"
+      DOTNET_ENVIRONMENT: LocalDocker
+      Control__Port: "3615"
+      Control__ConnectIntervalSeconds: "5"
+      Control__ProcessStateDirectory: /var/lib/4dev/process-state
+      Control__Db__GlobalConnectionString: "Server=mssql,1433;Database=TGlobal_gsp;User ID=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
+    volumes:
+      - ./.runtime/config/control/appsettings.LocalDocker.json:/app/appsettings.LocalDocker.json:ro
+      - ./.runtime/certs/controlsvr/identity.pfx:/run/certs/identity.pfx:ro
+      - control-state:/var/lib/4dev
     ports:
-      - "5816:5816"
+      - "127.0.0.1:3615:3615"
+    restart: unless-stopped
 
 volumes:
   mssql-data:
+  mailpit-data:
+  control-state:

@@ -14,6 +14,7 @@ servers, build and launch the game.
 |---|---|
 | **Windows 10/11 (x64)** | Runs the servers (Docker) and the game client. The client also runs on Linux: see Step 4. |
 | **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** | Runs the database and every game server. |
+| **PowerShell 7.4 or newer** | Runs the local configuration script. |
 | **[Git](https://git-scm.com/) + [Git LFS](https://git-lfs.com/)** | Downloads the project, including the big game files. |
 | **Visual Studio 2022 or newer** (Community or Build Tools) with **Desktop development with C++** | Builds the game client. CMake and Ninja come with it. |
 
@@ -27,8 +28,8 @@ Everything else (DirectX SDK, SDL3, bgfx, zlib…) is already included in the re
 ## Step 2 — Get the files
 
 ```powershell
-git clone git@github.com:Pi-Bouf/4ever-private.git
-cd 4ever-private
+git clone https://github.com/t-vanek/4Dev.git
+cd 4Dev
 git lfs install
 git lfs pull
 ```
@@ -45,22 +46,24 @@ a few bytes:
 
 ## Step 3 — Start the servers
 
-1. **Choose a database password.** Create a file named **`.env`** at the root of the project
-   (next to `docker-compose.yml`) containing one line:
+1. **Prepare the local configuration** in PowerShell 7.4 or newer:
 
+   ```powershell
+   .\scripts\configure-local-server.ps1 -BackupDirectory 'C:\path\to\Database'
    ```
-   SA_PASSWORD=YourStrong!Passw0rd
-   ```
 
-   SQL Server needs a strong password (8+ characters, with upper case, lower case, digits and symbols).
-   This file is private, so never commit it.
+   The backup folder must contain `TGLOBAL_RAGEZONE.bak` and `TGAME_RAGEZONE.bak`.
+   The script creates a random SQL password for a new installation, reusable TLS certificates for
+   World/Map/Control, and encrypted SMTP delivery to Mailpit. For an existing database volume,
+   first put its original password in `.env` as `SA_PASSWORD='your existing password'`.
+   Existing credentials and valid certificates are preserved when the script runs again.
 
-2. **Set your IP address.** Open `Database\migrations\002_local_network_config.sql` and replace the IP
-   in `SET szIPAddr = '...'` with:
-   - `127.0.0.1` if you play on this same PC, or
-   - this PC's LAN IP (e.g. `192.168.1.20`) if other PCs on your network will connect.
+   `.env` and `.runtime/` contain private configuration and keys; Git ignores both. The script
+   restricts access to `.runtime/`. Save these files privately if you want to preserve the identities.
+   The default setup exposes ports only on `127.0.0.1`, for playing on this PC. It also reapplies
+   the local client address after database migrations without editing migration history.
 
-3. **Start everything:**
+2. **Build and start everything:**
 
    ```powershell
    docker compose up -d --build
@@ -69,7 +72,7 @@ a few bytes:
    The first start takes a few minutes. Docker creates the databases, sets them up, then starts the
    five game servers.
 
-4. **Check that everything is up:**
+3. **Check that everything is up:**
 
    ```powershell
    docker compose ps
@@ -78,16 +81,42 @@ a few bytes:
    `mssql-importer` should say **Exited (0)**. That's normal: it only runs once. All the other
    containers should say **Up**.
 
+   Open [Mailpit](http://127.0.0.1:8025) to read local verification messages. Mailpit captures mail
+   locally; it does not deliver messages to external mailboxes. SMTP uses TLS with certificate
+   validation. Only the Login container trusts the generated Mailpit certificate.
+
+4. **Optionally enable email 2FA for the seeded development account** (`test` / `test123`):
+
+   ```powershell
+   @'
+   DECLARE @id int;
+   SELECT @id=dwUserID FROM dbo.TACCOUNT_PW WHERE szUserID='test';
+   IF @id IS NULL THROW 50001, 'Test account is missing.', 1;
+   EXEC dbo.TLoginTwoFactorConfigure @dwUserID=@id, @szEmail=N'test@4dev.local', @bEnabled=1;
+   '@ | docker exec -i araz-mssql /bin/bash -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -b -d TGlobal_gsp'
+   ```
+
+   Enter the six-digit code from Mailpit in the client's existing verification dialog. Other
+   accounts are not enrolled automatically. For an external SMTP provider, replace the local
+   Login SMTP configuration with that provider's TLS settings and verified account recipients.
+
+Rebuilds and `docker compose down` preserve SQL data. Do not use `down -v` unless you intend to
+delete the database and captured messages. Docker manages container start/stop; Control connects
+to World and Map for monitoring and GM commands. Its local process controller does not manage
+other containers. Patch downloads are unconfigured in this local source-build installation.
+
 ### What's running
 
 | Server | Service | Port |
 |---|---|---|
 | Database (SQL Server 2022) | `mssql` | 11433 |
 | Login (the game connects here first) | `loginsvr` | 4816 |
-| World | `worldsvr` | 3816 |
+| World (internal, mutual TLS) | `worldsvr` | 3816 |
 | Map (the game world itself) | `mapsvr` | 5816 |
 | Patch | `patchsvr` | 3716 |
 | Control | `controlsvr` | 3615 |
+| Mailpit web mailbox | `mailpit` | 8025 |
+| Mailpit SMTP (internal, TLS) | `mailpit` | 1025 |
 
 ---
 
@@ -194,8 +223,8 @@ touching the file, set the `TCLIENT_RENDERER` environment variable to one of the
 |---|---|
 | The game crashes right at startup | The big files are missing. Run `git lfs pull` (Step 2). |
 | The game opens then closes | Launch it with the address: `TClient.exe 127.0.0.1 4816`. |
-| Login works but the game hangs or can't enter the world | The IP in migration `002` is wrong (Step 3.2). Fix it, then reset: `docker compose down -v` and `docker compose up -d`. |
-| Servers don't start | Check the database setup: `docker compose logs mssql-importer`. Usually fixed by `docker compose down -v` and `docker compose up -d`. |
+| Login works but the game hangs or can't enter the world | Re-run `scripts/configure-local-server.ps1`, apply the local topology with `docker compose run --rm mssql-importer`, then `docker compose restart loginsvr patchsvr`. Check Map/World logs if it persists. |
+| Servers don't start | Read `docker compose logs mssql-importer` and the affected server's logs. Correct the reported configuration or migration error, then run `docker compose up -d`. Preserve the database volume. |
 | Nothing works after a reboot | Docker Desktop isn't running, or the containers are stopped. Start Docker, then `docker compose up -d`. |
 | Can't log in | Wait 1–2 minutes after `docker compose up`, since the servers load game data at boot. Check with `docker compose logs loginsvr`. |
 

@@ -56,4 +56,9 @@ for f in /Database/migrations/*.sql; do
 done
 if [ "$applied_any" -eq 0 ]; then echo "  (no pending migrations)"; fi
 
+if [ -n "${LOCAL_TOPOLOGY_FILE:-}" ]; then
+  echo "== Local client topology =="
+  sql -i "$LOCAL_TOPOLOGY_FILE"
+fi
+
 echo "Import + migrations complete."

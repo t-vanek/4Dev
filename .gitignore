@@ -76,6 +76,7 @@ enc_temp_folder/
 # ----- Runtime logs & crash dumps -----
 *.dmp
 *.log
+/Game/Img/
 /Servers/Services/Logs/
 /Servers/Servicesd/Logs/
 
@@ -85,6 +86,7 @@ enc_temp_folder/
 /Servers/Servicesd/Configurations/*.ini
 *.env
 .env
+/.runtime/
 
 # ----- SQL Server data files & DB baselines (large binaries; obtained externally) -----
 *.mdf
