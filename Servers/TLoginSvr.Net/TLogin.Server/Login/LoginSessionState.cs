@@ -5,6 +5,8 @@ namespace TLogin.Server.Login;
 /// </summary>
 public sealed class LoginSessionState
 {
+    public Guid ConnectionId { get; } = Guid.NewGuid();
+    public Security.PendingEmailVerification? TwoFactor { get; set; }
     public uint UserId { get; set; }
     public string UserName { get; set; } = "";
     public string Password { get; set; } = "";
@@ -19,16 +21,16 @@ public sealed class LoginSessionState
     public long CheckKey { get; set; }
 
     public string MacAddress { get; set; } = "";
-    public string SecurityCode { get; set; } = "";
 
     public bool LoggedIn => UserId != 0;
 
     public void ResetAuthentication()
     {
         UserId = 0;
-        UserName = Password = MacAddress = SecurityCode = "";
+        UserName = Password = MacAddress = "";
         Agreement = false;
         GroupId = CreateCount = 0;
         CheckKey = 0;
+        TwoFactor = null;
     }
 }

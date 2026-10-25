@@ -803,14 +803,7 @@ int CTClientWnd::OnCS_SECURITYRESULT_ACK( CTachyonSession *pSession, CPacket *pP
 	case CODE_CORRECT:
 		{
 			OnGM_CLOSE_MSGBOX();
-			TFrame* pFRAME = m_TNet.FindFrame(ID_FRAME_LOGIN_NEW);
-
-			TComponent *pEditID = pFRAME->FindKid(ID_CTRLINST_ID);
-			TComponent *pEditPW = pFRAME->FindKid(ID_CTRLINST_PW);
-
-			SendCS_LOGIN_REQ(
-				pEditID->m_strText,
-				pEditPW->m_strText);
+			SendLoginRequest();
 
 			TFrame *pFRAME2 = m_MessageBox.FindFrame(1300);
 			if(pFRAME2)

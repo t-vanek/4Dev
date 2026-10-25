@@ -34,7 +34,11 @@ public sealed class LoginWorker : BackgroundService
             throw new InvalidOperationException("Login:Db:GlobalConnectionString is not configured.");
 
         var global = new GlobalDatabase(_opt.Db.GlobalConnectionString);
-        _global = global;
+        var twoFactorStore = new SqlTwoFactorStore(_opt.Db.GlobalConnectionString);
+        await twoFactorStore.ValidateSchemaAsync(stoppingToken);
+        using var emailSender = new SmtpEmailSender(_opt.TwoFactor.Smtp);
+        var twoFactor = new EmailTwoFactorService(twoFactorStore, emailSender, _opt.TwoFactor,
+            _loggerFactory.CreateLogger<EmailTwoFactorService>());
 
         var groupConfigs = await global.LoadGroupsAsync(stoppingToken);
         var groups = new Dictionary<byte, (GroupConfig, GameDatabase)>();
@@ -57,7 +61,7 @@ public sealed class LoginWorker : BackgroundService
             global, groups, nation, veteran, userCounts,
             new AutoPassHwidValidator(),
             _opt.ValidateClientChecksum,
-            _loggerFactory.CreateLogger<LoginService>(), _opt.MaxConcurrentLogins);
+            _loggerFactory.CreateLogger<LoginService>(), _opt.MaxConcurrentLogins, twoFactor: twoFactor);
 
         var server = new PacketServer(_loggerFactory.CreateLogger<PacketServer>());
         if (!string.IsNullOrWhiteSpace(_opt.ControlServerIp) &&
@@ -67,11 +71,14 @@ public sealed class LoginWorker : BackgroundService
             _log.LogInformation("Control server {Ip} will be treated as a plaintext peer.", ctrl);
         }
 
+        _global = global; // Startup validation must not run shutdown cleanup against a failed configuration.
         await server.ListenAsync(_opt.Port, service.DispatchAsync, service.OnConnectedAsync, stoppingToken);
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
+        // Stop accepting and drain in-flight verification/login work before clearing login rows.
+        await base.StopAsync(cancellationToken);
         if (_global is not null)
         {
             try
@@ -84,6 +91,5 @@ public sealed class LoginWorker : BackgroundService
                 _log.LogWarning(ex, "Failed to clear login current-user rows on shutdown.");
             }
         }
-        await base.StopAsync(cancellationToken);
     }
 }

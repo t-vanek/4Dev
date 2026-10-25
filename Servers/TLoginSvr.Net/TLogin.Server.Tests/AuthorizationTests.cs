@@ -19,6 +19,7 @@ public sealed class AuthorizationTests
         public Task<int> CheckPasswordAsync(uint userId, string password, CancellationToken ct) => Task.FromResult(PasswordResult);
         public Task ReleaseCurrentUserAsync(uint userId, CancellationToken ct) { Releases++; return Task.CompletedTask; }
         public Task<int> CheckIpAsync(string ip, CancellationToken ct) => Task.FromResult(0);
+        public Task<uint> ValidateCredentialsAsync(string user, string password, CancellationToken ct) => Task.FromResult(42u);
         public Task<LoginRow> LoginAsync(string user, string password, string ip, byte check, CancellationToken ct) =>
             Task.FromResult(new LoginRow((int)results[_index++], 987654, 123, 42, "127.0.0.1", 5816, 2, 0, 0));
         public Task<LoginRow> LoginJpAsync(string user, string password, string ip, byte check, byte channel, CancellationToken ct) =>

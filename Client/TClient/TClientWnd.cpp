@@ -294,46 +294,7 @@ void CTClientWnd::OnConnect( CTachyonSession *pSession, int nErrorCode)
 	{
 	case SVR_LOGIN	:
 		{
-			TFrame *pFRAME = m_TNet.FindFrame(ID_FRAME_LOGIN_NEW);
-
-			TComponent *pEditID = pFRAME->FindKid(ID_CTRLINST_ID);
-			TComponent *pEditPW = pFRAME->FindKid(ID_CTRLINST_PW);
-
-			CString strPW;
-
-
-			strPW = CTClientGame::GetSHA1String(pEditPW->m_strText);
-
-			if( CTNationOption::MODIFY_DIRECTLOGIN )
-			{
-				if( m_bDirectLogin )
-				{
-					//m_pTNet->m_bValidLogin = TRUE;
-
-					SendCS_LOGIN_REQ(
-						m_strID,
-						m_strPW,
-						m_bSiteCode);
-				}
-				else
-				{
-					//m_pTNet->m_bValidLogin = TRUE;
-
-					SendCS_LOGIN_REQ(
-						pEditID->m_strText,
-						strPW);
-				}
-			}
-			else
-			{
-				//m_pTNet->m_bValidLogin = TRUE;
-
-				SendCS_LOGIN_REQ(
-					pEditID->m_strText,
-					strPW );
-			}
-
-
+			SendLoginRequest();
 		}
 
 		break;

@@ -8,6 +8,20 @@
 #include "HwidManager.h" 
 #endif
 
+void CTClientWnd::SendLoginRequest()
+{
+	if( CTNationOption::MODIFY_DIRECTLOGIN && m_bDirectLogin )
+	{
+		SendCS_LOGIN_REQ(m_strID, m_strPW, m_bSiteCode);
+		return;
+	}
+
+	TFrame *pFRAME = m_TNet.FindFrame(ID_FRAME_LOGIN_NEW);
+	TComponent *pEditID = pFRAME->FindKid(ID_CTRLINST_ID);
+	TComponent *pEditPW = pFRAME->FindKid(ID_CTRLINST_PW);
+	SendCS_LOGIN_REQ(pEditID->m_strText, CTClientGame::GetSHA1String(pEditPW->m_strText));
+}
+
 void CTClientWnd::SendCS_LOGIN_REQ(CString fixedUserID, CString fixedPassword, DWORD dwSiteCode)
 {
 	CPacket vMSG;

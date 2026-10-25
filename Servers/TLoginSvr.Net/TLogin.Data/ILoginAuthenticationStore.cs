@@ -7,4 +7,5 @@ public interface ILoginAuthenticationStore
     Task<LoginRow> LoginJpAsync(string userId, string password, string loginIp, byte ipCheck, byte channeling, CancellationToken ct = default);
     Task<int> CheckPasswordAsync(uint userId, string password, CancellationToken ct = default);
     Task ReleaseCurrentUserAsync(uint userId, CancellationToken ct = default);
+    Task<uint> ValidateCredentialsAsync(string userName, string password, CancellationToken ct = default);
 }

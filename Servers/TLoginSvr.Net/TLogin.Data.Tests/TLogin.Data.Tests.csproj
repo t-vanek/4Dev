@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../../../Database/migrations/025_login_email_two_factor.sql" Link="025_login_email_two_factor.sql" CopyToOutputDirectory="PreserveNewest" />
     <ProjectReference Include="..\TLogin.Data\TLogin.Data.csproj" />
   </ItemGroup>
 

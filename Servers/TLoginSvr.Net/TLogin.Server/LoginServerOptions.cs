@@ -24,6 +24,7 @@ public sealed class LoginServerOptions
 
     /// <summary>When true (default), enforces the client version checksum that OnCS_LOGIN_REQ validates.</summary>
     public bool ValidateClientChecksum { get; set; } = true;
+    public Security.EmailTwoFactorOptions TwoFactor { get; set; } = new();
 
     public LoginDbOptions Db { get; set; } = new();
 }

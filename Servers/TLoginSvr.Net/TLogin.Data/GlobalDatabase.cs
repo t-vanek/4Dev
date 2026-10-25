@@ -44,6 +44,20 @@ public sealed class GlobalDatabase : ILoginAuthenticationStore
         await cmd.ExecuteNonQueryAsync(ct);
     }
 
+    /// <summary>Read-only first-factor verification before issuing an email challenge.</summary>
+    public async Task<uint> ValidateCredentialsAsync(string userName, string password, CancellationToken ct = default)
+    {
+        // The legacy client already transmits its password representation. Do not create/release
+        // TCURRENTUSER or run TLogin until the second factor has been completed.
+        await using var connection = await OpenAsync(ct);
+        await using var command = new SqlCommand(
+            "SELECT dwUserID FROM dbo.TACCOUNT_PW WHERE szUserID=@name AND szPasswd=@password", connection);
+        command.Parameters.Add(SqlProc.In("@name", SqlDbType.VarChar, userName, Protocol.Proto.MaxName));
+        command.Parameters.Add(SqlProc.In("@password", SqlDbType.VarChar, password, Protocol.Proto.MaxName));
+        object? value = await command.ExecuteScalarAsync(ct);
+        return value is null or DBNull ? 0 : unchecked((uint)Convert.ToInt32(value));
+    }
+
     /// <summary>TLogin — authenticates the account and prepares the session. CSPLogin.</summary>
     public async Task<LoginRow> LoginAsync(string userId, string password, string loginIp, byte ipCheck, CancellationToken ct = default)
     {
@@ -146,25 +160,6 @@ public sealed class GlobalDatabase : ILoginAuthenticationStore
         {
             SqlProc.In("@dwUserID", SqlDbType.Int, unchecked((int)userId)),
         }, ct);
-    }
-
-    /// <summary>TAddMacAddress — whitelists a MAC for the account (2FA). CSPAddNewMACAddress (no return).
-    /// Optional: absent in baselines without MAC-whitelist 2FA, in which case it is a no-op.</summary>
-    public async Task AddMacAddressAsync(uint userId, string macAddress, CancellationToken ct = default)
-    {
-        await using var c = await OpenAsync(ct);
-        try
-        {
-            await SqlProc.ExecAsync(c, "TAddMacAddress", null, new[]
-            {
-                SqlProc.In("@dwUserID", SqlDbType.Int, unchecked((int)userId)),
-                SqlProc.In("@szAddress", SqlDbType.VarChar, macAddress, Protocol.Proto.MaxName),
-            }, ct);
-        }
-        catch (SqlException ex) when (ex.Number == 2812)
-        {
-            // Proc absent in this baseline; the C++ tolerates a failed query->Call() here, so do nothing.
-        }
     }
 
     /// <summary>TClearLoginCurrentUser — clears the login server's current-user rows. CSPClearLoginUser.</summary>

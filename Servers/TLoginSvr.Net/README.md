@@ -7,6 +7,65 @@ and runs in Docker — no Windows-only dependencies, no ATL/registry, no ODBC DS
 It replaces the IOCP/ATL service with async sockets + the .NET Generic Host, and the ODBC layer with
 `Microsoft.Data.SqlClient`. The two existing databases and their stored procedures are used unchanged.
 
+## Email two-factor authentication
+
+Email OTPs use the existing client dialog and encrypted packet layouts. The server checks the password
+without creating a game session, reserves a challenge, delivers the code through SMTP, then sends
+`CS_SECURITYCONFIRM_REQ`. It never sends a pending `CS_LOGIN_ACK(LR_SECURITY)`, because this client would
+close the socket on that response. After a correct code, `CS_SECURITYRESULT_ACK(CODE_CORRECT)` makes the
+client repeat `CS_LOGIN_REQ`; a one-use grant bound to that connection, account and password permits the
+normal `TLogin` flow. Agreement results and duplicate-login recovery retain their normal checks.
+
+Apply **`Database/migrations/025_login_email_two_factor.sql` before starting the new Login binary**.
+The migration adds `TLOGIN2FA` and administrative `TLoginTwoFactorConfigure`; it does not change `TLogin`
+or enroll existing accounts. A missing schema fails startup before session cleanup/listening. Missing
+SMTP, database errors or delivery failures never bypass 2FA. Unenrolled accounts keep their normal login;
+custom legacy procedures returning `LR_SECURITY` remain denied rather than being silently promoted.
+
+Configure `Login:TwoFactor:Smtp` in deployment configuration:
+
+| Key | Example / default |
+|---|---|
+| `Host` | Your SMTP server; empty disables delivery |
+| `Port` | `587` |
+| `Encryption` | `StartTls` (mandatory STARTTLS) or `SslOnConnect` (usually port 465) |
+| `From` | A verified sender address |
+| `UserName` | SMTP username; empty only for a TLS relay that does not require authentication |
+| `Password` | Supply through `Login__TwoFactor__Smtp__Password`, never commit credentials |
+| `TimeoutSeconds` | `20`, including admission/connection/delivery; shorter than the code lifetime |
+
+MailKit 4.18.2 sends over TLS 1.2/1.3 using normal certificate/name validation. There is no plaintext or
+accept-any-certificate configuration. At most four deliveries run concurrently, outside the authentication
+DB admission gate. The only recipient is the enrolled database address, never a client-supplied address.
+
+After independently verifying the account owner's address, a database administrator can enroll it:
+
+```sql
+USE [TGlobal_gsp];
+EXEC dbo.TLoginTwoFactorConfigure
+    @dwUserID = 123,
+    @szEmail = N'owner@example.com',
+    @bEnabled = 1;
+```
+
+This is administrative enrollment/recovery, not a public self-service endpoint. Use the same procedure
+to replace a verified address or disable the policy with `@bEnabled = 0`; it invalidates outstanding codes
+and unconsumed grants. Do not change recipient columns directly. No MAC, IP address or empty device
+identifier is saved as a trusted device. Each new login connection requires its own verification.
+
+Defaults under `Login:TwoFactor`: a cryptographically generated six-digit code lives **300 seconds**;
+resends require **60 seconds**, with at most **10 per hour/account**; **5 wrong attempts** lock the account
+for **900 seconds**. The verified relogin grant lives **60 seconds**. Codes are stored only as salted
+SHA-256 digests, consumed once and replaced on resend. Deadlines, attempts, locks and send limits use
+SQL Server's clock and survive Login restarts and parallel connections. OTP values and SMTP error text
+are not logged. Email OTP preserves the legacy flow; it is not phishing-resistant MFA.
+
+Tests exercise the complete encrypted client flow and a real local SMTP server with STARTTLS and implicit
+TLS, including certificate rejection and missing STARTTLS. Set `TLOGIN_2FA_TEST_ADMIN` to an SQL admin
+connection to run isolated SQL concurrency, expiry, lockout, resend, grant and enrollment-revocation tests.
+They create their own `CodexLogin2FA_<guid>` database, apply migration 025 twice and remove only that test
+database. They never use player rows; these tests do not replace restored-baseline or production SMTP validation.
+
 ## Why "compatible with *this* repo"
 
 The wire protocol here differs from the sibling `..\4retro-4ever` fork. All wire values are taken from
@@ -107,9 +166,8 @@ For a repeatable 400-account burst test using a disposable database, see
   character or routing data and cannot use authenticated handlers. A new login attempt clears any
   previous account authentication. Duplicate-login recovery verifies the password before removing its
   existing login row, and the retried login still enforces `Security`.
-- **Second-factor delivery/verification remains unfinished.** Accounts for which the DB requires 2FA
-  cannot log in until a real challenge flow is integrated. The unavailable email sender throws instead
-  of claiming successful delivery. OpenIddict was not added.
+- **Email second factor is implemented** through the challenge/relogin flow above. It requires migration
+  025, SMTP configuration and administrative enrollment. OpenIddict was not added.
 - Exec-checksum/HWID anti-cheat is still disabled (`m_hExecFile` is not loaded); `GetCheckFilePoint` is `0`.
 - On Ctrl+C / SIGTERM the server runs `TClearLoginCurrentUser`, mirroring the C++ `OnExit`.
 - Implemented messages: LOGIN, AGREEMENT, GROUPLIST, CHANNELLIST, CHARLIST, CREATECHAR, DELCHAR, START,

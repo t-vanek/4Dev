@@ -18,6 +18,12 @@ tracked in `TGlobal_gsp.dbo._SchemaMigrations`. Each file is applied once, in fi
 
 ## Running
 
+`025_login_email_two_factor.sql` is required by the Login email-OTP implementation. It creates durable
+per-account challenge/rate-limit state and the administrator-only `TLoginTwoFactorConfigure` procedure.
+It does not enroll users automatically or modify the baseline `TLogin` procedure. Configure SMTP and
+independently verify the recipient before enabling an account; see
+[`TLoginSvr.Net`](../../Servers/TLoginSvr.Net/README.md#email-two-factor-authentication).
+
 Migrations run on every `docker compose up`. To apply new ones against an already-running stack:
 
 ```bash

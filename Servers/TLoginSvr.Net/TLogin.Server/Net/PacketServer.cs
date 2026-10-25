@@ -15,6 +15,8 @@ public sealed class PacketServer
 {
     private readonly ILogger _logger;
     private readonly ConcurrentDictionary<PacketConnection, byte> _connections = new();
+    private readonly ConcurrentDictionary<long, Task> _connectionTasks = new();
+    private long _connectionId;
 
     public PacketServer(ILogger logger) => _logger = logger;
 
@@ -33,21 +35,29 @@ public sealed class PacketServer
         listener.Listen(backlog: 128);
         _logger.LogInformation("Login server listening on port {Port}.", port);
 
-        while (!token.IsCancellationRequested)
+        try
         {
-            Socket socket;
-            try
+            while (!token.IsCancellationRequested)
             {
-                socket = await listener.AcceptAsync(token);
+                Socket socket;
+                try { socket = await listener.AcceptAsync(token); }
+                catch (OperationCanceledException) { break; }
+                catch (SocketException ex)
+                {
+                    _logger.LogWarning(ex, "Accept failed.");
+                    continue;
+                }
+                long id = Interlocked.Increment(ref _connectionId);
+                var task = HandleConnectionAsync(socket, onPacket, onConnected, token);
+                _connectionTasks[id] = task;
+                _ = task.ContinueWith(completed => _connectionTasks.TryRemove(id, out _),
+                    CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
             }
-            catch (OperationCanceledException) { break; }
-            catch (SocketException ex)
-            {
-                _logger.LogWarning(ex, "Accept failed.");
-                continue;
-            }
-
-            _ = HandleConnectionAsync(socket, onPacket, onConnected, token);
+        }
+        finally
+        {
+            // Finish cancellation/OTP cleanup before the worker disposes its SMTP admission gate.
+            await Task.WhenAll(_connectionTasks.Values.ToArray());
         }
     }
 
