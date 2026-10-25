@@ -1775,6 +1775,25 @@ The phase write-ups above stop at Phase 46; what followed is recorded in the com
   lines, item states and help messages; chat bans held on chat and comments; the map level kick-out; the control server's link
   (`ControlIp`: announcements, kicks, the monster spawn finder and actions, castle info, the monitor).
 
+- **S7d** — account security codes: create/change/disable/enable/unlock/check/remaining-lock-time; session-local unlocking,
+  shared account attempts, ten failures → 24-hour lock persisted as UTC seconds, salted PBKDF2 hashes, and the original
+  protected-action gates plus trade, cash purchases, medal items and cloaks. Migration 023 preserves legacy codes until their
+  next save and clears the plaintext then. Failed security-state reads refuse entry; failed writes close the connection.
+- **S7e** — custom-cloak list/change and guild-cloak registration. A custom change checks account and item ownership and
+  atomically changes the equipped item and spends 4,000 medals in SQL. Invalid ownership/missing item/insufficient funds
+  consume nothing. Guild changes use ordinary item persistence and broadcast the equipped appearance.
+  Medal packages consume the item and credit its medals in the same SQL transaction.
+- **S7f** — meeting-room rentals: exclusive per-channel private maps, occupied rooms filtered from NPC lists, owner-only
+  invitations through the world, 120-second single-use invitations, guest busy checks, one-hour rental expiry, and release
+  plus guest evacuation on owner exit/disconnect. The original SM timer round-trip is local to the serialized tick.
+- **Sending / allocations** — ready outbound packets coalesce up to 128 packets / 64 KiB per socket write with no intentional
+  delay; each client packet keeps its own cipher sequence. Copies and batches use ArrayPool, a slow peer is disconnected at
+  4 MiB queued, and close drains replies with a two-second deadline. PacketWriter writes encoded strings directly into its
+  buffer, exposes a non-allocating finalized span to network queues, and rejects wire-length overflow.
+- **Login bursts** — migration 024 adds username/blacklist/protection lookup indexes; authentication DB sequences are limited
+  to 100 concurrently (configurable). Character appearances use two fixed DB reads instead of two extra reads per character.
+  Reproducible isolated SQL and loopback measurements are in `Tools/ServerBenchmarks`.
+
 ## 🚧 Not yet ported — the roadmap
 
 Found by diffing the C++ `ON_RECEIVE` table (621 handlers enabled outside the BoW/BR builds) against the .NET dispatch
@@ -1782,9 +1801,6 @@ Found by diffing the C++ `ON_RECEIVE` table (621 handlers enabled outside the Bo
 
 | Batch | What | C++ handlers |
 |---|---|---|
-| S7d | **Security code** (PIN) — create, change, enable, disable, unlock, check | `CS_SC_*` |
-| S7e | **Cloaks** — custom cloak list/change, guild cloak | `CS_CUSTOMCLOAK_*`, `CS_REGGUILDCLOAK` |
-| S7f | **Meeting rooms** | `CS_/MW_/SM_MEETINGROOM` |
 | S7g | **Misc** — monster tempt/evolve, blood, magic mirror, reset host, other-self, SMS | `MW_MONTEMPT*`, `MW_GETBLOOD`, `MW_MAGICMIRROR`, `CS_RESETHOST`, `CS_OTHERSELF`, `CS_SMSSEND` |
 
 Not needed here:

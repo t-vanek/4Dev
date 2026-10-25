@@ -9,6 +9,9 @@ public sealed class LoginServerOptions
     /// <summary>TCP listen port. Default 4816 (the C++ default).</summary>
     public int Port { get; set; } = 4816;
 
+    /// <summary>Concurrent authentication DB sequences; excess logins wait without consuming a pooled SQL connection.</summary>
+    public int MaxConcurrentLogins { get; set; } = 100;
+
     /// <summary>
     /// Optional control-server IP. Connections from this address skip the per-packet cipher
     /// (the C++ treats the control server as a plaintext SESSION_SERVER peer).

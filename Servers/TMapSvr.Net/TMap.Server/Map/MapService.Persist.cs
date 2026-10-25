@@ -299,7 +299,7 @@ public sealed partial class MapService
     {
         if (_gameDb is null || !s.IsMain || s.Char is not { DbLoaded: true, TournamentBackup: null } ch) return;   // not the tournament character
         ch.LastSaveMs = NowMs;
-        var charData = WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow());
+        var charData = WithMeetingExit(WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow()));
         if (ArenaOf(ch) is { } arena)                                                  // a fighter is saved at the exit (SSSender.cpp:823)
             charData = charData with { MapId = arena.Out.MapId, PosX = arena.Out.PosX, PosY = arena.Out.PosY, PosZ = arena.Out.PosZ };
         var quests = BuildQuestSaves(ch, NowMs);
@@ -343,7 +343,7 @@ public sealed partial class MapService
         {
             if (!s.IsMain || s.Char is not { DbLoaded: true } ch) continue;
             ch.LastSaveMs = NowMs;
-            var charData = WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow());
+            var charData = WithMeetingExit(WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow()));
             if (ArenaOf(ch) is { } arena)                                                  // a fighter is saved at the exit (SSSender.cpp:823)
                 charData = charData with { MapId = arena.Out.MapId, PosX = arena.Out.PosX, PosY = arena.Out.PosY, PosZ = arena.Out.PosZ };
             var quests = BuildQuestSaves(ch, NowMs);

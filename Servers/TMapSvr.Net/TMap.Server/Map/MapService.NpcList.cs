@@ -58,7 +58,9 @@ public sealed partial class MapService
             && CheckPortalCondition(ch, portal, portal.Condition, 0))
             foreach (var (destId, dest) in portal.Destinations)
                 if (_templates.Portals.TryGetValue(destId, out var target)
-                    && dest.Conditions.All(c => CheckPortalCondition(ch, target, c.Type, c.Id)))
+                    && dest.Conditions.All(c => CheckPortalCondition(ch, target, c.Type, c.Id))
+                    && (!dest.Conditions.Any(c => c.Type == PctMeeting)
+                        || !MeetingDestinationBusy(s.Channel, portal.PortalId, destId, s.CharId)))
                     list[destId] = dest.Price;
         SendNpcList(s, ch, npc, list);
     }

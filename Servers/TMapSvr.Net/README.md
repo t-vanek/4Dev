@@ -1,4 +1,28 @@
-# TMapSvr.Net — Phases 1–46 — the full port ledger lives in PORT_STATUS.md
+# TMapSvr.Net
+
+## Current implementation
+
+The full port ledger is in [`PORT_STATUS.md`](PORT_STATUS.md); the phase descriptions below record the earlier work.
+Cash shop and GM tools are implemented and covered by their existing tests. The follow-up includes:
+
+- Account security codes with durable salted hashes, session-local unlocks, ten-attempt/24-hour account locks,
+  and protected inventory, trade, mail, auction, guild and cash operations.
+- Custom-cloak lists and changes, atomic ownership/payment/item updates, guild-cloak registration, and atomic medal-package redemption.
+- Meeting-room rental, NPC availability, owner invitations, single-use acceptance, expiry and owner-leave cleanup.
+  Rentals are transient; saved characters return outside after a logout/restart.
+- Pooled outbound copies, bounded queues, immediate batching of up to 128 packets / 64 KiB, and allocation-free
+  string encoding into the existing packet buffer. Client packet framing, encryption and sequence numbers are unchanged.
+
+Migration `023_security_codes_and_cloaks.sql` supplies security columns and cloak/medal lookup indexes. Docker's migration
+job applies it before the servers start. `Map:Db:GlobalConnectionString` supplies the security-code database; if absent,
+the game connection's server/credentials are used with catalog `TGlobal_gsp`.
+Configured security-database failures refuse entry even when game-data loading falls back to DB-free operation.
+
+Tests include fake-channel gameplay, real encrypted loopback sockets, and isolated SQL transactions (set
+`T4DEV_TEST_ADMIN` to enable those). Reproducible performance checks are in
+[`Tools/ServerBenchmarks`](../../Tools/ServerBenchmarks/README.md).
+
+## Original phase history
 
 A C#/.NET 10 port of the C++/ATL **`TMapSvr`** (the per-map / zone game server), byte-compatible with
 this repo's client and SQL baselines. It follows the same architecture as the sibling `TLoginSvr.Net`
@@ -365,61 +389,10 @@ is 3815). A client's path through the stack is `patchsvr → loginsvr → mapsvr
 | `LogIp` / `LogPort` | 127.0.0.1 / 7000 | UDP log-sink endpoint (integration deferred). |
 | `NoCrypt` | false | Set true to accept clients in plaintext (interop with a plaintext bot/client). |
 | `Db:GameConnectionString` | — | Empty ⇒ run DB-free (char synthesized). |
-| `Db:GlobalConnectionString` | — | Reserved for later phases. |
+| `Db:GlobalConnectionString` | — | Account security codes; falls back to the game server/credentials with catalog `TGlobal_gsp`. |
 
 ## Roadmap
 
-Phases 1–26 cover enter + movement/chat, the persisted character data (inventory/gear/skills/hotkeys), the
-`CTCell` spatial grid, the item/magic template charts, the full `CTObjBase` stat sheet (primary stats,
-MaxHP/MaxMP, AP/DP, `CS_CHARSTATINFO`), item manipulation (`CS_MOVEITEM` move/swap/split/merge/drop +
-equip/unequip incl. two-handed off-hand auto-eviction, `CS_ITEMUSE` HP/MP potions), the money currency
-core + durability repair (`CS_DURATIONREP`), field-monster grid occupancy + visibility
-(`CS_ADDMON_ACK`/`CS_DELMON_ACK`), the monster spawn pipeline (charts + `SE_DEFAULT` regen), the combat
-spine (`CS_DEFEND` physical damage → death → respawn), the attack-announce half (`CS_SKILLUSE` skill
-chart + caster MP/HP cost + reuse cooldown + power broadcast), skill-data damage scaling (`TSKILLDATA`),
-HP/MP regen (`Recover`), loot/exp on death (attacker-scaled exp + level-up + money corpse), monster idle
-roam (`CS_MONACTION_ACK`), monster aggro/chase (target-on-hit → `TA_FOLLOW` → leash), and monster-attacks-
-player (melee AP−DP + player death), player revival (`CS_REVIVAL`), item drop-loot (`TMONITEMCHART` →
-corpse items → take), NPC shops (`CS_NPCTALK`/`CS_ITEMBUY`/`CS_ITEMSELL` — talk/buy/sell), and the **quest
-engine** core (`CQuest` + `CheckQuest` + `m_mapQUEST` — accept/objective/turn-in/reward for the foundational
-subtypes), and **persistence** (`TSaveChar` + `TSaveQuest` + the **inventory rewrite** `TSaveInven`/`TSaveItem`
-plus the **incremental `TSaveItemDirect` fast-path** — the char record, quest progress, and items written back on
-a 30-min timer / logout / shutdown *and* per-tick per change, so money and inventory stay consistent on relog and
-survive a crash), and the **maintained-skill buff engine** (Phases 31/35 — `CalcAbilityValue` layered onto every
-stat getter, buff/debuff apply via `CS_DEFEND` + `ForceMaintain`, expiry/`CS_SKILLEND`, drop-on-death, and
-cure/dispel — strip buffs/debuffs + instant HP/MP heal; unblocking the quest **DefendSkill** subtype), and the
-**map switch/gate subsystem** (Phase 32 — chart-driven
-switches + switch-driven gates, `CS_SWITCHCHANGE`/`CS_GATECHANGE`, lock/duration/auto-revert, `TT_RUNSWITCH`/
-`TT_RUNGATE` + `QCT_SWITCH`; unblocking the quest **Switch** subtype), and **quest-driven monster spawn** (Phases
-33–34 — `AddTimelimitedMon`/`DelMonSpawn` + dynamic `RegenDynamicMonster`; unblocking
-**SpawnMon**/**DieMon**/**DropItem**/**Regen**), and the **skill-learn path** (Phase 36 — `UpdateSkill`
-add-only grant + `CS_SKILLBUY_ACK`; unblocking the quest **GiveSkill** subtype), and the **player cabinet**
-(Phase 37 — item warehouse: 3 cabinets × 16 items, open/put-in/take-out, loaded + incrementally persisted), and
-**party gameplay** (Phase 38 — party-keeper shared-exp split + free-for-all party loot + the loot broadcast;
-membership management stays world-authoritative), and **player deal/trade** (Phase 39 — the same-map
-ASK→offer→confirm×2→atomic item+money swap, guard-then-commit), and the **personal store** (Phase 40 —
-open/browse/buy over the seller's own bag items, auto-close when sold out), and the **shield-block roll**
-(Phase 41 — `GetShieldDP`/`GetShieldMDP` inside `CalcDamage`: an equipped shield adds its defence + flags
-`HT_BLOCK`, live for a PC defender vs a monster), and the **`CalcDamage` completion** (Phase 42 —
-`MTYPE_MDAMAGE` MP damage + `MTYPE_HP`/`MP` direct heal/drain + the multi-entry per-exec damage map +
-`MTYPE_HI`/`MI` lifedrain → `MW_GETBLOOD_ACK`), and the direct HP/MP **transfer/swap** execs (Phase 43 —
-`SCT_HPTRANS`/`MPTRANS` + `SDT_STATUS_HPMPCHANGE`/`HPTOMP`, closing the in-process combat-core vitals), and the
-monster **aggro/hate table** (Phase 44 — `m_mapAggro`: highest-cumulative-aggro target with a 10% hysteresis,
-re-pick the next in-view survivor on leave, `ChgHost` retarget + `CS_MONHOST_ACK`), and monster **host
-acquisition** (Phase 45 — aggro-on-sight `SetHost`) and the **data-driven AI engine** (Phase 46 — the
-`TAICHART`/`TAICMDCHART`/`TAICONCHART` interpreter: 14 triggers, 15 command opcodes, `AN_*` guards,
-`AT_AICOMPLETE` chaining, and a local delayed-command scheduler with the `m_dwHostKEY` epoch). The
-rest of the C++ handler surface — the remaining saves (skill/hotkey/companion — state no ported handler mutates yet), the wider combat loop (ranged damage as a
-distinct branch, the buff effection/remain layers + the stat-layer `CalcCure` (instant cure/dispel + transfer/swap are done), `DistributeSkill`, the custom Araz ≥3000 skills, the shield-block durability/reaction tail, PvP), the rest of monster combat
-AI (`MT_GOHOME` walk-back, pack/assist-aggro + call-for-help/flee, monster skills), the priest-resurrection (`CS_REVIVALASK`) + death penalty,
-loot extras (magic/rare rolls, ranged picks, party modes), the rest of the **quest engine** (the
-subsystem-blocked `CQuest` subtypes — Craft/SendPost,
-exotic terms/conditions, magic-item/skill rewards, the client quest-node graph),
-the other NPC types (skill-master/rent, make/upgrade/refine, portal/return,
-auction/arena, cash/magic-item shops),
-the remaining item handlers (non-potion use/upgrade/refine/repair), guild + party/corps **management** (the
-world-authoritative invite/join/leave relays; party *gameplay* is done),
-pets/companions/summons, mail, cash shop, auction, PvP/ranking/tournament, BoW/BR,
-castle/occupation war, duel, minigames, and the `DM_*` save procs — is enumerated with sources in
-[`PORT_STATUS.md`](PORT_STATUS.md). The `RW_*` relay plane is intentionally not ported (no `TRelaySvr` in
-this release), matching `TWorldSvr.Net`.
+See the current completed modules and remaining handlers in [`PORT_STATUS.md`](PORT_STATUS.md).
+Security codes (S7d), cloaks (S7e) and meeting rooms (S7f) are complete. The remaining S7g miscellaneous
+handlers and the relay/multi-map/anti-cheat planes are outside this stack's current scope.

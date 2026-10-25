@@ -23,9 +23,8 @@ namespace TMap.Server.Map;
 /// <para>Faithful, flagged: a request with <c>wNpcID = 0</c> skips the NPC, price and item checks and goes
 /// straight to the portal's spawn point — the C++ behaves the same.</para>
 ///
-/// <para><b>Not ported:</b> meeting rooms (the room lock is never released by anything ported, so taking it
-/// would lock it for good — the gate only refuses a room already marked used), tournament lounges, duels, pet
-/// riding, the occupation discount (always 0), <c>TT_LEAVEMAP</c> quest triggers, and the second-server
+/// <para>Meeting-room reservations and release are in MapService.MeetingRooms.cs.
+/// <b>Not ported:</b> <c>TT_LEAVEMAP</c> quest triggers and the second-server
 /// variant of the chain (<c>ROUTELIST</c>/<c>ADDCONNECT</c>/<c>RELEASEMAIN</c>).</para>
 /// </summary>
 public sealed partial class MapService
@@ -54,6 +53,7 @@ public sealed partial class MapService
         PortalRow? npcPortal = null;
         uint price = 0;
         bool bet = false;                                                                        // C++ bTournamentBat
+        bool meeting = false;
         var consume = new List<ushort>();
 
         if (npcId != 0)
@@ -85,7 +85,12 @@ public sealed partial class MapService
 
             foreach (var cond in dest.Conditions)
             {
-                if (cond.Type == PctMeeting && cond.Id != 0) { SendCS_TELEPORT_ACK(s, TprUsed, ch.MapId, 0, 0, 0); return; }
+                if (cond.Type == PctMeeting)
+                {
+                    if (cond.Id != 0 || MeetingDestinationBusy(s.Channel, npcPortal.PortalId, portalId, s.CharId))
+                    { SendCS_TELEPORT_ACK(s, TprUsed, ch.MapId, 0, 0, 0); return; }
+                    meeting = true;
+                }
                 if (cond.Type == PctTournamentLounge) bet = true;
                 if (cond.Type == PctHaveItem)
                 {
@@ -102,6 +107,11 @@ public sealed partial class MapService
 
         ushort spawnId = portalId != 0 && _templates.Portals.TryGetValue(portalId, out var target) ? target.SpawnId : (ushort)0;
         ushort fromMap = ch.MapId;
+
+        // An unpriced client request must not bypass the room reservation through wNpcID=0.
+        if (spawnId != 0 && _templates.SpawnPositions.TryGetValue(spawnId, out var destination)
+            && IsSmallMeetingRoom(destination.MapId) && (!meeting || OwnedMeetingRoom(s) is not null))
+        { SendCS_TELEPORT_ACK(s, TprUsed, ch.MapId, 0, 0, 0); return; }
 
         if (spawnId != 0 && Teleport(s, ch, spawnId))
         {
@@ -123,6 +133,8 @@ public sealed partial class MapService
                 ch.Persist.LastDestination = (uint)(npcPortal.PortalId | (portalId << 16));   // MAKELONG(portal, dest)
             }
             foreach (var itemId in consume) UseItemByTemplate(s, ch, itemId, 1);
+            if (meeting && npcPortal is not null && _templates.SpawnPositions.TryGetValue(spawnId, out var roomSpawn))
+                ReserveMeetingRoom(s, npcPortal.PortalId, portalId, roomSpawn.MapId);
         }
         else
         {
@@ -241,6 +253,8 @@ public sealed partial class MapService
         }
 
         if (s.State != EnterState.InGame) return;
+
+        ReleaseMeetingRoom(s);
 
         EraseZoneEffects(s, ch);               // C++ ExitMAP → EraseMissionSkill (MapService.Mission.cs)
         ArenaLeave(s, ch); ArenaDequeue(ch.CharId);   // and ArenaLeave + the queue (MapService.Arena.cs)

@@ -57,7 +57,7 @@ public sealed class LoginWorker : BackgroundService
             global, groups, nation, veteran, userCounts,
             new AutoPassHwidValidator(), new AutoPassTwoFactorValidator(), new NoOpEmailSender(),
             _opt.ValidateClientChecksum,
-            _loggerFactory.CreateLogger<LoginService>());
+            _loggerFactory.CreateLogger<LoginService>(), _opt.MaxConcurrentLogins);
 
         var server = new PacketServer(_loggerFactory.CreateLogger<PacketServer>());
         if (!string.IsNullOrWhiteSpace(_opt.ControlServerIp) &&

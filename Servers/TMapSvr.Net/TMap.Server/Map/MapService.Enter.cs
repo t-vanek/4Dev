@@ -94,6 +94,9 @@ public sealed partial class MapService
         // Resolve the character up front (DB or synthesized) so the handshake ACKs carry real data.
         await EnsureCharAsync(s);
 
+        if (!await LoadSecurityCode(s)) return;
+        if (!NormalizeMeetingEntry(s)) return;
+
         SendMW_ADDCHAR_ACK(s);
         _log.LogInformation("Char {Char} (user {User}, ch {Ch}) entering; announced to world.", charId, userId, channel);
     }
@@ -412,9 +415,9 @@ public sealed partial class MapService
         var ch = s.Char!;
         var w = new PacketWriter(Msg.CS_CHARINFO_ACK, capacity: 512);
         w.WriteUInt32(ch.CharId);
-        w.WriteByte(0);              // secure code created
-        w.WriteByte(0);              // secure code currently unlocked
-        w.WriteByte(0);              // secure code disabled
+        w.WriteBool(CodeFor(s) is not null);
+        w.WriteBool(s.SecurityUnlocked);
+        w.WriteBool(CodeFor(s) is { Enabled: false });
         w.WriteUInt16(ch.TitleId);
         w.WriteString(ch.Name);
         w.WriteByte(ch.StartAct);

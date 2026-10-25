@@ -30,6 +30,8 @@ public sealed class PacketWriter
 
     private void Ensure(int extra)
     {
+        if (extra < 0 || extra > PacketHeader.MaxPacketSize - _len)
+            throw new InvalidDataException("Packet exceeds the 16-bit wire length.");
         if (_len + extra <= _buf.Length) return;
         int newSize = _buf.Length * 2;
         while (newSize < _len + extra) newSize *= 2;
@@ -89,11 +91,10 @@ public sealed class PacketWriter
     public PacketWriter WriteString(string? s)
     {
         s ??= string.Empty;
-        byte[] bytes = _encoding.GetBytes(s);
-        WriteInt32(bytes.Length);
-        Ensure(bytes.Length);
-        Array.Copy(bytes, 0, _buf, _len, bytes.Length);
-        _len += bytes.Length;
+        int count = _encoding.GetByteCount(s);
+        Ensure(sizeof(int) + count);
+        WriteInt32(count);
+        _len += _encoding.GetBytes(s.AsSpan(), _buf.AsSpan(_len, count));
         return this;
     }
 
@@ -109,9 +110,13 @@ public sealed class PacketWriter
     /// <summary>Finalizes the header <c>wSize</c> field and returns a right-sized copy of the packet.</summary>
     public byte[] ToArray()
     {
-        var result = new byte[_len];
-        Array.Copy(_buf, result, _len);
-        PacketHeader.WriteSize(result, (ushort)_len);
-        return result;
+        return AsSpan().ToArray();
+    }
+
+    /// <summary>A finalized view, valid until this writer is changed. Network queues copy it before returning.</summary>
+    public ReadOnlySpan<byte> AsSpan()
+    {
+        PacketHeader.WriteSize(_buf, checked((ushort)_len));
+        return _buf.AsSpan(0, _len);
     }
 }

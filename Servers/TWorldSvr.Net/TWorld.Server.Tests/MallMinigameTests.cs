@@ -234,6 +234,7 @@ public class MallMinigameTests
         EnterChar(client, 86, 0x86);   // target
 
         var inviter = host.State.Characters[85]; inviter.Name = "Inviter"; host.State.CharactersByName["Inviter"] = inviter;
+        inviter.MapId = (ushort)(Proto.MeetingMapId + 1);
         var target = host.State.Characters[86];
         target.Name = "Target"; host.State.CharactersByName["Target"] = target;
         target.PosX = 3 * Proto.UnitSize; target.PosZ = 0; target.MapId = 0;   // sitting at the invite spot, not yet in a room
@@ -252,7 +253,7 @@ public class MallMinigameTests
     }
 
     [Fact]
-    public async Task MeetingRoom_Accept_TeleportsInviterIntoRoom()
+    public async Task MeetingRoom_Accept_TeleportsInvitedGuestIntoRoom()
     {
         await using var host = new WorldTestHost();
         using var client = await host.ConnectAsync();
@@ -264,6 +265,11 @@ public class MallMinigameTests
         owner.MapId = (ushort)(Proto.MeetingMapId + 1); owner.Channel = 2;
         owner.PosX = 10; owner.PosY = 20; owner.PosZ = 30;
         var joiner = host.State.Characters[93]; joiner.Name = "Joiner"; host.State.CharactersByName["Joiner"] = joiner;
+        joiner.MapId = 0; joiner.PosX = 3 * Proto.UnitSize; joiner.PosZ = 0;
+
+        client.Send(new PacketWriter(Msg.MW_MEETINGROOM_ACK).WriteUInt32(92).WriteUInt32(0x92)
+            .WriteByte(0).WriteByte(0).WriteString("Joiner"));
+        Assert.Equal(Msg.MW_MEETINGROOM_REQ, client.Receive(TimeSpan.FromSeconds(5)).Id);
 
         // The joiner (93) confirms; pChar=joiner is teleported to pTarget=Owner's room.
         var m = new PacketWriter(Msg.MW_MEETINGROOM_ACK);
@@ -280,6 +286,26 @@ public class MallMinigameTests
         Assert.Equal(20f, move.ReadFloat());
         Assert.Equal(30f, move.ReadFloat());
         Assert.Equal((ushort)0, move.ReadUInt16());       // wPartyID default
+
+        // An accepted invitation is single-use, even while both characters remain online.
+        client.Send(m);
+        var replay = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_MEETINGROOM_REQ, replay.Id); replay.ReadUInt32(); replay.ReadUInt32(); replay.ReadByte();
+        Assert.Equal((byte)MeetingResult.NoTarget, replay.ReadByte());
+    }
+
+    [Fact]
+    public async Task MeetingRoom_AcceptWithoutInvitation_DoesNotTeleport()
+    {
+        await using var host = new WorldTestHost(); using var client = await host.ConnectAsync(); Connect(client);
+        EnterChar(client, 92, 0x92); EnterChar(client, 93, 0x93);
+        var owner = host.State.Characters[92]; owner.Name = "Owner"; owner.MapId = (ushort)(Proto.MeetingMapId + 1);
+        host.State.CharactersByName["Owner"] = owner;
+        client.Send(new PacketWriter(Msg.MW_MEETINGROOM_ACK).WriteUInt32(93).WriteUInt32(0x93)
+            .WriteByte(1).WriteByte(0).WriteString("Owner"));
+        var denied = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_MEETINGROOM_REQ, denied.Id); denied.ReadUInt32(); denied.ReadUInt32(); denied.ReadByte();
+        Assert.Equal((byte)MeetingResult.NoTarget, denied.ReadByte());
     }
 
     [Fact]

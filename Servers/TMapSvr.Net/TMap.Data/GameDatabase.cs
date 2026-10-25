@@ -148,7 +148,9 @@ public readonly record struct QuestTermLoadRow(uint QuestId, uint TermId, byte T
 public sealed partial class GameDatabase
 {
     private readonly string _cs;
-    public GameDatabase(string connectionString) => _cs = connectionString;
+    private readonly string? _globalCs;
+    public GameDatabase(string connectionString, string? globalConnectionString = null)
+    { _cs = connectionString; _globalCs = globalConnectionString; }
 
     private async Task<SqlConnection> OpenAsync(CancellationToken ct)
     {

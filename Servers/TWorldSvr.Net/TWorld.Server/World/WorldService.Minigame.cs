@@ -18,6 +18,7 @@ namespace TWorld.Server.World;
 /// </summary>
 public sealed partial class WorldService
 {
+    private readonly Dictionary<(uint Host, uint Guest), (uint HostKey, uint GuestKey, long Expires)> _meetingInvitations = new();
     private bool DispatchMinigame(ServerSession session, PacketReader r)
     {
         switch (r.Id)
@@ -110,6 +111,11 @@ public sealed partial class WorldService
         var ch = _state.FindChar(charId, key);
         _state.CharactersByName.TryGetValue(name, out var target);
 
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        foreach (var expired in _meetingInvitations.Where(x => x.Value.Expires < now).Select(x => x.Key).ToArray())
+            _meetingInvitations.Remove(expired);
+        if (type > 1 || value > (byte)MeetingResult.InRoom || (ch is not null && ch.MainId != session.ServerId)) return;
+
         if (ch is null && target is null) return;
 
         if (ch is not null && target is null)
@@ -133,6 +139,11 @@ public sealed partial class WorldService
 
         if (type == 0)   // invite
         {
+            if (!IsMeetingRoom(ch.MapId, small: true))
+            {
+                session.Send(BuildMeetingRoom(charId, key, type, (byte)MeetingResult.NotChief, name));
+                return;
+            }
             if ((byte)(target.PosX / Proto.UnitSize) != 3 || (byte)(target.PosZ / Proto.UnitSize) != 0)
             {
                 session.Send(BuildMeetingRoom(charId, key, type, (byte)MeetingResult.NoTarget, name));
@@ -143,10 +154,17 @@ public sealed partial class WorldService
                 session.Send(BuildMeetingRoom(charId, key, type, (byte)MeetingResult.Busy, name));
                 return;
             }
+            _meetingInvitations[(ch.CharId, target.CharId)] = (ch.Key, target.Key, now + 120);
             targetMap.Send(BuildMeetingRoom(target.CharId, target.Key, type, (byte)MeetingResult.Success, ch.Name));
         }
         else   // accept / decline
         {
+            if (!_meetingInvitations.Remove((target.CharId, ch.CharId), out var invite)
+                || invite.HostKey != target.Key || invite.GuestKey != ch.Key || invite.Expires < now)
+            {
+                session.Send(BuildMeetingRoom(charId, key, type, (byte)MeetingResult.NoTarget, name));
+                return;
+            }
             if (value != (byte)MeetingResult.Success)
             {
                 targetMap.Send(BuildMeetingRoom(target.CharId, target.Key, type, value, ch.Name));

@@ -1,4 +1,5 @@
 using TLogin.Data;
+using Microsoft.Data.SqlClient;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -74,5 +75,29 @@ public class DataLayerSmokeTests
         var vet = await db.LoadVeteranChartAsync();
         _out.WriteLine($"Veteran tiers: {vet.Count}");
         Assert.NotNull(vet);
+    }
+
+    [Fact]
+    public async Task BulkCharacterAppearance_MatchesPerCharacterQueries()
+    {
+        if (string.IsNullOrWhiteSpace(Game)) { _out.WriteLine("TLOGIN_TEST_GAME not set — DB check not run."); return; }
+        await using var c = new SqlConnection(Game); await c.OpenAsync();
+        await using var cmd = new SqlCommand("SELECT TOP(1) dwUserID FROM TCHARTABLE WHERE bDelete=0 ORDER BY dwCharID", c);
+        object? user = await cmd.ExecuteScalarAsync();
+        Assert.NotNull(user);
+        var db = new GameDatabase(Game);
+        uint id = unchecked((uint)Convert.ToInt32(user));
+        var expected = await db.CharListAsync(id);
+        var actual = await db.CharListWithAppearanceAsync(id);
+        Assert.NotEmpty(actual);
+        Assert.Equal(expected.Select(x => x.CharId), actual.Select(x => x.CharId));
+        foreach (var ch in actual)
+        {
+            var guild = await db.GetGuildInfoAsync(ch.CharId);
+            Assert.Equal(guild?.Name ?? "", ch.GuildName);
+            Assert.Equal(guild?.Fame ?? 0, ch.Fame);
+            var items = await db.EquippedItemsAsync(ch.CharId);
+            Assert.Equal(items.OrderBy(x => x.ItemId), ch.Items.OrderBy(x => x.ItemId));
+        }
     }
 }

@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
 using TMap.Protocol;
 
@@ -17,8 +16,7 @@ public sealed class WorldLink : IWorldSink
     private readonly string _host;
     private readonly int _port;
     private readonly ILogger _logger;
-    private readonly Channel<byte[]> _sendQueue =
-        Channel.CreateUnbounded<byte[]>(new UnboundedChannelOptions { SingleReader = true });
+    private volatile PacketSendQueue? _sendQueue;
 
     private volatile Socket? _socket;
 
@@ -31,8 +29,18 @@ public sealed class WorldLink : IWorldSink
 
     public bool IsConnected => _socket is { Connected: true };
 
-    public void Send(byte[] packet) => _sendQueue.Writer.TryWrite(packet);
-    public void Send(PacketWriter writer) => Send(writer.ToArray());
+    public void Send(byte[] packet) => Enqueue(packet);
+    public void Send(PacketWriter writer) => Enqueue(writer.AsSpan());
+
+    private void Enqueue(ReadOnlySpan<byte> packet)
+    {
+        if (_sendQueue is { } queue && !queue.TryEnqueue(packet) && ReferenceEquals(queue, _sendQueue))
+        {
+            _logger.LogWarning("World link outbound queue limit exceeded; reconnecting.");
+            try { _socket?.Shutdown(SocketShutdown.Both); } catch (SocketException) { }
+            catch (ObjectDisposedException) { }
+        }
+    }
 
     /// <summary>
     /// Runs the connect/receive/reconnect loop until cancellation. <paramref name="onConnected"/> fires
@@ -47,25 +55,28 @@ public sealed class WorldLink : IWorldSink
     {
         while (!token.IsCancellationRequested)
         {
-            Socket socket;
+            Socket? socket = null;
             try
             {
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 await socket.ConnectAsync(_host, _port, token);
             }
-            catch (OperationCanceledException) { break; }
+            catch (OperationCanceledException) { socket?.Dispose(); break; }
             catch (SocketException ex)
             {
+                socket?.Dispose();
                 _logger.LogWarning("World link connect to {Host}:{Port} failed ({Msg}); retrying in 3s.", _host, _port, ex.Message);
                 try { await Task.Delay(TimeSpan.FromSeconds(3), token); } catch { break; }
                 continue;
             }
 
+            var queue = new PacketSendQueue();
+            _sendQueue = queue;
             _socket = socket;
             _logger.LogInformation("World link connected to {Host}:{Port}.", _host, _port);
 
             using var sendCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-            var sendLoop = SendLoopAsync(socket, sendCts.Token);
+            var sendLoop = SendLoopAsync(socket, queue, sendCts.Token);
 
             try
             {
@@ -79,6 +90,8 @@ public sealed class WorldLink : IWorldSink
             finally
             {
                 _socket = null;
+                _sendQueue = null;
+                queue.Complete();
                 sendCts.Cancel();
                 try { await sendLoop; } catch { /* ignore */ }
                 try { socket.Shutdown(SocketShutdown.Both); } catch { /* already closed */ }
@@ -123,19 +136,20 @@ public sealed class WorldLink : IWorldSink
         }
     }
 
-    private async Task SendLoopAsync(Socket socket, CancellationToken token)
+    private static async Task SendLoopAsync(Socket socket, PacketSendQueue queue, CancellationToken token)
     {
         try
         {
-            await foreach (var packet in _sendQueue.Reader.ReadAllAsync(token))
-            {
-                int sent = 0;
-                while (sent < packet.Length)
-                    sent += await socket.SendAsync(packet.AsMemory(sent), SocketFlags.None, token);
-            }
+            await queue.RunAsync(socket, null, token);
         }
         catch (OperationCanceledException) { /* reconnecting / shutting down */ }
         catch (SocketException) { /* world gone */ }
         catch (ObjectDisposedException) { /* socket disposed */ }
+        catch (IOException) { /* peer closed */ }
+        finally
+        {
+            try { socket.Shutdown(SocketShutdown.Both); } catch (SocketException) { }
+            catch (ObjectDisposedException) { }
+        }
     }
 }

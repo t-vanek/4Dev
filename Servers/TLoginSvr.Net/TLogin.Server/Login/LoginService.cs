@@ -23,6 +23,7 @@ public sealed class LoginService
     private readonly IReadOnlyList<VeteranRow> _veteran;
     private readonly bool _validateChecksum;
     private readonly ILogger<LoginService> _log;
+    private readonly SemaphoreSlim _loginGate;
 
     // Distinct registered-user count per world, used only to mark a group FULL for new players
     // (mirrors CTLoginSvrModule::m_mapCurrentUser).
@@ -38,7 +39,8 @@ public sealed class LoginService
         ITwoFactorValidator twoFactor,
         IEmailSender email,
         bool validateChecksum,
-        ILogger<LoginService> log)
+        ILogger<LoginService> log,
+        int maxConcurrentLogins = 100)
     {
         _global = global;
         _groups = groups;
@@ -50,6 +52,8 @@ public sealed class LoginService
         _email = email;
         _validateChecksum = validateChecksum;
         _log = log;
+        if (maxConcurrentLogins is < 1 or > 1024) throw new ArgumentOutOfRangeException(nameof(maxConcurrentLogins));
+        _loginGate = new SemaphoreSlim(maxConcurrentLogins, maxConcurrentLogins);
     }
 
     public ValueTask OnConnectedAsync(PacketConnection conn)
@@ -83,6 +87,7 @@ public sealed class LoginService
                     break;
             }
         }
+        catch (OperationCanceledException) when (conn.StoppingToken.IsCancellationRequested) { /* host/connection stopping */ }
         catch (Exception ex)
         {
             _log.LogError(ex, "Handler for 0x{Id:X4} failed (user '{User}').", r.Id, st.UserName);
@@ -133,29 +138,36 @@ public sealed class LoginService
             return;
         }
 
-        int ipCheck = await _global.CheckIpAsync(ip);
-        if (ipCheck == (int)LoginResult.Block)
+        LoginRow login;
+        var token = conn.StoppingToken;
+        await _loginGate.WaitAsync(token);
+        try
         {
-            SendLoginAck(conn, st, LoginResult.Block, default);
-            return;
-        }
+            int ipCheck = await _global.CheckIpAsync(ip, token);
+            if (ipCheck == (int)LoginResult.Block)
+            {
+                SendLoginAck(conn, st, LoginResult.Block, default);
+                return;
+            }
 
-        st.CheckKey = unchecked(((long)(uint)Random.Shared.Next() << 32) | (uint)Random.Shared.Next());
+            st.CheckKey = unchecked(((long)(uint)Random.Shared.Next() << 32) | (uint)Random.Shared.Next());
 
-        LoginRow login = _nation == Nation.Japan
-            ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling)
-            : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck);
-
-        // Re-login recovery: returning from in-game to character-select (and re-entering) reconnects and
-        // re-runs TLogin, which still finds this account's TCURRENTUSER lock and returns Duplicate. Since
-        // it's the same account reconnecting, kick the stale lock and retry once (single-world semantics).
-        if ((LoginResult)login.Ret == LoginResult.Duplicate && login.UserId != 0)
-        {
-            await _global.ReleaseCurrentUserAsync(login.UserId);
             login = _nation == Nation.Japan
-                ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling)
-                : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck);
+                ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling, token)
+                : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck, token);
+
+            // Re-login recovery: returning from in-game to character-select (and re-entering) reconnects and
+            // re-runs TLogin, which still finds this account's TCURRENTUSER lock and returns Duplicate. Since
+            // it's the same account reconnecting, kick the stale lock and retry once (single-world semantics).
+            if ((LoginResult)login.Ret == LoginResult.Duplicate && login.UserId != 0)
+            {
+                await _global.ReleaseCurrentUserAsync(login.UserId, token);
+                login = _nation == Nation.Japan
+                    ? await _global.LoginJpAsync(st.UserName, st.Password, ip, (byte)ipCheck, channeling, token)
+                    : await _global.LoginAsync(st.UserName, st.Password, ip, (byte)ipCheck, token);
+            }
         }
+        finally { _loginGate.Release(); }
 
         var result = (LoginResult)login.Ret;
 
@@ -287,18 +299,7 @@ public sealed class LoginService
             bowCharId = await game.FindBowPlayerAsync(st.UserId);
             if (bowCharId == 0) bowCharId = await game.FindBrPlayerAsync(st.UserId);
 
-            chars = await game.CharListAsync(st.UserId);
-            foreach (var ch in chars)
-            {
-                ch.Items.AddRange(await game.EquippedItemsAsync(ch.CharId));
-                var guild = await game.GetGuildInfoAsync(ch.CharId);
-                if (guild is not null)
-                {
-                    ch.GuildName = guild.Name;
-                    ch.Fame = guild.Fame;
-                    ch.FameColor = guild.FameColor;
-                }
-            }
+            chars = await game.CharListWithAppearanceAsync(st.UserId);
         }
 
         var w = new PacketWriter(Msg.CS_CHARLIST_ACK);

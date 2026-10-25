@@ -148,6 +148,33 @@ FROM TCHARTABLE WHERE dwUserID = @dwUserID AND bDelete = 0 ORDER BY dLogoutDate 
         return list;
     }
 
+    /// <summary>Two DB round trips for all six characters instead of one plus two per character.
+    /// Uses the same guild membership and item columns as TGetGuildInfo and EquippedItemsAsync.</summary>
+    public async Task<List<CharRow>> CharListWithAppearanceAsync(uint userId, CancellationToken ct = default)
+    {
+        var chars = await CharListAsync(userId, ct);
+        if (chars.Count == 0) return chars;
+        var byId = chars.ToDictionary(x => x.CharId);
+        string ids = string.Join(",", chars.Select((_, i) => $"@c{i}"));
+        await using var c = await OpenAsync(ct);
+        await using var cmd = new SqlCommand($@"
+            SELECT dwOwnerID, bItemID, wItemID, bLevel, bGradeEffect, dwTime3, dwTime4, dwTime6, wMoggItemID
+            FROM TITEMTABLE WHERE dwOwnerID IN ({ids}) AND bOwnerType=0 AND bStorageType=0 AND dwStorageID=254;
+            SELECT m.dwCharID, g.szName, g.dwFame, g.dwFameColor FROM TGUILDMEMBERTABLE m
+            JOIN TGUILDTABLE g ON g.dwID=m.dwGuildID WHERE m.dwCharID IN ({ids});", c);
+        for (int i = 0; i < chars.Count; i++) cmd.Parameters.Add(SqlProc.In($"@c{i}", SqlDbType.Int, unchecked((int)chars[i].CharId)));
+        await using var r = await cmd.ExecuteReaderAsync(ct);
+        while (await r.ReadAsync(ct))
+            if (byId.TryGetValue(r.GetUIntSafe(0), out var ch))
+                ch.Items.Add(new ItemRow(r.GetByteSafe(1), r.GetUShortSafe(2), r.GetByteSafe(3), r.GetByteSafe(4),
+                    (ushort)r.GetUIntSafe(5), (byte)(r.GetUIntSafe(6) == ch.CharId ? 1 : 0), r.GetUShortSafe(7), r.GetUShortSafe(8)));
+        await r.NextResultAsync(ct);
+        while (await r.ReadAsync(ct))
+            if (byId.TryGetValue(r.GetUIntSafe(0), out var ch))
+            { ch.GuildName = r.GetStringSafe(1); ch.Fame = r.GetUIntSafe(2); ch.FameColor = r.GetUIntSafe(3); }
+        return chars;
+    }
+
     private const string ItemSql = @"
 SELECT bItemID, wItemID, bLevel, bGradeEffect, dwTime3, dwTime4, dwTime6, wMoggItemID
 FROM TITEMTABLE
@@ -171,7 +198,7 @@ WHERE dwOwnerID = @dwOwnerID AND bOwnerType = @bOwnerType AND bStorageType = @bS
                 r.GetByteSafe(2),                    // bLevel
                 r.GetByteSafe(3),                    // bGradeEffect
                 (ushort)r.GetUIntSafe(4),            // dwTime3 -> wColor
-                (byte)r.GetUIntSafe(5),              // dwTime4 -> bRegGuild
+                (byte)(r.GetUIntSafe(5) != 0 && r.GetUIntSafe(5) == ownerId ? 1 : 0), // owner id -> registration flag
                 r.GetUShortSafe(6),                  // dwTime6 -> wCustomTex
                 r.GetUShortSafe(7)));                // wMoggItemID
         return list;

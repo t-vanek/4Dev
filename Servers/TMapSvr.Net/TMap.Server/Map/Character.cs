@@ -304,7 +304,7 @@ public sealed class Character
     /// <summary>The account's saddle (C++ <c>m_mapSADDLE[userId]</c>), null when none.</summary>
     public TMap.Data.SaddleRow? Saddle { get; set; }
 
-    /// <summary>C++ <c>m_dwMedals</c> — the medal currency (pays for mount effects). Not loaded yet, so 0.</summary>
+    /// <summary>C++ <c>m_dwMedals</c> — medals, loaded/saved with companions; pays for mount effects and custom cloaks.</summary>
     public uint Medals { get; set; }
 
     /// <summary>The owned companions by slot 0..4 (C++ <c>m_mapComp</c>).</summary>

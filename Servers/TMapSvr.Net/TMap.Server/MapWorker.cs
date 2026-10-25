@@ -47,7 +47,7 @@ public sealed class MapWorker : BackgroundService
         {
             try
             {
-                gameDb = new GameDatabase(_opt.Db.GameConnectionString);
+                gameDb = new GameDatabase(_opt.Db.GameConnectionString, _opt.Db.GlobalConnectionString);
                 await gameDb.PingAsync(stoppingToken);
                 _log.LogInformation("Game DB connected.");
             }
@@ -96,6 +96,11 @@ public sealed class MapWorker : BackgroundService
         var state = new MapState();
         var worldLink = new WorldLink(_opt.WorldIp, _opt.WorldPort, _loggerFactory.CreateLogger<WorldLink>());
         var service = new MapService(_opt, state, worldLink, gameDb, templates, _loggerFactory.CreateLogger<MapService>());
+        // A configured DB failure must not silently turn off account protection via the DB-free game fallback.
+        if (gameDb is null && (!string.IsNullOrWhiteSpace(_opt.Db.GameConnectionString) || !string.IsNullOrWhiteSpace(_opt.Db.GlobalConnectionString)))
+            service.SecurityCodeStore = new GameDatabase(
+                string.IsNullOrWhiteSpace(_opt.Db.GameConnectionString) ? _opt.Db.GlobalConnectionString : _opt.Db.GameConnectionString,
+                _opt.Db.GlobalConnectionString);
         service.InitMonsterSpawns(); // build the SE_DEFAULT spawn points (empty when the charts aren't loaded)
         service.InitNpcs();          // build the NPC registry + shop stock (empty when the charts aren't loaded)
         service.InitTerritories();   // the forts, castles, missions and sky garden (MapService.Territory.cs)

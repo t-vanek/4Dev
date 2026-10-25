@@ -85,6 +85,7 @@ Server, then run it.
 | Key | Env | Default | Notes |
 |---|---|---|---|
 | `Port` | `Login__Port` | 4816 | TCP listen port |
+| `MaxConcurrentLogins` | `Login__MaxConcurrentLogins` | 100 | authentication DB sequences admitted concurrently (1–1024); others wait without holding SQL connections |
 | `Db:GlobalConnectionString` | `Login__Db__GlobalConnectionString` | — | `TGlobal_gsp` (accounts/login/routing) |
 | `Db:GameConnectionStringsByDsn:<DSN>` | `Login__Db__GameConnectionStringsByDsn__<DSN>` | — | one per `TGROUP.szDSN`; the game DB(s) |
 | `ControlServerIp` | `Login__ControlServerIp` | "" | if set, that peer skips the cipher (plaintext, like the C++ control server) |
@@ -92,6 +93,14 @@ Server, then run it.
 | `ValidateClientChecksum` | `Login__ValidateClientChecksum` | true | enforce the client version checksum that `OnCS_LOGIN_REQ` validates |
 
 ## Behaviour notes / known simplifications
+
+Migration `024_login_burst_indexes.sql` adds covering account-name and protection indexes and a blacklist-IP index.
+Authentication retains the existing stored procedures and READ COMMITTED isolation. Character selection loads all six
+characters' equipment and guild appearance together, removing the two per-character DB round trips. The guild-cloak
+owner id is normalized to the client registration flag in both the individual and bulk item readers.
+
+For a repeatable 400-account burst test using a disposable database, see
+[`Tools/ServerBenchmarks`](../../Tools/ServerBenchmarks/README.md). The benchmark does not read or modify player rows.
 
 - **Anti-cheat (exec checksum / HWID / 2FA / email) is wired but disabled**, exactly as in the C++ build
   (`m_hExecFile` is never loaded; the SMTP path is commented out). HWID/2FA validators auto-pass; the

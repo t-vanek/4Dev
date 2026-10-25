@@ -239,7 +239,7 @@ DELETE FROM TCOMPANIONITEMTABLE WHERE dwCharID=@c; DELETE FROM TLASTCOMPANIONTAB
         }
 
         var store = await db.LoadTemplatesAsync();
-        Assert.Equal(40, store.Mounts.Count);
+        Assert.True(store.Mounts.Count >= 40); // the baseline has 40; later content migrations import additional mounts
         Assert.Equal(44, store.CompanionRunes.Count);
         Assert.Equal(new CompanionBonus(11, 1f, 2f), store.CompanionBonuses[11]);
         Assert.Equal(10, store.CompanionBonuses.Count);                    // 12 rows, 11 and 12 duplicated

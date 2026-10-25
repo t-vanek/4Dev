@@ -43,6 +43,10 @@ public sealed class ClientSession
     /// <summary>True once this map is the char's "main" server for the CHECKMAIN handshake.</summary>
     public bool IsMain { get; set; }
 
+    /// <summary>Unlock applies only to this connection; the code and failed attempts are account-wide.</summary>
+    public bool SecurityUnlocked { get; set; }
+    public bool SecurityStateFailed { get; set; }
+
     /// <summary>The control server's link (C++ <c>SESSION_SERVER</c> from <c>m_addrCtrl</c>; MapService.Gm.cs).</summary>
     public bool IsControl { get; set; }
 

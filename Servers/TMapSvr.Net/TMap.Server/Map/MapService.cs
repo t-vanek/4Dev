@@ -47,6 +47,8 @@ public sealed partial class MapService
         HeroStore = gameDb;
         GmStore = gameDb;
         CashStore = gameDb;
+        SecurityCodeStore = gameDb;
+        CloakStore = gameDb;
         _templates = templates;
         _log = log;
     }
@@ -97,6 +99,9 @@ public sealed partial class MapService
         if (session.Char is { } leaving) { ClearRecalls(session, leaving); ClearCompanionObjs(leaving); }
         if (session.CharId != 0) EraseBill(session.CharId, 0);   // C++ SM_POSTBILLERASE_REQ(id, 0)
         _state.Remove(session);
+        ReleaseMeetingRoom(session, disconnect: true);
+        _meetingInvitations.Remove(session.CharId);
+        if (!_state.ByChar.Values.Any(s => s.UserId == session.UserId)) _securityCodes.Remove(session.UserId);
 
         // C++ CTMap::LeaveMAP(player) takes the player off its cell first, then runs LeavePlayer over the 3×3:
         // every monster that could see it drops its hate and re-checks its host, so one this player was
@@ -113,9 +118,22 @@ public sealed partial class MapService
         try
         {
             if (session.IsControl) { DispatchControl(session, r); return; }                     // the admin tool's link (MapService.Gm.cs)
+            if (session.SecurityStateFailed) return;
             if (TournamentRefuses(session, r.Id)) return;                                       // MapService.TournamentMatch.cs
+            if (SecurityRefuses(session, r.Id)) return;
             switch (r.Id)
             {
+                case Msg.CS_MEETINGROOM_REQ: OnCS_MEETINGROOM_REQ(session, r); break;
+                case Msg.CS_CUSTOMCLOAK_LIST_REQ: await OnCS_CUSTOMCLOAK_LIST_REQ(session); break;
+                case Msg.CS_CUSTOMCLOAK_CHANGE_REQ: await OnCS_CUSTOMCLOAK_CHANGE_REQ(session, r); break;
+                case Msg.CS_REGGUILDCLOAK_REQ: OnCS_REGGUILDCLOAK_REQ(session, r); break;
+                case Msg.CS_SC_CREATECODE_REQ:
+                case Msg.CS_SC_CHANGECODE_REQ:
+                case Msg.CS_SC_DISABLECODE_REQ:
+                case Msg.CS_SC_ENABLECODE_REQ:
+                case Msg.CS_SC_UNLOCK_REQ:
+                case Msg.CS_SC_CHECKCODE_REQ:
+                case Msg.CS_SC_GETLOCKTIME_REQ: await OnSecurityCode(session, r); break;
                 case Msg.CS_CONNECT_REQ: await OnCS_CONNECT_REQ(session, r); break;
                 case Msg.CS_POSTSEND_REQ: await OnCS_POSTSEND_REQ(session, r); break;
                 case Msg.CS_POSTLIST_REQ: await OnCS_POSTLIST_REQ(session, r); break;
@@ -282,7 +300,7 @@ public sealed partial class MapService
                 case Msg.CS_CASHITEMPUTIN_REQ: await OnCS_CASHITEMPUTIN_REQ(session, r); break;
                 case Msg.CS_CASHCABINETBUY_REQ: await OnCS_CASHCABINETBUY_REQ(session, r); break;
                 case Msg.CS_ACTITEMSUSE_REQ: OnCS_ACTITEMSUSE_REQ(session, r); break;
-                case Msg.CS_USEMEDALITEM_REQ: OnCS_USEMEDALITEM_REQ(session, r); break;
+                case Msg.CS_USEMEDALITEM_REQ: await OnCS_USEMEDALITEM_REQ(session, r); break;
                 case Msg.CS_GETREWARDS_REQ: OnCS_GETREWARDS_REQ(session, r); break;
                 case Msg.CS_STOPTHECLOCK_REQ: await OnCS_STOPTHECLOCK_REQ(session, r); break;
                 case Msg.CS_WASTEREFINE_REQ: OnCS_WASTEREFINE_REQ(session, r); break;
@@ -513,6 +531,7 @@ public sealed partial class MapService
                 case Msg.MW_LOCALOCCUPY_REQ: OnMW_LOCALOCCUPY_REQ(r); break;
                 case Msg.MW_GAINPVPPOINT_REQ: OnMW_GAINPVPPOINT_REQ(r); break;
                 case Msg.MW_BATTLEMODESTATUS_ACK: OnMW_BATTLEMODESTATUS_ACK(r); break;
+                case Msg.MW_MEETINGROOM_REQ: OnMW_MEETINGROOM_REQ(r); break;
                 case Msg.MW_CASHSHOPSTOP_REQ: OnMW_CASHSHOPSTOP_REQ(r); break;                    // MapService.CashShop.cs
                 case Msg.MW_CMGIFT_REQ: await OnMW_CMGIFT_REQ(r); break;                         // MapService.Gm.cs
                 case Msg.MW_CMGIFTRESULT_REQ: OnMW_CMGIFTRESULT_REQ(r); break;
@@ -626,6 +645,7 @@ public sealed partial class MapService
         ArenaTick();                           // the arenas' ready and battle clocks (MapService.Arena.cs)
         TournamentTick();                      // the tournament's countdowns and drawn matches (MapService.TournamentMatch.cs)
         HelpMessageTick();                     // the event help message on and off (MapService.Gm.cs)
+        MeetingRoomTick();
         RunDuels();                            // duel standby → start → timeout → clear (the SM_DUEL* timer)
         // Still deferred here: war timers — see PORT_STATUS.md.
     }

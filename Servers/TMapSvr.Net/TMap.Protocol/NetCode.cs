@@ -22,6 +22,20 @@ public static class Msg
     public const ushort CT_CONTROL = 0x9301;// control <-> server
     public const ushort CS_CUSTOM = 0x3312;
 
+    public const ushort CS_SC_CREATECODE_REQ = CS_MAP + 0x0300, CS_SC_CREATECODE_ACK = CS_MAP + 0x0301;
+    public const ushort CS_SC_CHANGECODE_REQ = CS_MAP + 0x0302, CS_SC_CHANGECODE_ACK = CS_MAP + 0x0303;
+    public const ushort CS_SC_DISABLECODE_REQ = CS_MAP + 0x0304, CS_SC_DISABLECODE_ACK = CS_MAP + 0x0305;
+    public const ushort CS_SC_ENABLECODE_REQ = CS_MAP + 0x0306, CS_SC_ENABLECODE_ACK = CS_MAP + 0x0307;
+    public const ushort CS_SC_UNLOCK_REQ = CS_MAP + 0x0308, CS_SC_UNLOCK_ACK = CS_MAP + 0x0309;
+    public const ushort CS_SC_CHECKCODE_REQ = CS_MAP + 0x0310, CS_SC_CHECKCODE_ACK = CS_MAP + 0x0311;
+    public const ushort CS_SC_GETLOCKTIME_REQ = CS_MAP + 0x0312, CS_SC_GETLOCKTIME_ACK = CS_MAP + 0x0313;
+    public const ushort CS_REGGUILDCLOAK_REQ = CS_MAP + 0x0217, CS_REGGUILDCLOAK_ACK = CS_MAP + 0x0218;
+    public const ushort CS_CUSTOMCLOAK_LIST_ACK = CS_MAP + 0x0395, CS_CUSTOMCLOAK_CHANGE_ACK = CS_MAP + 0x0396;
+    public const ushort CS_CUSTOMCLOAK_LIST_REQ = CS_MAP + 0x0397, CS_CUSTOMCLOAK_CHANGE_REQ = CS_MAP + 0x0398;
+    public const ushort CS_MEETINGROOM_REQ = CS_MAP + 0x024E, CS_MEETINGROOM_ACK = CS_MAP + 0x024F;
+    public const ushort MW_MEETINGROOM_REQ = MW_BASE + 0x0172, MW_MEETINGROOM_ACK = MW_BASE + 0x0173;
+    public const ushort SM_MEETINGROOM_REQ = SM_BASE + 0x002A, SM_MEETINGROOM_ACK = SM_BASE + 0x002B;
+
     // ================= client plane (CS_MAP) =================
     public const ushort CS_CONNECT_REQ = CS_MAP + 0x0001;
     public const ushort CS_CONNECT_ACK = CS_MAP + 0x0002;   // sent only on error (TCONNECT_RESULT)

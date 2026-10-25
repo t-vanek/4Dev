@@ -33,6 +33,7 @@ public sealed class PacketConnection : IAsyncDisposable
     }
 
     public IPEndPoint? RemoteEndPoint { get; }
+    public CancellationToken StoppingToken { get; private set; }
 
     /// <summary>Arbitrary per-connection state (a <c>LoginSessionState</c>).</summary>
     public object? State { get; set; }
@@ -50,6 +51,7 @@ public sealed class PacketConnection : IAsyncDisposable
     {
         _onPacket = onPacket;
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token, outerToken);
+        StoppingToken = linked.Token;
         _sendLoop = SendLoopAsync(linked.Token);
         try
         {

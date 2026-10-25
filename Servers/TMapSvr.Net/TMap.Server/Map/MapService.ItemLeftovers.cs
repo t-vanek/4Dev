@@ -112,14 +112,25 @@ public sealed partial class MapService
     // ================================ medals ================================
 
     /// <summary>C++ <c>OnCS_USEMEDALITEM_REQ</c>: a medal package's <c>wUseValue</c> medals, per item.</summary>
-    private void OnCS_USEMEDALITEM_REQ(ClientSession s, PacketReader r)
+    private async Task OnCS_USEMEDALITEM_REQ(ClientSession s, PacketReader r)
     {
         byte invenId = r.ReadByte(), slot = r.ReadByte(), count = r.ReadByte();
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         if (ch.FindInven(invenId) is not { } bag || bag.FindItem(slot) is not { Count: > 0 } item
             || item.Template is not { Type: ItPackage, Kind: IkMedal } t || item.Count < count) return;
 
-        ch.Medals += (uint)t.UseValue * count;
+        if (count == 0 || (ulong)ch.Medals + (uint)t.UseValue * count > int.MaxValue) return;
+        uint amount = (uint)t.UseValue * count;
+        if (CloakStore is { } db)
+        {
+            // Persist consumption and credit together; a crash must not leave both the package and its medals.
+            FlushItemDirect();
+            uint? balance = null;
+            await EnqueueDbWrite(async () => balance = await db.RedeemMedalItemAsync(ch.CharId, item.DlId, count, amount));
+            if (balance is null) return;
+            ch.Medals = balance.Value;
+        }
+        else ch.Medals += amount; // DB-free development fixtures
         s.Send(new PacketWriter(Msg.CS_UPDATEMEDALS_REQ).WriteUInt32(ch.Medals));
         UseItemStack(s, invenId, bag, item, count);
     }
