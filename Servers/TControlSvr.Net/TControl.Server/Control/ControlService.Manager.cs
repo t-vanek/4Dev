@@ -39,11 +39,16 @@ public sealed partial class ControlService
         _state.Managers.Add(mgr);
 
         mgr.Send(BuildOpLoginAck(0, mgr.Authority, mgr.Id));
+        SendManagerTopology(mgr);
+        _log.LogInformation("Operator '{Id}' logged in (authority {Auth}).", id, authority);
+    }
+
+    private void SendManagerTopology(ManagerSession mgr)
+    {
         mgr.Send(BuildGroupList());
         mgr.Send(BuildMachineList());
         mgr.Send(BuildSvrTypeList());
         mgr.Send(new PacketWriter(Msg.CT_SERVICEAUTOSTART_ACK).WriteByte(_state.AutoStart ? (byte)1 : (byte)0).ToArray());
-        _log.LogInformation("Operator '{Id}' logged in (authority {Auth}).", id, authority);
     }
 
     /// <summary>Status-tool login (read-only). C++ OnCT_STLOGIN_REQ.</summary>
@@ -64,6 +69,7 @@ public sealed partial class ControlService
         mgr.Id = ++_state.ManagerSeq;
         _state.Managers.Add(mgr);
         mgr.Send(new PacketWriter(Msg.CT_STLOGIN_ACK).WriteByte(0).WriteByte(mgr.Authority).ToArray());
+        SendManagerTopology(mgr);
     }
 
     private async Task<int> OpLoginAuthorityAsync(string id, string pw)

@@ -1,7 +1,7 @@
 # TControlSvr → TControlSvr.Net — Port Status
 
 Faithful C#/.NET 10 port of the C++/ATL `TControlSvr` operations hub. Byte-compatible wire/DB with this
-repo's `CTProtocol.h` + SQL baselines. **84 server + 16 protocol tests passing** (xUnit, DB-free; the DB smoke is skipped without configuration) · listens on **:3615** ·
+repo's `CTProtocol.h` + SQL baselines. **87 server + 16 protocol tests passing** (xUnit, DB-free; the DB smoke is skipped without configuration) · listens on **:3615** ·
 connects out to game servers and interoperates with `TWorldSvr.Net`.
 
 **All 64 `CT_*` handlers + the `SM_DELSESSION`/`CT_TIMER`/`CT_NEWCONNECT` internals from the C++ dispatch
@@ -61,9 +61,12 @@ operations. Production registration contains no no-op implementations. Docker is
   paths and one authenticated upload owner. Tests cover final chunks, interleaved sessions, cancellation,
   truncation, traversal and preservation of the original file. Remote SCM/SMB are not part of this mode.
 - **`OPTool_SMSEmergency`** — best-effort (no-op when no DB).
-- **Manager validation** — the legacy client is `Tools/Happy`; its rewrite/UI alignment is deferred.
-  Operator handlers are wire-tested (xUnit), and the server relay is tested against a simulated world.
-  No Happy GUI session was used as validation for these server changes.
+- **Manager validation** — [Happy in Rust](../../Tools/Happy.Rust/README.md) replaces the legacy MFC
+  client and follows the current permission policy. An isolated .NET host exercises the Rust client's
+  login/topology, event round trip and actual atomic uploads against production Control classes.
+  Read-only login now includes topology; announcement/character-message routing supports groups with
+  no relay rows. Regression tests cover relay preference, group isolation and read-only mutation denial.
+  Real player command execution and restored-database validation remain separate checks.
 - **DB smoke** — genuinely reported as skipped when `TCONTROL_TEST_GLOBAL` is absent; unit/integration
   success does not claim validation against a restored SQL baseline.
 - **Security validation remains open** — Control's unauthenticated dispatch and DB-less privilege grants

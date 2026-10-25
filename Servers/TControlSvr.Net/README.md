@@ -191,9 +191,12 @@ The topology (which servers to dial, at which private IP:port) comes from the DB
   fabricated. Windows uses system counters; Linux uses `/proc` and interface byte counters.
 - Every manager command has a central authorization policy. Unauthenticated/invalid-authority sessions
   are denied; `CT_STLOGIN` can read service status and receive updates but cannot issue mutations.
-- The legacy GM client is `Tools/Happy`. Its rewrite and UI permission alignment are deferred; this
-  server change keeps the authorization policy. Automated tests exercise the manager wire flow rather
-  than the Happy GUI. Server relays are tested against a simulated world.
+- The current GM client is [Happy in Rust](../../Tools/Happy.Rust/README.md); `Tools/Happy` keeps the
+  legacy MFC source. The Rust UI and socket worker follow this server's authorization policy, including
+  read-only status sessions. Both login modes receive topology. Groups without a connected relay use
+  map/world fallback for announcements/character messages, including deployments without relay rows.
+  Automated loopback tests run the Rust client against the production dispatcher and atomic uploads;
+  real game-server command execution and restored-database operator validation remain separate checks.
 - **Wire reconciliation with `TWorldSvr.Net`** (RESOLVED): `CTProtocol.h` defines
   `CT_SERVICEMONITOR_REQ = 0x931E` / `_ACK = 0x931F`; `TWorldSvr.Net/TWorld.Protocol/NetCode.cs` previously
   had them **swapped** (never live-exercised, since no control server existed). The swap has been fixed in
@@ -201,5 +204,6 @@ The topology (which servers to dial, at which private IP:port) comes from the DB
   counts reply `0x931E`).
 
 Map session-key/ownership checks and authenticated World/Map admin links are implemented and covered by
-regressions. The Login bypass is closed by refusing second-factor-pending sessions; the real 2FA flow
-and restored-database/deployment validation remain open. Happy and Docker changes are deferred.
+regressions. Login implements the [email second-factor flow](../TLoginSvr.Net/README.md#email-two-factor-authentication)
+and denies access until verification completes. Restored-database/deployment validation remains a separate check. See the Happy README for client validation;
+Docker lifecycle control is outside the local-process model.

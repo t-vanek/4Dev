@@ -1,0 +1,15 @@
+[package]
+name = "happy"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "4Dev operator console for TControlSvr.Net"
+publish = false
+
+[dependencies]
+eframe = { version = "=0.33.3", default-features = false, features = ["default_fonts", "glow", "x11", "wayland"] }
+serde_json = "1.0"
+
+[profile.release]
+strip = true
+lto = "thin"

@@ -7,8 +7,8 @@ namespace TControl.Server.Control;
 /// and each server's reply is routed back to the originating manager (found by the <c>managerId</c> token
 /// threaded through the round trip). Ported from <c>Handler.cpp</c>. Target selection is by server-type +
 /// group id (<c>bGroupID</c>/<c>bWorld</c>; 0 = all groups). Announcement / char-message use the C++
-/// relay-preferred fan (relay servers first, map/world of a group only where its relay is offline) — so
-/// where the deployment has no relay-server rows those two are faithful no-ops.
+/// relay-preferred fan, with map/world fallback for groups without a connected relay (including
+/// current .NET deployments that have no relay-server topology rows).
 /// </summary>
 public sealed partial class ControlService
 {
@@ -21,20 +21,12 @@ public sealed partial class ControlService
         uint nId = r.ReadUInt32();
         string announce = r.ReadString();
 
-        var groups = new List<byte>();
-        foreach (var relay in _state.Services.Values.Where(s => s.IsRelay))
+        foreach (var group in _state.Connected.Where(s => nId == 0 || s.Group.GroupId == nId).GroupBy(s => s.Group.GroupId))
         {
-            byte gid = relay.Group.GroupId;
-            if (relay.Conn is { } c)
-            {
-                if (nId == 0) c.Send(BuildAnnouncement(announce));
-                else if (nId == gid) { c.Send(BuildAnnouncement(announce)); groups.Clear(); break; }
-            }
-            else if (nId == 0 || nId == gid) groups.Add(gid);
+            var relays = group.Where(s => s.IsRelay).ToList();
+            foreach (var target in relays.Count > 0 ? relays : group.Where(s => s.IsMap))
+                target.Conn!.Send(BuildAnnouncement(announce));
         }
-        foreach (byte g in groups)
-            foreach (var map in _state.Services.Values.Where(s => s.IsMap && s.Conn is not null && s.Group.GroupId == g))
-                map.Conn!.Send(BuildAnnouncement(announce));
     }
 
     /// <summary>C++ OnCT_USERKICKOUT_REQ — kick a user from every connected map server.</summary>
@@ -161,15 +153,12 @@ public sealed partial class ControlService
         string name = r.ReadString();
         string msg = r.ReadString();
 
-        var groups = new List<byte>();
-        foreach (var relay in _state.Services.Values.Where(s => s.IsRelay))
+        foreach (var group in _state.Connected.GroupBy(s => s.Group.GroupId))
         {
-            if (relay.Conn is { } c) c.Send(BuildCharMsg(name, msg));
-            else groups.Add(relay.Group.GroupId);
+            var relays = group.Where(s => s.IsRelay).ToList();
+            foreach (var target in relays.Count > 0 ? relays : group.Where(s => s.IsWorld))
+                target.Conn!.Send(BuildCharMsg(name, msg));
         }
-        foreach (byte g in groups)
-            foreach (var world in _state.Services.Values.Where(s => s.IsWorld && s.Conn is not null && s.Group.GroupId == g))
-                world.Conn!.Send(BuildCharMsg(name, msg));
     }
 
     /// <summary>C++ OnCT_CHATBAN_REQ — chat-ban a char across world/relay servers; track pending acks.</summary>
