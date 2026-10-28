@@ -17,37 +17,37 @@ DWORD  dwDefaultColor = 0;
 #define TCOLOR_COMPANION_NORMAL			(0xFFFAFAD2)
 #define TCOLOR_COMPANION_HEALTHY		(0xFF00EE76)
 
-#define TSTR_COMPANION_ATKRATE			"Physical Attack Rate"		//11
-#define TSTR_COMPANION_PHYDEF			"Evade"						//12
-#define TSTR_COMPANION_PHYCRIT			"Physical Critical Rate"	//13
-#define TSTR_COMPANION_CON				"Concetration"				//20
-#define TSTR_COMPANION_MCRIT			"Magical Critical Rate"		//21
-#define TSTR_COMPANION_HPB				"Life"						//50
+#define TSTR_COMPANION_ATKRATE			CTChart::Localize("Physical Attack Rate")		//11
+#define TSTR_COMPANION_PHYDEF			CTChart::Localize("Evade")						//12
+#define TSTR_COMPANION_PHYCRIT			CTChart::Localize("Physical Critical Rate")	//13
+#define TSTR_COMPANION_CON				CTChart::Localize("Concetration")				//20
+#define TSTR_COMPANION_MCRIT			CTChart::Localize("Magical Critical Rate")		//21
+#define TSTR_COMPANION_HPB				CTChart::Localize("Life")						//50
 #define TSTR_COMPANION_MPB				"Mana"						//51
-#define TSTR_COMPANION_MATKRATE			"Magic Attack Rate"			//86
-#define TSTR_COMPANION_MDEF				"Resistance"				//87
-#define TSTR_COMPANION_HONOR			"Additional Honor"			//255
+#define TSTR_COMPANION_MATKRATE			CTChart::Localize("Magic Attack Rate")			//86
+#define TSTR_COMPANION_MDEF				CTChart::Localize("Resistance")				//87
+#define TSTR_COMPANION_HONOR			CTChart::Localize("Additional Honor")			//255
 
 #define TSTR_COMPANION_EXP				"%d / %d"
 #define TSTR_COMPANION_HP				"HP: %d"
-#define TSTR_COMPANION_LEVEL			"Level: %d"
-#define TSTR_COMPANION_DESPAWN			"Withdraw"
-#define TSTR_COMPANION_SPAWN			"Call"
-#define TSTR_COMPANION_EXHAUSTED		"Exhausted"
-#define TSTR_COMPANION_NORMAL			"Normal"
-#define TSTR_COMPANION_HEALTHY			"Healthy"
-#define TSTR_COMPANION_DELETE			"Delete"
-#define TSTR_COMPANION_TABONE			"Attribute"
+#define TSTR_COMPANION_LEVEL			CTChart::Localize("Level: %d")
+#define TSTR_COMPANION_DESPAWN			CTChart::Localize("Withdraw")
+#define TSTR_COMPANION_SPAWN			CTChart::Localize("Call")
+#define TSTR_COMPANION_EXHAUSTED		CTChart::Localize("Exhausted")
+#define TSTR_COMPANION_NORMAL			CTChart::Localize("Normal")
+#define TSTR_COMPANION_HEALTHY			CTChart::Localize("Healthy")
+#define TSTR_COMPANION_DELETE			CTChart::Localize("Delete")
+#define TSTR_COMPANION_TABONE			CTChart::Localize("Attribute")
 #define TSTR_COMPANION_TABTWO			"Bonus"
-#define TSTR_COMPANION_END				"Endurance"
-#define TSTR_COMPANION_INT				"Intelligence"
-#define TSTR_COMPANION_DEX				"Skill"
-#define TSTR_COMPANION_WIS				"Wisdom"
-#define TSTR_COMPANION_STR				"Strength"
-#define TSTR_COMPANION_MEN				"Spirit"
-#define TSTR_COMPANION_ATTRPOINT		"Status Points"
-#define TSTR_COMPANION_LEVELUP			"Levelup"
-#define TSTR_COMPANION_MAXEXP			"Maximum Experience"
+#define TSTR_COMPANION_END				CTChart::Localize("Endurance")
+#define TSTR_COMPANION_INT				CTChart::Localize("Intelligence")
+#define TSTR_COMPANION_DEX				CTChart::Localize("Skill")
+#define TSTR_COMPANION_WIS				CTChart::Localize("Wisdom")
+#define TSTR_COMPANION_STR				CTChart::Localize("Strength")
+#define TSTR_COMPANION_MEN				CTChart::Localize("Spirit")
+#define TSTR_COMPANION_ATTRPOINT		CTChart::Localize("Status Points")
+#define TSTR_COMPANION_LEVELUP			CTChart::Localize("Levelup")
+#define TSTR_COMPANION_MAXEXP			CTChart::Localize("Maximum Experience")
 
 #define ID_PET_LEVEL (0x000048D5)
 #define ID_PET_TAB1 (0x000060D7)
@@ -298,7 +298,7 @@ void CTCompanionDlg::Release()
 	m_bSummonedSlot = T_INVALID;
 
 	m_pExp->m_strText = "0 / 0";
-	m_pLevel->m_strText = "Lv: 0";
+	m_pLevel->m_strText = CTChart::Localize("Lv: 0");
 	m_pHP->m_strText = "0";
 	m_pName->m_strText.Empty();
 	m_pStatus->m_strText.Empty();
@@ -403,13 +403,13 @@ HRESULT CTCompanionDlg::Render(DWORD dwTickCount)
 					m_pPet[ m_bSummonedSlot ]->SetCurImage( 1 );
 
 				if( m_bSummonedSlot == m_bCurSelSlot )
-					m_pSummon->m_strText = "Withdraw";
+					m_pSummon->m_strText = CTChart::Localize("Withdraw");
 				else
-					m_pSummon->m_strText = "Summon";
+					m_pSummon->m_strText = CTChart::Localize("Summon");
 
 				m_pArrowUP->ShowComponent( TRUE );
-				m_pExp->m_strText.Format( "EP: %d/%d", m_pSelPet->GetExp(), m_pSelPet->GetNextExp() );
-				m_pLevel->m_strText.Format( "Lv: %d", m_pSelPet->GetLevel() );
+				m_pExp->m_strText.Format( CTChart::Localize("EP: %d/%d"), m_pSelPet->GetExp(), m_pSelPet->GetNextExp() );
+				m_pLevel->m_strText.Format( CTChart::Localize("Lv: %d"), m_pSelPet->GetLevel() );
 				m_pHP->m_strText.Format( "%d", m_pSelPet->GetLife() );
 
 				m_pHPBar->SetGauge( m_pSelPet->GetLife(), 11000, FALSE );

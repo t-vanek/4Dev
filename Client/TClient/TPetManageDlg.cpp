@@ -163,7 +163,7 @@ CTPetManageDlg::CTPetManageDlg(TComponent* pParent, FRAMEDESC_SHAREDPTR pDesc, C
 	m_pSpeed = static_cast<TComponent*>(FindKid(ID_SADDLE_SPEED));
 	m_pSaddleName = static_cast<TComponent*>(FindKid(ID_SADDLE_NAME));
 
-	m_pSaddleName->m_strText = "Saddle";
+	m_pSaddleName->m_strText = CTChart::Localize("Saddle");
 	m_pTime->m_strText.Empty();
 	m_pSpeed->m_strText.Empty();
 	m_pSaddle->SetCurImage(T_INVALID);
@@ -285,7 +285,7 @@ void CTPetManageDlg::SetSaddle(WORD m_wSaddle, const CTime& tEndTime, BYTE m_bTy
 		if (m_wSaddle && pSADDLE)
 			pSADDLEV = CTChart::FindTITEMVISUAL(pSADDLE->m_wVisual[0]);
 
-		m_strSpeed.Format("Speed : %d%%", GetSaddleSpeed(m_wSaddle));
+		m_strSpeed.Format(CTChart::Localize("Speed : %d%%"), GetSaddleSpeed(m_wSaddle));
 
 		if (pSADDLE && pSADDLEV)
 		{
@@ -316,7 +316,7 @@ void CTPetManageDlg::SetSaddle(WORD m_wSaddle, const CTime& tEndTime, BYTE m_bTy
 	}
 	else
 	{
-		m_pSaddleName->m_strText = "Saddle";
+		m_pSaddleName->m_strText = CTChart::Localize("Saddle");
 		m_pSaddle->SetCurImage(T_INVALID);
 	}
 

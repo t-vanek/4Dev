@@ -336,7 +336,7 @@ HRESULT CTShopBaseDlg::Render(DWORD dwTickCount)
 	{
 		if(m_pTab)
 		{
-			m_pTab->m_strText = "Normal";
+			m_pTab->m_strText = CTChart::Localize("Normal");
 			m_pTab->Select(TRUE);
 		}
 

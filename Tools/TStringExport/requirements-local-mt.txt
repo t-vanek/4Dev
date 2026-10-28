@@ -1,0 +1,4 @@
+ctranslate2==4.8.4
+transformers==4.57.6
+sentencepiece==0.2.2
+sacremoses==0.2.0

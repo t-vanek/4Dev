@@ -140,7 +140,7 @@ void CBRRankingDlg::ResetRank()
 		{
 			m_pNRanking[0]->m_strText.Format("%d", i + 1);
 			m_pName[0]->m_strText = m_vBRRANK[i]->m_strNAME;
-			m_pServer[0]->m_strText = "4Story";
+			m_pServer[0]->m_strText = CTChart::Localize("4Story");
 			m_pKills[0]->m_strText.Format("%d", m_vBRRANK[i]->m_wKills);
 			m_pLifes[0]->m_strText.Format("%d", m_vBRRANK[i]->m_bLifes);
 			break;
@@ -160,7 +160,7 @@ void CBRRankingDlg::ResetRank()
 
 		m_pNRanking[1 + i]->m_strText.Format("%d", 1 + i);
 		m_pName[1 + i]->m_strText = m_vBRRANK[i]->m_strNAME;
-		m_pServer[1 + i]->m_strText = "4Story";
+		m_pServer[1 + i]->m_strText = CTChart::Localize("4Story");
 		m_pKills[1 + i]->m_strText.Format("%d", m_vBRRANK[i]->m_wKills);
 		m_pLifes[1 + i]->m_strText.Format("%d", m_vBRRANK[i]->m_bLifes);
 	}

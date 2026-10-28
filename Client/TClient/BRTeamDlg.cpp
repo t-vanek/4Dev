@@ -41,10 +41,10 @@ CBRTeamDlg::CBRTeamDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 	m_pStart = (TButton*) FindKid(26891);
 	m_pStart->GetComponentPos(&Point[TEAMCOMP_BUTTON]); Point[TEAMCOMP_BUTTON].y += 2;
 	m_pStart->MoveComponent(Point[TEAMCOMP_BUTTON]);
-	m_pStart->m_strText = "Join";
+	m_pStart->m_strText = CTChart::Localize("Join");
 
 	m_pMapList = (TButton*) FindKid(26094);
-	m_pMapList->m_strText = "Please vote for Map";
+	m_pMapList->m_strText = CTChart::Localize("Please vote for Map");
 	m_pMapList->SetPushButton();
 
 	m_pModeList = new TButton(this, m_pMapList->m_pDESC);
@@ -115,7 +115,7 @@ CBRTeamDlg::CBRTeamDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 		AddKid(m_pTeamGauge[i]);
 		AddKid(m_pTeamName[i]);
 
-		m_pTeamName[i]->m_strText.Format("(Player %d)", i + 1);
+		m_pTeamName[i]->m_strText.Format(CTChart::Localize("(Player %d)"), i + 1);
 	}
 
 	m_pTeamInvite[1] = new TButton(this, m_pTeamInvite[0]->m_pDESC);
@@ -217,10 +217,10 @@ void CBRTeamDlg::LoadMapList(const std::vector<CString>& vMaps)
 		m_pList->SetItemData(nLine, 0, i);
 	}
 
-	int nLine = m_pList2->AddString("3 Players");
+	int nLine = m_pList2->AddString(CTChart::Localize("3 Players"));
 	m_pList2->SetItemData(nLine, 0, 0);
 
-	nLine = m_pList2->AddString("2 Players");
+	nLine = m_pList2->AddString(CTChart::Localize("2 Players"));
 	m_pList2->SetItemData(nLine, 0, 1);
 }
 
@@ -252,22 +252,22 @@ HRESULT CBRTeamDlg::Render(DWORD dwTickCount)
 	if (!m_strSelectedMap.IsEmpty())
 		m_pMapList->m_strText = m_strSelectedMap;
 	else
-		m_pMapList->m_strText = "Please vote for Map";
+		m_pMapList->m_strText = CTChart::Localize("Please vote for Map");
 
 	if (m_Mode == T_INVALID)
-		m_pModeList->m_strText = "Please vote for Mode";
+		m_pModeList->m_strText = CTChart::Localize("Please vote for Mode");
 	else
 	{
 		switch (m_Mode)
 		{
 		case BR_3V3:
-			m_pModeList->m_strText = "3 Players";
+			m_pModeList->m_strText = CTChart::Localize("3 Players");
 			break;
 		case BR_2V2:
-			m_pModeList->m_strText = "2 Players";
+			m_pModeList->m_strText = CTChart::Localize("2 Players");
 			break;
 		default:
-			m_pModeList->m_strText = "Please vote for Mode";
+			m_pModeList->m_strText = CTChart::Localize("Please vote for Mode");
 			break;
 		}
 	}
@@ -287,12 +287,12 @@ HRESULT CBRTeamDlg::Render(DWORD dwTickCount)
 			if (!m_bTeamReady)
 			{
 				dwColor = 0xFFE80E0E;
-				strText.Format("Your team is not ready! You won't be able to participate the battle, unless everyone in your team will be ready. When your team will be ready, the timer will start counting down.");
+				strText.Format(CTChart::Localize("Your team is not ready! You won't be able to participate the battle, unless everyone in your team will be ready. When your team will be ready, the timer will start counting down."));
 			}
 			else
 			{
 				dwColor = 0xFF1CF50C;
-				strText.Format("Your team is ready. You will soon be able to participate the battle, but please keep in mind, that there is not 100%% chance that you will get into the battle.");
+				strText.Format(CTChart::Localize("Your team is ready. You will soon be able to participate the battle, but please keep in mind, that there is not 100%% chance that you will get into the battle."));
 			}
 
 			m_pText->m_strText = strText;
@@ -311,11 +311,11 @@ HRESULT CBRTeamDlg::Render(DWORD dwTickCount)
 	if (m_vTeam.empty())
 	{
 		m_pTeamName[0]->m_strText = CTClientGame::GetInstance()->GetMainChar()->m_strNAME;
-		m_pStart->m_strText = "Join";
+		m_pStart->m_strText = CTChart::Localize("Join");
 		for (BYTE i = 1; i < BR_TEAM_MEMBER; ++i)
 		{
 			m_pTeamGauge[i]->SetGauge(0, 1, FALSE);
-			m_pTeamName[i]->m_strText.Format("(Player %d)", i + 1);
+			m_pTeamName[i]->m_strText.Format(CTChart::Localize("(Player %d)"), i + 1);
 			m_pInTeamMarker[i]->ShowComponent(FALSE);
 
 			m_pTeamLeave[i - 1]->ShowComponent(FALSE);
@@ -329,9 +329,9 @@ HRESULT CBRTeamDlg::Render(DWORD dwTickCount)
 		strMainName = CTClientGame::GetInstance()->GetMainChar()->m_strNAME;
 		m_bIsChief = m_vTeam[0].m_strName == strMainName;
 		if (!m_bIsChief)
-			m_pStart->m_strText = "Ready";
+			m_pStart->m_strText = CTChart::Localize("Ready");
 		else
-			m_pStart->m_strText = "Join";
+			m_pStart->m_strText = CTChart::Localize("Join");
 	}
 
 	for (BYTE i = 0; i < BR_TEAM_MEMBER; ++i)
@@ -360,7 +360,7 @@ HRESULT CBRTeamDlg::Render(DWORD dwTickCount)
 		else
 		{
 			m_pTeamGauge[i]->SetGauge(0, 1, FALSE);
-			m_pTeamName[i]->m_strText.Format("(Player %d)", i + 1);
+			m_pTeamName[i]->m_strText.Format(CTChart::Localize("(Player %d)"), i + 1);
 			m_pInTeamMarker[i]->ShowComponent(FALSE);
 
 			if (i > 0)
@@ -420,7 +420,7 @@ void CBRTeamDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 			if (m_strSelectedMap.IsEmpty() || (m_Mode != BR_3V3 && m_Mode != BR_2V2))
 			{
 				pTGAME->GetMainWnd()->MessageBoxOK(
-					"Please vote for first!",
+					CTChart::Localize("Please vote for first!"),
 					TSTR_OK, 
 					GM_CLOSE_MSGBOX, 
 					GM_CLOSE_MSGBOX);

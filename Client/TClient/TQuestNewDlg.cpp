@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "Resource.h"
 #include "TClientGame.h"
 #include "TClientWnd.h"
@@ -8,11 +8,6 @@
 CPoint CQuestNewDlg::m_ptPOS = CPoint(0, 0);
 DWORD CQuestNewDlg::m_DefaultQColor = 0;
 
-#define GIVE_UP		CString("Give Up")
-#define ACCEPT		CString("Accept")
-#define NEXT		CString("Next")
-#define RUN			CString("Run")
-#define COMPLETE	CString("Complete")
 
 struct binary_qclass
 {
@@ -54,7 +49,7 @@ CQuestNewDlg::CQuestNewDlg(TComponent* pParent, FRAMEDESC_SHAREDPTR pDesc, CTCli
 	m_pAccept = (TButton*)FindKid(25203);
 	m_pRefuse = (TButton*)FindKid(25204);
 
-	const char* Name[3] = { "Normal Quest", "Repeatable Quest", "Event Quest" };
+	const char* Name[3] = { CTChart::Localize("Normal Quest"), CTChart::Localize("Repeatable Quest"), CTChart::Localize("Event Quest") };
 
 	for (BYTE i = 0; i < 3; ++i)
 	{
@@ -144,6 +139,7 @@ CQuestNewDlg::CQuestNewDlg(TComponent* pParent, FRAMEDESC_SHAREDPTR pDesc, CTCli
 
 	m_pACCEPT->m_menu[TNM_LCLICK] = 0;
 	m_pREFUSE->m_menu[TNM_LCLICK] = 0;
+	SetQuestButtons(ButtonAction::None, ButtonAction::Close);
 }
 
 CQuestNewDlg::~CQuestNewDlg(void)
@@ -901,133 +897,107 @@ void CQuestNewDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 			break;
 		}
 
-		if (m_pACCEPT->HitTest(pt))
-		{
-			if (m_pACCEPT->m_strText == ACCEPT)
-				CTClientGame::GetInstance()->OnGM_QUEST_ACCEPT();
-			else if (m_pACCEPT->m_strText == GIVE_UP)
-				CTClientGame::GetInstance()->OnGM_QUEST_GIVEUP();
-			else if (m_pACCEPT->m_strText == COMPLETE)
-				CTClientGame::GetInstance()->OnGM_QUEST_ACCEPT();
-			else if (m_pACCEPT->m_strText == NEXT)
-			{
-				BOOL CheckNext = FALSE;
-				INT nSmallestDif = 255;
-				INT nOriY = 0;
-				CQuest* NextQuest = nullptr;
+	}
 
-				if (m_Quest)
-					nOriY = m_Quest->m_pQuestBtn->m_rc.top;
-
-				for (BYTE i = 0; i < 3; ++i)
-				{
-					for (auto& QClass : m_QuestList[i].m_mapQuest)
-					{
-						for (auto& Quest : QClass.second)
-						{
-							if (nOriY && Quest.m_pQuestBtn->m_rc.top > nOriY)
-							{
-								if (Quest.m_pQuestBtn->m_rc.top - nOriY < nSmallestDif && m_Quest != &Quest)
-								{
-									nSmallestDif = Quest.m_pQuestBtn->m_rc.top - nOriY;
-									NextQuest = &Quest;
-								}
-							}
-						}
-					}
-				}
-
-				if (NextQuest)
-				{
-					m_pTQUEST = nullptr;
-					m_Quest = nullptr;
-
-					CTClientQuest* pSEL = (CTClientQuest*)NextQuest->m_dwQuest;
-					m_RightSide.Reset();
-
-					if (!NextQuest->m_Accepted)
-					{
-						m_pTQUEST = (LPTQUEST)NextQuest->m_dwQuest;
-						ResetTQUEST(m_pTQUEST, NextQuest);
-					}
-					else
-					{
-						m_pTQUEST = (LPTQUEST)pSEL->m_pTQUEST;
-						ResetTQUEST(m_pTQUEST, NextQuest);
-					}
-
-					break;
-				}
-			}
-		}
-
-		if (m_pREFUSE->HitTest(pt))
-		{
-			if (m_pREFUSE->m_strText == NEXT)
-			{
-				BOOL CheckNext = FALSE;
-				INT nSmallestDif = 255;
-				INT nOriY = 0;
-				CQuest* NextQuest = nullptr;
-
-				if (m_Quest)
-					nOriY = m_Quest->m_pQuestBtn->m_rc.top;
-
-				for (BYTE i = 0; i < 3; ++i)
-				{
-					for (auto& QClass : m_QuestList[i].m_mapQuest)
-					{
-						for (auto& Quest : QClass.second)
-						{
-							if (nOriY && Quest.m_pQuestBtn->m_rc.top > nOriY)
-							{
-								if (Quest.m_pQuestBtn->m_rc.top - nOriY < nSmallestDif && m_Quest != &Quest)
-								{
-									nSmallestDif = Quest.m_pQuestBtn->m_rc.top - nOriY;
-									NextQuest = &Quest;
-								}
-							}
-						}
-					}
-				}
-
-				if (NextQuest)
-				{
-					m_pTQUEST = nullptr;
-					m_Quest = nullptr;
-
-					CTClientQuest* pSEL = (CTClientQuest*)NextQuest->m_dwQuest;
-					m_RightSide.Reset();
-
-					if (!NextQuest->m_Accepted)
-					{
-						m_pTQUEST = (LPTQUEST)NextQuest->m_dwQuest;
-						ResetTQUEST(m_pTQUEST, NextQuest);
-					}
-					else
-					{
-						m_pTQUEST = (LPTQUEST)pSEL->m_pTQUEST;
-						ResetTQUEST(m_pTQUEST, NextQuest);
-					}
-
-					break;
-				}
-			}
-			else if (m_pREFUSE->m_strText == RUN)
-			{
-				CTGaugePannel *pTPANNEL = (CTGaugePannel *)CTClientGame::GetInstance()->GetFrame(TFRAME_GAUGE);
-				if (m_pTQUEST)
-				{
-					pTPANNEL->m_dwCurQuestID = m_pTQUEST->m_dwID;
-					pTPANNEL->m_bAutoPath = TRUE;
-					pTPANNEL->m_bShowPath = TRUE;
-					pTPANNEL->UpdateQuestBUTTON();
-				}
-			}
-		}
+	if (m_pACCEPT->IsEnable() && m_pACCEPT->HitTest(pt))
+	{
+		CTClientUIBase::OnLButtonUp(nFlags, pt);
+		ExecuteButtonAction(m_AcceptAction);
+		return;
+	}
+	if (m_pREFUSE->IsEnable() && m_pREFUSE->HitTest(pt))
+	{
+		CTClientUIBase::OnLButtonUp(nFlags, pt);
+		ExecuteButtonAction(m_RefuseAction);
+		return;
 	}
 
 	CTClientUIBase::OnLButtonUp(nFlags, pt);
+}
+
+void CQuestNewDlg::SetQuestButtons(ButtonAction accept, ButtonAction refuse)
+{
+	m_AcceptAction = accept;
+	m_RefuseAction = refuse;
+	auto label = [](ButtonAction action) -> LPCTSTR
+	{
+		switch (action)
+		{
+		case ButtonAction::Accept: return CTChart::Localize("Accept");
+		case ButtonAction::Complete: return CTChart::Localize("Complete");
+		case ButtonAction::GiveUp: return CTChart::Localize("Give Up");
+		case ButtonAction::NextQuest: return CTChart::Localize("Next");
+		case ButtonAction::TrackQuest: return CTChart::Localize("Navigate");
+		case ButtonAction::Close: return CTChart::Localize("Close");
+		default: return "";
+		}
+	};
+	m_pACCEPT->m_strText = label(accept);
+	m_pREFUSE->m_strText = label(refuse);
+	m_pACCEPT->EnableComponent(accept != ButtonAction::None);
+	m_pREFUSE->EnableComponent(refuse != ButtonAction::None);
+}
+
+void CQuestNewDlg::ExecuteButtonAction(ButtonAction action)
+{
+	CTClientGame* pGame = CTClientGame::GetInstance();
+	switch (action)
+	{
+	case ButtonAction::Accept:
+	case ButtonAction::Complete:
+		pGame->OnGM_QUEST_ACCEPT();
+		break;
+	case ButtonAction::GiveUp:
+		pGame->OnGM_QUEST_GIVEUP();
+		break;
+	case ButtonAction::NextQuest:
+		SelectNextQuest();
+		break;
+	case ButtonAction::TrackQuest:
+		if (m_pTQUEST && m_pHost->FindTQuest(m_pTQUEST->m_dwID))
+		{
+			CTGaugePannel* pPanel = (CTGaugePannel*)pGame->GetFrame(TFRAME_GAUGE);
+			pPanel->m_dwCurQuestID = m_pTQUEST->m_dwID;
+			pPanel->m_bAutoPath = TRUE;
+			pPanel->m_bShowPath = TRUE;
+			pPanel->UpdateQuestBUTTON();
+		}
+		break;
+	case ButtonAction::Close:
+		pGame->DisableUI(this == pGame->GetFrame(TFRAME_QUEST_NEWUI) ? TFRAME_QUEST_NEWUI : TFRAME_NPCDIALOG);
+		break;
+	}
+}
+
+void CQuestNewDlg::SelectNextQuest()
+{
+	BOOL foundCurrent = m_Quest == NULL;
+	for (auto& list : m_QuestList)
+		for (auto& category : list.m_mapQuest)
+			for (auto& quest : category.second)
+			{
+				if (foundCurrent)
+				{
+					LPTQUEST next = quest.m_Accepted
+						? ((CTClientQuest*)quest.m_dwQuest)->m_pTQUEST : (LPTQUEST)quest.m_dwQuest;
+					if (!next) continue;
+					m_Quest = NULL;
+					ResetTQUEST(next, &quest);
+					return;
+				}
+				if (&quest == m_Quest) foundCurrent = TRUE;
+			}
+	ExecuteButtonAction(ButtonAction::Close);
+}
+
+void CQuestNewDlg::ClearQuestSelection()
+{
+	m_Quest = NULL;
+	m_pTQUEST = NULL;
+	m_pTSELREWARD = NULL;
+	m_pQuestText->m_strText.Empty();
+	m_RightSide.Reset();
+	SetQuestButtons(ButtonAction::None, ButtonAction::Close);
 }
 
 void CQuestNewDlg::OnLButtonDown(UINT nFlags, CPoint pt)
@@ -1249,57 +1219,23 @@ void CQuestNewDlg::ResetTQUEST(LPTQUEST pTQUEST, CQuest* Quest)
 
 	m_pTQUEST = pTMISSION;
 
-	BOOL bCanPerf = TRUE;
-
-	if (m_pTQUEST && Quest->m_Completed)
+	m_pTSELREWARD = NULL;
+	if (!IsRemote)
 	{
-		m_pACCEPT->m_strText = CTChart::LoadString((TSTRING)m_dwCompleteID);
-	}
-	else if (m_pTQUEST && m_pTQUEST->m_bType == QT_MISSION)
-	{
-		CTClientGame* pTGAME = CTClientGame::GetInstance();
-		CTClientObjBase* pTARGET = pTGAME->GetTargetObj();
-		if (pTARGET)
-		{
-			MAPDWORD::iterator findCOND = pTARGET->m_mapTQUESTCOND.find(m_pTQUEST->m_dwID);
-			if (findCOND != pTARGET->m_mapTQUESTCOND.end())
-			{
-				if (findCOND->second != QCT_NONE)
-					bCanPerf = FALSE;
-			}
-		}
-
-		m_pACCEPT->m_strText = CTChart::LoadString((TSTRING)m_dwAcceptID);
+		SetQuestButtons(Quest->m_Accepted ? ButtonAction::GiveUp : ButtonAction::None,
+			Quest->m_Accepted ? ButtonAction::TrackQuest : ButtonAction::None);
 	}
 	else
 	{
-		m_pACCEPT->m_strText = CTChart::LoadString((TSTRING)m_dwAcceptID);
-
-		if (m_pTQUEST && bCanPerf)
-			m_pACCEPT->EnableComponent(TRUE);
-		else
-			m_pACCEPT->EnableComponent(FALSE);
-	}
-
-	if (!IsRemote && Quest->m_Accepted)
-	{
-		m_pACCEPT->m_strText = GIVE_UP;
-		m_pREFUSE->m_strText = RUN;
-	}
-	if (IsRemote && !Quest->m_Completed)
-	{
-		m_pACCEPT->m_strText = ACCEPT;
-		m_pREFUSE->m_strText = NEXT;
-	}
-	if (!IsRemote && !Quest->m_Accepted)
-	{
-		m_pACCEPT->m_strText = GIVE_UP;
-		m_pREFUSE->m_strText = RUN;
-	}
-	if (IsRemote && Quest->m_Completed)
-	{
-		m_pACCEPT->m_strText = COMPLETE;
-		m_pREFUSE->m_strText = RUN;
+		SetQuestButtons(Quest->m_Completed ? ButtonAction::Complete : ButtonAction::Accept,
+			Quest->m_Completed ? ButtonAction::Close : ButtonAction::NextQuest);
+		CTClientObjBase* pTARGET = CTClientGame::GetInstance()->GetTargetObj();
+		if (pTARGET)
+		{
+			auto condition = pTARGET->m_mapTQUESTCOND.find(pTQUEST->m_dwID);
+			if (condition != pTARGET->m_mapTQUESTCOND.end() && condition->second != QCT_NONE)
+				m_pACCEPT->EnableComponent(FALSE);
+		}
 	}
 
 
@@ -1676,9 +1612,7 @@ void CQuestNewDlg::ResetTree(BYTE FindNew)
 	std::map<DWORD, std::vector<CTClientQuest*>> vQuests[3];
 	LISTTQCLASS vTQCLASS;
 
-	m_pTQUEST = nullptr;
-	m_Quest = nullptr;
-	m_pQuestText->m_strText.Empty();
+	ClearQuestSelection();
 	m_RightSide.m_pDialogueDot->ShowComponent(FALSE);
 	m_RightSide.m_pDialogueText->ShowComponent(FALSE);
 	m_RightSide.Reset();
@@ -2299,7 +2233,7 @@ void CQuest::AddQuest(CString strQName, CString strLevel)
 	m_pFrame->AddKid(m_pQuestName);
 	m_pFrame->AddKid(m_pProgress);
 
-	m_pQuestName->m_strText.Format("Lv %s %s", (LPCTSTR)strLevel, (LPCTSTR)strQName);
+	m_pQuestName->m_strText.Format(CTChart::Localize("Lv %s %s"), (LPCTSTR)strLevel, (LPCTSTR)strQName);
 
 	if (m_Accepted)
 	{
@@ -2615,7 +2549,7 @@ void CRightSide::AddReward(BYTE Type, DWORD Value, BYTE Count, const LPTREWARD R
 		}
 
 		if (pTITLE)
-			m_pRewardName[m_RewardCnt]->m_strText.Format("Title : %s", (LPCTSTR)pTITLE->m_strTitle);
+			m_pRewardName[m_RewardCnt]->m_strText.Format(CTChart::Localize("Title : %s"), (LPCTSTR)pTITLE->m_strTitle);
 
 		m_pFrame->AddKid(m_pTitleIcon[m_RewardCnt]);
 		m_pFrame->AddKid(m_pRewardName[m_RewardCnt]);
@@ -2790,7 +2724,7 @@ void CRightSide::AddTerm(const LPTTERM& Term, BYTE bCount)
 	m_pTermStr[m_TermCnt]->m_strText.Format("%d.%s", m_TermCnt + 1, (LPCTSTR)Term->m_strTermMSG);
 
 	if (bCount >= Term->m_bCount)
-		m_pTermRes[m_TermCnt]->m_strText = "(finished)";
+		m_pTermRes[m_TermCnt]->m_strText = CTChart::Localize("(finished)");
 	else
 		m_pTermRes[m_TermCnt]->m_strText.Format("(%d/%d)", bCount, Term->m_bCount);
 

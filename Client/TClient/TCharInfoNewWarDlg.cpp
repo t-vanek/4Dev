@@ -117,8 +117,8 @@ CTCharNewPVPDlg::CTCharNewPVPDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc
 	pTexts[0] = FindKid(28011);
 	pTexts[1] = FindKid(28010);
 	
-	pTexts[0]->m_strText = "Score by Class";
-	pTexts[1]->m_strText = "Battle Score Summary";
+	pTexts[0]->m_strText = CTChart::Localize("Score by Class");
+	pTexts[1]->m_strText = CTChart::Localize("Battle Score Summary");
 
 	m_bTabIndex = TINFO_WAR;
 }

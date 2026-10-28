@@ -54,12 +54,12 @@ CTItemRegBox::CTItemRegBox( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc)
 			m_pCheckBox[CURRENCY_MONEY]->GetComponentPos(&pTitlePos);
 			pTitlePos.x -= 146;
 			pTitlePos.y -= m_pCheckBox[CURRENCY_MONEY]->m_rc.Height() / 8;
-			ButtonDesc[i]->m_strText = "Money";
+			ButtonDesc[i]->m_strText = CTChart::Localize("Money");
 		}
 		else if (i == CURRENCY_CREDIT)
 		{
 			m_pCheckBox[CURRENCY_CREDIT]->GetComponentPos(&pTitlePos);
-			ButtonDesc[i]->m_strText = "Credits";
+			ButtonDesc[i]->m_strText = CTChart::Localize("Credits");
 			pTitlePos.x -= 77;
 			pTitlePos.y -= m_pCheckBox[CURRENCY_CREDIT]->m_rc.Height() / 8;
 		}

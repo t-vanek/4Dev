@@ -1,5 +1,30 @@
 # TMapSvr → TMapSvr.Net — Port Status
 
+The gameplay target is now **Gameforge 5.0+**, anchored in the documented 5.0.1 rules. The
+[version audit](../../Gameforge/version-target/report.html) and [profile](../../Gameforge/target.json)
+take precedence when choosing current gameplay rules. Older port phases below describe implementation
+history, not certified 5.x parity. The publisher-team EXP curve through 140 is now deployed (035),
+including 27 corrected old thresholds and 15 new level rows. The new non-EXP/non-client-fee fields use
+the last existing level's compatibility values; they are not certified original curves.
+The wire version `0x2918` is separate from a Gameforge release number. Companion level 20 is enforced
+on both level-up and EXP-item requests; the remaining point budget and reserve-bag rules need separate work.
+Current Linux .NET 10 validation: **1,177 tests passed**, including 19 progression and six companion-cap
+cases. SQL-backed probes against deployed DLLs verify 15 level boundaries, 12 delivery quests and
+26 purchases at two new shops. World units for Anbari/Undred are routed (036), but monster populations,
+126 other missions and nine portal NPCs remain missing. See the [report](../../Gameforge/progression-140/report.html),
+[tests](../../Gameforge/progression-140/tests.json) and [deployment](../../Gameforge/progression-140/deployment.json).
+Counts in older phase notes are historical.
+
+Skill movement now executes on the landed-skill path: `SDT_STATUS_RETURN` uses the character's bound
+spawn, `RETURNPOS` uses the effect row's spawn, and `TELEPORT`/`WARP` send the legacy `CS_WARP_ACK` to
+the target's client (or the host for a forced monster warp). The client validates the landing and
+synchronizes it through its ordinary movement packet. This fixes casts that animated and started their
+cooldown without moving the character. No skill-chart values or saved return positions are changed.
+`TeleportSkillTests` cover the cast-to-return sequence, blink wire layout, dismount, explicit return,
+dead/unlearned casters, map isolation and protected monster templates. Validation passed all 1,191
+Windows .NET 10 map-server tests. A read-only SQL-backed probe using the deployed Linux DLLs also
+verified successful casts and movement packets for Return to Village (35) and Shadow Jump (437).
+
 C#/.NET 10 port of the C++/ATL `TMapSvr` (the per-map/zone game server). Byte-exact wire/DB compat with
 this repo's client + SQL baselines, mirroring the sibling `TLoginSvr.Net` / `TWorldSvr.Net` ports (same
 `.slnx` layout, `Microsoft.Data.SqlClient`, Serilog worker host, single serialized batch task, DB-free
@@ -790,6 +815,12 @@ damage half that follows). C++ `OnCS_SKILLUSE_REQ` (CSHandler.cpp:2429).
   via `+0.99`, two-phase `UseMoney` check→commit around `CanPush`/`PushTItem`), then `CS_ITEMBUY_ACK`
   (SUCCESS/NOTFOUND/NEEDMONEY/CANTPUSH + the three money tiers). The portable-NPC-call block (map 0/8 +
   `IK_NPCCALL` consume) is ported (mirrors repair).
+- [x] **Quest-object pickups** — nonzero quest IDs resolve only a runnable `Routing` quest's `QTT_ITEMID`
+  from the item chart, bound to its trigger NPC and the player's map. The object needs no shop stock.
+  Ordinary stock purchases still pay gold/PvP points. Unknown quest IDs cannot bypass payment.
+  `QuestPickupTests` covers collection → objective update → turn-in/reward, repeats, prerequisites,
+  NPC/map/item/quest mismatches and inventory-capacity retry. The deployed-DLL probe for mission 8003
+  (`Byliny pro Karla`, pickup 8005, NPC 26193, item 9656) is in `Gameforge/quest-herbs/`.
 - [x] **Sell** (`OnCS_ITEMSELL_REQ`, CSHandler.cpp:6623) — the `INVEN_EQUIP` guard, `FindTItem` + count checks,
   the `m_bIsSell & ITEMTRADE_SELL` sellable gate → `CTItem::GetPrice()/4 · bCount` (`GetSellUnitPrice`,
   grade = attr-grade fallback or default level; 0 without a resolved attr — the C++ guard) → `EarnMoney` →
@@ -797,12 +828,10 @@ damage half that follows). C++ `OnCS_SKILLUSE_REQ` (CSHandler.cpp:2429).
 - [x] **Data** — `ItemTemplate.IsSell` (`m_bIsSell`), `TemplateStore.LevelMoney` (`TLEVELCHART.dwMoney`), the
   two NPC SQL loads, and `Npc.CanTalk` (`TCONTRY_*`/`SDT_TRANS_DISGUISE_*` value-exact). 12 tests
   (`NpcShopTests.cs`): neutral-talk ACK, hostile-country no-ack, buy-charges/adds, need-money, item-not-stocked,
-  unknown-npc, quest-free-buy, sell full/partial, not-sellable, equipped-ignored, `InitNpcs` stock resolution.
+  unknown-npc, unknown-quest rejection, sell full/partial, not-sellable, equipped-ignored, `InitNpcs` stock resolution.
 
-> **Deferred (documented):** the **quest engine** (`CheckQuest`/`FindQuestTemplate`/`CanRunQuest` + the
-> `CQuest` hierarchy + quest-node graph) — talk always returns questId 0, and a client-supplied nonzero
-> `dwQuestID` on buy resolves from shop stock and **skips payment**, faithful to the C++ path when no quest
-> chart matches (the latent free-buy closes once quests gate the item list). The NPC **discount**
+> **Historical Phase-23 deferrals:** the quest engine was added in later phases; quest-object item
+> resolution is now implemented and validated as described above. The NPC **discount**
 > (`GetDiscountRate` — occupation/guild/hero data unported ⇒ rate 0), **`TNPC_PVPOINT`** PvP-point-currency
 > shops (`GetItemPvPrice`/`UsePvPoint`) + **BoW-mode** pricing (a gold NPC is assumed), the sell **price-up
 > buff** (`SDT_STATUS_PRICEUP`), the secure-code / player-store / deal(trade) / tournament guards, the item

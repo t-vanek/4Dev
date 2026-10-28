@@ -38,6 +38,7 @@ CTPopupNewMenuDlg::CTPopupNewMenuDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR p
 
 	for(BYTE i = 0; i < TMENUNEW_COUNT; i++)
 	{
+		m_InvenActions[i] = -1;
 		m_pCatImg[i] = (TImageList*) FindKid(dwCatImgList[i]);
 		m_pCatBtn[i] = (TButton*) FindKid(dwCatBtn[i]);
 		m_pCatName[i] = FindKid(dwCatName[i]);
@@ -58,6 +59,7 @@ void CTPopupNewMenuDlg::ClearPopup()
 {
 	for(BYTE i = 0; i < TMENUNEW_COUNT; i++)
 	{
+		m_InvenActions[i] = -1;
 		m_pCatImg[i]->ShowComponent(FALSE);
 		m_pCatImg[i]->EnableComponent(FALSE);
 		RemoveKid(m_pCatImg[i]);
@@ -202,7 +204,7 @@ CString CTPopupNewMenuDlg::GetVKString(enum TKEY_SET eKey)
 
 case TKEY_COMPANION:
 		{
-			strTITLE = "Companion";
+			strTITLE = CTChart::Localize("Companion");
 			strSHORTCUT.Format( "(%s) ", (LPCTSTR)strKey );
 			strSHORTCUT += strTITLE;
 
@@ -279,7 +281,7 @@ void CTPopupNewMenuDlg::AddSystem()
 				if (!CTClientGame::IsInBOWMap() && !CTClientGame::IsInBRMap())
 					m_pCatName[i]->m_strText = CTChart::LoadString(TSTR_TOPMENU_CHARSEL);
 				else
-					m_pCatName[i]->m_strText = "Leave Battlefield";
+					m_pCatName[i]->m_strText = CTChart::Localize("Leave Battlefield");
 			}
 			break;
 
@@ -303,126 +305,72 @@ void CTPopupNewMenuDlg::AddSystem()
 void CTPopupNewMenuDlg::AddInven()
 {
 	ClearPopup();
-
-	for(BYTE i = 0; i < TMENUNEWINVEN_COUNT; i++)
+	CTSecuritySystemDlg* security = static_cast<CTSecuritySystemDlg*>(CTClientGame::GetInstance()->GetFrame(TFRAME_SECURITYSYS));
+	BYTE row = 0;
+	for (int action = 0; action < TMENUNEWINVEN_COUNT; ++action)
 	{
-		AddKid(m_pCatImg[i]);
-		m_pCatImg[i]->ShowComponent(TRUE);
-		m_pCatImg[i]->EnableComponent(TRUE);
-
-		m_pCatBtn[i]->ShowComponent(TRUE);
-		m_pCatBtn[i]->EnableComponent(TRUE);
-
-		m_pCatName[i]->ShowComponent(TRUE);
-
-		switch(i)
+		if (action == TMENUNEWINVEN_ENDISABLESC && !security->GetExist())
+			continue;
+		m_InvenActions[row] = action;
+		AddKid(m_pCatImg[row]);
+		m_pCatImg[row]->ShowComponent(TRUE);
+		m_pCatImg[row]->EnableComponent(TRUE);
+		m_pCatBtn[row]->ShowComponent(TRUE);
+		m_pCatBtn[row]->EnableComponent(TRUE);
+		m_pCatName[row]->ShowComponent(TRUE);
+		switch (action)
 		{
 		case TMENUNEWINVEN_INVEN:
-			{
-				m_pCatImg[i]->SetCurImage(20);
-				m_pCatName[i]->m_strText = GetVKString(TKEY_INVEN);
-			}
+			m_pCatImg[row]->SetCurImage(20);
+			m_pCatName[row]->m_strText = GetVKString(TKEY_INVEN);
 			break;
-
 		case TMENUNEWINVEN_CASHDEPOT:
-			{
-				m_pCatImg[i]->SetCurImage(21);
-				m_pCatName[i]->m_strText = GetVKString(TKEY_CASH_CAB);
-			}
+			m_pCatImg[row]->SetCurImage(21);
+			m_pCatName[row]->m_strText = GetVKString(TKEY_CASH_CAB);
 			break;
-
 		case TMENUNEWINVEN_CRCHSC:
-		{
-			CTSecuritySystemDlg* pSecurityDlg = static_cast<CTSecuritySystemDlg*>(CTClientGame::GetInstance()->m_vTFRAME[TFRAME_SECURITYSYS]);
-			
-			if( pSecurityDlg->GetExist() )
-			{
-				m_pCatName[i]->m_strText = TSTR_SC_CHANGE;	
-			}
-			else
-				m_pCatName[i]->m_strText = TSTR_SC_CREATE;
-
-			m_pCatImg[i]->SetCurImage(38);
-		}
-		break;
-
+			m_pCatImg[row]->SetCurImage(38);
+			m_pCatName[row]->m_strText = security->GetExist() ? TSTR_SC_CHANGE : TSTR_SC_CREATE;
+			break;
 		case TMENUNEWINVEN_ENDISABLESC:
-		{
-			CTSecuritySystemDlg* pSecurityDlg = static_cast<CTSecuritySystemDlg*>(CTClientGame::GetInstance()->m_vTFRAME[TFRAME_SECURITYSYS]);
-
-	if (!pSecurityDlg->GetExist())
-
-			{
-				m_pCatImg[i]->SetCurImage(T_INVALID);
-				m_pCatName[i]->m_strText.Empty();
-
-				m_nCurMode = TMAINBUTTONNEW_INVEN_SLOT;
-
-				continue;
-			}
-
-			if (pSecurityDlg->GetEnabled())
-			{
-
-
-
-
-
-				m_pCatImg[i]->SetCurImage(37);
-
-
-
-
-
-				m_pCatName[i]->m_strText = TSTR_SC_DISABLE;
-
-			}
-
-			else
-			{
-
-				m_pCatImg[i]->SetCurImage(36);
-				m_pCatName[i]->m_strText = TSTR_SC_ENABLE;
-
-			}
-		}
-		break;
+			m_pCatImg[row]->SetCurImage(security->GetEnabled() ? 37 : 36);
+			m_pCatName[row]->m_strText = security->GetEnabled() ? TSTR_SC_DISABLE : TSTR_SC_ENABLE;
+			break;
 		case TMENUNEWINVEN_CUSTOMCLOAK:
-		{
-			if (m_pCatName[i - 1]->m_strText == "Custom Cloak") {
-				m_nCurMode = TMAINBUTTONNEW_INVEN_SLOT;
-
-				RemoveKid(m_pCatImg[i]);
-				m_pCatImg[i]->ShowComponent(FALSE);
-
-				m_pCatImg[i]->EnableComponent(FALSE);
-
-				m_pCatBtn[i]->ShowComponent(FALSE);
-				m_pCatBtn[i]->EnableComponent(FALSE);
-
-				m_pCatName[i]->ShowComponent(FALSE);
-
-				return;
-
-			}
-
-			if (m_pCatName[i - 1]->m_strText.IsEmpty())
-				--i;
-
-			m_pCatImg[i]->SetCurImage(60016);
-			m_pCatName[i]->m_strText = "Custom Cloak";
+			m_pCatImg[row]->SetCurImage(60016);
+			m_pCatName[row]->m_strText = CTChart::Localize("Custom Cloak");
+			break;
 		}
-
-
-		break;
-		default: break;
-		}
+		++row;
 	}
-
 	m_pFrameName->ShowComponent(TRUE);
 	m_pFrameName->m_strText = CTChart::LoadString(TSTR_TOPMENU_FRAME_INVEN);
-
 	m_nCurMode = TMAINBUTTONNEW_INVEN_SLOT;
+}
+
+void CTPopupNewMenuDlg::ExecuteInvenAction(int action)
+{
+	CTClientGame* game = CTClientGame::GetInstance();
+	switch (action)
+	{
+	case TMENUNEWINVEN_INVEN: game->OnGM_TOGGLE_DEFINVEN(); break;
+	case TMENUNEWINVEN_CASHDEPOT: game->OnGM_TOGGLE_CASH_CAB(); break;
+	case TMENUNEWINVEN_CUSTOMCLOAK: game->OnGM_TOGGLE_CUSTOMCLOAK(); break;
+	case TMENUNEWINVEN_CRCHSC:
+	case TMENUNEWINVEN_ENDISABLESC:
+	{
+		CTSecuritySystemDlg* security = static_cast<CTSecuritySystemDlg*>(game->GetFrame(TFRAME_SECURITYSYS));
+		security->PrepareDisplay();
+		if (action == TMENUNEWINVEN_CRCHSC)
+			security->SwitchMode(security->GetExist() ? TDLG_SC_MCHANGE : TDLG_SC_MCREATE);
+		else if (security->GetEnabled())
+			security->SwitchMode(TDLG_SC_MDISABLE);
+		else
+			security->SwitchMode(security->GetExist() ? TDLG_SC_MENABLE : TDLG_SC_MCREATE);
+		game->EnableUI(TFRAME_SECURITYSYS);
+		break;
+	}
+	}
 }
 
 
@@ -828,7 +776,7 @@ void CTPopupNewMenuDlg::OnLButtonUp( UINT nFlags, CPoint pt)
 			pGame->ResetPopupMenu();
 			pGame->OnGM_TOGGLE_PETMANAGE();
 		}
-	else if(m_pCatBtn[TMENUNEWCHAR_COMPANION]->HitTest(pt) && m_pCatBtn[TMENUNEWCHAR_PET]->IsVisible())
+	else if(m_pCatBtn[TMENUNEWCHAR_COMPANION]->HitTest(pt) && m_pCatBtn[TMENUNEWCHAR_COMPANION]->IsVisible())
 		{
 			ClearButton();
 			pGame->ResetPopupMenu();
@@ -849,80 +797,15 @@ void CTPopupNewMenuDlg::OnLButtonUp( UINT nFlags, CPoint pt)
 	}
 	else if(m_nCurMode == TMAINBUTTONNEW_INVEN_SLOT)
 	{
-		if(m_pCatBtn[TMENUNEWINVEN_INVEN]->HitTest(pt) && m_pCatBtn[TMENUNEWINVEN_INVEN]->IsVisible())
-		{
-			ClearButton();
-			pGame->ResetPopupMenu();
-			pGame->OnGM_TOGGLE_DEFINVEN();
-		}
-		else if(m_pCatBtn[TMENUNEWINVEN_CASHDEPOT]->HitTest(pt) && m_pCatBtn[TMENUNEWINVEN_CASHDEPOT]->IsVisible())
-		{
-			ClearButton();
-			pGame->ResetPopupMenu();
-			pGame->OnGM_TOGGLE_CASH_CAB();
-		}
-		else if(m_pCatBtn[TMENUNEWINVEN_CRCHSC]->HitTest(pt) && m_pCatBtn[TMENUNEWINVEN_CRCHSC]->IsVisible())
-		{
-			CTSecuritySystemDlg* pSecurityDlg = static_cast<CTSecuritySystemDlg*>(CTClientGame::GetInstance()->m_vTFRAME[TFRAME_SECURITYSYS]);
-
-			ClearButton();
-			pGame->ResetPopupMenu();
-			pSecurityDlg->PrepareDisplay();
-
-			if( pSecurityDlg->GetExist() )
-				pSecurityDlg->SwitchMode(TDLG_SC_MCHANGE);
-			else
-				pSecurityDlg->SwitchMode(TDLG_SC_MCREATE);
-
-			CTClientGame::GetInstance()->EnableUI(TFRAME_SECURITYSYS);
-		}
-		else if(m_pCatBtn[TMENUNEWINVEN_ENDISABLESC]->HitTest(pt) && m_pCatBtn[TMENUNEWINVEN_ENDISABLESC]->IsVisible())
-		{
-		if (m_pCatName[TMENUNEWINVEN_ENDISABLESC]->m_strText != "Custom Cloak")
+		for (BYTE row = 0; row < TMENUNEW_COUNT; ++row)
+			if (m_pCatBtn[row]->IsEnable() && m_pCatBtn[row]->HitTest(pt))
 			{
-				CTSecuritySystemDlg* pSecurityDlg = static_cast<CTSecuritySystemDlg*>(CTClientGame::GetInstance()->m_vTFRAME[TFRAME_SECURITYSYS]);
-
+				int action = m_InvenActions[row];
 				ClearButton();
 				pGame->ResetPopupMenu();
-				pSecurityDlg->PrepareDisplay();
-
-				if (pSecurityDlg->GetEnabled())
-					pSecurityDlg->SwitchMode(TDLG_SC_MDISABLE);
-				else
-				{
-					if (pSecurityDlg->GetExist())
-						pSecurityDlg->SwitchMode(TDLG_SC_MENABLE);
-					else
-						pSecurityDlg->SwitchMode(TDLG_SC_MCREATE);
-				}
-
-
-
-
-				CTClientGame::GetInstance()->EnableUI(TFRAME_SECURITYSYS);
+				ExecuteInvenAction(action);
+				break;
 			}
-
-
-			else
-			{
-				ClearButton();
-				pGame->ResetPopupMenu();
-				pGame->OnGM_TOGGLE_CUSTOMCLOAK();
-
-
-
-
-			}
-
-
-		}
-		else if(m_pCatBtn[TMENUNEWINVEN_CUSTOMCLOAK]->HitTest(pt) && m_pCatBtn[TMENUNEWINVEN_CUSTOMCLOAK]->IsVisible())		{
-
-
-			ClearButton();
-			pGame->ResetPopupMenu();
-			pGame->OnGM_TOGGLE_CUSTOMCLOAK();
-		}
 	}
 	else if(m_nCurMode == TMAINBUTTONNEW_SYSTEM)
 	{

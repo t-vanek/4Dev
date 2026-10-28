@@ -43,7 +43,7 @@ void CTBowBPTradeDlg::UpdateScroll()
 	m_dwMedals = (DWORD) FLOAT(((FLOAT)nPos / (FLOAT)nRng) * min(100, Medals));
 	m_dwBP = m_dwMedals * MEDAL_BP_RATE;
 
-	m_pTradeDesc->m_strText.Format("You are going to buy %d BP for %d Medal(s).", m_dwBP, m_dwMedals);
+	m_pTradeDesc->m_strText.Format(CTChart::Localize("You are going to buy %d BP for %d Medal(s)."), m_dwBP, m_dwMedals);
 	m_pTotalMedals->m_strText.Format("%d", min(100, Medals));
 	m_pMedalCost->m_strText.Format("%d", m_dwMedals);
 	m_pMax->m_strText.Format("%d", Medals * MEDAL_BP_RATE);

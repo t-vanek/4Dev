@@ -94,7 +94,7 @@ void CTGuildJoinNewDlg::ResetInfo()
 					case GRVI_LEVEL	:
 						{
 							CString strLevel;
-							strLevel.Format("Lv %d", itMEMBER->m_bLevel);
+							strLevel.Format(CTChart::Localize("Lv %d"), itMEMBER->m_bLevel);
 							m_pList->SetItemString( nLine, 3, strLevel);
 
 							m_pList->SetItemData( nLine, 3, MAKELONG( nLine, 3) );
@@ -138,7 +138,7 @@ void CTGuildJoinNewDlg::ResetInfo()
 					case GTVI_LEVEL	:
 						{
 							CString strLevel;
-							strLevel.Format("Lv %d", itMEMBERR->m_bLevel);
+							strLevel.Format(CTChart::Localize("Lv %d"), itMEMBERR->m_bLevel);
 
 							m_pList2->SetItemString( nLine, 3, strLevel );
 							m_pList2->SetItemData( nLine, 3, MAKELONG( nLine, 3) );

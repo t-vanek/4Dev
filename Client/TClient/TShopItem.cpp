@@ -65,7 +65,7 @@ void CTShopNpcItem::ReflectSlot(CTCtrlListSlot* pSlot)
 	if(pShopSlot->m_dwUserData == TSHOP_PHURCHASE_TYPE_POINT)
 	{
 		if (CTClientGame::IsInBOWMap())
-			pShopSlot->m_pPoint->m_strText.Format("%d BP",
+			pShopSlot->m_pPoint->m_strText.Format(CTChart::Localize("%d BP"),
 				dwPRICE);
 		else
 			pShopSlot->m_pPoint->m_strText = CTChart::Format( TSTR_FMT_PVPPOINT,
@@ -155,7 +155,7 @@ void CTPrivateShopItem::ReflectSlot(CTCtrlListSlot* pSlot)
 	if (m_dwCredits)
 	{
 		pShopSlot->m_dwUserData = TSHOP_PHURCHASE_TYPE_POINT;
-		pShopSlot->m_pPoint->m_strText.Format("Credits : %d", m_dwCredits);
+		pShopSlot->m_pPoint->m_strText.Format(CTChart::Localize("Credits : %d"), m_dwCredits);
 		pShopSlot->ShowComponent(TRUE);
 	}
 	else

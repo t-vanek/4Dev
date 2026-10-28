@@ -69,7 +69,7 @@ void CTPopupMenu::AddMENU( DWORD dwTitleID,
 	strTitle = CTChart::LoadString( (TSTRING) dwTitleID);
 
 	if(dwTitleID == TSTR_COMPANION)
-		strTitle = "Companion";
+		strTitle = CTChart::Localize("Companion");
 
 	AddMENU( strTitle, dwMenuID);
 }

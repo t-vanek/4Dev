@@ -156,8 +156,8 @@ CGuildSkillsDlg::CGuildSkillsDlg(TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc)
 		m_TimeText[i] = FindKid(TimeTextID[i]);
 		m_TimeVal[i] = FindKid(TimeValueID[i]);
 
-		m_Expired[i]->m_strText = "Expired";
-		m_TimeText[i]->m_strText = "Duration";
+		m_Expired[i]->m_strText = CTChart::Localize("Expired");
+		m_TimeText[i]->m_strText = CTChart::Localize("Duration");
 		m_TimeVal[i]->m_strText.Empty();
 
 		m_Level[i]->m_strText = "0/10";
@@ -293,7 +293,7 @@ void CGuildSkillsDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 		if (m_Renew[i]->HitTest(pt)) {
 			auto ClientGame = CTClientGame::GetInstance();
 			if (ClientGame->GetMainChar()->m_dwPvPUseablePoint < SKILL_RENEW_PRICE) {
-				CString strError; strError.Format("You do not have enough credits to renew this skill (%d)", SKILL_RENEW_PRICE);
+				CString strError; strError.Format(CTChart::Localize("You do not have enough credits to renew this skill (%d)"), SKILL_RENEW_PRICE);
 				ClientGame->GetMainWnd()->MessageBoxOK(strError, TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
 				break;
 			}

@@ -318,9 +318,9 @@ const CString& CTKeySetting::GetKeyDesc(TKEY_SET eKey) const
 		strRESULT = CTChart::LoadString( (TSTRING) m_vDefInfo[eKey].m_dwDescStrID);
 
 	if(m_vDefInfo[eKey].m_dwDescStrID == TSTR_COMPANION)
-		strRESULT = "Companion";
+		strRESULT = CTChart::Localize("Companion");
 	if(m_vDefInfo[eKey].m_dwDescStrID == TSTR_PRICK_PLAYER)
-		strRESULT = "Next Player";
+		strRESULT = CTChart::Localize("Next Player");
 
 	return strRESULT;
 }

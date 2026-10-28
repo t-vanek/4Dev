@@ -197,7 +197,7 @@ ITDetailInfoPtr	CBRTRanking::GetTInfoKey( const CPoint& pt )
 	{
 		for (MAPBRTPLAYER::iterator it = pTEAM->m_mapBRTPlayers.begin(); it != pTEAM->m_mapBRTPlayers.end(); ++it)
 		{
-			strPlayer[bPIndex].Format("%s - %d kills | %d lifes", (LPCTSTR)(*it).second->m_strNAME, (*it).second->m_wKills, (*it).second->m_bLifes);
+			strPlayer[bPIndex].Format(CTChart::Localize("%s - %d kills | %d lifes"), (LPCTSTR)(*it).second->m_strNAME, (*it).second->m_wKills, (*it).second->m_bLifes);
 			bPIndex++;
 		}
 	}

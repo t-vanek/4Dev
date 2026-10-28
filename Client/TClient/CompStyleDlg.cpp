@@ -13,6 +13,7 @@ CCompStyleDlg::CCompStyleDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 	m_pTargetIcon = (TImageList*) FindKid(28171);
 
 	m_pStart = (TButton*) FindKid(21);
+	m_pStart->m_menu[TNM_LCLICK] = 0;
 	m_pGauge = (TGauge*) FindKid(26925);
 	m_pGauge->SetStyle(TGS_GROW_RIGHT);
 
@@ -27,13 +28,14 @@ CCompStyleDlg::CCompStyleDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 
 	m_pFaceIcon->MoveComponentBy(0, -3);
 
-	FindKid(19)->m_strText = "Transfer Companion";
-	m_pStart->m_strText = "Transfer";
-	m_pFinishTxt->m_strText = "The companion was successfully transfered.";
+	FindKid(19)->m_strText = CTChart::Localize("Transfer Companion");
+	m_pStart->m_strText = CTChart::Localize("Transfer");
+	m_pFinishTxt->m_strText = CTChart::Localize("The companion was successfully transfered.");
 	m_pFinishTxt->ShowComponent(FALSE);
 
 	m_bProgress = FALSE;
 	m_bFinished = FALSE;
+	m_dwTransferTick = 0;
 
 	m_bInvenID = INVEN_DEFAULT;
 	m_bItemID = 0;
@@ -55,6 +57,7 @@ BYTE CCompStyleDlg::InitData(BYTE bSlot, WORD wToMonID, BYTE bInvenID, BYTE bIte
 	m_wToMonID = wToMonID;
 	m_bInvenID = bInvenID;
 	m_bItemID = bItemID;
+	m_bProgress = FALSE;
 	m_bFinished = FALSE;
 
 	CTCompanionDlg* pDlg = static_cast<CTCompanionDlg*> (CTClientGame::GetInstance()->GetFrame(TFRAME_COMPANION));
@@ -86,38 +89,34 @@ BYTE CCompStyleDlg::InitData(BYTE bSlot, WORD wToMonID, BYTE bInvenID, BYTE bIte
 
 HRESULT CCompStyleDlg::Render(DWORD dwTickCount)
 {
-	static BOOL bProgress = m_bProgress;
-	static DWORD dwTick = 0;
+	if (!IsVisible())
+		return CTClientUIBase::Render(dwTickCount);
 
 	if (m_bFinished)
 	{
-		m_pFinishTxt->m_strText = "The companion was transfered.";
-		m_pStart->m_strText = "Close";
+		m_pFinishTxt->ShowComponent(TRUE);
+		m_pFinishTxt->m_strText = CTChart::Localize("The companion was transfered.");
+		m_pStart->m_strText = CTChart::Localize("Close");
 
 		return CTClientUIBase::Render(dwTickCount);
 	}
 	else 
 	{
-		m_pStart->m_strText = "Transfer";
-		m_pFinishTxt->m_strText = "Click Transfer to start.";
+		m_pFinishTxt->ShowComponent(TRUE);
+		m_pStart->m_strText = CTChart::Localize("Transfer");
+		m_pFinishTxt->m_strText = CTChart::Localize("Click Transfer to start.");
 	}
 
-	if (bProgress != m_bProgress)
+	if (m_bProgress)
 	{
-		dwTick = 0;
-		bProgress = m_bProgress;
-	}
-
-	if (bProgress)
-	{
-		dwTick += dwTickCount;
-		m_pGauge->SetGauge(dwTick, GAUGE_MOVING_IN_SECS);
+		m_dwTransferTick += dwTickCount;
+		m_pGauge->SetGauge(m_dwTransferTick, GAUGE_MOVING_IN_SECS);
 		m_pFinishTxt->m_strText.Empty();
 
-		if (dwTick >= GAUGE_MOVING_IN_SECS)
+		if (m_dwTransferTick >= GAUGE_MOVING_IN_SECS)
 		{
 			m_bProgress = FALSE;
-			dwTick = 0;
+			m_dwTransferTick = 0;
 
 			m_bFinished = TRUE;
 			m_pFaceIcon->SetCurImage(m_pTargetIcon->GetCurImage());
@@ -135,11 +134,14 @@ HRESULT CCompStyleDlg::Render(DWORD dwTickCount)
 
 void CCompStyleDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 {
-	if (m_pStart->HitTest(pt) && IsVisible()) {
-		if (m_pStart->m_strText != "Close")
-			m_bProgress = TRUE;
-		else
+	if (m_pStart->IsEnable() && m_pStart->HitTest(pt) && IsVisible()) {
+		if (m_bFinished)
 			ShowComponent(FALSE);
+		else if (!m_bProgress)
+		{
+			m_dwTransferTick = 0;
+			m_bProgress = TRUE;
+		}
 	}
 
 	return CTClientUIBase::OnLButtonUp(nFlags, pt);
@@ -149,6 +151,7 @@ void CCompStyleDlg::ShowComponent(BOOL bVisible)
 {
 	if (m_bProgress)
 		m_bProgress = FALSE;
+	m_dwTransferTick = 0;
 	
 	return CTClientUIBase::ShowComponent(bVisible);
 }

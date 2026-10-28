@@ -23,7 +23,7 @@ CTBowRegisterWaitingDlg::CTBowRegisterWaitingDlg( TComponent *pParent, FRAMEDESC
 	}
 
 	FindKid(ID_CTRLINST_CLOSE)->m_menu[TNM_LCLICK] = GM_CANCEL_BOW_QUEUE;
-	FindKid(ID_CTRLINST_TITLE)->m_strText = "Battle of the Worlds";
+	FindKid(ID_CTRLINST_TITLE)->m_strText = CTChart::Localize("Battle of the Worlds");
 
 	for (BYTE i = 0; i < 2; ++i)
 	{

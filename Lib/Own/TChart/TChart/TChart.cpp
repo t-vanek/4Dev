@@ -1,10 +1,14 @@
 ﻿#include "StdAfx.h"
 #include ".\tchart.h"
+#include <map>
+#include <string>
+#include <stdexcept>
 
 #define MODIFY_ITEM_EFFECT
 
 CString CTChart::m_strNationCode;
 CString CTChart::m_vTSTRING[TSTR_COUNT];
+std::map<DWORD, CString> CTChart::m_mapExtraTSTRING;
 MAPTSKILLTEMP CTChart::m_mapTSKILLTEMP;
 MAPTSTRING CTChart::m_mapTCOUNTRYINFO;
 MAPTSTRING CTChart::m_mapTRACEINFO;
@@ -91,7 +95,9 @@ CString CTChart::CustomStrings[][2] =
 	{"3005", "Hide Auto Select Circle"},
 	{"3006", "Hide Accessories for other players"},
 	{"3007", "Donate Life"},
-	{"3008", "Disable Chat Transparency"}
+	{"3008", "Disable Chat Transparency"},
+	{"2140", "Companion"},
+	{"2141", "Next Player"}
 
 
 
@@ -267,6 +273,7 @@ BOOL CTChart::InitTString( CString strPath )
 	CFile file;
 	if( file.Open( LPCSTR(strPath), CFile::modeRead|CFile::typeBinary ) )
 	{
+		m_mapExtraTSTRING.clear();
 
 
 
@@ -298,9 +305,12 @@ BOOL CTChart::InitTString( CString strPath )
 			{
 				if( wStringID > TSTR_NONE && wStringID < TSTR_COUNT )
 					CTChart::m_vTSTRING[ wStringID ] = strString;
+				else if( wStringID >= TSTR_COUNT )
+					m_mapExtraTSTRING[wStringID] = strString;
 
 				if(wStringID == 1908)
-					CTChart::m_vTSTRING[ 1908 ] = "Enter Undred";
+					CTChart::m_vTSTRING[ 1908 ] = m_strNationCode == _T("CZECH")
+						? _T("Vstoupit do Undredu") : _T("Enter Undred");
 
 
 			}
@@ -321,14 +331,30 @@ BOOL CTChart::InitTString( CString strPath )
 
 
 
+LPCTSTR CTChart::Localize(LPCTSTR text)
+{
+	if (!text || m_strNationCode != _T("CZECH"))
+		return text;
+	static const std::map<std::string, LPCTSTR> translations = {
+#include "CzechUiText.inc"
+	};
+	auto translated = translations.find(text);
+	return translated == translations.end() ? text : translated->second;
+}
+
 CString CTChart::LoadString( TSTRING v )
 {
 	for (BYTE i = 0; i < sizeof(CTChart::CustomStrings) / sizeof(CTChart::CustomStrings[0]); ++i)
 		if (atoi(CTChart::CustomStrings[i][0]) == (DWORD)v)
-			return CTChart::CustomStrings[i][1];
+			return Localize(CTChart::CustomStrings[i][1]);
 
-	if( TSTR_NONE > v || v >= TSTR_COUNT )
+	if( TSTR_NONE > v )
 		return CString("");
+	if( v >= TSTR_COUNT )
+	{
+		std::map<DWORD, CString>::const_iterator found = m_mapExtraTSTRING.find(static_cast<DWORD>(v));
+		return found == m_mapExtraTSTRING.end() ? CString("") : found->second;
+	}
 
 	return CTChart::m_vTSTRING[ v ];
 }
@@ -339,9 +365,9 @@ CString CTChart::Format( TSTRING v, ... )
 
 	for (BYTE i = 0; i < sizeof(CTChart::CustomStrings) / sizeof(CTChart::CustomStrings[0]); ++i)
 		if (atoi(CTChart::CustomStrings[i][0]) == (DWORD)v)
-			Custom = CTChart::CustomStrings[i][1];
+			Custom = Localize(CTChart::CustomStrings[i][1]);
 	
-	if((TSTR_NONE > v || v >= TSTR_COUNT) && Custom == NAME_NULL)
+	if((TSTR_NONE > v || (v >= TSTR_COUNT && m_mapExtraTSTRING.find(static_cast<DWORD>(v)) == m_mapExtraTSTRING.end())) && Custom == NAME_NULL)
 		return CString("");
 
 	CString strRESULT;
@@ -616,14 +642,14 @@ void CTChart::InitTSKILLTEMP( CString strPath )
 
 	LPTSKILL pRANKBOOST50 = new TSKILL(*CTChart::FindTSKILLTEMP(941));
 	pRANKBOOST50->m_wSkillID = 1700;
-	pRANKBOOST50->m_strNAME = "Rank Boost (+50%)";
+	pRANKBOOST50->m_strNAME = Localize("Rank Boost (+50%)");
 	pRANKBOOST50->m_dwInfoID = 0;
 
 	CTChart::m_mapTSKILLTEMP.insert(make_pair(pRANKBOOST50->m_wSkillID, pRANKBOOST50));
 
 	LPTSKILL pRANKBOOST75 = new TSKILL(*CTChart::FindTSKILLTEMP(941));
 	pRANKBOOST75->m_wSkillID = 1701;
-	pRANKBOOST75->m_strNAME = "Rank Boost (+75%)";
+	pRANKBOOST75->m_strNAME = Localize("Rank Boost (+75%)");
 	pRANKBOOST75->m_dwInfoID = 0;
 
 	CTChart::m_mapTSKILLTEMP.insert(make_pair(pRANKBOOST75->m_wSkillID, pRANKBOOST75));
@@ -2270,7 +2296,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	LPTITEM pTITEM = new TITEM(*FindTITEMTEMP(7921));
 	pTITEM->m_wItemID = 21500;
 	pTITEM->m_wUseValue = 1700;
-	pTITEM->m_strNAME = "Rank Boost (+50%)";
+	pTITEM->m_strNAME = Localize("Rank Boost (+50%)");
 	pTITEM->m_dwInfoID = 21500;
 
 	CTChart::m_mapTITEMTEMP.insert( MAPTITEMTEMP::value_type( pTITEM->m_wItemID, pTITEM));
@@ -2278,7 +2304,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	pTITEM = new TITEM(*FindTITEMTEMP(7921));
 	pTITEM->m_wItemID = 21501;
 	pTITEM->m_wUseValue = 1701;
-	pTITEM->m_strNAME = "Rank Boost (+75%)";
+	pTITEM->m_strNAME = Localize("Rank Boost (+75%)");
 	pTITEM->m_dwInfoID = 21501;
 
 	CTChart::m_mapTITEMTEMP.insert( MAPTITEMTEMP::value_type( pTITEM->m_wItemID, pTITEM));
@@ -2286,7 +2312,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	pTITEM = new TITEM(*FindTITEMTEMP(17013));
 	pTITEM->m_wItemID = 31200;
 	pTITEM->m_bKind = IK_PETTRANSFORM;
-	pTITEM->m_strNAME = "Companion Transform Rune";
+	pTITEM->m_strNAME = Localize("Companion Transform Rune");
 	pTITEM->m_dwInfoID = 31200;
 	pTITEM->m_bType = IT_USE;
 
@@ -2295,7 +2321,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	pTITEM = new TITEM(*FindTITEMTEMP(25030));
 	pTITEM->m_wItemID = 25041;
 	pTITEM->m_bKind = 19;
-	pTITEM->m_strNAME = "Al Pacino's Cloak";
+	pTITEM->m_strNAME = Localize("Al Pacino's Cloak");
 	pTITEM->m_dwInfoID = 25041;
 	pTITEM->m_bType = 2;
 	pTITEM->m_wAttrID = 21148;
@@ -2306,7 +2332,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	pTITEM = new TITEM(*FindTITEMTEMP(25030));
 	pTITEM->m_wItemID = 25042;
 	pTITEM->m_bKind = 19;
-	pTITEM->m_strNAME = "eZ Gucci :^) Cloak";
+	pTITEM->m_strNAME = Localize("eZ Gucci :^) Cloak");
 	pTITEM->m_dwInfoID = 25042;
 	pTITEM->m_bType = 2;
 	pTITEM->m_wAttrID = 21148;
@@ -2318,7 +2344,7 @@ void CTChart::InitTITEMTEMP( CString strPath )
 	pTITEM->m_wItemID = 24505;
 	memcpy(pTITEM->m_wVisual, FindTITEMTEMP(11671)->m_wVisual, sizeof(pTITEM->m_wVisual));
 	pTITEM->m_bKind = IK_ACCESSORY_SCROLL;
-	pTITEM->m_strNAME = "Accessory Refine Scroll";
+	pTITEM->m_strNAME = Localize("Accessory Refine Scroll");
 
 	CTChart::m_mapTITEMTEMP.insert(MAPTITEMTEMP::value_type(pTITEM->m_wItemID, pTITEM));
 }
@@ -2652,6 +2678,11 @@ void CTChart::InitTQUESTMAGICITEM( CString strPath )
 	WORD wCount;
 	ar >> wCount;
 
+	const ULONGLONG dataBytes = file.GetLength() - sizeof(WORD);
+	const int magicSlots = dataBytes == ULONGLONG(wCount) * 35 ? TQUEST_MAGIC_SLOT_COUNT : TMAGIC_MAX;
+	if (dataBytes != ULONGLONG(wCount) * (17 + magicSlots * 2))
+		throw std::runtime_error("Unsupported TQuestItem table layout");
+
 
 
 
@@ -2661,7 +2692,7 @@ void CTChart::InitTQUESTMAGICITEM( CString strPath )
 
 	for( WORD i=0; i<wCount; ++i)
 	{
-		LPTQUESTITEM pQuestItem = new TQUESTITEM;
+		LPTQUESTITEM pQuestItem = new TQUESTITEM();
 
 		DWORD dwRewardID;
 
@@ -2673,7 +2704,8 @@ void CTChart::InitTQUESTMAGICITEM( CString strPath )
 			>> pQuestItem->m_dwDuraCur
 			>> pQuestItem->m_bRefineCur;
 
-		for(INT j=0; j<TMAGIC_MAX; ++j)
+		pQuestItem->m_dwID = dwRewardID;
+		for(INT j=0; j<magicSlots; ++j)
 		{
 			ar	>> pQuestItem->m_bMagic[ j ]
 				>> pQuestItem->m_bValue[ j ];

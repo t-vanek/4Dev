@@ -14,7 +14,7 @@ CTBFGAlarm::CTBFGAlarm( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 	m_pText = FindKid(ID_BOW_TEXT);
 	m_pTime = FindKid(ID_BOW_TIME);
 
-	m_pText->m_strText = "Battle of the Worlds will soon start.\n<< Click here to register.";
+	m_pText->m_strText = CTChart::Localize("Battle of the Worlds will soon start.\n<< Click here to register.");
 	m_pText->MoveComponentBy(3, 11);
 	m_pAlarm->m_menu[TNM_LCLICK] = GM_OPEN_REGISTER_UI;
 
@@ -47,7 +47,7 @@ void CTBFGAlarm::SetType(BYTE bType, BYTE bBRType)
 	switch (bType)
 	{
 	case SYSTEM_BOW:
-		m_pText->m_strText = "Battle of the Worlds";
+		m_pText->m_strText = CTChart::Localize("Battle of the Worlds");
 		break;
 	case SYSTEM_BR:
 
@@ -56,9 +56,9 @@ void CTBFGAlarm::SetType(BYTE bType, BYTE bBRType)
 
 
 
-			m_pText->m_strText = "Battle Royale (Solo)";
+			m_pText->m_strText = CTChart::Localize("Battle Royale (Solo)");
 		else
-			m_pText->m_strText = "Battle Royale (Team)";
+			m_pText->m_strText = CTChart::Localize("Battle Royale (Team)");
 	}
 	break;
 	}

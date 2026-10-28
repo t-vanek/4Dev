@@ -194,8 +194,8 @@ void CTCashCabinetDlg::SetInfoCashCabinet(
 	m_dwCash = dwCash;
 	m_dwBonusCash = dwBonusCash;
 
-	m_pCashPoints->m_strText.Format("Moonstones: %d", dwCash);
-	m_pBonusPoints->m_strText.Format("Bonus Points: %d", dwBonusCash);
+	m_pCashPoints->m_strText.Format(CTChart::Localize("Moonstones: %d"), dwCash);
+	m_pBonusPoints->m_strText.Format(CTChart::Localize("Bonus Points: %d"), dwBonusCash);
 }
 
 BOOL CTCashCabinetDlg::AddItem(UINT nCab, CTCabinetItem* pItem)

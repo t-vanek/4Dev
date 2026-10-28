@@ -130,6 +130,14 @@ public:
 class CQuestNewDlg : public CTClientUIBase
 {
 public:
+	enum class ButtonAction { None, Accept, Complete, GiveUp, NextQuest, TrackQuest, Close };
+	void SetQuestButtons(ButtonAction accept, ButtonAction refuse);
+	void ExecuteButtonAction(ButtonAction action);
+	void SelectNextQuest();
+	void ClearQuestSelection();
+	ButtonAction m_AcceptAction = ButtonAction::None;
+	ButtonAction m_RefuseAction = ButtonAction::None;
+
 	static CPoint m_ptPOS;
 
 	INT m_nCurLeftScrollY;
@@ -278,4 +286,4 @@ public:
 
 	CQuestList m_QuestList[3];
 	CRightSide m_RightSide;
-}; 
+};

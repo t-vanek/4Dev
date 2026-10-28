@@ -158,7 +158,7 @@ CTCharNewDlg::CTCharNewDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc, TCML
 	pText->m_id = GetUniqueID();
 
 	pText->m_bWordBreak = FALSE;
-	pText->m_strText = "Hide Cloak";
+	pText->m_strText = CTChart::Localize("Hide Cloak");
 
 	m_pTHELMETHIDE->GetComponentPos(&pPos[0]);
 	pCOMP->GetComponentPos(&pPos[1]);
@@ -428,7 +428,7 @@ HRESULT CTCharNewDlg::Render( DWORD dwTickCount)
 		CTClientChar* pMainChar = CTClientGame::GetInstance()->GetMainChar();
 
 		m_vTCHARADV[TCHARADV_NAME]->m_strText = pMainChar->GetName();
-		m_vTCHARADV[TCHARADV_LEVEL]->m_strText.Format("Lv%d", pMainChar->m_bLevel);
+		m_vTCHARADV[TCHARADV_LEVEL]->m_strText.Format(CTChart::Localize("Lv%d"), pMainChar->m_bLevel);
 		m_vTCHARADV[TCHARADV_GUILD]->m_strText = pMainChar->m_strGUILD;
 		m_vTCHARADV[TCHARADV_SOULMATE]->m_strText = CTClientGame::GetInstance()->GetSoulName();
 		m_pCOUNTRY->SetCurImage(pMainChar->m_bContryID);

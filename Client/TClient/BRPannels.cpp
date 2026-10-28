@@ -160,7 +160,7 @@ void CBRPannels::UpdatePannels()
 		{
 			m_pGauge[nIndex]->SetGauge(0, 1, FALSE);
 			m_pLifes[nIndex]->m_strText.Format("%d", (*it)->m_bLife);
-			m_pName [nIndex]->m_strText.Format(!Dead ? "%s" : "Dead (%s)", (LPCTSTR)(*it)->m_strName);
+			m_pName [nIndex]->m_strText.Format(!Dead ? "%s" : CTChart::Localize("Dead (%s)"), (LPCTSTR)(*it)->m_strName);
 			RemoveKid(m_pHeartPH[nIndex]);
 			m_pHeartPH[nIndex]->ShowComponent(FALSE);
 		}
@@ -168,7 +168,7 @@ void CBRPannels::UpdatePannels()
 		{
 			m_pGauge[nIndex]->SetGauge(Dead ? 0 : pCHAR->m_dwHP, pCHAR->m_dwMaxHP, FALSE);
 			m_pLifes[nIndex]->m_strText.Format("%d", (*it)->m_bLife);
-			m_pName [nIndex]->m_strText.Format(!Dead ? "%s" : "Dead (%s)", (LPCTSTR)(*it)->m_strName);
+			m_pName [nIndex]->m_strText.Format(!Dead ? "%s" : CTChart::Localize("Dead (%s)"), (LPCTSTR)(*it)->m_strName);
 			if (!Dead)
 			{
 				if (!m_pHeartPH[nIndex]->IsVisible())

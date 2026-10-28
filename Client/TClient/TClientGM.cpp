@@ -2414,33 +2414,21 @@ int CTClientGame::OnGM_QUEST_ACCEPT()
 		LPTREWARD pTREWARD = pTNPCTalkDlg->m_pTSELREWARD;
 		pTQUEST = pTNPCTalkDlg->GetCurTQuest();
 		
-		/*
-		if (pTNPCTalkDlg->m_pACCEPT->m_strText == "Complete")
+		CQuest* pSelectedQuest = pTNPCTalkDlg->GetCurSelTQuest();
+		if (pTQUEST && pSelectedQuest && pSelectedQuest->m_Completed)
 		{
-			for (auto Q : CTChart::m_mapTQUESTTEMP)
+			// The dialog displays the mission; execution needs the completion offered by this NPC.
+			LPTQUEST pTMISSION = pTQUEST;
+			pTQUEST = NULL;
+			if (m_pTARGET && m_pTARGET->m_bType == OT_NPC)
 			{
-				if (Q.second->m_bType == QT_COMPLETE && Q.second->m_dwParentID == pTQUEST->m_dwID)
+				for (const auto& quest : m_pTARGET->m_mapTQUESTTEMP)
 				{
-					pTQUEST = Q.second;
-					break;
-				}
-			}
-		}
-		*/
-
-		if (pTNPCTalkDlg->m_pACCEPT->m_strText == "Complete")
-		{
-			for (auto Q : CTChart::m_mapTQUESTTEMP)
-			{
-				if (Q.second->m_bType == QT_COMPLETE) /* USE THIS WHEN NEW PATCH Q.second->m_dwParentID == pTQUEST->m_dwID*/
-				{
-					for (auto Term : Q.second->m_vTTERM)
+					if (quest.second->m_bType == QT_COMPLETE &&
+						CTChart::FindTMISSION(quest.second) == pTMISSION)
 					{
-						if (Term->m_bType == QTT_COMPQUEST && Term->m_dwID == pTQUEST->m_dwID)
-						{
-							pTQUEST = Q.second;
-							break;
-						}
+						pTQUEST = quest.second;
+						break;
 					}
 				}
 			}
@@ -3403,7 +3391,7 @@ int CTClientGame::OnGM_ITEMUP_READY()
 			break;
 
 		case IK_ACCESSORY_SCROLL:
-			strMSG = "Do you really want to apply the scroll? The accessory will get random magic upgrade, and may not be reverted.";
+			strMSG = CTChart::Localize("Do you really want to apply the scroll? The accessory will get random magic upgrade, and may not be reverted.");
 			break;
 		case IK_1HAND:
 		case IK_LHAND:
@@ -3461,10 +3449,10 @@ int CTClientGame::OnGM_ITEMUP_READY()
 			strMSG = CTChart::LoadString( TSTR_ITEMUP_WARN_CHANGECOLOR );
 			break;
 		case IK_CLOAKEFFECT:
-			strMSG = "Do you really want to change your cloak effect?";
+			strMSG = CTChart::Localize("Do you really want to change your cloak effect?");
 			break;
 		case IK_DELEFFECT:
-			strMSG = "Do you really want to delete effect of this item?";
+			strMSG = CTChart::Localize("Do you really want to delete effect of this item?");
 			break;
 		}
 
@@ -5653,7 +5641,7 @@ int CTClientGame::OnGM_CHANGE_CHANNEL()
 {
 	if (IsInBRMap() || IsInBOWMap())
 	{
-		m_pMainWnd->MessageBoxOK("You cannot change your channel in the Battle.", TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
+		m_pMainWnd->MessageBoxOK(CTChart::Localize("You cannot change your channel in the Battle."), TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
 		return TERR_NONE;
 	}
 
@@ -11654,7 +11642,7 @@ int CTClientGame::OnGM_SC_RIGHTBTN()
 
 
 
-		m_pMainWnd->MessageBoxOK("If you want to recover your security code, use our ticket system at www.4story.com/forum/", TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
+		m_pMainWnd->MessageBoxOK(CTChart::Localize("If you want to recover your security code, use our ticket system at www.4story.com/forum/"), TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
 
 
 
@@ -11922,7 +11910,7 @@ int CTClientGame::OnGM_BP_EXCHANGE()
 		return TERR_NONE;
 
 	CString strMSG;
-	strMSG.Format("Do you really want to buy %d BP for %d Medals?", 
+	strMSG.Format(CTChart::Localize("Do you really want to buy %d BP for %d Medals?"),
 		CTBowBPTradeDlg::m_dwBP, 
 		CTBowBPTradeDlg::m_dwMedals);
 

@@ -1154,7 +1154,7 @@ void CTCompanionDetInfo::Build()
 		}
 	}
 
-	m_TitleB.m_strText = m_pItemInst->GetTITEM()->m_bKind == IK_PETTRANSFORM ? "Companion Transformation Rune (" + pMON->m_strNAME + ")" : pMON->m_strNAME;
+	m_TitleB.m_strText = m_pItemInst->GetTITEM()->m_bKind == IK_PETTRANSFORM ? CTChart::Localize("Companion Transformation Rune (") + pMON->m_strNAME + ")" : pMON->m_strNAME;
 	if (m_pItemInst->GetTITEM()->m_bKind == IK_PETTRANSFORM)
 		m_TitleB.m_dwColor = 0xFFb52e92;
 	else
@@ -1340,7 +1340,7 @@ void CTOptionItemDetInfo::_ConvertAndSetTitle(const CString& strSource, DWORD dw
 		if (m_pItemInst->GetCustomTex())
 		{
 			_AddLine(" ");
-			_AddLine("Custom Cloak", 0xFF0099FF);
+			_AddLine(CTChart::Localize("Custom Cloak"), 0xFF0099FF);
 		}
 
 		if (m_pItemInst->GetMoggItemID())
@@ -1357,7 +1357,7 @@ void CTOptionItemDetInfo::_ConvertAndSetTitle(const CString& strSource, DWORD dw
 		if (m_pItemInst->GetTITEM() && m_pItemInst->GetTITEM()->m_bType == IT_COSTUME)
 	{
 		CString Refines;
-		Refines.Format("Special Refines : %d/4", m_pItemInst->GetRefineCurrent());
+		Refines.Format(CTChart::Localize("Special Refines : %d/4"), m_pItemInst->GetRefineCurrent());
 		_AddLine(Refines, D3DCOLOR_XRGB(0, 255, 51));
 
 	}
@@ -2910,14 +2910,14 @@ void CTPlayerDetInfo::Build()
 
 	if( m_bSenior )
 	{
-		_AddLine( "\xBB\xF3\xB0\xFC", TDEFAULT_TEXT_COLOR);	// "상관"
+		_AddLine( CTChart::Localize("Superior"), TDEFAULT_TEXT_COLOR);
 	}
 
 	CString strMSG;
-	strMSG.Format( "\xC5\xAC\xB7\xA1\xBD\xBA : %s", (LPCTSTR)CTChart::LoadString( (TSTRING) CTClientGame::m_vTCLASSSTR[ m_bClass ] ) );	// "클래스 : %s"
+	strMSG.Format( CTChart::Localize("Class: %s"), (LPCTSTR)CTChart::LoadString( (TSTRING) CTClientGame::m_vTCLASSSTR[ m_bClass ] ) );
 	_AddLine( strMSG, TDEFAULT_TEXT_COLOR);
 
-	strMSG.Format( "\xB7\xB9\xBA\xA7 : %d", m_bLevel );	// "레벨 : %d"
+	strMSG.Format( CTChart::Localize("Level: %d"), m_bLevel );
 	_AddLine( strMSG, TDEFAULT_TEXT_COLOR);
 
 	m_TitleB.m_strText = m_strName;

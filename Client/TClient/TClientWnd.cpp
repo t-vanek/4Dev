@@ -4259,7 +4259,7 @@ void CTClientWnd::InitChart()
 			{
 				pItem->SetRefineMax( pTITEM->m_bRefineMax);
 				
-				for(INT j=0; j<TMAGIC_MAX; ++j)
+				for(INT j=0; j<TQUEST_MAGIC_SLOT_COUNT; ++j)
 				{
 					if( itQUESTITEM->second->m_bMagic[ j ] )
 					{
@@ -5119,20 +5119,20 @@ BOOL CTClientWnd::VeteranBox(BYTE bOption, BYTE bFirstLevel, BYTE bSecondLevel, 
 	pLvlBtn1->ClearText();
 
 	if(bOption < 1 || bOption == NULL)
-		pLvlBtn1->m_strText.Format("Lv %d", 1);
+		pLvlBtn1->m_strText.Format(CTChart::Localize("Lv %d"), 1);
 	else
-		pLvlBtn1->m_strText.Format("Lv %d", bFirstLevel);
+		pLvlBtn1->m_strText.Format(CTChart::Localize("Lv %d"), bFirstLevel);
 
 	pLvlBtn2->ClearText();
-	pLvlBtn2->m_strText.Format("Lv %d", bSecondLevel);
+	pLvlBtn2->m_strText.Format(CTChart::Localize("Lv %d"), bSecondLevel);
 	pLvlBtn3->ClearText();
-	pLvlBtn3->m_strText.Format("Lv %d", bThirdLevel);
+	pLvlBtn3->m_strText.Format(CTChart::Localize("Lv %d"), bThirdLevel);
 	pNaLvlBtn1->ClearText();
-	pNaLvlBtn1->m_strText.Format("Lv %d", bFirstLevel);
+	pNaLvlBtn1->m_strText.Format(CTChart::Localize("Lv %d"), bFirstLevel);
 	pNaLvlBtn2->ClearText();
-	pNaLvlBtn2->m_strText.Format("Lv %d", bSecondLevel);
+	pNaLvlBtn2->m_strText.Format(CTChart::Localize("Lv %d"), bSecondLevel);
 	pNaLvlBtn3->ClearText();
-	pNaLvlBtn3->m_strText.Format("Lv %d", bThirdLevel);
+	pNaLvlBtn3->m_strText.Format(CTChart::Localize("Lv %d"), bThirdLevel);
 
 	if(bOption == 1 || bOption == 0)
 	{

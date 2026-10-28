@@ -188,7 +188,7 @@ void CTBowRankingDlg::ResetRank()
 			m_pNRanking[0]->m_strText.Format("%d", i + 1);
 			m_pBB[0]->m_strText.Format("%d", m_vTBODRANK[i]->m_dwBB);
 			m_pName[0]->m_strText = m_vTBODRANK[i]->m_strName;
-			m_pServer[0]->m_strText = "4Story";
+			m_pServer[0]->m_strText = CTChart::Localize("4Story");
 			m_pBP[0]->m_strText.Format("%d", m_vTBODRANK[i]->m_dwSP);
 			m_pCountry[0]->SetCurImage(m_vTBODRANK[i]->m_bCountry);
 			break;
@@ -203,7 +203,7 @@ void CTBowRankingDlg::ResetRank()
 		m_pNRanking[1 + i]->m_strText.Format("%d", 1 + i);
 		m_pBB[1 + i]->m_strText.Format("%d", m_vTBODRANK[i]->m_dwBB);
 		m_pName[1 + i]->m_strText = m_vTBODRANK[i]->m_strName;
-		m_pServer[1 + i]->m_strText = "4Story";
+		m_pServer[1 + i]->m_strText = CTChart::Localize("4Story");
 		m_pBP[1 + i]->m_strText.Format("%d", m_vTBODRANK[i]->m_dwSP);
 		m_pCountry[1 + i]->SetCurImage(m_vTBODRANK[i]->m_bCountry);
 	}
@@ -225,7 +225,7 @@ void CTBowRankingDlg::ResetRank()
 			m_pGNRanking[0]->m_strText.Format("%d", i + 1);
 			m_pGBB[0]->m_strText.Format("%d", m_vTGUILDRANK[i]->m_dwBB);
 			m_pGName[0]->m_strText = m_vTGUILDRANK[i]->m_strName;
-			m_pGServer[0]->m_strText = "4Story";
+			m_pGServer[0]->m_strText = CTChart::Localize("4Story");
 			m_pGTP[0]->m_strText.Format("%d", m_vTGUILDRANK[i]->m_dwSP);
 			m_pGCountry[0]->SetCurImage(m_vTGUILDRANK[i]->m_bCountry);
 			break;
@@ -239,7 +239,7 @@ void CTBowRankingDlg::ResetRank()
 	{
 		m_pGBB[1 + i]->m_strText.Format("%d", m_vTGUILDRANK[i]->m_dwBB);
 		m_pGName[1 + i]->m_strText = m_vTGUILDRANK[i]->m_strName;
-		m_pGServer[1 + i]->m_strText = "4Story";
+		m_pGServer[1 + i]->m_strText = CTChart::Localize("4Story");
 		m_pGTP[1 + i]->m_strText.Format("%d", m_vTGUILDRANK[i]->m_dwSP);
 		m_pGNRanking[1 + i]->m_strText.Format("%d", 1 + i);
 		m_pGCountry[1 + i]->SetCurImage(m_vTGUILDRANK[i]->m_bCountry);

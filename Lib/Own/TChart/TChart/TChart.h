@@ -271,6 +271,7 @@ public:
 
 public:
 	static CString m_vTSTRING[TSTR_COUNT];
+	static std::map<DWORD, CString> m_mapExtraTSTRING;
 	static MAPTSKILLTEMP m_mapTSKILLTEMP;
 	static MAPTSTRING m_mapTCOUNTRYINFO;
 	static MAPTSTRING m_mapTRACEINFO;
@@ -347,4 +348,6 @@ public:
 	static MAPTPORTALLINK m_mapTPORTALLINK;
 	static VECTORDWORD m_vBATTLERANK;
 	static CString CustomStrings[][2];
+	// Only call for fixed UI captions/messages; never translate player text or network data.
+	static LPCTSTR Localize(LPCTSTR text);
 };

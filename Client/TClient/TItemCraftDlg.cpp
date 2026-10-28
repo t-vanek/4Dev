@@ -35,16 +35,16 @@ CTItemCraftDlg::CTItemCraftDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 	m_pMateriallistTitle = static_cast<TList *>(FindKid(ID_CTRLINST_IC_MATERIALLISTTITLE));
 	m_pMateriallistCount = static_cast<TList *>(FindKid(ID_CTRLINST_IC_MATERIALLISTCOUNT));	
 
-	m_pRewardTitle->m_strText = "Result";
+	m_pRewardTitle->m_strText = CTChart::Localize("Result");
 	m_pRewardIcon->SetCurImage(1337);
-	m_pRewardItemTitle->m_strText = "Essence of Health(1200)";
-	m_pCreateBtn->m_strText = "Create";
-	m_pDlgTitle->m_strText = "Craft Item";
-	m_pListTitle->m_strText = "List";
-	m_pNeededTitle->m_strText = "Needed Item";
-	m_pNeededDesTitle->m_strText = "How to Acquire";
+	m_pRewardItemTitle->m_strText = CTChart::Localize("Essence of Health(1200)");
+	m_pCreateBtn->m_strText = CTChart::Localize("Create");
+	m_pDlgTitle->m_strText = CTChart::Localize("Craft Item");
+	m_pListTitle->m_strText = CTChart::Localize("List");
+	m_pNeededTitle->m_strText = CTChart::Localize("Needed Item");
+	m_pNeededDesTitle->m_strText = CTChart::Localize("How to Acquire");
 
-	m_pMateriallistTitle->m_strText = "Test Materialitem 1";
+	m_pMateriallistTitle->m_strText = CTChart::Localize("Test Materialitem 1");
 	m_pMateriallistCount->m_strText = "69/88";
 
 	m_pRewardItem[0] = static_cast<TComponent *>(FindKid(ID_CTRLINST_IC_REWARDLISTITEMNAME));

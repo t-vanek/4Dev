@@ -15,6 +15,7 @@ public:
 
 	BYTE m_bProgress;
 	BYTE m_bFinished;
+	DWORD m_dwTransferTick = 0;
 
 	BYTE m_bInvenID;
 	BYTE m_bItemID;

@@ -2910,6 +2910,8 @@ struct tagTTITLEGROUP
 	{}
 };
 
+enum { TQUEST_MAGIC_SLOT_COUNT = 9 };
+
 struct tagTQUESTITEM
 {
 	DWORD m_dwID;
@@ -2920,8 +2922,8 @@ struct tagTQUESTITEM
 	DWORD m_dwDuraCur;
 	BYTE m_bRefineCur;
 
-	BYTE m_bMagic[ TMAGIC_MAX ];
-	BYTE m_bValue[ TMAGIC_MAX ];
+	BYTE m_bMagic[ TQUEST_MAGIC_SLOT_COUNT ];
+	BYTE m_bValue[ TQUEST_MAGIC_SLOT_COUNT ];
 };
 
 struct tagTITEMVISUAL

@@ -152,7 +152,7 @@ void CTUtilityBarDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 							break;
 						}
 						pGame->DoTAUTOPATH(&vTAUTOPATH);
-						CString strMsg = "Walking to Auctioneer";
+						CString strMsg = CTChart::Localize("Walking to Auctioneer");
 						CTMainUI* pMain = static_cast<CTMainUI*> (pGame->GetFrame(TFRAME_MAIN));
 						pMain->ResetPositionMsg(strMsg);
 					}
@@ -196,7 +196,7 @@ void CTUtilityBarDlg::OnLButtonUp(UINT nFlags, CPoint pt)
 							break;
 						}
 						pGame->DoTAUTOPATH(&vTAUTOPATH);
-						CString strMsg = "Walking to Mission Portal";
+						CString strMsg = CTChart::Localize("Walking to Mission Portal");
 						CTMainUI* pMain = static_cast<CTMainUI*> (pGame->GetFrame(TFRAME_MAIN));
 						pMain->ResetPositionMsg(strMsg);
 					}

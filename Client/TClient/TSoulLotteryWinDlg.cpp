@@ -17,7 +17,7 @@ CTLotWinDlg::CTLotWinDlg( TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc )
 	m_pSText = FindKid(ID_SKILLTEXT);
 	m_pOK = static_cast<TButton*>(FindKid(ID_OK_BUT));
 
-	m_pSText->m_strText = "Hunting EP: +150% (15 min.)";
+	m_pSText->m_strText = CTChart::Localize("Hunting EP: +150% (15 min.)");
 
 }
 

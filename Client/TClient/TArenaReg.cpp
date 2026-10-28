@@ -130,8 +130,8 @@ void CTArenaRegDlg::Update()
 
 	if (m_ArenaPlayer[0])
 	{
-		m_pUWinCount->m_strText.Format("Wins : %d", m_ArenaPlayer[0]->m_Wins);
-		m_pULevel->m_strText.Format("Lv:%d", m_ArenaPlayer[0]->m_Level);
+		m_pUWinCount->m_strText.Format(CTChart::Localize("Wins : %d"), m_ArenaPlayer[0]->m_Wins);
+		m_pULevel->m_strText.Format(CTChart::Localize("Lv:%d"), m_ArenaPlayer[0]->m_Level);
 		m_pGroupUName->m_strText = m_ArenaPlayer[0]->m_ChiefName;
 		m_pGroupUC->SetCurImage(m_ArenaPlayer[0]->m_Country);
 	}
@@ -145,8 +145,8 @@ void CTArenaRegDlg::Update()
 
 	if (m_ArenaPlayer[1])
 	{
-		m_pDWinCount->m_strText.Format("Wins : %d", m_ArenaPlayer[1]->m_Wins);
-		m_pDLevel->m_strText.Format("Lv:%d", m_ArenaPlayer[1]->m_Level);
+		m_pDWinCount->m_strText.Format(CTChart::Localize("Wins : %d"), m_ArenaPlayer[1]->m_Wins);
+		m_pDLevel->m_strText.Format(CTChart::Localize("Lv:%d"), m_ArenaPlayer[1]->m_Level);
 		m_pGroupDName->m_strText = m_ArenaPlayer[1]->m_ChiefName;
 		m_pGroupDC->SetCurImage(m_ArenaPlayer[1]->m_Country);
 	}

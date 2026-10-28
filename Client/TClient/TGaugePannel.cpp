@@ -1095,11 +1095,11 @@ ITDetailInfoPtr CTGaugePannel::GetTInfoKey( const CPoint& point )
 
 		BYTE m_bPercent = CTClientGame::GetInstance()->m_vTGAUGE[TGAUGE_VITAL]->GetCurValue();
 		CString strAfter;
-		strAfter.Format("Side Effects of Resurrection : %d %%", m_bPercent);
+		strAfter.Format(CTChart::Localize("Side Effects of Resurrection : %d %%"), m_bPercent);
 		CString strAfter2;
 
 		BYTE m_bSideEffects = (BYTE) FLOAT(m_bPercent/3.33f);
-		strAfter2.Format("Attribute penalty : %d %%", m_bSideEffects);
+		strAfter2.Format(CTChart::Localize("Attribute penalty : %d %%"), m_bSideEffects);
 
 		pInfo = CTDetailInfoManager::NewAfterMathToolTip( "Side Effects of Resurrection", strAfter, strAfter2, rt );
 
@@ -1118,7 +1118,7 @@ ITDetailInfoPtr CTGaugePannel::GetTInfoKey( const CPoint& point )
 		m_pClockCmpnt->GetComponentRect( &rt);
 		m_pClockCmpnt->ComponentToScreen( &rt);
 
-		CString strLocalTime = "[Current time] " + GetLocalTimeString();
+		CString strLocalTime = CTChart::Localize("[Current time] ") + GetLocalTimeString();
 		CString strEmpty = "";
 
 		pInfo = CTDetailInfoManager::NewDefTooltipInst(
@@ -2632,7 +2632,7 @@ void CTGaugePannel::CalcHotkeyTick()
 					DWORD dwTick = pTITEM ? CTClientItem::GetTick(pTITEM->m_wDelayGroupID) : 0;
 
 					if(pTITEM->m_wUseBP)
-						m_pBONUSPRICE[i][j]->m_strText.Format("%dBP", pTITEM->m_wUseBP);
+						m_pBONUSPRICE[i][j]->m_strText.Format(CTChart::Localize("%dBP"), pTITEM->m_wUseBP);
 
 					if(dwTick)
 					{
@@ -3663,9 +3663,9 @@ CString CTGaugePannel::GetLocalTimeString()
 		strLocalTime.Format("0%d:0%d", dwHour, dwMinute);
 
 	if(dwHour < 12)
-		strLocalTime.Format("AM %s", (LPCTSTR)strLocalTime);
+		strLocalTime.Format(CTChart::Localize("AM %s"), (LPCTSTR)strLocalTime);
 	else
-		strLocalTime.Format("PM %s", (LPCTSTR)strLocalTime);
+		strLocalTime.Format(CTChart::Localize("PM %s"), (LPCTSTR)strLocalTime);
 
 	return strLocalTime;
 

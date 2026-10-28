@@ -123,17 +123,17 @@ int CTClientWnd::OnCS_LOGIN_ACK( CTachyonSession *pSession, CPacket *pPacket)
 				if(!bEternal)
 				{
 					if(cTime.GetDays() != 0)
-						strMessage.Format("Your Account has been suspended.\n Reason: %s\n Duration: %d days", (LPCTSTR)strReason, cTime.GetDays());
+						strMessage.Format(CTChart::Localize("Your Account has been suspended.\n Reason: %s\n Duration: %d days"), (LPCTSTR)strReason, cTime.GetDays());
 					else
 					{
 						if(cTime.GetHours() != 0)
-							strMessage.Format("Your Account has been suspended.\n Reason: %s\n Time Left: %d hours and %d minutes", (LPCTSTR)strReason, cTime.GetHours(), cTime.GetMinutes());
+							strMessage.Format(CTChart::Localize("Your Account has been suspended.\n Reason: %s\n Time Left: %d hours and %d minutes"), (LPCTSTR)strReason, cTime.GetHours(), cTime.GetMinutes());
 						else
-							strMessage.Format("Your Account has been suspended.\n Reason: %s\n Time Left: %d minutes", (LPCTSTR)strReason, cTime.GetMinutes());
+							strMessage.Format(CTChart::Localize("Your Account has been suspended.\n Reason: %s\n Time Left: %d minutes"), (LPCTSTR)strReason, cTime.GetMinutes());
 					}
 				}
 				else
-					strMessage.Format("Your Account has been permanently banned.\n Reason: %s", (LPCTSTR)strReason);
+					strMessage.Format(CTChart::Localize("Your Account has been permanently banned.\n Reason: %s"), (LPCTSTR)strReason);
 
 				DWORD dwFrameID = ID_FRAME_LOBBY_1BTN_MSGBOX;
 				DWORD dwYesID = GM_CLOSE_MSGBOX;
@@ -164,7 +164,7 @@ int CTClientWnd::OnCS_LOGIN_ACK( CTachyonSession *pSession, CPacket *pPacket)
 			break;
 		case LR_PWCHANGE:
 			{
-				CString strMessage = "You have to change your password on the website in order to login.";
+				CString strMessage = CTChart::Localize("You have to change your password on the website in order to login.");
 
 				DWORD dwFrameID = ID_FRAME_LOBBY_1BTN_MSGBOX;
 				DWORD dwYesID = GM_CLOSE_MSGBOX;

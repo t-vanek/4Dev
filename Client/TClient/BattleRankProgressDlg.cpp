@@ -58,7 +58,7 @@ CBattleRankProgressDlg::CBattleRankProgressDlg(TComponent *pParent, FRAMEDESC_SH
 		(*it)->MoveComponentBy(-4, -3);
 
 	m_pRankPoint->MoveComponentBy(91, -47);
-	FindKid(19)->m_strText = "Next Rank";
+	FindKid(19)->m_strText = CTChart::Localize("Next Rank");
 
 	SetStyle(TS_CUSTOM_COLOR);
 	m_dwColor = 0xE0FFFFFF;

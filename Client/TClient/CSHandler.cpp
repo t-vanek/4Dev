@@ -4640,7 +4640,7 @@ int CTClientGame::OnCS_ITEMUPGRADE_ACK( CTachyonSession *pSession, CPacket *pPac
 		if( pItem )
 			pItem->SetGradeEffect(0);
 		
-		strMSG = "The Effect has been successfully cleared.";
+		strMSG = CTChart::Localize("The Effect has been successfully cleared.");
 
 		dwSoundID = ID_SND_ITEM_SUCCESS;
 		bSoundType = MEDIA_TSOUND;
@@ -4727,7 +4727,7 @@ int CTClientGame::OnCS_ITEMUPGRADE_ACK( CTachyonSession *pSession, CPacket *pPac
 			break;
 
 		case ITEMUPGRADE_CANNOT_COLOR:	//???E?? AI??a???? ????A??
-			strMSG = "You cannot color this item with normal change effect scroll.";
+			strMSG = CTChart::Localize("You cannot color this item with normal change effect scroll.");
 			break;
 
 		default:
@@ -6744,7 +6744,7 @@ int CTClientGame::OnCS_CHARSTATINFO_ACK( CTachyonSession *pSession, CPacket *pPa
 	pUI->m_vTCHARADV[TCHARADV_NATION]->m_strText = CTChart::LoadString( (TSTRING) CTClientGame::m_vTCOUNTRYSTR[pTCHAR->m_bContryID] );
 
 	pUI->m_vTCHARADV[TCHARADV_NAME]->m_strText = pTCHAR->GetName();
-	pUI->m_vTCHARADV[TCHARADV_LEVEL]->m_strText.Format("Lv%d", pTCHAR->m_bLevel);
+	pUI->m_vTCHARADV[TCHARADV_LEVEL]->m_strText.Format(CTChart::Localize("Lv%d"), pTCHAR->m_bLevel);
 	pUI->m_vTCHARADV[TCHARADV_GUILD]->m_strText = pTCHAR->m_strGUILD;
 	pUI->m_vTCHARADV[TCHARADV_SOULMATE]->m_strText = m_strSoulName;
 	pUI->m_pCOUNTRY->SetCurImage(pTCHAR->m_bContryID);
@@ -10196,7 +10196,7 @@ int CTClientGame::OnCS_PETEFFECTCHANGE_ACK(CTachyonSession *pSession, CPacket *p
 {
 	BYTE bResult;
 	BYTE bEffect;
-	CString strMSG = "STOP HACKING YOU FAGGOT";
+	CString strMSG = CTChart::Localize("The server rejected this action.");
 
 
 	(*pPacket)
@@ -11548,7 +11548,7 @@ int CTClientGame::OnCS_GUILDLOCALLIST_ACK( CTachyonSession *pSession, CPacket *p
 	DWORD dwCLT = nCH * 60 * 60 + nCM * 60 + nCS;
 
 	BOW.m_bStatus = bBOWStatus == BS_BATTLE  || bBOWStatus == BS_PEACE ? BS_BATTLE : BS_NORMAL;
-	BOW.m_strMission = "Battle of the Worlds";
+	BOW.m_strMission = CTChart::Localize("Battle of the Worlds");
 	BOW.m_wMissionID = 20;
 	BOW.m_NextWar = CTime(CTime::GetCurrentTime().GetTime() - dwCLT + dwNextBOW);
 	BOW.m_bCountry = bBOWWinner;
@@ -15353,7 +15353,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-			strMSG = "The unified mission map has been set to normal state.";
+			strMSG = CTChart::Localize("The unified mission map has been set to normal state.");
 
 
 
@@ -15453,7 +15453,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-			strMSG = "The war in the unified mission map has begun.";
+			strMSG = CTChart::Localize("The war in the unified mission map has begun.");
 		}
 
 
@@ -15487,7 +15487,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-			strMSG.Format( "The unified mission map has been occupied by %s",
+			strMSG.Format( CTChart::Localize("The unified mission map has been occupied by %s"),
 				(LPCTSTR)CTChart::LoadString((TSTRING) CTClientGame::m_vTCOUNTRYSTR[ wCountry ]));
 
 
@@ -15524,7 +15524,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 			{
 				dwTIME /= 60;
 
-				strMSG.Format( "The battle on the unified mission map will start in %d minutes.",
+				strMSG.Format( CTChart::Localize("The battle on the unified mission map will start in %d minutes."),
 					dwTIME);
 			}
 			else
@@ -15540,7 +15540,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-				strMSG.Format( "The battle on the unified mission map will start in %d seconds.",
+				strMSG.Format( CTChart::Localize("The battle on the unified mission map will start in %d seconds."),
 				    dwTIME);
 
 			static_cast<CTMainUI*>(m_vTFRAME[TFRAME_MAIN])->ResetChapterMSG(strMSG);
@@ -15589,7 +15589,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-				strMSG.Format( "The battle on the unified mission map will end in %d minutes.",
+				strMSG.Format( CTChart::Localize("The battle on the unified mission map will end in %d minutes."),
 					dwTIME);
 			}
 			else
@@ -15598,7 +15598,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-				strMSG.Format( "The battle on the unified mission map will end in %d seconds.",
+				strMSG.Format( CTChart::Localize("The battle on the unified mission map will end in %d seconds."),
 				dwTIME);
 
 		}
@@ -15689,7 +15689,7 @@ int CTClientGame::OnCS_SYSTEMMSG_ACK( CTachyonSession *pSession, CPacket *pPacke
 				>> dwSecond;
 
 
-			strMSG.Format( "The War in the unified mission map has ended.");
+			strMSG.Format( CTChart::Localize("The War in the unified mission map has ended."));
 		}
 		break;
 
@@ -19406,7 +19406,7 @@ int CTClientGame::OnCS_ASSISTANT_ACK( CTachyonSession *pSession, CPacket *pPacke
 
 
 
-	strMSG.Format( "????????%d %s??OAI ??E??I A??C????U??i CN??U. CO?????",
+	strMSG.Format( CTChart::Localize("Level %d player %s invites you to cooperate. Accept?"),
 		bLevel,
 		m_strAssistantInvitor );
 
@@ -19430,7 +19430,7 @@ int CTClientGame::OnCS_ASSISTANTRESULT_ACK( CTachyonSession *pSession, CPacket *
 		>> bResult;
 
 	CString strMSG;
-	strMSG.Format( "CS_ASSISTANTRESULT_ACK : bResult(%d)",
+	strMSG.Format( CTChart::Localize("Assistant request result: %d"),
 		bResult);
 
 	m_pMainWnd->MessageBoxOK(
@@ -20197,8 +20197,8 @@ int CTClientGame::OnCS_UPDATECOMPANIONBYSYSTEM_REQ( CTachyonSession *pSession, C
 		CString strBuiltString, strLevelUp;
 		CString strTYPE = CTChart::LoadString( TSTR_INFO_TITLE );
 
-		strBuiltString.Format( "Your summoned pet has earned %d exp.", wDiferencial );
-		strLevelUp.Format( "Your summoned pet's experience is at it's maximum. If you want to level up, open the Companion window and press the Level-Up button!" );
+		strBuiltString.Format( CTChart::Localize("Your summoned pet has earned %d exp."), wDiferencial );
+		strLevelUp.Format( CTChart::Localize("Your summoned pet's experience is at it's maximum. If you want to level up, open the Companion window and press the Level-Up button!") );
 
 		if( bExpChanged )
 			m_pChatFrame->ChatSysMSG( strTYPE, m_pMainChar->GetName(), strBuiltString,	TCOLOR_INFO, TCHAT_FLAG_INFO );
@@ -20277,13 +20277,13 @@ int CTClientGame::OnCS_CREATECOMPANION_ACK( CTachyonSession *pSession, CPacket *
 		}
 		break;
 	case 1:
-		strMsg = "Your companion's name is empty or too long.";
+		strMsg = CTChart::Localize("Your companion's name is empty or too long.");
 		break;
 	case 2:
-		strMsg = "You already own this companion.";
+		strMsg = CTChart::Localize("You already own this companion.");
 		break;
 	case 3:
-		strMsg = "You cannot have more than 5 companions.";
+		strMsg = CTChart::Localize("You cannot have more than 5 companions.");
 		break;
 	}
 
@@ -20478,7 +20478,7 @@ int CTClientGame::OnCS_BOWTIMEUPDATE_ACK( CTachyonSession *pSession, CPacket *pP
 			{
 				m_bAlarm = FALSE;
 				pWaitingDlg->SetTime((INT) dwSecond / 60, (INT) dwSecond % 60);
-				pWaitingDlg->FindKid(ID_CTRLINST_TITLE)->m_strText = "Battle of the Worlds";
+				pWaitingDlg->FindKid(ID_CTRLINST_TITLE)->m_strText = CTChart::Localize("Battle of the Worlds");
 				pGaugePannel->m_pBFGAlarm->ShowComponent(FALSE);	
 			}
 			else
@@ -20600,7 +20600,7 @@ int CTClientGame::OnCS_REGISTERBOW_ACK(CTachyonSession* pSession, CPacket* pPack
 	case BOWREG_COUNTRY:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"Your country is not valid, you cannot participate.",
+				CTChart::Localize("Your country is not valid, you cannot participate."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20610,7 +20610,7 @@ int CTClientGame::OnCS_REGISTERBOW_ACK(CTachyonSession* pSession, CPacket* pPack
 	case BOWREG_ALREADYINQUEUE:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"You are already placed in queue.",
+				CTChart::Localize("You are already placed in queue."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20621,7 +20621,7 @@ int CTClientGame::OnCS_REGISTERBOW_ACK(CTachyonSession* pSession, CPacket* pPack
 		{
 			m_pMainWnd->MessageBoxOK(
 
-				"The Battle of the Worlds didn't start, you are not able to join.",
+				CTChart::Localize("The Battle of the Worlds didn't start, you are not able to join."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20660,7 +20660,7 @@ int CTClientGame::OnCS_ADDTOBRQUEUE_ACK( CTachyonSession *pSession, CPacket *pPa
 	case BOWREG_COUNTRY:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"Your country is not valid, you cannot participate.",
+				CTChart::Localize("Your country is not valid, you cannot participate."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20670,7 +20670,7 @@ int CTClientGame::OnCS_ADDTOBRQUEUE_ACK( CTachyonSession *pSession, CPacket *pPa
 	case BOWREG_ALREADYINQUEUE:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"You are already placed in queue.",
+				CTChart::Localize("You are already placed in queue."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20680,7 +20680,7 @@ int CTClientGame::OnCS_ADDTOBRQUEUE_ACK( CTachyonSession *pSession, CPacket *pPa
 	case BOWREG_FAIL:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"The Battle didn't start, you are not able to join.",
+				CTChart::Localize("The Battle didn't start, you are not able to join."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20764,7 +20764,7 @@ int CTClientGame::OnCS_CANCELBOWQUEUE_ACK(CTachyonSession* pSession, CPacket* pP
 	case BOWREG_FAIL:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"Internal error occured.",
+				CTChart::Localize("Internal error occured."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX,
 				0,
@@ -20820,12 +20820,12 @@ int CTClientGame::OnCS_BOWKILLNOTIFY_ACK(CTachyonSession* pSession, CPacket* pPa
 	if (IsInBOWMap())
 	{
 		if (strAttack.IsEmpty()) //smart switch; empty = mainchar, string = party.
-			strMessage.Format("You've got a kill, you've been rewarded with 5 Special Points.");
+			strMessage.Format(CTChart::Localize("You've got a kill, you've been rewarded with 5 Special Points."));
 		else
-			strMessage.Format("Your party member [%s] has got a kill. You've been rewarded with 2 Special Points.", (LPCTSTR)strAttack);
+			strMessage.Format(CTChart::Localize("Your party member [%s] has got a kill. You've been rewarded with 2 Special Points."), (LPCTSTR)strAttack);
 	}
 	else
-		strMessage.Format("You've got a kill, you've been rewarded with 150 Bonus Points.");
+		strMessage.Format(CTChart::Localize("You've got a kill, you've been rewarded with 150 Bonus Points."));
 
 	m_pChatFrame->ChatSysMSG(
 		"Info",
@@ -20904,7 +20904,7 @@ int CTClientGame::OnCS_LEAVEBATTLEFIELD_ACK(CTachyonSession* pSession, CPacket* 
 	case BOWLEAVE_FAIL:
 		{
 			m_pMainWnd->MessageBoxOK(
-				"You cannot leave the battlefield at this moment.", 
+				CTChart::Localize("You cannot leave the battlefield at this moment."),
 				TSTR_OK,
 				GM_CLOSE_MSGBOX, 
 				GM_CLOSE_MSGBOX);
@@ -21002,16 +21002,16 @@ int CTClientGame::OnCS_BRTEAMMATEADD_ACK(CTachyonSession *pSession, CPacket *pPa
 	switch (bResult)
 	{
 	case TEAMADD_NOTFOUND:
-		strMSG = "The Character doesn't exist, or is not on-line at the moment.";
+		strMSG = CTChart::Localize("The Character doesn't exist, or is not on-line at the moment.");
 		break;
 	case TEAMADD_BUSY:
-		strMSG = "The Character has not been invited, because he is busy at the moment.";
+		strMSG = CTChart::Localize("The Character has not been invited, because he is busy at the moment.");
 		break;
 	case TEAMADD_REFUSE:
-		strMSG = "The Character has refused your invite to the Battle Royal.";
+		strMSG = CTChart::Localize("The Character has refused your invite to the Battle Royal.");
 		break;
 	case TEAMADD_ALREADYINTEAM:
-		strMSG = "The Character is already in a team.";
+		strMSG = CTChart::Localize("The Character is already in a team.");
 		break;
 	}
 
@@ -21033,7 +21033,7 @@ int CTClientGame::OnCS_BRTEAMMATEADD_ACK(CTachyonSession *pSession, CPacket *pPa
 
 		m_strBRInviter = strNAME;
 
-		strMSG.Format("%s invites you to his Battle Royal group, would you like to join?", (LPCTSTR)strNAME);
+		strMSG.Format(CTChart::Localize("%s invites you to his Battle Royal group, would you like to join?"), (LPCTSTR)strNAME);
 		m_pMainWnd->MessageBoxYesNo(
 			strMSG, 
 			TSTR_YES,
@@ -21277,7 +21277,7 @@ int CTClientGame::OnCS_UPDATEREMAININGPLAYER_ACK(CTachyonSession *pSession, CPac
 	(*pPacket)
 		>> bRemaining;
 
-	pGaugePannel->m_pRemainingText->m_strText.Format("Alive : %d", bRemaining);
+	pGaugePannel->m_pRemainingText->m_strText.Format(CTChart::Localize("Alive : %d"), bRemaining);
 
 
 	
@@ -21329,7 +21329,7 @@ int CTClientGame::OnCS_CUSTOMCLOAK_CHANGE_ACK(CTachyonSession *pSession, CPacket
 
 	if (wID > 0)
 	{
-		strMSG.Format("Your cloak has been successfully changed to (%d).", wID);
+		strMSG.Format(CTChart::Localize("Your cloak has been successfully changed to (%d)."), wID);
 
 		m_pMainWnd->MessageBoxOK(
 			strMSG,
@@ -21339,7 +21339,7 @@ int CTClientGame::OnCS_CUSTOMCLOAK_CHANGE_ACK(CTachyonSession *pSession, CPacket
 	}
 	else
 	{
-		strMSG.Format("Your cloak has been successfully cleared.");
+		strMSG.Format(CTChart::Localize("Your cloak has been successfully cleared."));
 
 		m_pMainWnd->MessageBoxOK(
 			strMSG,
@@ -21376,7 +21376,7 @@ int CTClientGame::OnCS_CUSTOMCLOAK_CHANGE_ACK(CTachyonSession *pSession, CPacket
 	}
 	else
 	{
-		strChatMsg = "You don't have this skin for cloak!";
+		strChatMsg = CTChart::Localize("You don't have this skin for cloak!");
 	}
 
 	if( !strChatMsg.IsEmpty() )

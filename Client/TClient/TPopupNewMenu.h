@@ -12,6 +12,7 @@ private:
 	TScroll *m_pScroll;
 	
 	int m_nCurMode;
+	int m_InvenActions[TMENUNEW_COUNT];
 
 public:
 	void ClearPopup();
@@ -22,6 +23,7 @@ public:
 	int GetCurMode();
 	void AddSystem();
 	void AddInven();
+	void ExecuteInvenAction(int action);
 	void AddChar();
 	void AddCommunity();
 	void AddWar();

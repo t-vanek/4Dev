@@ -293,7 +293,7 @@ BOOL CTItemUpDlg::CanUpgrade( LPTITEM pScrollItemTemp, LPTITEM pTargetItemTemp )
 	{
 		if (pTargetItemTemp->m_bType != IT_COSTUME)
 		{
-			m_strLastError = "You cannot use this scroll on other item than accessory.";
+			m_strLastError = CTChart::Localize("You cannot use this scroll on other item than accessory.");
 			return FALSE;
 		}
 	}

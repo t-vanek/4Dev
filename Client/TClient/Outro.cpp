@@ -18,7 +18,7 @@ COutro::COutro(TComponent *pParent, FRAMEDESC_SHAREDPTR pDesc)
 	m_pQuit = (TButton*)FindKid(26878);
 	m_pQuit->ShowComponent(FALSE);
 	m_pBackToGame = (TButton*)FindKid(26879);
-	m_pBackToGame->m_strText = "Back to Game";
+	m_pBackToGame->m_strText = CTChart::Localize("Back to Game");
 
 	m_bType = OUTRO_COUNT;
 	m_pDevice = CTClientGame::GetInstance()->GetDevice();
@@ -41,11 +41,11 @@ void COutro::ShowComponent(BOOL bVisible)
 	FLOAT fSoulPercent = (fSoulExp / fMaxExp) * 100.0f;
 
 	m_pImage->LoadOwnIMG(strPath);
-	m_pSoulLotteryWarn->m_strText.Format("Collect more soul power (%d%%) to receive your reward", 100 - (BYTE) fSoulPercent);
+	m_pSoulLotteryWarn->m_strText.Format(CTChart::Localize("Collect more soul power (%d%%) to receive your reward"), 100 - (BYTE) fSoulPercent);
 	m_pSoulLotteryWarn->SetTextAlign(ALIGN_CENTER);
-	m_pWarn2->m_strText = "Your soul power and all your event will be reset if you leave the game!";
+	m_pWarn2->m_strText = CTChart::Localize("Your soul power and all your event will be reset if you leave the game!");
 	m_pLogoutWait->m_strText.Empty();
-	m_pQuit->m_strText = m_bType == OUTRO_CHARSEL ? "Character Select" : "Exit Game";
+	m_pQuit->m_strText = m_bType == OUTRO_CHARSEL ? CTChart::Localize("Character Select") : CTChart::Localize("Exit Game");
 
 	INT nScreenX = CTClientGame::GetInstance()->GetScreenX();
 	INT nScreenY = CTClientGame::GetInstance()->GetScreenY();
@@ -148,7 +148,7 @@ void COutro::ConfirmExit()
 
 void COutro::UpdateTick(DWORD dwTick)
 {
-	m_pLogoutWait->m_strText.Format("Your adventure ends in %d seconds", dwTick / 1000);
+	m_pLogoutWait->m_strText.Format(CTChart::Localize("Your adventure ends in %d seconds"), dwTick / 1000);
 }
 
 void COutro::FadeBack()

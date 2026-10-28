@@ -8,7 +8,7 @@
 #define TSTR_SKILLCOOLDOWN_WARN			"This item still has a cooldown! Please try again when the cooldown has expired."
 #define TSTR_ITEMCOOLDOWN_WARN			"This Item still has a Cooldown ! Please try again when the Cooldown has expired."
 #define TSTR_FORBIDDEN_WHILEMOVE		"You can' t do this while moving!"
-#define TSTR_WHIP_NOTMOUNTED			"You only can use your whip on your mount!"
+#define TSTR_WHIP_NOTMOUNTED			CTChart::Localize("You only can use your whip on your mount!")
 #define TSTR_TWITTERLINK				"http://twitter.com"
 #define TSTR_FACEBOOKLINK				"https://www.facebook.com/4Story/"
 
@@ -32,35 +32,35 @@
 //COMPANION SYSTEM
 #define TSTR_COMPANION_EXP				"%d / %d"
 #define TSTR_COMPANION_HP				"HP: %d"
-#define TSTR_COMPANION_LEVEL			"Level: %d"
-#define TSTR_COMPANION_DESPAWN			"Withdraw"
-#define TSTR_COMPANION_SPAWN			"Call"
-#define TSTR_COMPANION_EXHAUSTED		"Exhausted"
-#define TSTR_COMPANION_NORMAL			"Normal"
-#define TSTR_COMPANION_HEALTHY			"Healthy"
-#define TSTR_COMPANION_DELETE			"Delete"
-#define TSTR_COMPANION_TABONE			"Attribute"
+#define TSTR_COMPANION_LEVEL			CTChart::Localize("Level: %d")
+#define TSTR_COMPANION_DESPAWN			CTChart::Localize("Withdraw")
+#define TSTR_COMPANION_SPAWN			CTChart::Localize("Call")
+#define TSTR_COMPANION_EXHAUSTED		CTChart::Localize("Exhausted")
+#define TSTR_COMPANION_NORMAL			CTChart::Localize("Normal")
+#define TSTR_COMPANION_HEALTHY			CTChart::Localize("Healthy")
+#define TSTR_COMPANION_DELETE			CTChart::Localize("Delete")
+#define TSTR_COMPANION_TABONE			CTChart::Localize("Attribute")
 #define TSTR_COMPANION_TABTWO			"Bonus"
-#define TSTR_COMPANION_END				"Endurance"
-#define TSTR_COMPANION_INT				"Intelligence"
-#define TSTR_COMPANION_DEX				"Skill"
-#define TSTR_COMPANION_WIS				"Wisdom"
-#define TSTR_COMPANION_STR				"Strength"
-#define TSTR_COMPANION_MEN				"Spirit"
-#define TSTR_COMPANION_ATTRPOINT		"Status Points"
-#define TSTR_COMPANION_LEVELUP			"Levelup"
-#define TSTR_COMPANION_MAXEXP			"Maximum Experience"
+#define TSTR_COMPANION_END				CTChart::Localize("Endurance")
+#define TSTR_COMPANION_INT				CTChart::Localize("Intelligence")
+#define TSTR_COMPANION_DEX				CTChart::Localize("Skill")
+#define TSTR_COMPANION_WIS				CTChart::Localize("Wisdom")
+#define TSTR_COMPANION_STR				CTChart::Localize("Strength")
+#define TSTR_COMPANION_MEN				CTChart::Localize("Spirit")
+#define TSTR_COMPANION_ATTRPOINT		CTChart::Localize("Status Points")
+#define TSTR_COMPANION_LEVELUP			CTChart::Localize("Levelup")
+#define TSTR_COMPANION_MAXEXP			CTChart::Localize("Maximum Experience")
 																	//bMagic
-#define TSTR_COMPANION_ATKRATE			"Physical Attack Rate"		//11
-#define TSTR_COMPANION_PHYDEF			"Evade"						//12
-#define TSTR_COMPANION_PHYCRIT			"Physical Critical Rate"	//13
-#define TSTR_COMPANION_CON				"Concetration"				//20
-#define TSTR_COMPANION_MCRIT			"Magical Critical Rate"		//21
-#define TSTR_COMPANION_HPB				"Life"						//50
+#define TSTR_COMPANION_ATKRATE			CTChart::Localize("Physical Attack Rate")		//11
+#define TSTR_COMPANION_PHYDEF			CTChart::Localize("Evade")						//12
+#define TSTR_COMPANION_PHYCRIT			CTChart::Localize("Physical Critical Rate")	//13
+#define TSTR_COMPANION_CON				CTChart::Localize("Concetration")				//20
+#define TSTR_COMPANION_MCRIT			CTChart::Localize("Magical Critical Rate")		//21
+#define TSTR_COMPANION_HPB				CTChart::Localize("Life")						//50
 #define TSTR_COMPANION_MPB				"Mana"						//51
-#define TSTR_COMPANION_MATKRATE			"Magic Attack Rate"			//86
-#define TSTR_COMPANION_MDEF				"Resistance"				//87
-#define TSTR_COMPANION_HONOR			"Additional Honor"			//255
+#define TSTR_COMPANION_MATKRATE			CTChart::Localize("Magic Attack Rate")			//86
+#define TSTR_COMPANION_MDEF				CTChart::Localize("Resistance")				//87
+#define TSTR_COMPANION_HONOR			CTChart::Localize("Additional Honor")			//255
 
 #define TSTR_WINDOW_NOTOPEN				"The companion window need to be opened and the pet you want to feed selected."
 #define TSTR_COMPANION_MAXLVL			"The selected companion is already on the highest level!"
@@ -149,70 +149,70 @@
 #define TSTR_ABYSS						" (Abyss)"
 
 //SECURECODE SYSTEM
-#define TSTR_SC_CREATE					"Create Securecode";
-#define TSTR_SC_ENABLE					"Enable Securecode"
-#define TSTR_SC_DISABLE					"Disable Securecode"
-#define TSTR_SC_CHANGE					"Change Securecode"
-#define TSTR_SC_ADVISETITLE				"Please create a Securecode."
-#define TSTR_SC_ADVISE					"Please create a Securecode for a safe management of your items."
-#define TSTR_SC_HINT					"!!! A Securecode must be 8-12 characters in length with a number and a special character."
-#define TSTR_SC_INVALID					"The entered Securecode is invalid. Please try it again."
-#define TSTR_SC_SHOWAGAIN				"Do not show again."
-#define TSTR_SC_OLDCODE					"Old Securecode"
-#define TSTR_SC_ENTERCODE				"Enter Securecode"
-#define TSTR_SC_CONFIRMCODE				"Confirm code"
-#define TSTR_SC_CHANGECODE				"Change Securecode"
+#define TSTR_SC_CREATE					CTChart::Localize("Create Securecode");
+#define TSTR_SC_ENABLE					CTChart::Localize("Enable Securecode")
+#define TSTR_SC_DISABLE					CTChart::Localize("Disable Securecode")
+#define TSTR_SC_CHANGE					CTChart::Localize("Change Securecode")
+#define TSTR_SC_ADVISETITLE				CTChart::Localize("Please create a Securecode.")
+#define TSTR_SC_ADVISE					CTChart::Localize("Please create a Securecode for a safe management of your items.")
+#define TSTR_SC_HINT					CTChart::Localize("!!! A Securecode must be 8-12 characters in length with a number and a special character.")
+#define TSTR_SC_INVALID					CTChart::Localize("The entered Securecode is invalid. Please try it again.")
+#define TSTR_SC_SHOWAGAIN				CTChart::Localize("Do not show again.")
+#define TSTR_SC_OLDCODE					CTChart::Localize("Old Securecode")
+#define TSTR_SC_ENTERCODE				CTChart::Localize("Enter Securecode")
+#define TSTR_SC_CONFIRMCODE				CTChart::Localize("Confirm code")
+#define TSTR_SC_CHANGECODE				CTChart::Localize("Change Securecode")
 
-#define TSTR_SC_CODELENGTH				"Please enter 8-12 characters in length."
-#define TSTR_SC_CODETOOSHORT			"Code too short! Please enter 8-12 characters in length."
-#define TSTR_SC_CODETOOLONG				"Code too long! Please enter 8-12 characters in length."
-#define TSTR_SC_CODENOSPECIAL			"Must include numbers and special characters."
-#define TSTR_SC_CODEVALID				"This is a valid Securecode."
-#define TSTR_SC_CODENOMATCH				"This does not match the entered Securecode."
+#define TSTR_SC_CODELENGTH				CTChart::Localize("Please enter 8-12 characters in length.")
+#define TSTR_SC_CODETOOSHORT			CTChart::Localize("Code too short! Please enter 8-12 characters in length.")
+#define TSTR_SC_CODETOOLONG				CTChart::Localize("Code too long! Please enter 8-12 characters in length.")
+#define TSTR_SC_CODENOSPECIAL			CTChart::Localize("Must include numbers and special characters.")
+#define TSTR_SC_CODEVALID				CTChart::Localize("This is a valid Securecode.")
+#define TSTR_SC_CODENOMATCH				CTChart::Localize("This does not match the entered Securecode.")
 
-#define TSTR_SC_UNLOCKTITLE				"Unlock Securecode"
-#define TSTR_SC_UNLOCKADVISE			"Please enter your Securecode to unlock the blockade."
-#define TSTR_SC_UNLOCKBTNTXT			"Unlock"
+#define TSTR_SC_UNLOCKTITLE				CTChart::Localize("Unlock Securecode")
+#define TSTR_SC_UNLOCKADVISE			CTChart::Localize("Please enter your Securecode to unlock the blockade.")
+#define TSTR_SC_UNLOCKBTNTXT			CTChart::Localize("Unlock")
 
-#define TSTR_SC_UNLOCKEDTITLE			"Securecode is now unlocked."
-#define TSTR_SC_UNLOCKEDADVISE			"The Securecode has been properly unlocked."
-#define TSTR_SC_UNLOCKEDHINT			"You may access the items in the inventory and the premium storage and change the equipped items."
-#define TSTR_SC_UNLOCKEDRELOGHINT		"Log out and the Securecode system will automatically start next time you log in."
-#define TSTR_SC_UNLOCKEDCLOSE			"Close"
+#define TSTR_SC_UNLOCKEDTITLE			CTChart::Localize("Securecode is now unlocked.")
+#define TSTR_SC_UNLOCKEDADVISE			CTChart::Localize("The Securecode has been properly unlocked.")
+#define TSTR_SC_UNLOCKEDHINT			CTChart::Localize("You may access the items in the inventory and the premium storage and change the equipped items.")
+#define TSTR_SC_UNLOCKEDRELOGHINT		CTChart::Localize("Log out and the Securecode system will automatically start next time you log in.")
+#define TSTR_SC_UNLOCKEDCLOSE			CTChart::Localize("Close")
 
-#define TSTR_SC_CREATESUCCESSDLGTITLE	"Create Securecode"
-#define TSTR_SC_CREATESUCCESSTITLE		"Securecode created successfully."
-#define TSTR_SC_CREATESUCCESSHINT		"You have successfully created Securecode. You may use the security system now."
-#define TSTR_SC_CREATESUCCESSADVISE		"Use the Securecode system to manage items in your Inventory and Premium storage securely."
-#define TSTR_SC_CREATESUCCESSADDASK		"Do you want to enable Securecode?"
-#define TSTR_SC_CREATESUCCESSENABLEBTN	"Enable"
+#define TSTR_SC_CREATESUCCESSDLGTITLE	CTChart::Localize("Create Securecode")
+#define TSTR_SC_CREATESUCCESSTITLE		CTChart::Localize("Securecode created successfully.")
+#define TSTR_SC_CREATESUCCESSHINT		CTChart::Localize("You have successfully created Securecode. You may use the security system now.")
+#define TSTR_SC_CREATESUCCESSADVISE		CTChart::Localize("Use the Securecode system to manage items in your Inventory and Premium storage securely.")
+#define TSTR_SC_CREATESUCCESSADDASK		CTChart::Localize("Do you want to enable Securecode?")
+#define TSTR_SC_CREATESUCCESSENABLEBTN	CTChart::Localize("Enable")
 
-#define TSTR_SC_DISABLEDDLGTITLE		"Disable Securecode"
-#define TSTR_SC_DISABLEDTITLE			"The Securecode system has been disabled."
-#define TSTR_SC_DISABLEBTNHINT			"The Securecode system is disabled. Please manage your items with caution."
-#define TSTR_SC_DISABLEDBTN				"Close"
+#define TSTR_SC_DISABLEDDLGTITLE		CTChart::Localize("Disable Securecode")
+#define TSTR_SC_DISABLEDTITLE			CTChart::Localize("The Securecode system has been disabled.")
+#define TSTR_SC_DISABLEBTNHINT			CTChart::Localize("The Securecode system is disabled. Please manage your items with caution.")
+#define TSTR_SC_DISABLEDBTN				CTChart::Localize("Close")
 
-#define TSTR_SC_CHANGETITLE				"Change Securecode"
-#define TSTR_SC_CHANGEADVISE			"Please enter the current Securecode once and the new Securecode twice to change the Securecode."
-#define TSTR_SC_CHANGENEWCODE			"Enter new code"
-#define TSTR_SC_CHANGECURCODE			"Current Code"
-#define TSTR_SC_CHANGEBTN				"Change"
+#define TSTR_SC_CHANGETITLE				CTChart::Localize("Change Securecode")
+#define TSTR_SC_CHANGEADVISE			CTChart::Localize("Please enter the current Securecode once and the new Securecode twice to change the Securecode.")
+#define TSTR_SC_CHANGENEWCODE			CTChart::Localize("Enter new code")
+#define TSTR_SC_CHANGECURCODE			CTChart::Localize("Current Code")
+#define TSTR_SC_CHANGEBTN				CTChart::Localize("Change")
 
-#define TSTR_SC_DISABLEADVISE			"Please enter your Securecode."
-#define TSTR_SC_DISABLEHINT				"To disable the system, you must enter the Securecode. When disabled, you will no longer be protected by the Securecode system."
-#define TSTR_SC_DISABLEBTN				"Disable"
+#define TSTR_SC_DISABLEADVISE			CTChart::Localize("Please enter your Securecode.")
+#define TSTR_SC_DISABLEHINT				CTChart::Localize("To disable the system, you must enter the Securecode. When disabled, you will no longer be protected by the Securecode system.")
+#define TSTR_SC_DISABLEBTN				CTChart::Localize("Disable")
 
-#define TSTR_SC_WRONGTITLE				"Securecode Error"
-#define TSTR_SC_WRONGADVISE				"Entered Securecode is invalid. Please check again and re-enter your Securecode."
-#define TSTR_SC_WRONGHINT				"If you forgot your Securecode, please request a temporary Securecode on our website."
-#define TSTR_SC_WRONGFAILS				"%d time(s) failed. Please note that the system will be locked for 24 hours after 10 failed attempts."
-#define TSTR_SC_FAILEDTOOOFTEN			"You have failed to enter a correct Securecode 10 times. %d hour(s) %d minute(s) until you can try again."
+#define TSTR_SC_WRONGTITLE				CTChart::Localize("Securecode Error")
+#define TSTR_SC_WRONGADVISE				CTChart::Localize("Entered Securecode is invalid. Please check again and re-enter your Securecode.")
+#define TSTR_SC_WRONGHINT				CTChart::Localize("If you forgot your Securecode, please request a temporary Securecode on our website.")
+#define TSTR_SC_WRONGFAILS				CTChart::Localize("%d time(s) failed. Please note that the system will be locked for 24 hours after 10 failed attempts.")
+#define TSTR_SC_FAILEDTOOOFTEN			CTChart::Localize("You have failed to enter a correct Securecode 10 times. %d hour(s) %d minute(s) until you can try again.")
 
-#define TSTR_SC_WRONGLEFTBTN			"Left Button"
-#define TSTR_SC_WRONGRESET				"Reset"
+#define TSTR_SC_WRONGLEFTBTN			CTChart::Localize("Left Button")
+#define TSTR_SC_WRONGRESET				CTChart::Localize("Reset")
 
-#define TSTR_SC_ENABLESUCCESS			"The securecodesystem was enabled succesfully"
-#define TSTR_SC_CODEEXIST				"The securecode does allready exist. It is enabled now!"
-#define TSTR_SC_CODECHANGED				"You have successfully changed security code."
-#define TSTR_SC_NEWCODEADVIsE			"Please use your new Securecode to use the system."
-#define TSTR_SC_CHANGESUCCESS			"Successfully changed Securecode"
+#define TSTR_SC_ENABLESUCCESS			CTChart::Localize("The securecodesystem was enabled succesfully")
+#define TSTR_SC_CODEEXIST				CTChart::Localize("The securecode does allready exist. It is enabled now!")
+#define TSTR_SC_CODECHANGED				CTChart::Localize("You have successfully changed security code.")
+#define TSTR_SC_NEWCODEADVIsE			CTChart::Localize("Please use your new Securecode to use the system.")
+#define TSTR_SC_CHANGESUCCESS			CTChart::Localize("Successfully changed Securecode")

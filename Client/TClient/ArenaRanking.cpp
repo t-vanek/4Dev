@@ -83,7 +83,7 @@ void ArenaRanking::AddTeam(const std::vector<ArenaPlayer>& Team, BYTE Wins)
 		{
 			if (i < Team.size()) {
 				m_Class[i]->SetCurImage(Team[i].m_Country);
-				m_Level[i]->m_strText.Format("Level: %d", Team[i].m_Level);
+				m_Level[i]->m_strText.Format(CTChart::Localize("Level: %d"), Team[i].m_Level);
 				m_Name[i]->m_strText = Team[i].m_ChiefName;
 			}
 			else
@@ -101,7 +101,7 @@ void ArenaRanking::AddTeam(const std::vector<ArenaPlayer>& Team, BYTE Wins)
 		{
 			if (i < Team.size()) {
 				m_Class[i + 3]->SetCurImage(Team[i].m_Country);
-				m_Level[i + 3]->m_strText.Format("Level: %d", Team[i].m_Level);
+				m_Level[i + 3]->m_strText.Format(CTChart::Localize("Level: %d"), Team[i].m_Level);
 				m_Name[i + 3]->m_strText = Team[i].m_ChiefName;
 			}
 			else
@@ -115,7 +115,7 @@ void ArenaRanking::AddTeam(const std::vector<ArenaPlayer>& Team, BYTE Wins)
 	break;
 	}
 
-	m_Consecutive[Index]->m_strText.Format("Consecutive Wins : %d", Wins);
+	m_Consecutive[Index]->m_strText.Format(CTChart::Localize("Consecutive Wins : %d"), Wins);
 
 	if (Index == 1)
 		Index = 0;

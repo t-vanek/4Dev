@@ -94,8 +94,7 @@ void CTNPCTalkDlg::Talk( CString strTALK)
 	CString strHeader = GetSpeakerString(m_strNPCTitle);
 	m_RightSide.DialogueMsg( strHeader, m_strNPCTalk);
 
-	m_pACCEPT->m_strText = "Next";
-	m_pREFUSE->m_strText = "Run";
+	SetQuestButtons(ButtonAction::NextQuest, ButtonAction::Close);
 
 	m_RightSide.ReAlign(0);
 }
@@ -115,8 +114,7 @@ void CTNPCTalkDlg::Talk( CString strTALK, CString strANSWER)
 	strHeader = GetSpeakerString(m_strNPCTitle);
 	m_RightSide.DialogueMsg( strHeader, m_strNPCTalk);
 
-	m_pACCEPT->m_strText = "Next";
-	m_pREFUSE->m_strText = "Run";
+	SetQuestButtons(ButtonAction::NextQuest, ButtonAction::Close);
 
 	m_RightSide.ReAlign(0);
 }

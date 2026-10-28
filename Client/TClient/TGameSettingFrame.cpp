@@ -155,7 +155,7 @@ void CTGameSettingFrame::OnLButtonDown( UINT nFlags, CPoint pt)
 					}
 				}
 				else if (index == 12 && bChecked != bCurrent && !bChecked)
-					pGAME->GetMainWnd()->MessageBoxOK("You have to teleport for this to be applied.", TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
+					pGAME->GetMainWnd()->MessageBoxOK(CTChart::Localize("You have to teleport for this to be applied."), TSTR_OK, GM_CLOSE_MSGBOX, GM_CLOSE_MSGBOX);
 
 				else if (index == 3 && bChecked != bCurrent)
 					pTGAUGE->NotifyFrameStaticMove(bChecked);

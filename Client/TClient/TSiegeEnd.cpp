@@ -114,8 +114,8 @@ void CTSiegeEnd::EndSkygarden(
 	((TImageList*)m_pTCountryAtk)->SetCurImage( bWinCountry );
 	((TImageList*)m_pTCountryDef)->SetCurImage( bLosecountry );
 		
-	m_pTGaugeTotalAtk->m_strText = "test";
-	m_pTGaugeTotalDef->m_strText = "test";
+	m_pTGaugeTotalAtk->m_strText.Empty();
+	m_pTGaugeTotalDef->m_strText.Empty();
 	m_pTGaugeTotalAtk->SetGauge( 100, 100 );
 	m_pTGaugeTotalDef->SetGauge( 100, 100 );
 

@@ -130,7 +130,7 @@ HRESULT CTInvenDlg::Render( DWORD dwTickCount)
 				m_pEXTPERIOD->m_strText = CTChart::Format( TSTR_FMT_EXTPERIOD, dwDays);
 			}
 			else
-				m_pEXTPERIOD->m_strText = "Unlimited";
+				m_pEXTPERIOD->m_strText = CTChart::Localize("Unlimited");
 		}
 	}
 

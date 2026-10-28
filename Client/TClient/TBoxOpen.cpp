@@ -105,13 +105,13 @@ HRESULT CTBoxOpenDlg::Render(DWORD dwTickCount)
 
 		if( !pTItem || !pTItem->GetCount() )
 		{
-			m_pOpen->m_strText = "Close";
+			m_pOpen->m_strText = CTChart::Localize("Close");
 			m_pOpen->m_menu[TNM_LCLICK] = GM_CLOSE_BOX;
 		}
 		else
 
 		{
-			m_pOpen->m_strText = "Open";
+			m_pOpen->m_strText = CTChart::Localize("Open");
 			m_pOpen->m_menu[TNM_LCLICK] = GM_OPEN_BOX;
 		}
 
