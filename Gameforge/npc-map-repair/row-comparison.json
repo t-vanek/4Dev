@@ -1,0 +1,71 @@
+{
+  "npc_rows": 2755,
+  "changed_fields": [
+    {
+      "npc_id": 22424,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22425,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22426,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22427,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22428,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22429,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22430,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22431,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22432,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    },
+    {
+      "npc_id": 22433,
+      "field": "wMapID",
+      "before": 11,
+      "after": 12
+    }
+  ],
+  "migration": [
+    {
+      "Id": "039_npc_dialogue_maps.sql",
+      "AppliedUtc": "2026-10-28T12:35:53.7487848"
+    }
+  ]
+}

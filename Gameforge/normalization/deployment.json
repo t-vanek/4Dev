@@ -1,0 +1,192 @@
+{
+  "applied_utc": "2026-10-27T20:42:30.861358+00:00",
+  "status": "Applied and verified; complete official server parity remains unverified",
+  "migrations": [
+    {
+      "path": "Database/migrations/027_gameforge_monster_details.sql",
+      "sha256": "d653f19ea547d86cc5702f49eb1b1d8840644778efb625ce69330942891c195b"
+    },
+    {
+      "path": "Database/migrations/028_gameforge_client_fields.sql",
+      "sha256": "70aca9ea2b999cd97de0655036b7bbd9f17df2e69ac47136c1263a20f9319293"
+    },
+    {
+      "path": "Database/migrations/029_gameforge_quest_fields.sql",
+      "sha256": "02d39e13d2781dfe2e5dff904622e4924128aa060a8fc15d50e106cb15b13c00"
+    },
+    {
+      "path": "Database/migrations/030_gameforge_shop_stock.sql",
+      "sha256": "f45fced5438a4252ac8c1d43b3dcfea148c634ef9433aac10305342ace35f3af"
+    },
+    {
+      "path": "Database/migrations/031_gameforge_item_countries.sql",
+      "sha256": "b3ebe75814b9f3be85a45a3275194f240d244bfb4fa20cd269da3265474171e0"
+    },
+    {
+      "path": "Database/migrations/032_gameforge_character_creation.sql",
+      "sha256": "eb680e60adba27aa3733ff84644686a69b7d5a10fcaa1139fe188143d9e45d8f"
+    },
+    {
+      "path": "Database/migrations/033_gameforge_starter_skills.sql",
+      "sha256": "81289fc04ab92e43aa178533b6b2d8b7baed67ebc043b628a7cc3d408afdc57b"
+    }
+  ],
+  "chart_verification": {
+    "database": "TGame_gsp",
+    "checked_tables": [
+      {
+        "table": "TFORMULACHART",
+        "rows": 34,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TITEMATTRCHART",
+        "rows": 9002,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TITEMCHART",
+        "rows": 8142,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TLEVELCHART",
+        "rows": 126,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TMONATTRCHART",
+        "rows": 11482,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TMONSTERCHART",
+        "rows": 3700,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TMOUNTCHART",
+        "rows": 197,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TNPCCHART",
+        "rows": 2623,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TNPCITEMCHART",
+        "rows": 3384,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TQCONDITIONCHART",
+        "rows": 5712,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TQREWARDCHART",
+        "rows": 4322,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TQUESTCHART",
+        "rows": 6261,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TQUESTTERMCHART",
+        "rows": 10687,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TSTARTHOTKEY",
+        "rows": 12,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TSTARTITEMCHART",
+        "rows": 189,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      },
+      {
+        "table": "TSTARTSKILL",
+        "rows": 74,
+        "result": "All columns and rows match the baseline plus the explicit plan"
+      }
+    ],
+    "field_changes": 12748,
+    "monster_corrections": 1979,
+    "restored_shops": 56,
+    "assertions": [
+      "Full affected rows match only the explicit changes",
+      "Original monster attribute rows and EXP retained",
+      "Quest objectives/conditions and NPC placement retained; starter charts change only as explicitly planned",
+      "Published gold-shop prices match final SQL"
+    ]
+  },
+  "creation_checks": {
+    "database": "TGame_gsp",
+    "checks": [
+      {
+        "tested_profiles": 24,
+        "result": "All classes/options start at level 1, country 4; no mail; account pet retained; all inserted rows rolled back"
+      }
+    ],
+    "note": "Rollback leaves identity-number gaps; no character, mail or pet rows are retained"
+  },
+  "retained_tables": {
+    "game": 192,
+    "global": 69,
+    "migration_ledger": "Only _SchemaMigrations intentionally adds the seven verified migrations; all 33 IDs match repository files"
+  },
+  "database_backups": [
+    {
+      "database": "TGame_gsp",
+      "container_path": "/var/opt/mssql/backup/gameforge-normalization/TGame_before_deploy_20261027T203703Z.bak",
+      "local_path": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gameforge-normalization\\backups\\TGame_before_deploy_20261027T203703Z.bak"
+    },
+    {
+      "database": "TGLOBAL_GSP",
+      "container_path": "/var/opt/mssql/backup/gameforge-normalization/TGlobal_before_deploy_20261027T203703Z.bak",
+      "local_path": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gameforge-normalization\\backups\\TGlobal_before_deploy_20261027T203703Z.bak"
+    }
+  ],
+  "client_backup": ".runtime/gameforge-normalization/backups/client_20261027T2037Z",
+  "client_files": [
+    {
+      "path": "Tcd/TItem.tcd",
+      "bytes": 1061658,
+      "before_sha256": "290b9f2a462cb84506fabefffd1502a5ac4213f08a2c68269de858ec457f16e9",
+      "after_sha256": "7e57dc7068a322e86e19eae063ec2b561ad30bda7c5cb629679a12844d1c9c16",
+      "changed_bytes": 222
+    },
+    {
+      "path": "Tcd/TLevel.tcd",
+      "bytes": 2615,
+      "before_sha256": "d626aa2e322b6643a324a62245ade0a1c76f2bd54c0cd7e6a023296bc39101dc",
+      "after_sha256": "d626aa2e322b6643a324a62245ade0a1c76f2bd54c0cd7e6a023296bc39101dc",
+      "changed_bytes": 0
+    },
+    {
+      "path": "Tcd/TMount.tcd",
+      "bytes": 1570,
+      "before_sha256": "b559eebbf37789d3e331d2af28cda13f2c2b9fd91d5e5105ccb53456a1a2705e",
+      "after_sha256": "b3b3d06db7e0031a8b2849314d6ccee0dbc73f9cde01a0dafd69d4510b292e6f",
+      "changed_bytes": 8
+    },
+    {
+      "path": "TQuest.mpq",
+      "bytes": 2596762,
+      "before_sha256": "697c13a999265b80198d3b9dadb4a080794b3b466bf5d6f860217303bd926fba",
+      "after_sha256": "5b5c41fa8f6efe9ed11a8cc8e8354d6ec4cf37d816e1a75883b413bc248f686c",
+      "changed_bytes": 2354
+    }
+  ],
+  "runtime": "Map loaded templates and is listening on 5816/5817; linked to World",
+  "limits": [
+    "No visual/in-game playthrough was performed",
+    "Retained unpublished values are not certified official; Moray EXP remains zero",
+    "Client/server patch numbers remain unknown"
+  ]
+}

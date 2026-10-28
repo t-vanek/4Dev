@@ -1,0 +1,128 @@
+<!doctype html><html lang="cs"><meta charset="utf-8"><title>Gameforge — porovnání ID</title>
+<style>body{font:15px/1.55 system-ui;max-width:1300px;margin:35px auto;padding:0 22px;color:#182338;background:#fafbfe}table{border-collapse:collapse;width:100%;margin:18px 0}td,th{text-align:left;padding:9px 12px;border:1px solid #dce2ec}th{background:#eaf0f9}tr:nth-child(even){background:#f1f4f9}a{color:#1455b9}code{font-size:13px}details{margin:25px 0}summary{font-size:19px;font-weight:650;cursor:pointer}.note{background:#eaf0f9;padding:15px 20px;border-radius:8px}h1{line-height:1.2}</style>
+<h1>ID původního klienta × veřejná databáze Gameforge</h1>
+<p>Zdroj klienta: <code>C:\Program Files (x86)\4Story</code>. Čteny byly přímo TItem.tcd, TMon.tcd, TNPC*.tcd a TQuest.mpq; každý vstup byl ověřen proti připnutému SHA-256.</p><p>Webové katalogy zahrnují všechny třídy a země v rozsahu úrovní 0–140; monstra používají původní snímek 1–140. Nejde jen o výchozí první stránku webu.</p>
+<table><tr><th>Oblast</th><th>ID v klientu</th><th>ID v přehledu webu</th><th>Společná ID</th><th>Shoda názvu</th><th>Jiný název</th><th>Jen v přehledu webu</th><th>V klientu, mimo přehled</th></tr>
+<tr><td>Předměty</td><td>7766</td><td>3520</td><td>3520</td><td>3443</td><td>77</td><td>0</td><td>4246</td></tr>
+<tr><td>Monstra</td><td>3621</td><td>1451</td><td>1451</td><td>1438</td><td>13</td><td>0</td><td>2170</td></tr>
+<tr><td>NPC</td><td>2782</td><td>1299</td><td>1297</td><td>1291</td><td>6</td><td>2</td><td>1485</td></tr>
+<tr><td>Questy</td><td>8918</td><td>1820</td><td>1820</td><td>1816</td><td>4</td><td>0</td><td>7098</td></tr>
+</table><div class="note">Shoda názvu zahrnuje přesný text a shodu po odstranění rozdílů v diakritice, velikosti písmen, mezerách a interpunkci. Jiný název vyžaduje kontrolu; sám neprokazuje jiné použití ID. Nepřítomnost na veřejném webu neprokazuje custom obsah. Soubor TMon neobsahuje serverový level monstra.</div>
+<p>Přesné číslo patche místního klienta ani webových dat není ověřeno. Tabulka popisuje skutečný průnik obou zachycených zdrojů.</p>
+<p>Kontrola levelů v přehledu: Předměty: 3520 porovnaných ID, 0 rozdílů; Questy: 1820 porovnaných ID, 0 rozdílů.</p>
+<h2>Další ID monster ověřená přímo v detailech</h2><p>Přehled slučuje nebo vynechává některé varianty stejných jmen. Z 1022 dalších klientských ID bylo přímo podle ID a názvu potvrzeno 992; nepotvrzených požadavků: 30; čeká na zpracování: 0. Tyto záznamy nejsou zahrnuté v počtu ID veřejného přehledu výše.</p><p>Například <a href="https://cz.4story.gameforge.com/monster/details/283/kamenovrhac_kapaku">ID 283</a> má level 11 a <a href="https://cz.4story.gameforge.com/monster/details/412/kamenovrhac_kapaku">ID 412</a> level 17. Rozsah 11–17 z přehledu se proto nesmí libovolně přiřadit jednomu ID. Údaje a zdrojové SHA-256 jednotlivých detailů jsou v JSON.</p>
+<details><summary>Předměty: sporná nebo chybějící přiřazení (77)</summary><table><tr><th>ID</th><th>Klient</th><th>Gameforge web</th><th>Stav</th></tr>
+<tr><td>928</td><td>Krátká stříbrná šavle</td><td><a href="https://cz.4story.gameforge.com/item/details/928/default/krtk_stbrn_me">Krátký stříbrný meč</a></td><td>jiný název</td></tr>
+<tr><td>930</td><td>Krátká diamantová šavle</td><td><a href="https://cz.4story.gameforge.com/item/details/930/default/krtk_diamantov_me">Krátký diamantový meč</a></td><td>jiný název</td></tr>
+<tr><td>2010</td><td>Deyrina</td><td><a href="https://cz.4story.gameforge.com/item/details/2010/default/prsten_moudrosti">Prsten moudrosti</a></td><td>jiný název</td></tr>
+<tr><td>2308</td><td>Dotek inteligence</td><td><a href="https://cz.4story.gameforge.com/item/details/2308/default/zvan_inteligence">Závan inteligence</a></td><td>jiný název</td></tr>
+<tr><td>7917</td><td>Černý karibu (7 dní)</td><td><a href="https://cz.4story.gameforge.com/item/details/7917/default/ern_karibu">Černý karibu</a></td><td>jiný název</td></tr>
+<tr><td>7923</td><td>Skákací kůň</td><td><a href="https://cz.4story.gameforge.com/item/details/7923/default/skkac_k_trval">Skákací kůň (trvalý)</a></td><td>jiný název</td></tr>
+<tr><td>7924</td><td>Skákací kráva</td><td><a href="https://cz.4story.gameforge.com/item/details/7924/default/skkac_krva_trval">Skákací kráva (trvalá)</a></td><td>jiný název</td></tr>
+<tr><td>7925</td><td>Dřevěný Rudolf</td><td><a href="https://cz.4story.gameforge.com/item/details/7925/default/devn_rudolf_trval">Dřevěný Rudolf (trvalý)</a></td><td>jiný název</td></tr>
+<tr><td>7926</td><td>Tarantule bílá</td><td><a href="https://cz.4story.gameforge.com/item/details/7926/default/tarantule_bl_trval">Tarantule bílá (trvalá)</a></td><td>jiný název</td></tr>
+<tr><td>8211</td><td>Náhodný elixír proměny</td><td><a href="https://cz.4story.gameforge.com/item/details/8211/default/elixr_nhodn_promny">Elixír náhodné proměny</a></td><td>jiný název</td></tr>
+<tr><td>8866</td><td>Ratha Panda</td><td><a href="https://cz.4story.gameforge.com/item/details/8866/default/ratha_panda_30_dn">Ratha Panda (30 dní)</a></td><td>jiný název</td></tr>
+<tr><td>8883</td><td>Tarantule bílá</td><td><a href="https://cz.4story.gameforge.com/item/details/8883/default/tarantule_bl_trval">Tarantule bílá (trvalá)</a></td><td>jiný název</td></tr>
+<tr><td>8884</td><td>Rozzuřený Behemoth</td><td><a href="https://cz.4story.gameforge.com/item/details/8884/default/rozzuen_behemoth_trval">Rozzuřený Behemoth (trvalý)</a></td><td>jiný název</td></tr>
+<tr><td>16061</td><td>Korejská čapka</td><td><a href="https://cz.4story.gameforge.com/item/details/16061/default/tradin_korejsk_apka">Tradiční korejská čapka</a></td><td>jiný název</td></tr>
+<tr><td>26025</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26025/default/nnt_1249">NNT_1249</a></td><td>jiný název</td></tr>
+<tr><td>26026</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26026/default/nnt_1250">NNT_1250</a></td><td>jiný název</td></tr>
+<tr><td>26027</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26027/default/nnt_1251">NNT_1251</a></td><td>jiný název</td></tr>
+<tr><td>26028</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26028/default/nnt_1252">NNT_1252</a></td><td>jiný název</td></tr>
+<tr><td>26029</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26029/default/nnt_1253">NNT_1253</a></td><td>jiný název</td></tr>
+<tr><td>26125</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26125/default/nnt_1259">NNT_1259</a></td><td>jiný název</td></tr>
+<tr><td>26126</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26126/default/nnt_1260">NNT_1260</a></td><td>jiný název</td></tr>
+<tr><td>26127</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26127/default/nnt_1261">NNT_1261</a></td><td>jiný název</td></tr>
+<tr><td>26128</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26128/default/nnt_1262">NNT_1262</a></td><td>jiný název</td></tr>
+<tr><td>26129</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26129/default/nnt_1263">NNT_1263</a></td><td>jiný název</td></tr>
+<tr><td>26225</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26225/default/nnt_1269">NNT_1269</a></td><td>jiný název</td></tr>
+<tr><td>26226</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26226/default/nnt_1270">NNT_1270</a></td><td>jiný název</td></tr>
+<tr><td>26227</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26227/default/nnt_1271">NNT_1271</a></td><td>jiný název</td></tr>
+<tr><td>26228</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26228/default/nnt_1272">NNT_1272</a></td><td>jiný název</td></tr>
+<tr><td>26229</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26229/default/nnt_1273">NNT_1273</a></td><td>jiný název</td></tr>
+<tr><td>26325</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26325/default/nnt_1279">NNT_1279</a></td><td>jiný název</td></tr>
+<tr><td>26326</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26326/default/nnt_1280">NNT_1280</a></td><td>jiný název</td></tr>
+<tr><td>26327</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26327/default/nnt_1281">NNT_1281</a></td><td>jiný název</td></tr>
+<tr><td>26328</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26328/default/nnt_1282">NNT_1282</a></td><td>jiný název</td></tr>
+<tr><td>26329</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26329/default/nnt_1283">NNT_1283</a></td><td>jiný název</td></tr>
+<tr><td>26425</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26425/default/nnt_1289">NNT_1289</a></td><td>jiný název</td></tr>
+<tr><td>26426</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26426/default/nnt_1290">NNT_1290</a></td><td>jiný název</td></tr>
+<tr><td>26427</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26427/default/nnt_1291">NNT_1291</a></td><td>jiný název</td></tr>
+<tr><td>26428</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26428/default/nnt_1292">NNT_1292</a></td><td>jiný název</td></tr>
+<tr><td>26429</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26429/default/nnt_1293">NNT_1293</a></td><td>jiný název</td></tr>
+<tr><td>26525</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26525/default/nnt_1299">NNT_1299</a></td><td>jiný název</td></tr>
+<tr><td>26526</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26526/default/nnt_1300">NNT_1300</a></td><td>jiný název</td></tr>
+<tr><td>26527</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26527/default/nnt_1301">NNT_1301</a></td><td>jiný název</td></tr>
+<tr><td>26528</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26528/default/nnt_1302">NNT_1302</a></td><td>jiný název</td></tr>
+<tr><td>26529</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26529/default/nnt_1303">NNT_1303</a></td><td>jiný název</td></tr>
+<tr><td>26625</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26625/default/nnt_1309">NNT_1309</a></td><td>jiný název</td></tr>
+<tr><td>26626</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26626/default/nnt_1310">NNT_1310</a></td><td>jiný název</td></tr>
+<tr><td>26627</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26627/default/nnt_1311">NNT_1311</a></td><td>jiný název</td></tr>
+<tr><td>26628</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26628/default/nnt_1312">NNT_1312</a></td><td>jiný název</td></tr>
+<tr><td>26629</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26629/default/nnt_1313">NNT_1313</a></td><td>jiný název</td></tr>
+<tr><td>26725</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26725/default/nnt_1319">NNT_1319</a></td><td>jiný název</td></tr>
+<tr><td>26726</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26726/default/nnt_1320">NNT_1320</a></td><td>jiný název</td></tr>
+<tr><td>26727</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26727/default/nnt_1321">NNT_1321</a></td><td>jiný název</td></tr>
+<tr><td>26728</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26728/default/nnt_1322">NNT_1322</a></td><td>jiný název</td></tr>
+<tr><td>26729</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26729/default/nnt_1323">NNT_1323</a></td><td>jiný název</td></tr>
+<tr><td>26825</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26825/default/nnt_1329">NNT_1329</a></td><td>jiný název</td></tr>
+<tr><td>26826</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26826/default/nnt_1330">NNT_1330</a></td><td>jiný název</td></tr>
+<tr><td>26827</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26827/default/nnt_1331">NNT_1331</a></td><td>jiný název</td></tr>
+<tr><td>26828</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26828/default/nnt_1332">NNT_1332</a></td><td>jiný název</td></tr>
+<tr><td>26829</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26829/default/nnt_1333">NNT_1333</a></td><td>jiný název</td></tr>
+<tr><td>26925</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26925/default/nnt_1339">NNT_1339</a></td><td>jiný název</td></tr>
+<tr><td>26926</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26926/default/nnt_1340">NNT_1340</a></td><td>jiný název</td></tr>
+<tr><td>26927</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26927/default/nnt_1341">NNT_1341</a></td><td>jiný název</td></tr>
+<tr><td>26928</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26928/default/nnt_1342">NNT_1342</a></td><td>jiný název</td></tr>
+<tr><td>26929</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/26929/default/nnt_1343">NNT_1343</a></td><td>jiný název</td></tr>
+<tr><td>27025</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27025/default/nnt_1349">NNT_1349</a></td><td>jiný název</td></tr>
+<tr><td>27026</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27026/default/nnt_1350">NNT_1350</a></td><td>jiný název</td></tr>
+<tr><td>27027</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27027/default/nnt_1351">NNT_1351</a></td><td>jiný název</td></tr>
+<tr><td>27028</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27028/default/nnt_1352">NNT_1352</a></td><td>jiný název</td></tr>
+<tr><td>27029</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27029/default/nnt_1353">NNT_1353</a></td><td>jiný název</td></tr>
+<tr><td>27125</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27125/default/nnt_1359">NNT_1359</a></td><td>jiný název</td></tr>
+<tr><td>27126</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27126/default/nnt_1360">NNT_1360</a></td><td>jiný název</td></tr>
+<tr><td>27127</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27127/default/nnt_1361">NNT_1361</a></td><td>jiný název</td></tr>
+<tr><td>27128</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27128/default/nnt_1362">NNT_1362</a></td><td>jiný název</td></tr>
+<tr><td>27129</td><td>_</td><td><a href="https://cz.4story.gameforge.com/item/details/27129/default/nnt_1363">NNT_1363</a></td><td>jiný název</td></tr>
+<tr><td>30207</td><td>Ratha Panda</td><td><a href="https://cz.4story.gameforge.com/item/details/30207/default/ratha_panda_30_dn">Ratha Panda (30 dní)</a></td><td>jiný název</td></tr>
+<tr><td>31030</td><td>Ratha Panda</td><td><a href="https://cz.4story.gameforge.com/item/details/31030/default/ratha_panda_30_dn">Ratha Panda (30 dní)</a></td><td>jiný název</td></tr>
+<tr><td>31319</td><td>Ratha Panda</td><td><a href="https://cz.4story.gameforge.com/item/details/31319/default/ratha_panda_30_dn">Ratha Panda (30 dní)</a></td><td>jiný název</td></tr>
+</table></details>
+<details><summary>Monstra: sporná nebo chybějící přiřazení (13)</summary><table><tr><th>ID</th><th>Klient</th><th>Gameforge web</th><th>Stav</th></tr>
+<tr><td>2643</td><td>Svůdná sukuba</td><td><a href="https://cz.4story.gameforge.com/monster/details/2643/omamn_sukuba">Omamná sukuba</a></td><td>jiný název</td></tr>
+<tr><td>3144</td><td>Rozežraný momanský kouzelník</td><td><a href="https://cz.4story.gameforge.com/monster/details/3144/rozeran_moman">Rozežraný Moman</a></td><td>jiný název</td></tr>
+<tr><td>3511</td><td>Sluha vetřelce</td><td><a href="https://cz.4story.gameforge.com/monster/details/3511/vetrelcuv_sluha">Vetrelcuv sluha</a></td><td>jiný název</td></tr>
+<tr><td>3517</td><td>Sluha zaříkávače</td><td><a href="https://cz.4story.gameforge.com/monster/details/3517/zarkvacuv_sluha">Zaríkávacuv sluha</a></td><td>jiný název</td></tr>
+<tr><td>3520</td><td>Sluha ničitele</td><td><a href="https://cz.4story.gameforge.com/monster/details/3520/niciteluv_sluha">Niciteluv sluha</a></td><td>jiný název</td></tr>
+<tr><td>15036</td><td>Elitní mág</td><td><a href="https://cz.4story.gameforge.com/monster/details/15036/posedl_elitn_kouzelnk">Posedlý elitní kouzelník</a></td><td>jiný název</td></tr>
+<tr><td>30242</td><td>Pekelný bojovník elitní jednotky</td><td><a href="https://cz.4story.gameforge.com/monster/details/30242/jeskynn_bojovnk_elitn_jednotky">Jeskynní bojovník elitní jednotky</a></td><td>jiný název</td></tr>
+<tr><td>31815</td><td>Zlý Imp Berit</td><td><a href="https://cz.4story.gameforge.com/monster/details/31815/jzliv_otek">Jízlivý šotek</a></td><td>jiný název</td></tr>
+<tr><td>31816</td><td>Ďáblův služebník</td><td><a href="https://cz.4story.gameforge.com/monster/details/31816/dmonick_otrok">Démonický otrok</a></td><td>jiný název</td></tr>
+<tr><td>31819</td><td>Rytíř smrti</td><td><a href="https://cz.4story.gameforge.com/monster/details/31819/prokell_rytr_smrti">Prokell, rytír smrti</a></td><td>jiný název</td></tr>
+<tr><td>31825</td><td>Zlý Imp Berit</td><td><a href="https://cz.4story.gameforge.com/monster/details/31825/jzliv_otek">Jízlivý šotek</a></td><td>jiný název</td></tr>
+<tr><td>31826</td><td>Ďáblův služebník</td><td><a href="https://cz.4story.gameforge.com/monster/details/31826/dmonick_otrok">Démonický otrok</a></td><td>jiný název</td></tr>
+<tr><td>31829</td><td>Rytíř smrti</td><td><a href="https://cz.4story.gameforge.com/monster/details/31829/prokell_rytr_smrti">Prokell, rytír smrti</a></td><td>jiný název</td></tr>
+</table></details>
+<details><summary>NPC: sporná nebo chybějící přiřazení (12)</summary><table><tr><th>ID</th><th>Klient</th><th>Gameforge web</th><th>Stav</th></tr>
+<tr><td>19000</td><td></td><td><a href="https://cz.4story.gameforge.com/npc/details/19000/eilinora">Eilinora</a></td><td>ID v klientu chybí</td></tr>
+<tr><td>20627</td><td>y</td><td><a href="https://cz.4story.gameforge.com/npc/details/20627/ry">Ry</a></td><td>jiný název</td></tr>
+<tr><td>22123</td><td>Garaan / Samuel</td><td><a href="https://cz.4story.gameforge.com/npc/details/22123/samuel">Samuel</a></td><td>více jmen pro klientské ID</td></tr>
+<tr><td>22124</td><td>Ernan / Garaan</td><td></td><td>více jmen pro klientské ID</td></tr>
+<tr><td>22126</td><td>Garaan / Samuel</td><td><a href="https://cz.4story.gameforge.com/npc/details/22126/samuel">Samuel</a></td><td>více jmen pro klientské ID</td></tr>
+<tr><td>22127</td><td>Ernan / Garaan</td><td></td><td>více jmen pro klientské ID</td></tr>
+<tr><td>22129</td><td>Portál do dungeonů</td><td><a href="https://cz.4story.gameforge.com/npc/details/22129/samuel">Samuel</a></td><td>jiný název</td></tr>
+<tr><td>22132</td><td>Portál do dungeonů</td><td><a href="https://cz.4story.gameforge.com/npc/details/22132/samuel">Samuel</a></td><td>jiný název</td></tr>
+<tr><td>22134</td><td>Portál do dungeonů</td><td><a href="https://cz.4story.gameforge.com/npc/details/22134/samuel">Samuel</a></td><td>jiný název</td></tr>
+<tr><td>22237</td><td>Kakaový bob</td><td><a href="https://cz.4story.gameforge.com/npc/details/22237/kirsty">Kirsty</a></td><td>jiný název</td></tr>
+<tr><td>22363</td><td>Mysticky</td><td><a href="https://cz.4story.gameforge.com/npc/details/22363/vyvolan_stvra">Vyvolaná stvůra</a></td><td>jiný název</td></tr>
+<tr><td>22773</td><td></td><td><a href="https://cz.4story.gameforge.com/npc/details/22773/vojk_valorinu">Voják Valoriánu</a></td><td>ID v klientu chybí</td></tr>
+</table></details>
+<details><summary>Questy: sporná nebo chybějící přiřazení (4)</summary><table><tr><th>ID</th><th>Klient</th><th>Gameforge web</th><th>Stav</th></tr>
+<tr><td>773</td><td>Domov Rytířů magie</td><td><a href="https://cz.4story.gameforge.com/quest/details/773/vlast_kouzelnch_ryt">Vlast kouzelných rytířů</a></td><td>jiný název</td></tr>
+<tr><td>3152</td><td>Kletba červených bot</td><td><a href="https://cz.4story.gameforge.com/quest/details/3152/kletba_erven_boty">Kletba červené boty</a></td><td>jiný název</td></tr>
+<tr><td>5299</td><td>Malý elixír života</td><td><a href="https://cz.4story.gameforge.com/quest/details/5299/elixr_ivota">Elixír života</a></td><td>jiný název</td></tr>
+<tr><td>5350</td><td>Malý elixír života</td><td><a href="https://cz.4story.gameforge.com/quest/details/5350/elixr_ivota">Elixír života</a></td><td>jiný název</td></tr>
+</table></details>
+<p>Úplné záznamy včetně ID pouze v klientu jsou v <a href="identity-audit.json">identity-audit.json</a>. Tato kontrola neprovádí změny v herních databázích.</p></html>

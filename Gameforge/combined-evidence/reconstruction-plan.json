@@ -1,0 +1,1210 @@
+{
+  "generated_utc": "2026-10-28T09:14:30.358432+00:00",
+  "source_join_sha256": "78a48eadaa8701e539582e326a249c57655a7a998852c60b4153128b8e8f4ca3",
+  "server_deployment_performed": false,
+  "policy": "Do not infer original spawn population, drop odds, quest reset/conditions or combat donors from matching names/IDs.",
+  "original_npc_rows_available_but_portal_service_dependencies_missing": [
+    {
+      "id": 26585,
+      "name": "Portál",
+      "region": "Anbari",
+      "client_records": [
+        {
+          "wID": 26585,
+          "template_id": 707,
+          "name": "Portál",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3979.179931640625,
+          "fPosY": 67.25,
+          "fPosZ": 1336.050048828125
+        }
+      ],
+      "publisher_source_ref": "npc:26585",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26588,
+      "name": "Portál",
+      "region": "Anbari",
+      "client_records": [
+        {
+          "wID": 26588,
+          "template_id": 707,
+          "name": "Portál",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3603.969970703125,
+          "fPosY": 99.56999969482422,
+          "fPosZ": 1568.6099853515625
+        }
+      ],
+      "publisher_source_ref": "npc:26588",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26595,
+      "name": "Portál oblasti",
+      "region": "Anbari",
+      "client_records": [
+        {
+          "wID": 26595,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3449.3701171875,
+          "fPosY": 66.45999908447266,
+          "fPosZ": 1284.81005859375
+        }
+      ],
+      "publisher_source_ref": "npc:26595",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26596,
+      "name": "Portál oblasti",
+      "region": "Anbari",
+      "client_records": [
+        {
+          "wID": 26596,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 4012.0400390625,
+          "fPosY": 104.01000213623047,
+          "fPosZ": 1821.800048828125
+        }
+      ],
+      "publisher_source_ref": "npc:26596",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26597,
+      "name": "Portál oblasti",
+      "region": "Anbari",
+      "client_records": [
+        {
+          "wID": 26597,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 4039.6298828125,
+          "fPosY": 157.1300048828125,
+          "fPosZ": 1878.9100341796875
+        }
+      ],
+      "publisher_source_ref": "npc:26597",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26627,
+      "name": "Portál oblasti",
+      "region": "Undred",
+      "client_records": [
+        {
+          "wID": 26627,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3592.0,
+          "fPosY": 52.5,
+          "fPosZ": 2608.0
+        }
+      ],
+      "publisher_source_ref": "npc:26627",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26639,
+      "name": "Portál oblasti",
+      "region": "Undred",
+      "client_records": [
+        {
+          "wID": 26639,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3196.169921875,
+          "fPosY": 75.01000213623047,
+          "fPosZ": 2175.050048828125
+        }
+      ],
+      "publisher_source_ref": "npc:26639",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26640,
+      "name": "Portál oblasti",
+      "region": "Undred",
+      "client_records": [
+        {
+          "wID": 26640,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3252.489990234375,
+          "fPosY": 91.01000213623047,
+          "fPosZ": 2967.719970703125
+        }
+      ],
+      "publisher_source_ref": "npc:26640",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    },
+    {
+      "id": 26641,
+      "name": "Portál oblasti",
+      "region": "Undred",
+      "client_records": [
+        {
+          "wID": 26641,
+          "template_id": 707,
+          "name": "Portál oblasti",
+          "title": "_",
+          "bType": 8,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3965.81005859375,
+          "fPosY": 75.01000213623047,
+          "fPosZ": 2953.8701171875
+        }
+      ],
+      "publisher_source_ref": "npc:26641",
+      "client_name_and_title_match_publisher": true,
+      "related_quest_ids": [],
+      "server": {
+        "record_exists": false,
+        "record": null,
+        "shop_stock": []
+      }
+    }
+  ],
+  "monster_candidates": [
+    {
+      "id": 3527,
+      "name": "Nakažený tukan",
+      "source_ref": "monster:3527",
+      "published_level": [
+        101,
+        102
+      ],
+      "published_hp": [
+        5264,
+        5422
+      ],
+      "blocking_reasons": [
+        "public_level_is_a_range",
+        "public_hp_is_a_range"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3529,
+      "name": "Nakažený vlk z útesu",
+      "source_ref": "monster:3529",
+      "published_level": [
+        102,
+        102
+      ],
+      "published_hp": [
+        5422,
+        5422
+      ],
+      "blocking_reasons": [],
+      "singleton_level_hp_and_existing_combat_donor": true,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3538,
+      "name": "Démonický soudce",
+      "source_ref": "monster:3538",
+      "published_level": [
+        107,
+        107
+      ],
+      "published_hp": [
+        13654,
+        13654
+      ],
+      "blocking_reasons": [
+        "missing_current_server_attribute_row_no_combat_donor"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3546,
+      "name": "Oživlý anbarský voják",
+      "source_ref": "monster:3546",
+      "published_level": [
+        112,
+        113
+      ],
+      "published_hp": [
+        7287,
+        7506
+      ],
+      "blocking_reasons": [
+        "public_level_is_a_range",
+        "public_hp_is_a_range"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3547,
+      "name": "Oživlý anbarský voják",
+      "source_ref": "monster:3547",
+      "published_level": [
+        112,
+        113
+      ],
+      "published_hp": [
+        7287,
+        7506
+      ],
+      "blocking_reasons": [
+        "public_level_is_a_range",
+        "public_hp_is_a_range",
+        "public_catalogue_and_detail_disagree"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3557,
+      "name": "Karmínový okřídlený ďábel",
+      "source_ref": "monster:3557",
+      "published_level": [
+        120,
+        120
+      ],
+      "published_hp": [
+        9146,
+        9146
+      ],
+      "blocking_reasons": [
+        "missing_current_server_attribute_row_no_combat_donor"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3588,
+      "name": "Pavoučí vajíčko před vylíhnutím",
+      "source_ref": "monster:3588",
+      "published_level": [
+        130,
+        130
+      ],
+      "published_hp": [
+        11365,
+        11365
+      ],
+      "blocking_reasons": [],
+      "singleton_level_hp_and_existing_combat_donor": true,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3595,
+      "name": "Hlídka",
+      "source_ref": "monster:3595",
+      "published_level": [
+        115,
+        115
+      ],
+      "published_hp": [
+        13212,
+        15615
+      ],
+      "blocking_reasons": [
+        "public_hp_is_a_range"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    },
+    {
+      "id": 3597,
+      "name": "Hlídka",
+      "source_ref": "monster:3597",
+      "published_level": [
+        115,
+        115
+      ],
+      "published_hp": [
+        13212,
+        15615
+      ],
+      "blocking_reasons": [
+        "public_hp_is_a_range"
+      ],
+      "singleton_level_hp_and_existing_combat_donor": false,
+      "retained_combat_donor_is_original_gameforge": false,
+      "complete_gameplay_import_ready": false
+    }
+  ],
+  "missing_mission_ids": [
+    11172,
+    11174,
+    11176,
+    11178,
+    11180,
+    11182,
+    11184,
+    11230,
+    11236,
+    11239,
+    11241,
+    11243,
+    11245,
+    11247,
+    11249,
+    11251,
+    11253,
+    11255,
+    11257,
+    11261,
+    11265,
+    11267,
+    11269,
+    11271,
+    11273,
+    11279,
+    11281,
+    11283,
+    11286,
+    11288,
+    11290,
+    11292,
+    11294,
+    11298,
+    11302,
+    11304,
+    11307,
+    11311,
+    11313,
+    11315,
+    11317,
+    11322,
+    11325,
+    11329,
+    11331,
+    11340,
+    11342,
+    11344,
+    11346,
+    11349,
+    11351,
+    11352,
+    11354,
+    11358,
+    11360,
+    11362,
+    11364,
+    11366,
+    11368,
+    11370,
+    11372,
+    11375,
+    11391,
+    11392,
+    11393,
+    11394,
+    11395,
+    11396,
+    11397,
+    11398,
+    11399,
+    11400,
+    11401,
+    11402,
+    11403,
+    11404,
+    11405,
+    11406,
+    11407,
+    11408,
+    11409,
+    11410,
+    11411,
+    11412,
+    11413,
+    11414,
+    11439,
+    11440,
+    11441,
+    11442,
+    11509,
+    11510,
+    11511,
+    11512,
+    11523,
+    11524,
+    11530,
+    11531,
+    11555,
+    11556,
+    11557,
+    11558,
+    11559,
+    11560,
+    11561,
+    11562,
+    11563,
+    11564,
+    11565,
+    11566,
+    11567,
+    11568,
+    11569,
+    11570,
+    11571,
+    11572,
+    11573,
+    11574,
+    11575,
+    11576,
+    11577,
+    11578,
+    11579,
+    11580,
+    11581,
+    11582
+  ],
+  "quest_navigation_is_not_a_spawn_chart": true,
+  "missing_portal_ids": [
+    4700,
+    4701,
+    4702,
+    4703,
+    4704,
+    20178,
+    6015,
+    6014,
+    6013
+  ],
+  "portal_arrival_heights_verified": false,
+  "quest_item_source_relationships": [
+    {
+      "item_id": 9746,
+      "name": "Hnijící vlčí kůže",
+      "quest_id": 11174,
+      "quest_name": "Známky nákazy",
+      "source": "https://cz.4story.gameforge.com/quest/details/11174/znmky_nkazy",
+      "monster_kind": 3529,
+      "monster_name": "Nakažený vlk z útesu",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11206
+      ],
+      "missing_drop_helper_ids": [
+        11206
+      ],
+      "quantity": 20,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11206,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9746,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11174,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalHnijící vlčí kůže",
+        "/ItemGradeHnijící vlčí kůže (+/Grade)",
+        "/ItemMagicHnijící vlčí kůže",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareHnijící vlčí kůže",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        " Tato kůže pochází z nakaženého vlka.",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 9940,
+      "name": "Krystal zahořklého ducha",
+      "quest_id": 11236,
+      "quest_name": "Krystaly zahořklých duchů",
+      "source": "https://cz.4story.gameforge.com/quest/details/11236/krystaly_zahoklch_duch",
+      "monster_kind": 3535,
+      "monster_name": "Zahořklý duch praobyvatel",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11238
+      ],
+      "missing_drop_helper_ids": [
+        11238
+      ],
+      "quantity": 10,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11238,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9940,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11236,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalKrystal zahořklého ducha",
+        "/ItemGradeKrystal zahořklého ducha (+/Grade)",
+        "/ItemMagicKrystal zahořklého ducha",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareKrystal zahořklého ducha",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        " Tento krystal je fyzickým projevem zášti duchů.",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 15119,
+      "name": "Anbarská identifikační známka",
+      "quest_id": 11273,
+      "quest_name": "Oživlí vojáci",
+      "source": "https://cz.4story.gameforge.com/quest/details/11273/oivl_vojci",
+      "monster_kind": 3546,
+      "monster_name": "Oživlý anbarský voják",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11278
+      ],
+      "missing_drop_helper_ids": [
+        11278
+      ],
+      "quantity": 10,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11278,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 15119,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11273,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalAnbarská identifikační známka",
+        "/ItemGradeAnbarská identifikační známka (+/Grade)",
+        "/ItemMagicAnbarská identifikační známka",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareAnbarská identifikační známka",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        " Tato známka patří mrtvému vojákovi z Goru.",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 15120,
+      "name": "Anbarská železná ruda",
+      "quest_id": 11283,
+      "quest_name": "Anbarská železná ruda",
+      "source": "https://cz.4story.gameforge.com/quest/details/11283/anbarsk_elezn_ruda",
+      "monster_kind": 3551,
+      "monster_name": "Chamtivý kyklop",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11285
+      ],
+      "missing_drop_helper_ids": [
+        11285
+      ],
+      "quantity": 10,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11285,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 15120,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11283,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalAnbarská železná ruda",
+        "/ItemGradeAnbarská železná ruda (+/Grade)",
+        "/ItemMagicAnbarská železná ruda",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareAnbarská železná ruda",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        " Tato železná ruda se dá najít jen v Anbari.",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 9893,
+      "name": "Starobylá popsaná kamenná deska",
+      "quest_id": 11304,
+      "quest_name": "Užitečný předmět pro zkoumání",
+      "source": "https://cz.4story.gameforge.com/quest/details/11304/uiten_pedmt_pro_zkoumn",
+      "monster_kind": 3561,
+      "monster_name": "Tanglu Urk",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11306
+      ],
+      "missing_drop_helper_ids": [
+        11306
+      ],
+      "quantity": 1,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11306,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9893,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11304,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalStarobylá popsaná kamenná deska",
+        "/ItemGradeStarobylá popsaná kamenná deska (+/Grade)",
+        "/ItemMagicStarobylá popsaná kamenná deska",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareStarobylá popsaná kamenná deska",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 9952,
+      "name": "Kost starověké mumie",
+      "quest_id": 11313,
+      "quest_name": "Další předmět výzkumu",
+      "source": "https://cz.4story.gameforge.com/quest/details/11313/dal_pedmt_vzkumu",
+      "monster_kind": 3564,
+      "monster_name": "Oživlá starověká mumie",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11336
+      ],
+      "missing_drop_helper_ids": [
+        11336
+      ],
+      "quantity": 20,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11336,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9952,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11313,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalKost starověké mumie",
+        "/ItemGradeKost starověké mumie (+/Grade)",
+        "/ItemMagicKost starověké mumie",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareKost starověké mumie",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 9972,
+      "name": "Náhrdelník velekněze",
+      "quest_id": 11317,
+      "quest_name": "Náhrdelník velekněze",
+      "source": "https://cz.4story.gameforge.com/quest/details/11317/nhrdelnk_veleknze",
+      "monster_kind": 3567,
+      "monster_name": "Velekněz Kayapa",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11320
+      ],
+      "missing_drop_helper_ids": [
+        11320
+      ],
+      "quantity": 1,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11320,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9972,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11317,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalNáhrdelník velekněze",
+        "/ItemGradeNáhrdelník velekněze (+/Grade)",
+        "/ItemMagicNáhrdelník velekněze",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRareNáhrdelník velekněze",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    },
+    {
+      "item_id": 9558,
+      "name": "Průsvitné srdce rostliny",
+      "quest_id": 11329,
+      "quest_name": "Srdce rostliny",
+      "source": "https://cz.4story.gameforge.com/quest/details/11329/srdce_rostliny",
+      "monster_kind": 3568,
+      "monster_name": "Agresivní masožravá rostlina",
+      "server_item_template_exists": true,
+      "original_drop_helper_ids": [
+        11333,
+        11334,
+        11335
+      ],
+      "missing_drop_helper_ids": [
+        11333,
+        11334,
+        11335
+      ],
+      "quantity": 20,
+      "numeric_drop_probability_published": false,
+      "client_drop_helper_records": [
+        {
+          "dwQuestID": 11333,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9558,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11329,
+          "unknown_flag": 0
+        },
+        {
+          "dwQuestID": 11334,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9558,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11329,
+          "unknown_flag": 0
+        },
+        {
+          "dwQuestID": 11335,
+          "bType": 4,
+          "class_id": 0,
+          "bMain": 0,
+          "bLevel": 1,
+          "min_level": 0,
+          "max_level": 0,
+          "title": "_",
+          "terms": [
+            {
+              "bTermType": 5,
+              "dwTermID": 9558,
+              "bCount": 1
+            }
+          ],
+          "rewards": [],
+          "unknown_prefix": 11329,
+          "unknown_flag": 0
+        }
+      ],
+      "client_tooltip_lines": [
+        "/ItemNormalPrůsvitné srdce rostliny",
+        "/ItemGradePrůsvitné srdce rostliny (+/Grade)",
+        "/ItemMagicPrůsvitné srdce rostliny",
+        "/ItemSet/SetItemName",
+        "/ItemSet/SetName",
+        "/ItemRarePrůsvitné srdce rostliny",
+        "/ItemUnique/UniqueItemName",
+        " ",
+        "Třída : Všichni",
+        "Poškození : /ItemMinAP - /ItemMaxAP",
+        "Fyzická obrana : /ItemDP",
+        "Magické poškození : /ItemMinMAP - /ItemMaxMAP",
+        "Magická obrana : /ItemMDP",
+        "/EndTime",
+        "/UseTime",
+        " ",
+        "Žádná prodejní cena.",
+        " ",
+        "/OptionBonus",
+        "Možnost level : /OptionLevel",
+        "/OptionName1 /OptionData1",
+        "/OptionName2 /OptionData2",
+        "/OptionName3 /OptionData3",
+        "/OptionName4 /OptionData4",
+        "/OptionName5 /OptionData5",
+        "/OptionName6 /OptionData6"
+      ],
+      "numeric_drop_probability_recovered": false
+    }
+  ],
+  "quest_repeat_policy_verified": false,
+  "quest_conditions_complete": false,
+  "ordinary_loot_qualitative_only": true
+}

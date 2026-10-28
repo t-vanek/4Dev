@@ -1,0 +1,867 @@
+{
+  "database": "TGame_gsp",
+  "passed": true,
+  "planSha256": "4126c2aad499cd64e4044efb5bec5f6d1f385057e09c10b519d0f67156806d14",
+  "recipes": [
+    {
+      "questId": 10629,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10630,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10631,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10632,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10633,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10635,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10637,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10638,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10639,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10640,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10641,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10642,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10643,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10644,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10645,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10646,
+      "giverId": 26426,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10789,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10790,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10791,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10792,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10811,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10812,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10813,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10814,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10939,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10940,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10941,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10942,
+      "giverId": 26427,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10943,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10944,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10945,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 10946,
+      "giverId": 26428,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11042,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11043,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11044,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11046,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11047,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11048,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11049,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11050,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11052,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11053,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11054,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11055,
+      "giverId": 22755,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11062,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11063,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11064,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11066,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11067,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11068,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11069,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11070,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11072,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11073,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11074,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11075,
+      "giverId": 22752,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11090,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11091,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11092,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11093,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11094,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11095,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11096,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11097,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11098,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11099,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11100,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11102,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11103,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11104,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11105,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11106,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11107,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11108,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11109,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11110,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11111,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11112,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11114,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11115,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11116,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11117,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11118,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11119,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11120,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11121,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11122,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11123,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11124,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11126,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11127,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11128,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11129,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11130,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11131,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11132,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11133,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11134,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11135,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11136,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11138,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11139,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11140,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11141,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11142,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11143,
+      "giverId": 22705,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11144,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11145,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11146,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11147,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11148,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11149,
+      "giverId": 22706,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11150,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11151,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11152,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11153,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11154,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11155,
+      "giverId": 22707,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11156,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11157,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11158,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11159,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11160,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11161,
+      "giverId": 22708,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11163,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11164,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11165,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11166,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11167,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11168,
+      "giverId": 26007,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11643,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11646,
+      "giverId": 22745,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11647,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    },
+    {
+      "questId": 11648,
+      "giverId": 22747,
+      "repeatedSuccesses": 2,
+      "insufficientIngredientsRejected": true
+    }
+  ],
+  "successfulCrafts": 268,
+  "rejectedCrafts": 134,
+  "mounts": [
+    {
+      "itemId": 12068,
+      "mountId": 40,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12070,
+      "mountId": 40,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12071,
+      "mountId": 41,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12073,
+      "mountId": 41,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12074,
+      "mountId": 42,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12076,
+      "mountId": 42,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12077,
+      "mountId": 43,
+      "consumed": true,
+      "registered": true
+    },
+    {
+      "itemId": 12079,
+      "mountId": 43,
+      "consumed": true,
+      "registered": true
+    }
+  ],
+  "npcRegistrations": 128,
+  "portalAssociations": 24,
+  "writesToSql": 0,
+  "note": "Actual SQL chart loader and packet handlers, ephemeral in-memory characters; not a graphical client playthrough."
+}

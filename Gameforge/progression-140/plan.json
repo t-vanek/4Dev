@@ -1,0 +1,833 @@
+{
+  "prepared_utc": "2026-10-28T07:29:54.406100+00:00",
+  "publisher_source": {
+    "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952",
+    "author": "Dafne, BA [CZ]",
+    "published": "2018-11-26",
+    "version_scope": "Gameforge CZ 5.0+ era; publisher team table, not a server SQL export",
+    "image": "https://dl.dropboxusercontent.com/s/in28ju7hcnrbsww/levely.png",
+    "image_sha256": "ce1f5cd515d2f9c81f4f121f6ba749c4834bf8bc5dd24f4725f8b9c937087b39",
+    "transcription": "Visually transcribed cumulative EXP and independently printed adjacent-level differences; every difference is checked by the importer.",
+    "columns": [
+      "target_level",
+      "cumulative_exp",
+      "difference_from_previous_level"
+    ],
+    "rows": [
+      [
+        89,
+        49389245,
+        3788908
+      ],
+      [
+        90,
+        54007046,
+        4617801
+      ],
+      [
+        91,
+        57997209,
+        3990163
+      ],
+      [
+        92,
+        62090218,
+        4093009
+      ],
+      [
+        93,
+        66287555,
+        4197337
+      ],
+      [
+        94,
+        70590707,
+        4303152
+      ],
+      [
+        95,
+        75001164,
+        4410457
+      ],
+      [
+        96,
+        79520427,
+        4519263
+      ],
+      [
+        97,
+        84149998,
+        4629571
+      ],
+      [
+        98,
+        88891386,
+        4741388
+      ],
+      [
+        99,
+        93746103,
+        4854717
+      ],
+      [
+        100,
+        98715664,
+        4969561
+      ],
+      [
+        101,
+        103801595,
+        5085931
+      ],
+      [
+        102,
+        109005416,
+        5203821
+      ],
+      [
+        103,
+        114328664,
+        5323248
+      ],
+      [
+        104,
+        119772867,
+        5444203
+      ],
+      [
+        105,
+        125339572,
+        5566705
+      ],
+      [
+        106,
+        131030320,
+        5690748
+      ],
+      [
+        107,
+        136846660,
+        5816340
+      ],
+      [
+        108,
+        142790147,
+        5943487
+      ],
+      [
+        109,
+        148862334,
+        6072187
+      ],
+      [
+        110,
+        155064789,
+        6202455
+      ],
+      [
+        111,
+        161399077,
+        6334288
+      ],
+      [
+        112,
+        167866766,
+        6467689
+      ],
+      [
+        113,
+        174469434,
+        6602668
+      ],
+      [
+        114,
+        181208661,
+        6739227
+      ],
+      [
+        115,
+        188086030,
+        6877369
+      ],
+      [
+        116,
+        195103129,
+        7017099
+      ],
+      [
+        117,
+        202261550,
+        7158421
+      ],
+      [
+        118,
+        209562888,
+        7301338
+      ],
+      [
+        119,
+        217008744,
+        7445856
+      ],
+      [
+        120,
+        224600722,
+        7591978
+      ],
+      [
+        121,
+        232340435,
+        7739713
+      ],
+      [
+        122,
+        240229492,
+        7889057
+      ],
+      [
+        123,
+        248269510,
+        8040018
+      ],
+      [
+        124,
+        256462114,
+        8192604
+      ],
+      [
+        125,
+        264808925,
+        8346811
+      ],
+      [
+        126,
+        273311573,
+        8502648
+      ],
+      [
+        127,
+        281971691,
+        8660118
+      ],
+      [
+        128,
+        290790914,
+        8819223
+      ],
+      [
+        129,
+        299770887,
+        8979973
+      ],
+      [
+        130,
+        308913253,
+        9142366
+      ],
+      [
+        131,
+        318219659,
+        9306406
+      ],
+      [
+        132,
+        327691759,
+        9472100
+      ],
+      [
+        133,
+        337331208,
+        9639449
+      ],
+      [
+        134,
+        347139665,
+        9808457
+      ],
+      [
+        135,
+        357118797,
+        9979132
+      ],
+      [
+        136,
+        367270272,
+        10151475
+      ],
+      [
+        137,
+        377595757,
+        10325485
+      ],
+      [
+        138,
+        388096933,
+        10501176
+      ],
+      [
+        139,
+        398775475,
+        10678542
+      ],
+      [
+        140,
+        409633067,
+        10857592
+      ]
+    ]
+  },
+  "fee_source_sha256": "d626aa2e322b6643a324a62245ade0a1c76f2bd54c0cd7e6a023296bc39101dc",
+  "index_semantics": "TLEVELCHART[L].dwEXP is cumulative EXP required to reach L+1.",
+  "validated_overlap_current_levels": [
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98
+  ],
+  "player_level_cap": 140,
+  "cap_row_policy": "Row 140 EXP=0 closes progression; no invented level-141 threshold.",
+  "changes": [
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 99,
+      "column": "dwEXP",
+      "before": 99664347,
+      "after": 98715664,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 100,
+      "column": "dwEXP",
+      "before": 104750278,
+      "after": 103801595,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 101,
+      "column": "dwEXP",
+      "before": 109954099,
+      "after": 109005416,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 102,
+      "column": "dwEXP",
+      "before": 115277347,
+      "after": 114328664,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 103,
+      "column": "dwEXP",
+      "before": 120721550,
+      "after": 119772867,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 104,
+      "column": "dwEXP",
+      "before": 126288255,
+      "after": 125339572,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 105,
+      "column": "dwEXP",
+      "before": 131979003,
+      "after": 131030320,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 106,
+      "column": "dwEXP",
+      "before": 137795343,
+      "after": 136846660,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 107,
+      "column": "dwEXP",
+      "before": 143738830,
+      "after": 142790147,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 108,
+      "column": "dwEXP",
+      "before": 149811017,
+      "after": 148862334,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 109,
+      "column": "dwEXP",
+      "before": 157217406,
+      "after": 155064789,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 110,
+      "column": "dwEXP",
+      "before": 163551694,
+      "after": 161399077,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 111,
+      "column": "dwEXP",
+      "before": 170019383,
+      "after": 167866766,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 112,
+      "column": "dwEXP",
+      "before": 176622051,
+      "after": 174469434,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 113,
+      "column": "dwEXP",
+      "before": 183361278,
+      "after": 181208661,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 114,
+      "column": "dwEXP",
+      "before": 190238647,
+      "after": 188086030,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 115,
+      "column": "dwEXP",
+      "before": 197255746,
+      "after": 195103129,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 116,
+      "column": "dwEXP",
+      "before": 204414167,
+      "after": 202261550,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 117,
+      "column": "dwEXP",
+      "before": 211715505,
+      "after": 209562888,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 118,
+      "column": "dwEXP",
+      "before": 219161361,
+      "after": 217008744,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 119,
+      "column": "dwEXP",
+      "before": 228249830,
+      "after": 224600722,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 120,
+      "column": "dwEXP",
+      "before": 235989543,
+      "after": 232340435,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 121,
+      "column": "dwEXP",
+      "before": 243878600,
+      "after": 240229492,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 122,
+      "column": "dwEXP",
+      "before": 251918618,
+      "after": 248269510,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 123,
+      "column": "dwEXP",
+      "before": 260111222,
+      "after": 256462114,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 124,
+      "column": "dwEXP",
+      "before": 268458033,
+      "after": 264808925,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    },
+    {
+      "table": "TLEVELCHART",
+      "key_column": "bLevel",
+      "key": 125,
+      "column": "dwEXP",
+      "before": 276960681,
+      "after": 273311573,
+      "source": "https://forum.4story.gameforge.com/forum/thread/546-levely/?postID=952"
+    }
+  ],
+  "additions": {
+    "TLEVELCHART": [
+      {
+        "bLevel": 126,
+        "dwEXP": 281971691,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 9971500,
+        "dwScore": 0,
+        "dwRegCost": 1196580,
+        "dwSearchCost": 797720,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 127,
+        "dwEXP": 290790914,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 10172131,
+        "dwScore": 0,
+        "dwRegCost": 1220656,
+        "dwSearchCost": 813770,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 128,
+        "dwEXP": 299770887,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 10375239,
+        "dwScore": 0,
+        "dwRegCost": 1245029,
+        "dwSearchCost": 830019,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 129,
+        "dwEXP": 308913253,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 10580838,
+        "dwScore": 0,
+        "dwRegCost": 1269701,
+        "dwSearchCost": 846467,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 130,
+        "dwEXP": 318219659,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 10788373,
+        "dwScore": 0,
+        "dwRegCost": 1294605,
+        "dwSearchCost": 863070,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 131,
+        "dwEXP": 327691759,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 10998988,
+        "dwScore": 0,
+        "dwRegCost": 1319879,
+        "dwSearchCost": 879919,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 132,
+        "dwEXP": 337331208,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 11210980,
+        "dwScore": 0,
+        "dwRegCost": 1345318,
+        "dwSearchCost": 896878,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 133,
+        "dwEXP": 347139665,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 11426078,
+        "dwScore": 0,
+        "dwRegCost": 1371129,
+        "dwSearchCost": 914086,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 134,
+        "dwEXP": 357118797,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 11643139,
+        "dwScore": 0,
+        "dwRegCost": 1397177,
+        "dwSearchCost": 931451,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 135,
+        "dwEXP": 367270272,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 11862752,
+        "dwScore": 0,
+        "dwRegCost": 1423530,
+        "dwSearchCost": 949020,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 136,
+        "dwEXP": 377595757,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 12036222,
+        "dwScore": 0,
+        "dwRegCost": 1444347,
+        "dwSearchCost": 962898,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 137,
+        "dwEXP": 388096933,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 12260019,
+        "dwScore": 0,
+        "dwRegCost": 1471202,
+        "dwSearchCost": 980802,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 138,
+        "dwEXP": 398775475,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 12485796,
+        "dwScore": 0,
+        "dwRegCost": 1498296,
+        "dwSearchCost": 998864,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 139,
+        "dwEXP": 409633067,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 12714160,
+        "dwScore": 0,
+        "dwRegCost": 1525699,
+        "dwSearchCost": 1017133,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      },
+      {
+        "bLevel": 140,
+        "dwEXP": 0,
+        "dwHP": 3332,
+        "dwMP": 3332,
+        "bSkillPoint": 0,
+        "dwMoney": 12944514,
+        "dwScore": 0,
+        "dwRegCost": 1553342,
+        "dwSearchCost": 1035561,
+        "dwGambleCost": 17112,
+        "dwRepCost": 34225,
+        "dwRepairCost": 125491,
+        "dwRefineCost": 969700,
+        "wPvPoint": 57,
+        "dwPvPMoney": 24715,
+        "dwPvPExp": 1042
+      }
+    ]
+  },
+  "compatibility_fields_not_certified_gameforge": {
+    "donor_level": 125,
+    "fields": [
+      "bSkillPoint",
+      "dwGambleCost",
+      "dwHP",
+      "dwMP",
+      "dwPvPExp",
+      "dwPvPMoney",
+      "dwRefineCost",
+      "dwRepCost",
+      "dwRepairCost",
+      "dwScore",
+      "wPvPoint"
+    ],
+    "policy": "New non-EXP/non-client-fee columns retain the last existing level row. This does not certify skill-point, HP/MP or PvP curves. Existing rows and saved characters are not rewritten except the listed EXP thresholds."
+  },
+  "saved_character_policy": "No saved level or cumulative EXP is changed by this migration; progression is evaluated on the next positive EXP gain."
+}

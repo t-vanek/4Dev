@@ -1,0 +1,91 @@
+{
+  "started_utc": "20261028T074009Z",
+  "stage_database": "TGame_ContentStage_20261028_074009",
+  "backups": [
+    {
+      "path": ".runtime\\gameforge-high-level\\backups\\TGame_before_20261028T074009Z.bak",
+      "sha256": "6a75f3984ff05f76fc5cf55973f93913bcae5a5a8aca12e1714dc7c6ca3099a3",
+      "bytes": 6877184
+    },
+    {
+      "path": ".runtime\\gameforge-high-level\\backups\\TGlobal_before_20261028T074009Z.bak",
+      "sha256": "1bee1558a90d15128c42b2081ad861bbf8362f49d2b19cfb7c0c8842bbfc18f5",
+      "bytes": 9924608
+    }
+  ],
+  "runtime_image_before": "sha256:be18da6b1b1ac940aa864fcf79d3d345711d522a0141be16a86354e315243321",
+  "runtime_rollback_tag": "araz-mapsvr:before-progression-20261028t074009z",
+  "deployed_utc": "2026-10-28T07:47:46.813922+00:00",
+  "runtime_image_after": "sha256:5ca34c4eb7633fc6ca48c611523e01357064e9a636db417c2352f239ebf6de41",
+  "container_id": "5d80083305ad04895988254c666d0a4600bb4f47936f269ad0c55b34539b2e88",
+  "migrations": [
+    {
+      "file": "035_gameforge_progression_140.sql",
+      "sha256": "dc77bf124317fb1d93b1c7ce1bd2559a8e1451a9204c877966746cbd7322875c"
+    },
+    {
+      "file": "036_gameforge_region_deliveries.sql",
+      "sha256": "0d38f68048649ba9daaff1bedd7f40956c90b22316bee7c987ca92107ee4749f"
+    }
+  ],
+  "login_bounds_fix_deployed_utc": "2026-10-28T07:58:12.175897+00:00",
+  "verified_utc": "2026-10-28T08:00:01.806767+00:00",
+  "tests": {
+    "passed": 1177,
+    "failed": 0,
+    "evidence": "Gameforge/progression-140/tests.json"
+  },
+  "runtime_assemblies": [
+    {
+      "name": "TMap.Data.dll",
+      "sha256": "f93f44cef76f6a731a7b85500beef6ffd420a74ce1250fa000e2fb5414007f1b"
+    },
+    {
+      "name": "TMap.Protocol.dll",
+      "sha256": "d82fdd98a93731b3070a1894661f168d4a1a26fdf7a7f8f74c8e0752a1678431"
+    },
+    {
+      "name": "TMap.Server.dll",
+      "sha256": "83a0047fcf8a6432f601446d447dd7b8664b95918c0a49ed2543acc92d8b6108"
+    }
+  ],
+  "live_gameplay": {
+    "path": "Gameforge/high-level-regions/deployed-gameplay.json",
+    "sha256": "0b8d01a32e047eda6fac0768226b20d755d4bdfa626d729538173b0fc6ec98a5",
+    "exp_boundaries": 15,
+    "login_bounds": 2,
+    "deliveries": 12,
+    "purchases": 26,
+    "writes_to_sql": 0
+  },
+  "retained_tables": {
+    "game": 194,
+    "global_excluding_migration_metadata": 69
+  },
+  "source_files": [
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Loot.cs",
+      "sha256": "3097e93a878f43684b7858c88d42cc5e4c5a393d9b5af4c27f7befb7990bfa43"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SoulLottery.cs",
+      "sha256": "617cc947ec6a926b2d6e03f78bfe1b3c993f46e543f185acd2c67f9a1f90fcea"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Companion.cs",
+      "sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server.Tests/GameforgeProgressionTests.cs",
+      "sha256": "f3f60b297981c4e0ae438da9247045f767c5d0f19dc5b7c043fad62ff1179434"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Enter.cs",
+      "sha256": "22603cdc70faa528da951b0c945abac73e663c8ef1ce76e23432a68318197de2"
+    }
+  ],
+  "saved_characters_rewritten": false,
+  "full_regions_playable": false,
+  "complete_gameforge_5_plus_alignment": false,
+  "graphical_playthrough": false
+}

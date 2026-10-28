@@ -1,0 +1,550 @@
+{
+  "prepared_utc": "2026-10-28T09:33:12.149807+00:00",
+  "baseline": ".runtime\\gameforge-verified-import\\before",
+  "baseline_sha256": {
+    "counts.json": "b226434e7cfee928c38ccf88dd8b28b875bee020eff3a730411b17f530b806d1",
+    "schema.json": "9d74e4d8c6609fd0c007697bf97d6b814ed0c6011c640f204f937e259227f927",
+    "TCHANNELCHART.json": "b76afd66bdc9fcb172f0fb754b4bb1e1ca24b0e7c5f942c3f573eb3795bd0f33",
+    "TDESTINATIONCHART.json": "8774c7467dc70b6faee292d0e3069a5c3ec047230b568ed8c7d0cd80966a8733",
+    "TGAMEFORGEMONSTERRESTORE.json": "24e47f19771febe2e224deea203ba5d97b83a5707e9ed085c4693adf58a5071a",
+    "TITEMATTRCHART.json": "547d83e5f88bbb916c49da271b86361b9e43c2069d2c5ce7d367442cd945169b",
+    "TITEMCHART.json": "e550c1ba0d3189051ca845a038912117891bb208a074634dca578e21ff6c8d10",
+    "TLEVELCHART.json": "b67a23b2495d43e0cdf26fcd21ce73cc7701ddf8ae3c383fd5de3042137d50eb",
+    "TMAPCHART.json": "e667d42d4e3131a2a4c466499623939809df509354939d02a32651a2186bbfbf",
+    "TMAPMONCHART.json": "9b3634a81cdb89f3eb539fd6109d306968e405f770ca7c17ce55f9cdf44fe851",
+    "TMONATTRCHART.json": "7862f79e230e68af9c86735f95106b1000f9da3f589e46c32dab014d5e9461ab",
+    "TMONITEMCHART.json": "317bc4c75a5acf788e2406531a150ec6ef0d6882489ccd320e6915bf64d852b9",
+    "TMONSPAWNCHART.json": "bf1cdbd13eb2609e01a609b5e1e04adba06f249f75125f5264e01ec611da28c8",
+    "TMONSTERCHART.json": "b4c3a8899d8a87b6880ef83a91ced3376f77cf5e9fbfa8c75dd62eb815c5e869",
+    "TNPCCHART.json": "4d443bd55ef53a36f998576d84a5e57b4391f1e12430222f9257f14c5a80e671",
+    "TNPCITEMCHART.json": "e0f952ee490cd411071f8fb53385d7749fb3a830619095bc6247848218bbb74f",
+    "TPORTALCHART.json": "893b1653a4b46862e17b0edd4516ce37dbc12fda22b8e28feedf7f89e93593fd",
+    "TQCONDITIONCHART.json": "2acaceda048fd003347b2806d187301a32944ee4a422a9e12b5dd57f244293b3",
+    "TQREWARDCHART.json": "0b3dcc8d64001aaed8b8cbf9c6ca930781a7191a41b38974b808ad9c1eef87f8",
+    "TQUESTCHART.json": "4dd35d20abb9a4489bfb6356b17066f3c727536a181f693a1c978ddf02d4cca1",
+    "TQUESTTERMCHART.json": "05fd0e221ba15ee7a06b443e89f1e23465f9eefa5e6fd58d853123df80c99d56",
+    "TSKILLCHART.json": "8d823f842dec250ccc632624bfcfdc48c2cf7c1c6e638ce39460f12eaa3a570e",
+    "TSPAWNPOSCHART.json": "0f595e07fceaf5e3975e19461a02d826830b16afd57228e9515f8fbe27c25e97",
+    "TUNITCHART.json": "8800e77c792d7628e557305a0f0b710d78921b90a87a6c9ca32d85cd461ecf60"
+  },
+  "original_files_sha256": {
+    "Tcd/TMon.tcd": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543",
+    "Tcd/TNPC006d0000.tcd": "0143d9b8b35f0d2dbb141d7dee3e7aae16274f9198208a79f61c29efaa99c14e",
+    "Tcd/TNPC006e0000.tcd": "9e775f48902bff02839faf2a3e50c33ccc02ea87dcf296e3207acbc285fc6151",
+    "Tcd/TNPC05dd0000.tcd": "06b9b810313853b887f3260f988c89f5592faf3e5bc215244370bc5c2a15ad36",
+    "Tcd/TNPC05de0000.tcd": "d6d3c2d7036faff4e06433ad45e5cbd35e82201f88c29fe7107580bba6111097",
+    "Tcd/TNPC05df0000.tcd": "51d3336a0032224f0e962b738fd6f0836d5165f19ffd231e64736d1a40e8a666",
+    "Tcd/TNPC0bb80000.tcd": "cd04be0d11793ec4d3fba97eeb044d708c668a75bcd3794df865dad52b7e272d",
+    "Tcd/TItem.tcd": "ef03b18f409427caf764e41a74e3d316d9c578aee115a423b975f20f1e950d9e",
+    "Tcd/TItemAttr.tcd": "4b812bdde6d377933a83b93c87c2d6c907966fd72109616b93e8a62af4338ae9",
+    "Tcd/TLevel.tcd": "d626aa2e322b6643a324a62245ade0a1c76f2bd54c0cd7e6a023296bc39101dc"
+  },
+  "source_join_sha256": "78a48eadaa8701e539582e326a249c57655a7a998852c60b4153128b8e8f4ca3",
+  "changes": [
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3550,
+      "column": "bCanAttack",
+      "before": 0,
+      "after": 1,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3550,
+      "column": "bTame",
+      "before": 0,
+      "after": 1,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3550,
+      "column": "wSkill1",
+      "before": 0,
+      "after": 700,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3565,
+      "column": "wSkill1",
+      "before": 298,
+      "after": 1598,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3567,
+      "column": "bTame",
+      "before": 0,
+      "after": 1,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3567,
+      "column": "wSkill3",
+      "before": 735,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3567,
+      "column": "wSkill4",
+      "before": 784,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3571,
+      "column": "bTame",
+      "before": 0,
+      "after": 1,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3571,
+      "column": "wSkill2",
+      "before": 730,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3571,
+      "column": "wSkill3",
+      "before": 735,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3571,
+      "column": "wSkill4",
+      "before": 784,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3583,
+      "column": "fSize",
+      "before": 0.800000011920929,
+      "after": 1.0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3583,
+      "column": "wSkill1",
+      "before": 1598,
+      "after": 700,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3583,
+      "column": "wSkill2",
+      "before": 700,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3583,
+      "column": "wSkill3",
+      "before": 788,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    },
+    {
+      "table": "TMONSTERCHART",
+      "key_column": "wID",
+      "key": 3583,
+      "column": "wSkill4",
+      "before": 424,
+      "after": 0,
+      "source": "Tcd/TMon.tcd",
+      "source_sha256": "09552c3e3053a6a788a95a355f8e14fbbed1f531c7dab1f22557b7912f1e4543"
+    }
+  ],
+  "monster_restores": [
+    {
+      "id": 3529,
+      "name": "Nakažený vlk z útesu",
+      "old_level": 90,
+      "old_attr": 32601,
+      "old_hp": 88802,
+      "new_attr": 32203,
+      "level": 102,
+      "hp": 5422,
+      "source": "https://cz.4story.gameforge.com/monster/details/3529",
+      "source_sha256": "8afebb6bf1f5c2918a559afc747843641d0b372eba4770d8290d0007bcd5dd33"
+    },
+    {
+      "id": 3588,
+      "name": "Pavoučí vajíčko před vylíhnutím",
+      "old_level": 90,
+      "old_attr": 32601,
+      "old_hp": 88802,
+      "new_attr": 32204,
+      "level": 130,
+      "hp": 11365,
+      "source": "https://cz.4story.gameforge.com/monster/details/3588",
+      "source_sha256": "a3460ff0a43c21ca6f5b08cdf3a1959acf8caff43a0967f4c20c8d8ede779646"
+    }
+  ],
+  "additions": {
+    "TNPCCHART": [
+      {
+        "wID": 26647,
+        "NC_szName2": "Elfský obchodník se spotřebním zbožím",
+        "szName": "Elrod",
+        "bType": 2,
+        "dwClass": 255,
+        "bCountryID": 1,
+        "wLocalID": 0,
+        "bCondition": 0,
+        "bDiscountRate": 0,
+        "bAddProb": 0,
+        "wItemID": 0,
+        "wMapID": 109,
+        "fPosX": 417.69000244140625,
+        "fPosY": 1.5199999809265137,
+        "fPosZ": 271.25,
+        "szLocal": ""
+      },
+      {
+        "wID": 26648,
+        "NC_szName2": "Elfský obchodník se spotřebním zbožím",
+        "szName": "Elrod",
+        "bType": 2,
+        "dwClass": 255,
+        "bCountryID": 1,
+        "wLocalID": 0,
+        "bCondition": 0,
+        "bDiscountRate": 0,
+        "bAddProb": 0,
+        "wItemID": 0,
+        "wMapID": 110,
+        "fPosX": 417.69000244140625,
+        "fPosY": 1.5199999809265137,
+        "fPosZ": 271.25,
+        "szLocal": ""
+      }
+    ],
+    "TNPCITEMCHART": [
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8005
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8006
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8007
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8011
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8105
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8106
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8107
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8111
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8401
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8402
+      },
+      {
+        "wNpcID": 26647,
+        "dwItemID": 8412
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8005
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8006
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8007
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8011
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8105
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8106
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8107
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8111
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8401
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8402
+      },
+      {
+        "wNpcID": 26648,
+        "dwItemID": 8412
+      }
+    ]
+  },
+  "shops_imported": [
+    {
+      "npc_id": 26647,
+      "name": "Elrod",
+      "url": "https://cz.4story.gameforge.com/npc/details/26647",
+      "sha256": "69e1fce9051d22389340bef56f8b5bdf9d582d26f63da0c58584df7d84d6f599",
+      "stock": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ]
+    },
+    {
+      "npc_id": 26648,
+      "name": "Elrod",
+      "url": "https://cz.4story.gameforge.com/npc/details/26648",
+      "sha256": "e6ac52dd76c845788f3bcd1dbe3a6148b283cd97bf964cef969f030ef8eb3974",
+      "stock": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "domain": "monster",
+      "id": 3527,
+      "reason": "published_level_or_hp_is_a_range"
+    },
+    {
+      "domain": "monster",
+      "id": 3538,
+      "reason": "missing_original_attribute_donor"
+    },
+    {
+      "domain": "monster",
+      "id": 3546,
+      "reason": "published_level_or_hp_is_a_range"
+    },
+    {
+      "domain": "monster",
+      "id": 3547,
+      "reason": "public_catalogue_and_detail_conflict"
+    },
+    {
+      "domain": "monster",
+      "id": 3557,
+      "reason": "missing_original_attribute_donor"
+    },
+    {
+      "domain": "monster",
+      "id": 3595,
+      "reason": "published_level_or_hp_is_a_range"
+    },
+    {
+      "domain": "monster",
+      "id": 3597,
+      "reason": "published_level_or_hp_is_a_range"
+    },
+    {
+      "domain": "npc",
+      "id": 26579,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26580,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26581,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26582,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26583,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26584,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26611,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    },
+    {
+      "domain": "npc",
+      "id": 26612,
+      "reason": "BoW-specific shop pricing is not implemented in the current server; map 3000 also lacks its route"
+    }
+  ],
+  "policies": {
+    "monster_attributes": "Clone the same monster current attribute row, changing only ID, level key and independently published HP. Other combat columns remain unverified.",
+    "monster_fields": "Directly decoded original kind, select/attack/tame flags, size and four skill IDs; referenced skills must already exist. Complete skill effects and AI are not reconstructed.",
+    "npc_defaults": "Neutral local/discount metadata follows the previously deployed 034/036 compatibility policy; these fields are not an official server export.",
+    "unresolved_content": "Do not activate broken mission chains, spawns, drop probabilities or portals with unknown arrival heights."
+  }
+}

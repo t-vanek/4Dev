@@ -1,0 +1,371 @@
+{
+  "database": "TGame_gsp",
+  "passed": true,
+  "boundaries": [
+    {
+      "target": 126,
+      "threshold": 273311573,
+      "passed": true
+    },
+    {
+      "target": 127,
+      "threshold": 281971691,
+      "passed": true
+    },
+    {
+      "target": 128,
+      "threshold": 290790914,
+      "passed": true
+    },
+    {
+      "target": 129,
+      "threshold": 299770887,
+      "passed": true
+    },
+    {
+      "target": 130,
+      "threshold": 308913253,
+      "passed": true
+    },
+    {
+      "target": 131,
+      "threshold": 318219659,
+      "passed": true
+    },
+    {
+      "target": 132,
+      "threshold": 327691759,
+      "passed": true
+    },
+    {
+      "target": 133,
+      "threshold": 337331208,
+      "passed": true
+    },
+    {
+      "target": 134,
+      "threshold": 347139665,
+      "passed": true
+    },
+    {
+      "target": 135,
+      "threshold": 357118797,
+      "passed": true
+    },
+    {
+      "target": 136,
+      "threshold": 367270272,
+      "passed": true
+    },
+    {
+      "target": 137,
+      "threshold": 377595757,
+      "passed": true
+    },
+    {
+      "target": 138,
+      "threshold": 388096933,
+      "passed": true
+    },
+    {
+      "target": 139,
+      "threshold": 398775475,
+      "passed": true
+    },
+    {
+      "target": 140,
+      "threshold": 409633067,
+      "passed": true
+    }
+  ],
+  "loginBounds": [
+    {
+      "level": 126,
+      "floor": 273311573,
+      "ceiling": 281971691,
+      "current": 273311573,
+      "passed": true
+    },
+    {
+      "level": 140,
+      "floor": 409633067,
+      "ceiling": 0,
+      "current": 409633067,
+      "passed": true
+    }
+  ],
+  "largeRewardAndCapPassed": true,
+  "deliveries": [
+    {
+      "id": 11232,
+      "completeId": 11170,
+      "required": 101,
+      "rewardExp": 131867,
+      "rewardMoney": 24184,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11259,
+      "completeId": 11260,
+      "required": 110,
+      "rewardExp": 180958,
+      "rewardMoney": 28083,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11300,
+      "completeId": 11301,
+      "required": 121,
+      "rewardExp": 232127,
+      "rewardMoney": 29232,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11327,
+      "completeId": 11328,
+      "required": 126,
+      "rewardExp": 232434,
+      "rewardMoney": 29276,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11356,
+      "completeId": 11357,
+      "required": 132,
+      "rewardExp": 399423,
+      "rewardMoney": 50806,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11612,
+      "completeId": 11623,
+      "required": 100,
+      "rewardExp": 936,
+      "rewardMoney": 1980,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11613,
+      "completeId": 11627,
+      "required": 100,
+      "rewardExp": 936,
+      "rewardMoney": 1980,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11614,
+      "completeId": 11625,
+      "required": 100,
+      "rewardExp": 936,
+      "rewardMoney": 1980,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11615,
+      "completeId": 11626,
+      "required": 120,
+      "rewardExp": 1086,
+      "rewardMoney": 2376,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11616,
+      "completeId": 11618,
+      "required": 120,
+      "rewardExp": 1086,
+      "rewardMoney": 2376,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11617,
+      "completeId": 11619,
+      "required": 120,
+      "rewardExp": 1086,
+      "rewardMoney": 2376,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    },
+    {
+      "id": 11233,
+      "completeId": 11171,
+      "required": 101,
+      "rewardExp": 241162,
+      "rewardMoney": 44084,
+      "prerequisiteChecked": true,
+      "repeatBlocked": true
+    }
+  ],
+  "purchases": [
+    {
+      "npcId": 26704,
+      "itemId": 8005,
+      "price": 2800,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8006,
+      "price": 5600,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8007,
+      "price": 9300,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8011,
+      "price": 14000,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8105,
+      "price": 2800,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8106,
+      "price": 5600,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8107,
+      "price": 9300,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8111,
+      "price": 14000,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8201,
+      "price": 5000,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8202,
+      "price": 5000,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8401,
+      "price": 1,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8402,
+      "price": 1,
+      "passed": true
+    },
+    {
+      "npcId": 26704,
+      "itemId": 8412,
+      "price": 1,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8005,
+      "price": 2800,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8006,
+      "price": 5600,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8007,
+      "price": 9300,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8011,
+      "price": 14000,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8105,
+      "price": 2800,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8106,
+      "price": 5600,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8107,
+      "price": 9300,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8111,
+      "price": 14000,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8201,
+      "price": 5000,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8202,
+      "price": 5000,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8401,
+      "price": 1,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8402,
+      "price": 1,
+      "passed": true
+    },
+    {
+      "npcId": 26718,
+      "itemId": 8412,
+      "price": 1,
+      "passed": true
+    }
+  ],
+  "writesToSql": 0,
+  "graphicalPlaythrough": false,
+  "expSourceSha256": "e994a120b78ee6f1d93fc8bd266611fc36728ac08e62a15832549e9770c1f91f",
+  "regionPlanSha256": "83d4f6073897689fcd37150f3d38e58775b8372b8d14956a24f98568d6f54c92",
+  "serverDllSha256": "83a0047fcf8a6432f601446d447dd7b8664b95918c0a49ed2543acc92d8b6108"
+}

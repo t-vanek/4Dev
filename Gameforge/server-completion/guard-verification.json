@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "tested_utc": "2026-10-28T09:37:44.604707+00:00",
+  "database": "TGame_ContentStage_20261028_093419",
+  "idempotent_second_apply_new_monsters": 0,
+  "idempotent_second_apply_field_changes": 0,
+  "conflicting_baseline_rejected": true,
+  "transaction_rolled_back": true
+}

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "publisher": "Gameforge",
+  "locale": "CZ",
+  "minimum_content_version": "5.0",
+  "documented_baseline": "5.0.1",
+  "reference_client": "C:\\Program Files (x86)\\4Story",
+  "reference_manifest": "Gameforge/reference.json",
+  "reference_client_release_version": null,
+  "policy": "Use Gameforge 5.0+ as the content target. Later features require version-specific publisher or selected-client evidence; do not combine conflicting balance rules across patches.",
+  "requested_start_level": 1,
+  "player_level_target": 140,
+  "player_level_target_source": "https://cz.4story.gameforge.com/news/display/585",
+  "companion_max_level": 20,
+  "companion_cap_sources": [
+    "https://cz.4story.gameforge.com/news/display/585",
+    "https://cz.4story.gameforge.com/news/display/623/patchnotes-51"
+  ],
+  "protocol_policy": "Keep the working native/login/map handshake consistent. Its numeric version is not a Gameforge marketing patch identifier or proof of official-client compatibility.",
+  "official_pvp_modes": "Part of the 5.x feature audit; custom boosted starts and private-server rate changes are not the reference.",
+  "older_patch_notes": "Historical comparisons only; superseded rules do not define the 5.x baseline.",
+  "private_server_wikis": "Not authoritative Gameforge balance data",
+  "status": "target_selected_implementation_incomplete"
+}

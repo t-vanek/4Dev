@@ -1,0 +1,439 @@
+{
+  "audited_utc": "2026-10-28T08:00:03.520336+00:00",
+  "profile": {
+    "schema": 1,
+    "publisher": "Gameforge",
+    "locale": "CZ",
+    "minimum_content_version": "5.0",
+    "documented_baseline": "5.0.1",
+    "reference_client": "C:\\Program Files (x86)\\4Story",
+    "reference_manifest": "Gameforge/reference.json",
+    "reference_client_release_version": null,
+    "policy": "Use Gameforge 5.0+ as the content target. Later features require version-specific publisher or selected-client evidence; do not combine conflicting balance rules across patches.",
+    "requested_start_level": 1,
+    "player_level_target": 140,
+    "player_level_target_source": "https://cz.4story.gameforge.com/news/display/585",
+    "companion_max_level": 20,
+    "companion_cap_sources": [
+      "https://cz.4story.gameforge.com/news/display/585",
+      "https://cz.4story.gameforge.com/news/display/623/patchnotes-51"
+    ],
+    "protocol_policy": "Keep the working native/login/map handshake consistent. Its numeric version is not a Gameforge marketing patch identifier or proof of official-client compatibility.",
+    "official_pvp_modes": "Part of the 5.x feature audit; custom boosted starts and private-server rate changes are not the reference.",
+    "older_patch_notes": "Historical comparisons only; superseded rules do not define the 5.x baseline.",
+    "private_server_wikis": "Not authoritative Gameforge balance data",
+    "status": "target_selected_implementation_incomplete"
+  },
+  "reference_release_remains_unknown": true,
+  "source_files": [
+    {
+      "path": "Tcd/TLevel.tcd",
+      "sha256": "d626aa2e322b6643a324a62245ade0a1c76f2bd54c0cd7e6a023296bc39101dc"
+    },
+    {
+      "path": "TQuest.mpq",
+      "sha256": "91510c02c6f9d4d1e41ec14528172226ea5f5c2a4ff0d49ea36be3a248c916fd"
+    },
+    {
+      "path": "Tcd/TRegion.tcd",
+      "sha256": "56deed92271cb9250c89d372c1c738e51273989dbcdf08cd446cbad10837c26e"
+    }
+  ],
+  "publisher_sources": [
+    {
+      "version": "5.0.1",
+      "url": "https://cz.4story.gameforge.com/news/display/585",
+      "sha256": "d1e1150fa4ad0c9372d7153db8e1d0675ab0ef51e6cb959cb38098e6845874ed"
+    },
+    {
+      "version": "5.1",
+      "url": "https://cz.4story.gameforge.com/news/display/623/patchnotes-51",
+      "sha256": "80797c5f9586e11e7545a3b17d4152f3194e875ecdaf82e2bfa23549fe24108d"
+    },
+    {
+      "version": "5.2",
+      "url": "https://en.4story.gameforge.com/news/display/696/patch-notes-52",
+      "sha256": "88051e7f457d014979c9e22950057e2ab28adf47f12cd5766acdc6373a61039b"
+    },
+    {
+      "version": "5.3",
+      "url": "https://en.4story.gameforge.com/news/display/772/patch-53-now-live",
+      "sha256": "d52a100c7368349e71da452d2e26c843db87ef759bf6e4547f50babfafb6cda1"
+    }
+  ],
+  "features": [
+    {
+      "id": "player_progression",
+      "version": "5.0.1",
+      "priority": "P0",
+      "status": "exp_deployed_other_level_fields_unverified",
+      "target": "Level 140 with a validated complete EXP/skill-point curve",
+      "evidence": {
+        "highest_server_level_row": 140,
+        "missing_level_rows": [],
+        "original_fee_chart_max": 200,
+        "fee_chart_contains_exp": false
+      }
+    },
+    {
+      "id": "anbari_undred",
+      "version": "5.0.1",
+      "priority": "P0",
+      "status": "delivery_subset_deployed_monster_population_missing",
+      "target": "World, NPC, missions and spawns for the level 100+ areas",
+      "evidence": {
+        "reference_region_mentions": {
+          "Anbari": [
+            3073,
+            3075,
+            3080,
+            46727169,
+            46727171,
+            46727176
+          ],
+          "Undred": [
+            5377,
+            5378,
+            46792705,
+            46792706,
+            52756481
+          ]
+        },
+        "reference_named_missions_level_100_plus": 172
+      },
+      "note": "Presence of labels/data is not proof of a complete playable region."
+    },
+    {
+      "id": "wire_protocol",
+      "version": "independent",
+      "priority": "P0",
+      "status": "internal_consistency_verified",
+      "target": "Keep the actual native/login/map wire contract aligned",
+      "evidence": {
+        "native": "0x2918",
+        "login": "0x2918",
+        "map": "0x2918"
+      },
+      "note": "0x2918 is not a semantic Gameforge release number; official-binary interchangeability is unverified."
+    },
+    {
+      "id": "companion_level",
+      "version": "5.0.1/5.1",
+      "priority": "P1",
+      "status": "cap_fix_deployed",
+      "target": "Maximum level 20; no levelling beyond it or consumption of EXP potions at the cap"
+    },
+    {
+      "id": "companion_point_budget",
+      "version": "5.0.1",
+      "priority": "P1",
+      "status": "needs_reconciliation",
+      "target": "Documented budget of 55 allocatable points and per-attribute limit 30",
+      "evidence": {
+        "current_creation_points": 1,
+        "current_level_grants_1_to_19": 56
+      },
+      "note": "The current creation/growth formula needs a separate audit; existing characters have not been rewritten."
+    },
+    {
+      "id": "companion_two_skills",
+      "version": "5.1",
+      "priority": "P1",
+      "status": "partial",
+      "target": "Two simultaneously equipped companion skills with working effects",
+      "note": "Two equipment slots exist; several item effects are still unported."
+    },
+    {
+      "id": "battle_of_worlds",
+      "version": "5.1",
+      "priority": "P2",
+      "status": "disabled_or_unverified",
+      "target": "Official BoW mode, rewards, phases and equipment transfer",
+      "evidence": {
+        "settings_rows": 0
+      }
+    },
+    {
+      "id": "guild_skills_and_reserve_bag",
+      "version": "5.2",
+      "priority": "P2",
+      "status": "partial_or_unverified",
+      "target": "Guild-rank skill rules and a separate expandable companion reserve bag",
+      "evidence": {
+        "guild_skill_rows": 10
+      },
+      "note": "The reserve bag is distinct from the five-companion active roster. Do not replace the roster cap with 24."
+    },
+    {
+      "id": "later_content",
+      "version": "5.3+",
+      "priority": "P3",
+      "status": "version_gated",
+      "target": "Retain and implement later selected-client content with its own dated rule set",
+      "note": "Do not backport conflicting later balance values into a nominal 5.0 profile without recording the change."
+    }
+  ],
+  "companion_deployment": {
+    "deployed_utc": "2026-10-28T07:11:47.708963+00:00",
+    "source_sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850",
+    "tests": "Gameforge/version-target/tests.json",
+    "image_before": "sha256:b2de1d5afcd0c003e4dc861614f1e6d8f27331972fb11a9ab57b4a0567859fdc",
+    "image_after": "sha256:be18da6b1b1ac940aa864fcf79d3d345711d522a0141be16a86354e315243321",
+    "image_created_utc": "2026-10-28T07:08:15.992327349Z",
+    "container_id": "fa85b3554cac97bb0338277d16fe6551514a6e896f4bf8c1b9efab3314086539",
+    "started_utc": "2026-10-28T07:11:46.803474231Z",
+    "backup_path": ".runtime/gameforge-version-target/runtime-before",
+    "backup_sha256": {
+      "TMap.Server.dll": "5bc038f679337a1f807904979847374e5cd54c7780bbf3a73775eec6918d7db5",
+      "TMap.Data.dll": "f93f44cef76f6a731a7b85500beef6ffd420a74ce1250fa000e2fb5414007f1b",
+      "TMap.Protocol.dll": "d82fdd98a93731b3070a1894661f168d4a1a26fdf7a7f8f74c8e0752a1678431"
+    },
+    "sql_migration": null,
+    "full_gameforge_5_plus_alignment": false,
+    "verified_utc": "2026-10-28T07:13:01.019089+00:00",
+    "runtime_dll_sha256": "a27e2df88f6815b6a3a47e1c129f19c38966ba1a3ece585f36e458b7c3535541",
+    "runtime_running": true,
+    "runtime_restart_count": 0,
+    "startup_checks": [
+      "Game DB connected.",
+      "Loaded 8150 item templates",
+      "Initialized 2751 NPCs.",
+      "Indexed 6395 quests.",
+      "clients on port 5816",
+      "clients on port 5817",
+      "World link connected"
+    ],
+    "host_port_5816_connected": true,
+    "startup_log_sha256": "2d2270cba5456a2b66212c23de26b91cbd1d409258686b1ec4793da718ffa83b",
+    "saved_companion_audit": {
+      "companion_records": 0
+    },
+    "graphical_playthrough": false
+  },
+  "tests": {
+    "runner": "Linux .NET 10 SDK container",
+    "total": 1177,
+    "passed": 1177,
+    "failed": 0,
+    "progression_cases": [
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 130, threshold: 308913253)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 140, threshold: 409633067)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 137, threshold: 377595757)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 136, threshold: 367270272)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.LoginPacket_ContainsLoadedExpBounds_BeforeAnyReward(level: 140, floor: 409633067, ceiling: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 131, threshold: 318219659)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 138, threshold: 388096933)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 132, threshold: 327691759)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 126, threshold: 273311573)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 128, threshold: 290790914)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 133, threshold: 337331208)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 139, threshold: 398775475)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 129, threshold: 299770887)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.MaximumLevel_CannotGainExpOrStartAZeroWidthLottery",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 135, threshold: 357118797)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.LargeReward_UsesWideArithmetic_AndStopsAt140",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 127, threshold: 281971691)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 134, threshold: 347139665)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "TMap.Server.Tests.GameforgeProgressionTests.LoginPacket_ContainsLoadedExpBounds_BeforeAnyReward(level: 126, floor: 273311573, ceiling: 281971691)",
+        "outcome": "Passed"
+      }
+    ],
+    "companion_cap_cases": [
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 20)",
+        "outcome": "Passed"
+      },
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 21)",
+        "outcome": "Passed"
+      },
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 255)",
+        "outcome": "Passed"
+      },
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_LevelNineteen_CanReachTwenty_ThenStops",
+        "outcome": "Passed"
+      },
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 21)",
+        "outcome": "Passed"
+      },
+      {
+        "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 20)",
+        "outcome": "Passed"
+      }
+    ],
+    "trx_sha256": "a832a84035783d99454af0bade71548be2e73ab63d91d10d8a85a694edcd6510",
+    "source_sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850",
+    "tested_sources": [
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Loot.cs",
+        "sha256": "3097e93a878f43684b7858c88d42cc5e4c5a393d9b5af4c27f7befb7990bfa43"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SoulLottery.cs",
+        "sha256": "617cc947ec6a926b2d6e03f78bfe1b3c993f46e543f185acd2c67f9a1f90fcea"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Companion.cs",
+        "sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server.Tests/GameforgeProgressionTests.cs",
+        "sha256": "f3f60b297981c4e0ae438da9247045f767c5d0f19dc5b7c043fad62ff1179434"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Enter.cs",
+        "sha256": "22603cdc70faa528da951b0c945abac73e663c8ef1ce76e23432a68318197de2"
+      }
+    ]
+  },
+  "content_deployment": {
+    "started_utc": "20261028T074009Z",
+    "stage_database": "TGame_ContentStage_20261028_074009",
+    "backups": [
+      {
+        "path": ".runtime\\gameforge-high-level\\backups\\TGame_before_20261028T074009Z.bak",
+        "sha256": "6a75f3984ff05f76fc5cf55973f93913bcae5a5a8aca12e1714dc7c6ca3099a3",
+        "bytes": 6877184
+      },
+      {
+        "path": ".runtime\\gameforge-high-level\\backups\\TGlobal_before_20261028T074009Z.bak",
+        "sha256": "1bee1558a90d15128c42b2081ad861bbf8362f49d2b19cfb7c0c8842bbfc18f5",
+        "bytes": 9924608
+      }
+    ],
+    "runtime_image_before": "sha256:be18da6b1b1ac940aa864fcf79d3d345711d522a0141be16a86354e315243321",
+    "runtime_rollback_tag": "araz-mapsvr:before-progression-20261028t074009z",
+    "deployed_utc": "2026-10-28T07:47:46.813922+00:00",
+    "runtime_image_after": "sha256:5ca34c4eb7633fc6ca48c611523e01357064e9a636db417c2352f239ebf6de41",
+    "container_id": "5d80083305ad04895988254c666d0a4600bb4f47936f269ad0c55b34539b2e88",
+    "migrations": [
+      {
+        "file": "035_gameforge_progression_140.sql",
+        "sha256": "dc77bf124317fb1d93b1c7ce1bd2559a8e1451a9204c877966746cbd7322875c"
+      },
+      {
+        "file": "036_gameforge_region_deliveries.sql",
+        "sha256": "0d38f68048649ba9daaff1bedd7f40956c90b22316bee7c987ca92107ee4749f"
+      }
+    ],
+    "login_bounds_fix_deployed_utc": "2026-10-28T07:58:12.175897+00:00",
+    "verified_utc": "2026-10-28T08:00:01.806767+00:00",
+    "tests": {
+      "passed": 1177,
+      "failed": 0,
+      "evidence": "Gameforge/progression-140/tests.json"
+    },
+    "runtime_assemblies": [
+      {
+        "name": "TMap.Data.dll",
+        "sha256": "f93f44cef76f6a731a7b85500beef6ffd420a74ce1250fa000e2fb5414007f1b"
+      },
+      {
+        "name": "TMap.Protocol.dll",
+        "sha256": "d82fdd98a93731b3070a1894661f168d4a1a26fdf7a7f8f74c8e0752a1678431"
+      },
+      {
+        "name": "TMap.Server.dll",
+        "sha256": "83a0047fcf8a6432f601446d447dd7b8664b95918c0a49ed2543acc92d8b6108"
+      }
+    ],
+    "live_gameplay": {
+      "path": "Gameforge/high-level-regions/deployed-gameplay.json",
+      "sha256": "0b8d01a32e047eda6fac0768226b20d755d4bdfa626d729538173b0fc6ec98a5",
+      "exp_boundaries": 15,
+      "login_bounds": 2,
+      "deliveries": 12,
+      "purchases": 26,
+      "writes_to_sql": 0
+    },
+    "retained_tables": {
+      "game": 194,
+      "global_excluding_migration_metadata": 69
+    },
+    "source_files": [
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Loot.cs",
+        "sha256": "3097e93a878f43684b7858c88d42cc5e4c5a393d9b5af4c27f7befb7990bfa43"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SoulLottery.cs",
+        "sha256": "617cc947ec6a926b2d6e03f78bfe1b3c993f46e543f185acd2c67f9a1f90fcea"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Companion.cs",
+        "sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server.Tests/GameforgeProgressionTests.cs",
+        "sha256": "f3f60b297981c4e0ae438da9247045f767c5d0f19dc5b7c043fad62ff1179434"
+      },
+      {
+        "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Enter.cs",
+        "sha256": "22603cdc70faa528da951b0c945abac73e663c8ef1ce76e23432a68318197de2"
+      }
+    ],
+    "saved_characters_rewritten": false,
+    "full_regions_playable": false,
+    "complete_gameforge_5_plus_alignment": false,
+    "graphical_playthrough": false
+  },
+  "complete_gameforge_5_plus_alignment": false
+}

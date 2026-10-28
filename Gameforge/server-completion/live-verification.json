@@ -1,0 +1,42 @@
+{
+  "database": "TGame_gsp",
+  "verified_utc": "2026-10-28T09:39:26.515552+00:00",
+  "passed": true,
+  "plan_sha256": "0cbb8027bbcc3d3850632d22a05ccdbe1d629f12ea24e0e9e649e39e85c8a2e0",
+  "tables": [
+    {
+      "table": "TGAMEFORGEMONSTERRESTORE",
+      "before_rows": 2192,
+      "after_rows": 2194,
+      "passed": true
+    },
+    {
+      "table": "TMONATTRCHART",
+      "before_rows": 11482,
+      "after_rows": 11484,
+      "passed": true
+    },
+    {
+      "table": "TMONSTERCHART",
+      "before_rows": 3707,
+      "after_rows": 3707,
+      "passed": true
+    },
+    {
+      "table": "TNPCCHART",
+      "before_rows": 2753,
+      "after_rows": 2755,
+      "passed": true
+    },
+    {
+      "table": "TNPCITEMCHART",
+      "before_rows": 3434,
+      "after_rows": 3456,
+      "passed": true
+    }
+  ],
+  "mapped_fields": 16,
+  "singleton_level_hp_restores": 2,
+  "old_rows_checked": 23568,
+  "saved_character_rows_written": 0
+}

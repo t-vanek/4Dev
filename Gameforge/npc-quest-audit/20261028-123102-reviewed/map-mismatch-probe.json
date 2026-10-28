@@ -1,0 +1,86 @@
+{
+  "DatabaseWrites": 0,
+  "Fixtures": "Only in-memory prerequisite state and NPC map; no SQL mutations",
+  "Results": [
+    {
+      "NpcId": 22424,
+      "QuestId": 4578,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22425,
+      "QuestId": 4579,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22426,
+      "QuestId": 4580,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22427,
+      "QuestId": 4581,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22428,
+      "QuestId": 4582,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22429,
+      "QuestId": 4583,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22430,
+      "QuestId": 4584,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22431,
+      "QuestId": 4585,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22432,
+      "QuestId": 4586,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22433,
+      "QuestId": 4587,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    }
+  ]
+}

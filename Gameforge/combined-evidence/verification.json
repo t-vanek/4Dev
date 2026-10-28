@@ -1,0 +1,20 @@
+{
+  "verified_utc": "2026-10-28T09:14:31.782437+00:00",
+  "verified_outputs_sha256": {
+    "joined.json": "78a48eadaa8701e539582e326a249c57655a7a998852c60b4153128b8e8f4ca3",
+    "loot-memberships.json": "9f03afcc5d7e18ea361626cf72c38725a007bf64fe7f794996584e6e1fdd1c78",
+    "reconstruction-plan.json": "3c00c07aec802eba0ac47d7fbb0ca730d07ad45e0c345917f8a81bb2dde7cf87",
+    "report.html": "86ff41d727bb0e23959eaf32d161021d2efcfadd403fb3a8a48e3a8bc7bef05b",
+    "sources.json": "d0cd478aee03e130d05d8ad877e660c01ccf8cd583a3e5abd487fe6d3c5d8811"
+  },
+  "html_unique_ids": 1363,
+  "html_links": 61000,
+  "unresolved_local_links": 0,
+  "loot_memberships": 59271,
+  "previous_62_monster_loot_sets_unchanged": true,
+  "public_detail_pages_hash_verified_by_generator": 292,
+  "public_catalogue_pages_hash_verified_and_reparsed_by_generator": 810,
+  "sql_deployment_performed": false,
+  "original_client_changed": false,
+  "checks_passed": true
+}

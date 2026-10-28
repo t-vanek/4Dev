@@ -1,0 +1,134 @@
+{
+  "runner": "Linux .NET 10 SDK container",
+  "total": 1177,
+  "passed": 1177,
+  "failed": 0,
+  "progression_cases": [
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 130, threshold: 308913253)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 140, threshold: 409633067)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 137, threshold: 377595757)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 136, threshold: 367270272)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.LoginPacket_ContainsLoadedExpBounds_BeforeAnyReward(level: 140, floor: 409633067, ceiling: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 131, threshold: 318219659)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 138, threshold: 388096933)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 132, threshold: 327691759)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 126, threshold: 273311573)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 128, threshold: 290790914)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 133, threshold: 337331208)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 139, threshold: 398775475)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 129, threshold: 299770887)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.MaximumLevel_CannotGainExpOrStartAZeroWidthLottery",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 135, threshold: 357118797)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.LargeReward_UsesWideArithmetic_AndStopsAt140",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 127, threshold: 281971691)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.PublisherBoundary_IsReachedExactly_WithoutSkippingALevel(target: 134, threshold: 347139665)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TMap.Server.Tests.GameforgeProgressionTests.LoginPacket_ContainsLoadedExpBounds_BeforeAnyReward(level: 126, floor: 273311573, ceiling: 281971691)",
+      "outcome": "Passed"
+    }
+  ],
+  "companion_cap_cases": [
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 20)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 21)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 255)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_LevelNineteen_CanReachTwenty_ThenStops",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 21)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 20)",
+      "outcome": "Passed"
+    }
+  ],
+  "trx_sha256": "a832a84035783d99454af0bade71548be2e73ab63d91d10d8a85a694edcd6510",
+  "source_sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850",
+  "tested_sources": [
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Loot.cs",
+      "sha256": "3097e93a878f43684b7858c88d42cc5e4c5a393d9b5af4c27f7befb7990bfa43"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SoulLottery.cs",
+      "sha256": "617cc947ec6a926b2d6e03f78bfe1b3c993f46e543f185acd2c67f9a1f90fcea"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Companion.cs",
+      "sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server.Tests/GameforgeProgressionTests.cs",
+      "sha256": "f3f60b297981c4e0ae438da9247045f767c5d0f19dc5b7c043fad62ff1179434"
+    },
+    {
+      "path": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Enter.cs",
+      "sha256": "22603cdc70faa528da951b0c945abac73e663c8ef1ce76e23432a68318197de2"
+    }
+  ]
+}

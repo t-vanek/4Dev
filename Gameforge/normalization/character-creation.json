@@ -1,0 +1,11 @@
+{
+  "procedure": "dbo.TCreateChar",
+  "baseline_sha256_without_cr": "add9e29920053c31875be49fee9e2c96990c3526db3d9da9f3ecad60eab83d43",
+  "normalized_sha256_without_cr": "5734b24fc535188588efff66348f80de56844c20f37a0179d49f00e87f29051c",
+  "changes": [
+    "Ignore legacy level-selection option; all new characters start at level 1 in neutral country 4",
+    "Remove branded 4StoryPW welcome mail",
+    "Remove automatic deletion/replacement of account mount 2"
+  ],
+  "retained": "Existing characters/pets/mail and all unverified starter skill/item/recall charts"
+}

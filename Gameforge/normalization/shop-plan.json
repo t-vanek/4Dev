@@ -1,0 +1,5073 @@
+{
+  "scope": "Exact item sets of normal gold shops (type 2), with client/SQL identity and published-price checks",
+  "changes": [
+    {
+      "id": 20002,
+      "name": "Pán Bab",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20002/pn_bab",
+      "sha256": "1d6b782cec11d4bc9802bbbbd82016d343b8894036442b333b41a4db4133452a"
+    },
+    {
+      "id": 20030,
+      "name": "Paní Dorosi",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20030/pan_dorosi",
+      "sha256": "ac1e6ab007162d3b050c17b805068f069d463eba3c0c191513a7727e3d9615a3"
+    },
+    {
+      "id": 20060,
+      "name": "Ryanband",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20060/ryanband",
+      "sha256": "59c4a80d10f3c3378150c4740aab6fd678d7e820cfe1739f4b98106050293c22"
+    },
+    {
+      "id": 20077,
+      "name": "Ellemia",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20077/ellemia",
+      "sha256": "55337606bf4d63263b5c36b1256d2ee905b9fe866247b012c27ee200250baebb"
+    },
+    {
+      "id": 20094,
+      "name": "Elrod",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20094/elrod",
+      "sha256": "a425b7b72ca0b9390f4d9a8ef2b56d8660db99fcfa12e1ef125e81047d94f58a"
+    },
+    {
+      "id": 20105,
+      "name": "Pul",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20105/pul",
+      "sha256": "d38394898a26ea51dbf271b9d3dc805a0c459e7a62ea5e9eda28a11a9dec4104"
+    },
+    {
+      "id": 20142,
+      "name": "Pior",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20142/pior",
+      "sha256": "d577f38a72593c8b0e2a3cd20607ef3b872777841e8e63a6117b89f60a85e00a"
+    },
+    {
+      "id": 20190,
+      "name": "Benediktin",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20190/benediktin",
+      "sha256": "38a7ec83dfb214c917e94316eda62a26b3e0bced3ea449eaf757876ab3a6f31d"
+    },
+    {
+      "id": 20199,
+      "name": "Hoenji",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20199/hoenji",
+      "sha256": "a94de69af2dec8d71b67cd92bba65553227c2b03b2537d94f517d6840074eebc"
+    },
+    {
+      "id": 20200,
+      "name": "Elrouis",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20200/elrouis",
+      "sha256": "e12d12c67f4ee58b4c1321a603e852e7cde51935cdcfbca59598145cd6f35f4b"
+    },
+    {
+      "id": 20201,
+      "name": "Elhain",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20201/elhain",
+      "sha256": "f9c49c2c7d2f402c36ba8ba2677a8f11f2e0ac8e54948e03826181606768f6a8"
+    },
+    {
+      "id": 20243,
+      "name": "Epirog",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20243/epirog",
+      "sha256": "962cd9e36b3ff259b68dc1608419c263ed8e8e80a200d386612a4280b78e9aa8"
+    },
+    {
+      "id": 20270,
+      "name": "Eldron",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20270/eldron",
+      "sha256": "ae1301bd905f5cc51ef5cf401615a4502ef2aa8430199554c28f27adca85e020"
+    },
+    {
+      "id": 20275,
+      "name": "Ellip",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20275/ellip",
+      "sha256": "f023c31210412d810c80f993af6dbee7911c748dd501a1836ba8d2449c1f4631"
+    },
+    {
+      "id": 20300,
+      "name": "Elpriya",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20300/elpriya",
+      "sha256": "97c9912a4d3051709bc937e70349a8bfd7125c106737356da471ab9011c8c6ed"
+    },
+    {
+      "id": 20308,
+      "name": "Elhery",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20308/elhery",
+      "sha256": "2975434db8ef4efda2de19835b5343d6077208255c52dca816f42f2a7594c1f2"
+    },
+    {
+      "id": 20310,
+      "name": "Albri",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20310/albri",
+      "sha256": "b063e04b2873f34171aac7d10d1661649ec8e17d1a8cf30634b61c0fd7888f90"
+    },
+    {
+      "id": 20322,
+      "name": "Warela",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8014,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8014,
+          "price": 27900
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20322/warela",
+      "sha256": "7a8b0dfe6ca6b59d78a10167921248fda4abeefc66e1641cdb92c4dc0e290c7a"
+    },
+    {
+      "id": 20330,
+      "name": "Kinto",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20330/kinto",
+      "sha256": "100581b8fff6bc15b70c22d501389838ef51876b07d4542dd84c74c29ff36667"
+    },
+    {
+      "id": 20337,
+      "name": "Tousa",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20337/tousa",
+      "sha256": "e8d4438ff0ffad090229cc57525a00549367c44de503e6f7c704207a9ea0a589"
+    },
+    {
+      "id": 20346,
+      "name": "Elhani",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20346/elhani",
+      "sha256": "4b3d522970581d0bed119dc558888fb56fbbd0eef9fa10081aae5596e01fa048"
+    },
+    {
+      "id": 20350,
+      "name": "Harry",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20350/harry",
+      "sha256": "ff7274c49a65c3f64e6d0d9e06c79a95008a47ed7a8ab4890de6e012b18cf6ff"
+    },
+    {
+      "id": 20351,
+      "name": "Ellain",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20351/ellain",
+      "sha256": "4685fd0861e8221b943fa3fc5d09043c288494da16ee4c930f6a4a44c1f820f8"
+    },
+    {
+      "id": 20352,
+      "name": "Elrose",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20352/elrose",
+      "sha256": "88c65fdc83e21812a8cbbd7ab69862dc5900045bd296b8eb765ded25c45174d0"
+    },
+    {
+      "id": 20403,
+      "name": "Alnas",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20403/alnas",
+      "sha256": "efb6b6c456962ce80e32a56078a38214120680104a5070ac7a3c6f4f98f57898"
+    },
+    {
+      "id": 20421,
+      "name": "Ermina",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20421/ermina",
+      "sha256": "dc687c30c9f9f60a09711c5a457db538fa70e04e36c09ffb12376eace829bd1f"
+    },
+    {
+      "id": 20425,
+      "name": "Pilon",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8004,
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8004,
+          "price": 62500
+        },
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20425/pilon",
+      "sha256": "f6453cf534583557c60ec71dc5bf9375758d4885273507125b44e2ec417a6f4e"
+    },
+    {
+      "id": 20427,
+      "name": "El Best",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20427/el_best",
+      "sha256": "f498e765cf2ea921df9d644c47950ea3ac2a7e6c9b9c9a879c1d3fcf0ffab04b"
+    },
+    {
+      "id": 20428,
+      "name": "Šarad",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20428/arad",
+      "sha256": "93b005ff193c1af6bc19060328519d5e45677f3e47ab42e1de16cbb98167d776"
+    },
+    {
+      "id": 20434,
+      "name": "Alpri",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20434/alpri",
+      "sha256": "f51b8c6501c66c2b0fda17c1d3cabfe9b4634cec1015196e46799e6500d5d2e3"
+    },
+    {
+      "id": 20559,
+      "name": "Elbaha",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20559/elbaha",
+      "sha256": "a30449beabc38c939a93b9c523d8719ae41749671f535b3b3588fda14d1d1972"
+    },
+    {
+      "id": 20588,
+      "name": "Elrami",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20588/elrami",
+      "sha256": "1b30ce01fa1217c3973730489e282c52d79d9b7733b2d217c0f671c6ae4f896c"
+    },
+    {
+      "id": 20623,
+      "name": "Elzer",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20623/elzer",
+      "sha256": "0644128cea66d0eafa4e40d31bf4af91081cf9171410752db703b84143fa59e0"
+    },
+    {
+      "id": 20690,
+      "name": "Elenoa",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20690/elenoa",
+      "sha256": "e4b8f4d7e24efb66a323ed6e4cda691f7e69a667d1be4666151bfff6abd44040"
+    },
+    {
+      "id": 20717,
+      "name": "Alprada",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/20717/alprada",
+      "sha256": "6eaf7e5c82e7105d6ddb660b086e4b3be53ca1c721ca4202c4a3b0428255fdf2"
+    },
+    {
+      "id": 21109,
+      "name": "Elkaon",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/21109/elkaon",
+      "sha256": "53d8aa881e7d0aadc07e8cc178fec651f39c8a04e9dc72242153fb9eb2b77234"
+    },
+    {
+      "id": 21139,
+      "name": "Eldruka",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/21139/eldruka",
+      "sha256": "78ef56036a68411e3697fce0a05e847f1d3d3c598caea640dacfc855aac926d9"
+    },
+    {
+      "id": 22055,
+      "name": "Alkaji",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22055/alkaji",
+      "sha256": "079d85b6d2f8707e9ca97a261b32fc94ed76e5cbd66faba2cf65122fc638cc57"
+    },
+    {
+      "id": 22066,
+      "name": "Jacklyn",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22066/jacklyn",
+      "sha256": "5de51164c777ada4e61469501f945d761f0704d73dc9417f72afc34369d5e5a4"
+    },
+    {
+      "id": 22067,
+      "name": "Meriell",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22067/meriell",
+      "sha256": "25af30fb7f21011b6ff6ab9dda1d3dc933ee10778304cbf0680576370b0ba648"
+    },
+    {
+      "id": 22068,
+      "name": "Tania",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22068/tania",
+      "sha256": "34b5b019d703b42484fa4063a3e232a296c1a56c74b1f68c735d9393b250251e"
+    },
+    {
+      "id": 22077,
+      "name": "Abile",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22077/abile",
+      "sha256": "587e5d8be54c24a478b6c223ef079939c5aa8f4d8746931dc7cf52e4729a2f59"
+    },
+    {
+      "id": 22085,
+      "name": "Pedorein",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22085/pedorein",
+      "sha256": "e0c81369703f2a9640b7fd7e9bc3fd1ab564853caeff81a2d6498da17a3d5c40"
+    },
+    {
+      "id": 22095,
+      "name": "Elbrid",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8004,
+        8101,
+        8102,
+        8103,
+        8104,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22095/elbrid",
+      "sha256": "7b9e0ee0b5541e5c4f33817a9740b7cf7a77908f2eac508f5976a2aab30df7ca"
+    },
+    {
+      "id": 22107,
+      "name": "Alpna",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22107/alpna",
+      "sha256": "08589e0bf3d4b01ce2820bdfa7a7e4d8f81b2f8748437dfa3333f0222f213a45"
+    },
+    {
+      "id": 22458,
+      "name": "Chaberin",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22458/chaberin",
+      "sha256": "32d9999b58a740b8ae21e92dbe0678c3d260bb5be065ebf6a660f86fe79db76a"
+    },
+    {
+      "id": 22484,
+      "name": "Maranit",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22484/maranit",
+      "sha256": "f54032273c6db334febd674cc753bce65d5e3feb82abd60695733df545a3e78d"
+    },
+    {
+      "id": 22503,
+      "name": "Hamira",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22503/hamira",
+      "sha256": "fc3c2569c303a3f446d104513e9af81faa475738fa5c4c869d9f633111069d22"
+    },
+    {
+      "id": 22594,
+      "name": "Lili",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22594/lili",
+      "sha256": "e36d4da85faf0cd6e62b5a20a6eefc73256ec0ba513669bcbb0d0dbb8074ad1a"
+    },
+    {
+      "id": 22601,
+      "name": "Bonapu",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22601/bonapu",
+      "sha256": "e4accbdaa7520af4cafd0f545c7f345439e771227f43ba5022cd71e57391ad0c"
+    },
+    {
+      "id": 22649,
+      "name": "Zásobovací pomocník",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22649/zsobovac_pomocnk",
+      "sha256": "b566bf4614d41b2efbc0e4972931bc3ca54c7791cc34bee71965347d2af696ac"
+    },
+    {
+      "id": 22816,
+      "name": "Lion",
+      "before": [
+        9844,
+        9845,
+        9846,
+        9847,
+        9852,
+        29000,
+        29002,
+        29004,
+        29006,
+        29008,
+        29010,
+        29012,
+        29013
+      ],
+      "after": [
+        9844,
+        9845,
+        29000,
+        29002,
+        29004,
+        29006,
+        29008,
+        29010,
+        29012,
+        29013,
+        29014,
+        29015,
+        29016
+      ],
+      "published_items": [
+        {
+          "item_id": 9844,
+          "price": 200000
+        },
+        {
+          "item_id": 9845,
+          "price": 500000
+        },
+        {
+          "item_id": 29000,
+          "price": 1539
+        },
+        {
+          "item_id": 29002,
+          "price": 6451
+        },
+        {
+          "item_id": 29004,
+          "price": 15907
+        },
+        {
+          "item_id": 29006,
+          "price": 31016
+        },
+        {
+          "item_id": 29008,
+          "price": 52235
+        },
+        {
+          "item_id": 29010,
+          "price": 80459
+        },
+        {
+          "item_id": 29012,
+          "price": 115965
+        },
+        {
+          "item_id": 29013,
+          "price": 136899
+        },
+        {
+          "item_id": 29014,
+          "price": 189605
+        },
+        {
+          "item_id": 29015,
+          "price": 219541
+        },
+        {
+          "item_id": 29016,
+          "price": 259459
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22816/lion",
+      "sha256": "b1bc51d893100c83cc6973bf4afdffcb029afc5fbf4cbb3b2243acbf7da63246"
+    },
+    {
+      "id": 22817,
+      "name": "Pták deště",
+      "before": [
+        9844,
+        9845,
+        9846,
+        9847,
+        9852,
+        29000,
+        29002,
+        29004,
+        29006,
+        29008,
+        29010,
+        29012,
+        29013
+      ],
+      "after": [
+        9844,
+        9845,
+        29000,
+        29002,
+        29004,
+        29006,
+        29008,
+        29010,
+        29012,
+        29013,
+        29014,
+        29015,
+        29016
+      ],
+      "published_items": [
+        {
+          "item_id": 9844,
+          "price": 200000
+        },
+        {
+          "item_id": 9845,
+          "price": 500000
+        },
+        {
+          "item_id": 29000,
+          "price": 1539
+        },
+        {
+          "item_id": 29002,
+          "price": 6451
+        },
+        {
+          "item_id": 29004,
+          "price": 15907
+        },
+        {
+          "item_id": 29006,
+          "price": 31016
+        },
+        {
+          "item_id": 29008,
+          "price": 52235
+        },
+        {
+          "item_id": 29010,
+          "price": 80459
+        },
+        {
+          "item_id": 29012,
+          "price": 115965
+        },
+        {
+          "item_id": 29013,
+          "price": 136899
+        },
+        {
+          "item_id": 29014,
+          "price": 189605
+        },
+        {
+          "item_id": 29015,
+          "price": 219541
+        },
+        {
+          "item_id": 29016,
+          "price": 259459
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/22817/ptk_det",
+      "sha256": "bf599e1b925a58622b22801068ad7f78a8b6b91976c9e357b4cabb6ca1564b12"
+    },
+    {
+      "id": 23369,
+      "name": "Ropedi",
+      "before": [
+        8001,
+        8002,
+        8003,
+        8101,
+        8102,
+        8103,
+        8401,
+        8402,
+        8412
+      ],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8401,
+        8402,
+        8412
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/23369/ropedi",
+      "sha256": "955144507fb9dfa4dfd65e73d40d1c79305b799b8768447ad100d3612015a22f"
+    },
+    {
+      "id": 26012,
+      "name": "Surita",
+      "before": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        6702,
+        6703,
+        6715,
+        6719,
+        6720,
+        6801,
+        6804,
+        6807,
+        6808,
+        6809,
+        7549,
+        7550,
+        7551,
+        7556,
+        7602,
+        7605,
+        7607,
+        7609,
+        7611,
+        7612,
+        7613,
+        7615,
+        7620,
+        7621,
+        7622,
+        7623,
+        7625,
+        7630,
+        7633,
+        7634,
+        7635,
+        7636,
+        7637,
+        7638,
+        7639,
+        7640,
+        7654,
+        7656,
+        7658,
+        7662,
+        7663,
+        7664,
+        7689,
+        7714,
+        8201,
+        8202,
+        8204,
+        8401,
+        8402,
+        8411,
+        8412,
+        8504,
+        8505,
+        8507,
+        8620,
+        8621,
+        8625,
+        8629,
+        9388,
+        9389,
+        9390,
+        9391,
+        9392,
+        9396,
+        9549,
+        9550,
+        9846,
+        9847,
+        11900,
+        11901,
+        11902,
+        11905,
+        11906,
+        11907,
+        11908,
+        11909,
+        11910,
+        11912,
+        11913,
+        11914,
+        11916,
+        11917,
+        11918,
+        11961,
+        11962,
+        16052,
+        16054,
+        16055,
+        16056,
+        16057,
+        16058,
+        16059,
+        16060,
+        16062,
+        18015,
+        18030,
+        18145
+      ],
+      "after": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412,
+        8501,
+        8504,
+        8603,
+        8604,
+        8605,
+        8606,
+        8607,
+        8608,
+        8609,
+        8610
+      ],
+      "published_items": [
+        {
+          "item_id": 4,
+          "price": 2375
+        },
+        {
+          "item_id": 5,
+          "price": 19800
+        },
+        {
+          "item_id": 6,
+          "price": 64060
+        },
+        {
+          "item_id": 7,
+          "price": 144625
+        },
+        {
+          "item_id": 8,
+          "price": 268750
+        },
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        },
+        {
+          "item_id": 8501,
+          "price": 5000
+        },
+        {
+          "item_id": 8504,
+          "price": 50000
+        },
+        {
+          "item_id": 8603,
+          "price": 27000
+        },
+        {
+          "item_id": 8604,
+          "price": 36000
+        },
+        {
+          "item_id": 8605,
+          "price": 44000
+        },
+        {
+          "item_id": 8606,
+          "price": 55000
+        },
+        {
+          "item_id": 8607,
+          "price": 27000
+        },
+        {
+          "item_id": 8608,
+          "price": 36000
+        },
+        {
+          "item_id": 8609,
+          "price": 44000
+        },
+        {
+          "item_id": 8610,
+          "price": 55000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/26012/surita",
+      "sha256": "75fbe72037acbb7682d2374eead39d121f02ebbec87cb6f8168f9bd109e5dc21"
+    },
+    {
+      "id": 26473,
+      "name": "Elhyui",
+      "before": [],
+      "after": [
+        8005,
+        8006,
+        8007,
+        8011,
+        8105,
+        8106,
+        8107,
+        8111,
+        8201,
+        8202,
+        8401,
+        8402,
+        8412,
+        9745
+      ],
+      "published_items": [
+        {
+          "item_id": 8005,
+          "price": 2800
+        },
+        {
+          "item_id": 8006,
+          "price": 5600
+        },
+        {
+          "item_id": 8007,
+          "price": 9300
+        },
+        {
+          "item_id": 8011,
+          "price": 14000
+        },
+        {
+          "item_id": 8105,
+          "price": 2800
+        },
+        {
+          "item_id": 8106,
+          "price": 5600
+        },
+        {
+          "item_id": 8107,
+          "price": 9300
+        },
+        {
+          "item_id": 8111,
+          "price": 14000
+        },
+        {
+          "item_id": 8201,
+          "price": 5000
+        },
+        {
+          "item_id": 8202,
+          "price": 5000
+        },
+        {
+          "item_id": 8401,
+          "price": 1
+        },
+        {
+          "item_id": 8402,
+          "price": 1
+        },
+        {
+          "item_id": 8412,
+          "price": 1
+        },
+        {
+          "item_id": 9745,
+          "price": 100000000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/26473/elhyui",
+      "sha256": "04bdec1e8cf9ad94bb73b2da2a65df2cb349b9a52c5bd66ab81215cd1c3c2394"
+    }
+  ],
+  "already_matching": [
+    {
+      "id": 25299,
+      "name": "Obchodník s krystaly",
+      "before": [
+        9416,
+        9417,
+        9418
+      ],
+      "after": [
+        9416,
+        9417,
+        9418
+      ],
+      "published_items": [
+        {
+          "item_id": 9416,
+          "price": 1000
+        },
+        {
+          "item_id": 9417,
+          "price": 10000
+        },
+        {
+          "item_id": 9418,
+          "price": 50000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/25299/obchodnk_s_krystaly",
+      "sha256": "7b18ccbcdc0378ff656dd6b69be04f0cc076727ccd624ec0fa1debf752bf2e12"
+    },
+    {
+      "id": 25301,
+      "name": "Obchodník s krystaly",
+      "before": [
+        9416,
+        9417,
+        9418
+      ],
+      "after": [
+        9416,
+        9417,
+        9418
+      ],
+      "published_items": [
+        {
+          "item_id": 9416,
+          "price": 1000
+        },
+        {
+          "item_id": 9417,
+          "price": 10000
+        },
+        {
+          "item_id": 9418,
+          "price": 50000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/25301/obchodnk_s_krystaly",
+      "sha256": "0c174d62d0fd08c4ac2daf9b31e1b72bc314e4c1bb7dc1d7859c69bb9c4be5d5"
+    },
+    {
+      "id": 26165,
+      "name": "Obchodník s krystaly",
+      "before": [
+        9416,
+        9417,
+        9418
+      ],
+      "after": [
+        9416,
+        9417,
+        9418
+      ],
+      "published_items": [
+        {
+          "item_id": 9416,
+          "price": 1000
+        },
+        {
+          "item_id": 9417,
+          "price": 10000
+        },
+        {
+          "item_id": 9418,
+          "price": 50000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/26165/obchodnk_s_krystaly",
+      "sha256": "7a7a648bf48da46c9fd6628209958ded1045c4b4bc61156af559366bb4b2e655"
+    },
+    {
+      "id": 26199,
+      "name": "Jad",
+      "before": [
+        9868
+      ],
+      "after": [
+        9868
+      ],
+      "published_items": [
+        {
+          "item_id": 9868,
+          "price": 200000
+        }
+      ],
+      "source": "https://cz.4story.gameforge.com/npc/details/26199/jad",
+      "sha256": "135c6f432fe20e53c84881b7015ce08169ad63d64eb4a5956877c78ff7d5da4a"
+    }
+  ],
+  "gaps": [
+    {
+      "id": 20780,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/20780/negostar"
+    },
+    {
+      "id": 20781,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/20781/piru"
+    },
+    {
+      "id": 20782,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/20782/hana"
+    },
+    {
+      "id": 20844,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/20844/iktus"
+    },
+    {
+      "id": 20845,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/20845/alnomo"
+    },
+    {
+      "id": 20846,
+      "reason": "Missing/ambiguous item or gold/silver/bronze price",
+      "source": "https://cz.4story.gameforge.com/npc/details/20846/tranus"
+    },
+    {
+      "id": 22217,
+      "reason": "Missing/ambiguous item or gold/silver/bronze price",
+      "source": "https://cz.4story.gameforge.com/npc/details/22217/alrana"
+    },
+    {
+      "id": 22265,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/22265/elsin"
+    },
+    {
+      "id": 22736,
+      "reason": "Missing/ambiguous item or gold/silver/bronze price",
+      "source": "https://cz.4story.gameforge.com/npc/details/22736/strilei"
+    },
+    {
+      "id": 22738,
+      "reason": "Missing/ambiguous item or gold/silver/bronze price",
+      "source": "https://cz.4story.gameforge.com/npc/details/22738/nodin"
+    },
+    {
+      "id": 26008,
+      "reason": "Missing/ambiguous item or gold/silver/bronze price",
+      "source": "https://cz.4story.gameforge.com/npc/details/26008/iana"
+    },
+    {
+      "id": 26009,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/26009/dugashi"
+    },
+    {
+      "id": 26010,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/26010/naecha"
+    },
+    {
+      "id": 26011,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/26011/maytu"
+    },
+    {
+      "id": 26322,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/26322/mark"
+    },
+    {
+      "id": 26360,
+      "reason": "Published shop price differs from the original-client price formula",
+      "source": "https://cz.4story.gameforge.com/npc/details/26360/rusiela"
+    }
+  ],
+  "unverified": "Other NPC types, absent stock tables, PvP prices, magic/crafting shops and NPC positions are retained"
+}

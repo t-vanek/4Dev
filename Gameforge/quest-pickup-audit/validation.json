@@ -1,0 +1,54 @@
+{
+  "checked_utc": "2026-10-28T13:32:29.147423+00:00",
+  "routing_definitions": 183,
+  "real_pickup_definitions": 182,
+  "unique_npc_ids": 172,
+  "unique_real_item_ids": 162,
+  "categories": {
+    "recovery_after_completed_quest": 14,
+    "placeholder": 1,
+    "disabled_parent": 27,
+    "active_mission": 141
+  },
+  "active_mission_parent_ids": 58,
+  "old_dll_missing_item_reproduced": 182,
+  "current_dll_pickup_passed": 182,
+  "collection_repeat_and_prerequisite_npc_map_guard_checks_passed": 728,
+  "objective_updates_verified": 156,
+  "current_server_sha256": "75F2FA65F8ECB37D3852DF98F919AC8F9ED101FC3B8FE0C28961F3EC7BE896E9",
+  "legacy_server_sha256": "0DF782832D7D5E7D7B85ED1E9954B83314C999F408AD79FD397D95432720F75F",
+  "client_quest_type_and_item_terms_match_sql": 183,
+  "client_quest_sha256": "8c728b7e4203bb927bc2da048f3beab3fa849be7d4ef3617c8ef86cb91fd4f05",
+  "static_placement_matches": 177,
+  "global_template_only_definitions": 6,
+  "static_placement_mismatches": 0,
+  "placeholder": {
+    "quest": 877,
+    "item": 0,
+    "required_quest_ids": [
+      0,
+      0
+    ],
+    "offered": false,
+    "action": "Retained; no invented replacement quest or item"
+  },
+  "production_changes": false,
+  "database_writes": 0,
+  "new_server_restart": false,
+  "snapshot_sha256": {
+    "conditions.json": "83a5c2c6ed137d648b9007e6f25f1794789c0e5df1e8c2f7b3657f615953ede1",
+    "items.json": "61b554cba6f46e8601f011d7d9283f0dd42ff2b4af4af5f285bf317dae54d3d1",
+    "npcs.json": "6e52310d04a123d1f25547cbdf0ce61fa25b5246a1ce90e1b130b2d743f9227d",
+    "quests.json": "4dd35d20abb9a4489bfb6356b17066f3c727536a181f693a1c978ddf02d4cca1",
+    "terms.json": "71b8271652bd13225a9da928940d46c254e69ca173111723ec17b38a27b14b3f"
+  },
+  "probe_tool": "Tools/GameforgeReference/QuestPickupProbe",
+  "runtime_evidence": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\quest-pickup-audit\\20261028-131709",
+  "limits": [
+    "Prerequisites were seeded only in isolated in-memory characters; these are pickup-protocol tests, not complete quest playthroughs.",
+    "27 pickup definitions reference disabled parent quests. Their transport passed with seeded state, but they are not thereby available to normal players.",
+    "Six definitions use global NPC templates without static placement; the test uses the SQL map and does not validate their dynamic spawning.",
+    "Additional legacy NPC tables are listed in client-layout-notes.json; the static reader uses only its supported placement layout.",
+    "This audit targets quest-object pickups via Routing/ITEMBUY, not every monster loot, crafting or quest subsystem."
+  ]
+}

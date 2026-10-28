@@ -1,0 +1,1241 @@
+{
+  "DatabaseWrites": 0,
+  "Npcs": 2755,
+  "Quests": 6419,
+  "DialogResponses": 2755,
+  "QuestListResponses": 2755,
+  "NpcFailures": [],
+  "DeliveryCandidates": 195,
+  "CompletedNaturally": [
+    3070,
+    3071,
+    3072,
+    3073,
+    3075,
+    3084,
+    3085,
+    3086,
+    3139,
+    3140,
+    3141,
+    3142,
+    3143,
+    3144,
+    3146,
+    3147,
+    3152,
+    3156,
+    5676,
+    6270,
+    6280,
+    6915,
+    6916,
+    6917,
+    7837,
+    7977,
+    7978,
+    7981,
+    8141,
+    8425,
+    8426,
+    8442,
+    8443,
+    8921,
+    8923,
+    8925,
+    8927,
+    11232,
+    11259,
+    11300,
+    11327,
+    11356,
+    11612,
+    11613,
+    11614,
+    11615,
+    11616,
+    11617
+  ],
+  "NotOffered": [],
+  "AcceptedButNotCompleted": [
+    {
+      "QuestId": 46,
+      "CompletionNodes": [
+        392
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 53,
+      "CompletionNodes": [
+        399
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 60,
+      "CompletionNodes": [
+        406
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 78,
+      "CompletionNodes": [
+        412
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 84,
+      "CompletionNodes": [
+        419
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 102,
+      "CompletionNodes": [
+        425
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 107,
+      "CompletionNodes": [
+        430
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 124,
+      "CompletionNodes": [
+        435
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 129,
+      "CompletionNodes": [
+        441
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 134,
+      "CompletionNodes": [
+        446
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 151,
+      "CompletionNodes": [
+        451
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 156,
+      "CompletionNodes": [
+        456
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 161,
+      "CompletionNodes": [
+        461
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 212,
+      "CompletionNodes": [
+        2307
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 219,
+      "CompletionNodes": [
+        491
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 225,
+      "CompletionNodes": [
+        2308
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 245,
+      "CompletionNodes": [
+        2309
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 251,
+      "CompletionNodes": [
+        2310
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 272,
+      "CompletionNodes": [
+        2311
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 277,
+      "CompletionNodes": [
+        2312
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 295,
+      "CompletionNodes": [
+        2313
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 300,
+      "CompletionNodes": [
+        2314
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 305,
+      "CompletionNodes": [
+        2315
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 323,
+      "CompletionNodes": [
+        2316
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 328,
+      "CompletionNodes": [
+        2317
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 333,
+      "CompletionNodes": [
+        2318
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 898,
+      "CompletionNodes": [
+        4770
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 902,
+      "CompletionNodes": [
+        4774
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 906,
+      "CompletionNodes": [
+        4778
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 915,
+      "CompletionNodes": [
+        927
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 919,
+      "CompletionNodes": [
+        931
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 923,
+      "CompletionNodes": [
+        935
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 949,
+      "CompletionNodes": [
+        961
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 953,
+      "CompletionNodes": [
+        965
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 957,
+      "CompletionNodes": [
+        969
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 2974,
+      "CompletionNodes": [
+        4787
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 2978,
+      "CompletionNodes": [
+        4791
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 2982,
+      "CompletionNodes": [
+        4795
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3168,
+      "CompletionNodes": [
+        3163
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3169,
+      "CompletionNodes": [
+        3164
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3170,
+      "CompletionNodes": [
+        3165
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3171,
+      "CompletionNodes": [
+        3166
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3180,
+      "CompletionNodes": [
+        3175
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3183,
+      "CompletionNodes": [
+        3176
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3188,
+      "CompletionNodes": [
+        3177
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 3189,
+      "CompletionNodes": [
+        3178
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5079,
+      "CompletionNodes": [
+        5109
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5080,
+      "CompletionNodes": [
+        5110
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5361,
+      "CompletionNodes": [
+        5376
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5362,
+      "CompletionNodes": [
+        5377
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5387,
+      "CompletionNodes": [
+        5388
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5389,
+      "CompletionNodes": [
+        5393
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5433,
+      "CompletionNodes": [
+        5434
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5435,
+      "CompletionNodes": [
+        5436
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5804,
+      "CompletionNodes": [
+        5810
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5807,
+      "CompletionNodes": [
+        5811
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5823,
+      "CompletionNodes": [
+        5827
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5824,
+      "CompletionNodes": [
+        5828
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5834,
+      "CompletionNodes": [
+        5836
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 5835,
+      "CompletionNodes": [
+        5837
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6274,
+      "CompletionNodes": [
+        6478
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6275,
+      "CompletionNodes": [
+        6481
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6276,
+      "CompletionNodes": [
+        6484
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6277,
+      "CompletionNodes": [
+        6487
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6297,
+      "CompletionNodes": [
+        6506
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6298,
+      "CompletionNodes": [
+        6507
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6381,
+      "CompletionNodes": [
+        6527
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6382,
+      "CompletionNodes": [
+        6528
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6383,
+      "CompletionNodes": [
+        6529
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6384,
+      "CompletionNodes": [
+        6530
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6385,
+      "CompletionNodes": [
+        6531
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6533,
+      "CompletionNodes": [
+        6538
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6534,
+      "CompletionNodes": [
+        6539
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6535,
+      "CompletionNodes": [
+        6540
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6536,
+      "CompletionNodes": [
+        6541
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6537,
+      "CompletionNodes": [
+        6542
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6558,
+      "CompletionNodes": [
+        6576
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6559,
+      "CompletionNodes": [
+        6578
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6560,
+      "CompletionNodes": [
+        6581
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6566,
+      "CompletionNodes": [
+        6593
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6567,
+      "CompletionNodes": [
+        6600
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6612,
+      "CompletionNodes": [
+        6613
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6614,
+      "CompletionNodes": [
+        6617
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6615,
+      "CompletionNodes": [
+        6619
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6646,
+      "CompletionNodes": [
+        6649
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6647,
+      "CompletionNodes": [
+        6653
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6661,
+      "CompletionNodes": [
+        6663
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6767,
+      "CompletionNodes": [
+        6780
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6768,
+      "CompletionNodes": [
+        6781
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6770,
+      "CompletionNodes": [
+        6782
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6771,
+      "CompletionNodes": [
+        6783
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6773,
+      "CompletionNodes": [
+        6784
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6774,
+      "CompletionNodes": [
+        6785
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6776,
+      "CompletionNodes": [
+        6786
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6777,
+      "CompletionNodes": [
+        6787
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6874,
+      "CompletionNodes": [
+        6882
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6876,
+      "CompletionNodes": [
+        6883
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6878,
+      "CompletionNodes": [
+        6887
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6879,
+      "CompletionNodes": [
+        6888
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6880,
+      "CompletionNodes": [
+        6889
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6884,
+      "CompletionNodes": [
+        6890
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6885,
+      "CompletionNodes": [
+        6891
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6886,
+      "CompletionNodes": [
+        6892
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6919,
+      "CompletionNodes": [
+        6969
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6920,
+      "CompletionNodes": [
+        6971
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6921,
+      "CompletionNodes": [
+        6976
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6926,
+      "CompletionNodes": [
+        6978
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6929,
+      "CompletionNodes": [
+        6989
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6933,
+      "CompletionNodes": [
+        6988
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6935,
+      "CompletionNodes": [
+        6990
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6936,
+      "CompletionNodes": [
+        6991
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 6937,
+      "CompletionNodes": [
+        6992
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8281,
+      "CompletionNodes": [
+        8282
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8288,
+      "CompletionNodes": [
+        8290
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8300,
+      "CompletionNodes": [
+        8302
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8313,
+      "CompletionNodes": [
+        8318
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8324,
+      "CompletionNodes": [
+        8335
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8329,
+      "CompletionNodes": [
+        8340
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8334,
+      "CompletionNodes": [
+        8345
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8350,
+      "CompletionNodes": [
+        8358
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8421,
+      "CompletionNodes": [
+        8573
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8446,
+      "CompletionNodes": [
+        8582
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8673,
+      "CompletionNodes": [
+        8682
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8692,
+      "CompletionNodes": [
+        8829
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8693,
+      "CompletionNodes": [
+        8835
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8837,
+      "CompletionNodes": [
+        8839
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8838,
+      "CompletionNodes": [
+        8840
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8850,
+      "CompletionNodes": [
+        8851
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8854,
+      "CompletionNodes": [
+        8855
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8856,
+      "CompletionNodes": [
+        8857
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8864,
+      "CompletionNodes": [
+        8865
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8866,
+      "CompletionNodes": [
+        8867
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8876,
+      "CompletionNodes": [
+        8877
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8880,
+      "CompletionNodes": [
+        8881
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8883,
+      "CompletionNodes": [
+        8884
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8885,
+      "CompletionNodes": [
+        8886
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8887,
+      "CompletionNodes": [
+        8888
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8889,
+      "CompletionNodes": [
+        8890
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8891,
+      "CompletionNodes": [
+        8892
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8896,
+      "CompletionNodes": [
+        8897
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8899,
+      "CompletionNodes": [
+        8900
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8901,
+      "CompletionNodes": [
+        8902
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8906,
+      "CompletionNodes": [
+        8907
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8914,
+      "CompletionNodes": [
+        8915
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8916,
+      "CompletionNodes": [
+        8917
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8918,
+      "CompletionNodes": [
+        8919
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    },
+    {
+      "QuestId": 8934,
+      "CompletionNodes": [
+        8935
+      ],
+      "LastResult": 1,
+      "Note": "Accepted naturally; objectives/dependencies not supplied by this delivery/talk-only probe. Not automatically a defect."
+    }
+  ],
+  "DeliveryFailures": [],
+  "MapServerSha256": "12D09F8960118DED279A1F8AE9D89338E2582E4EC57CE20DA5DA7FDDC70076BC",
+  "Limits": "Packets against deployed server DLL and live SQL charts; isolated in-memory character. No graphical client, no hunts/crafts, no injected item/progress requirements."
+}

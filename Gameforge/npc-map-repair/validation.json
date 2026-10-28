@@ -1,0 +1,65 @@
+{
+  "applied_utc": "2026-10-28T12:44:04.519940+00:00",
+  "migration": "039_npc_dialogue_maps.sql",
+  "migration_sha256": "ee2df727ead6b8597ab855da16486facc106e615cb320c83e9ab7372c95f494f",
+  "map_image": "sha256:1efde60f400e9a1646c916140520a6315350a536f8ca76626d5b9efa81381895",
+  "deployed_server_sha256": "0DF782832D7D5E7D7B85ED1E9954B83314C999F408AD79FD397D95432720F75F",
+  "source_plan": "plan.json",
+  "npc_ids": [
+    22424,
+    22425,
+    22426,
+    22427,
+    22428,
+    22429,
+    22430,
+    22431,
+    22432,
+    22433
+  ],
+  "dialogue_quest_ids": [
+    4578,
+    4579,
+    4580,
+    4581,
+    4582,
+    4583,
+    4584,
+    4585,
+    4586,
+    4587
+  ],
+  "changed_npc_rows": 10,
+  "changed_fields": [
+    "wMapID"
+  ],
+  "old_map": 11,
+  "new_map": 12,
+  "npc_registry_rows_compared": 2755,
+  "other_game_tables_unchanged": 202,
+  "other_global_tables_unchanged": 69,
+  "excluded_tables": [
+    "TNPCCHART (ten map fields changed)",
+    "_SchemaMigrations (one tracking record added)"
+  ],
+  "checks": {
+    "migration_twice_with_rollback": "passed before and after deployment",
+    "conflicting_baseline": "rejected; rollback verified",
+    "npc_dialogues": "All ten correct quest/NPC IDs passed on the deployed DLL",
+    "wrong_map_guard": "passed",
+    "prerequisite_guard": "passed; unmet prerequisites produce default talk quest ID 0",
+    "server_unit_tests": 1194,
+    "npc_dialog_responses": 2755,
+    "npc_quest_list_responses": 2755,
+    "delivery_talk_completions": 48,
+    "gripan_training_registration": "passed"
+  },
+  "probe_sql_gameplay_writes": 0,
+  "graphical_playthrough": false,
+  "runtime_backup_directory": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\npc-map-repair\\20261028-123322",
+  "backup_note": "Full NPC row snapshot and legacy deployed DLL copies retained. Docker image snapshot was unavailable due to missing old Docker image content.",
+  "limits": [
+    "Dialogue probes use in-memory running prerequisite quest 4558, not a full chapter playthrough.",
+    "The broader audit retains other missing dependencies and unsupported quest/reward types; this repair does not establish every quest is playable."
+  ]
+}

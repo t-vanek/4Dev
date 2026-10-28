@@ -1,0 +1,34 @@
+{
+  "runner": "Linux .NET 10 SDK container",
+  "total": 1158,
+  "passed": 1158,
+  "failed": 0,
+  "companion_cap_cases": [
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 20)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 255)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 20)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_LevelNineteen_CanReachTwenty_ThenStops",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(level: 21)",
+      "outcome": "Passed"
+    },
+    {
+      "testName": "TMap.Server.Tests.CompanionTests.Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(level: 21)",
+      "outcome": "Passed"
+    }
+  ],
+  "trx_sha256": "bfdd84abbb57046e2e6173eb8e02d3260210e956aa56917cf65682d0b87f98a7",
+  "source_sha256": "0a92760f043abaf05d2e33fef79582472a3776652c459260769941267f63c850"
+}

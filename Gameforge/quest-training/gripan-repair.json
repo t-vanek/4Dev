@@ -1,0 +1,53 @@
+{
+  "npc_id": 20001,
+  "quest_id": 7981,
+  "source": "Tcd/TNPC00000402.tcd",
+  "source_sha256": "94c7a47b3d6f5f303e48105838b7138eed9dbec46443f643a23f92fef91e983a",
+  "current_client_matches": true,
+  "original": {
+    "wID": 20001,
+    "template_id": 1,
+    "name": "Gripan",
+    "title": "Střelný mistr",
+    "bType": 0,
+    "class_index": 255,
+    "level": 0,
+    "bCountryID": 0,
+    "wItemID": 0,
+    "max_hp": 0,
+    "wMapID": 0,
+    "fPosX": 2864.0,
+    "fPosY": 66.23999786376953,
+    "fPosZ": 5031.0400390625
+  },
+  "before": {
+    "wID": 20001,
+    "NC_szName2": "Master of Explosives",
+    "szName": "Gripan",
+    "bType": 0,
+    "dwClass": 0,
+    "bCountryID": 69,
+    "wLocalID": 0,
+    "bCondition": 0,
+    "bDiscountRate": 0,
+    "bAddProb": 0,
+    "wItemID": 29545,
+    "wMapID": 0,
+    "fPosX": -2.775558e-17,
+    "fPosY": -9.723455e-30,
+    "fPosZ": -9.409742e+26,
+    "szLocal": "",
+    "PosXBits": "BC8000002A672D52",
+    "PosYBits": "B9E8A6E213419353",
+    "PosZBits": "C58852D84CC1D2DE"
+  },
+  "fields": [
+    "dwClass",
+    "bCountryID",
+    "wItemID",
+    "fPosX",
+    "fPosY",
+    "fPosZ"
+  ],
+  "quest_progress_changes": false
+}

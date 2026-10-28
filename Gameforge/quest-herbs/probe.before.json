@@ -1,0 +1,17 @@
+{
+  "State": "before",
+  "Quest": 8003,
+  "PickupQuest": 8005,
+  "PlantNpc": 26193,
+  "Item": 9656,
+  "PickupResult": 1,
+  "Offered": true,
+  "RepeatBlocked": false,
+  "Completed": false,
+  "Followup": false,
+  "Money": 0,
+  "CompleteCount": 0,
+  "DatabaseWrites": 0,
+  "Prerequisite": "Quest 8001 completed only in the isolated in-memory fixture",
+  "MapServerSha256": "0DF782832D7D5E7D7B85ED1E9954B83314C999F408AD79FD397D95432720F75F"
+}

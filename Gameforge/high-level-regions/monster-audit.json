@@ -1,0 +1,1188 @@
+{
+  "publisher_monster_records": [
+    {
+      "id": 3527,
+      "name": "Nakažený tukan",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3527/nakaen_tukan",
+      "sha256": "521675cd861bf14859e411c1155b032bea23b06c231e023460a1282c5f5ee108",
+      "published_levels": [
+        101,
+        102
+      ],
+      "published_hp": [
+        5264,
+        5422
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": true
+    },
+    {
+      "id": 3530,
+      "name": "Nemocný vlk z útesu",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3530/nemocn_vlk_z_tesu",
+      "sha256": "3b50473e43fff6384097b5229b34a077daaa2d0f1d0ba6c3d8b80d626f33cf21",
+      "published_levels": [
+        102,
+        102
+      ],
+      "published_hp": [
+        5422,
+        5422
+      ],
+      "server_template_exists": true,
+      "server_level": 102,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3531,
+      "name": "Nakažený alfa vlk",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3531/nakaen_alfa_vlk",
+      "sha256": "58b7be8f788611f011a8a1d3adf775e31b8bde7c6bfc7e0e7b76021728ce9fe8",
+      "published_levels": [
+        103,
+        103
+      ],
+      "published_hp": [
+        13142,
+        13142
+      ],
+      "server_template_exists": true,
+      "server_level": 103,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3532,
+      "name": "Loudavý duch praobyvatele",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3532/loudav_duch_praobyvatele",
+      "sha256": "45f7b7f3768bbd878cfbc06ecf345efbbf118c69652cec4b57931a612ab06128",
+      "published_levels": [
+        103,
+        103
+      ],
+      "published_hp": [
+        5585,
+        5585
+      ],
+      "server_template_exists": true,
+      "server_level": 103,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3533,
+      "name": "Zlovestný duch praobyvatele",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3533/zlovestn_duch_praobyvatele",
+      "sha256": "81b22220964546837d466855e1504956e1a345710157f62a653521f8d434ce64",
+      "published_levels": [
+        104,
+        104
+      ],
+      "published_hp": [
+        5753,
+        5753
+      ],
+      "server_template_exists": true,
+      "server_level": 104,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3534,
+      "name": "Bezcitný duch praobyvatel",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3534/bezcitn_duch_praobyvatel",
+      "sha256": "f8e3ee22f7e018a017f0a99c28021d9ff4c87a4c438843656b7af57181cd0d1d",
+      "published_levels": [
+        105,
+        105
+      ],
+      "published_hp": [
+        5925,
+        5925
+      ],
+      "server_template_exists": true,
+      "server_level": 105,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3535,
+      "name": "Zahorklý duch praobyvatel",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3535/zahorkl_duch_praobyvatel",
+      "sha256": "95c6234711b5937aa8a97e89a8ca495b065fc2c4d08ef1643576eb4c81a971f9",
+      "published_levels": [
+        105,
+        105
+      ],
+      "published_hp": [
+        5925,
+        5925
+      ],
+      "server_template_exists": true,
+      "server_level": 105,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3536,
+      "name": "Bezcitný zahorklý duch praobyvatel",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3536/bezcitn_zahorkl_duch_praobyvatel",
+      "sha256": "cd3152fc50163aeae6872f32d39e3ee3f0c9415d0522961fd2a428fec57c2fa3",
+      "published_levels": [
+        106,
+        106
+      ],
+      "published_hp": [
+        6103,
+        6103
+      ],
+      "server_template_exists": true,
+      "server_level": 106,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3537,
+      "name": "Démonický strážce",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3537/dmonick_strce",
+      "sha256": "bc4f4355752cf49aa66bb69a8ecc8ed800f1917300b9dc10f62c757b24f00fb0",
+      "published_levels": [
+        106,
+        106
+      ],
+      "published_hp": [
+        6103,
+        6103
+      ],
+      "server_template_exists": true,
+      "server_level": 106,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3538,
+      "name": "Démonický soudce",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3538/dmonick_soudce",
+      "sha256": "44140e7f5659894ebf432a0eaace1aad03398062a8597e53b8450a7a7b63eebb",
+      "published_levels": [
+        107,
+        107
+      ],
+      "published_hp": [
+        13654,
+        13654
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3539,
+      "name": "Pyrotonuv stoupenec",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3539/pyrotonuv_stoupenec",
+      "sha256": "3ba19659c8bdcff38c8a00b2aa7935211a60c2dc5ed8a98b4579d48c60046b02",
+      "published_levels": [
+        107,
+        107
+      ],
+      "published_hp": [
+        6286,
+        6286
+      ],
+      "server_template_exists": true,
+      "server_level": 107,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3540,
+      "name": "Pyrotonuv bojovník",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3540/pyrotonuv_bojovnk",
+      "sha256": "87e8a780c9fc582c2a08899b86369b1da3485476d35acb8982072a086286ad3a",
+      "published_levels": [
+        108,
+        108
+      ],
+      "published_hp": [
+        6475,
+        6475
+      ],
+      "server_template_exists": true,
+      "server_level": 108,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3541,
+      "name": "Pyrotonuv osobní strážce",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3541/pyrotonuv_osobn_strce",
+      "sha256": "2d7a52e616a009747791de95686cff5bf7fac6b07a81074abb91fbd5cd3381a3",
+      "published_levels": [
+        109,
+        109
+      ],
+      "published_hp": [
+        6669,
+        6669
+      ],
+      "server_template_exists": true,
+      "server_level": 109,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3542,
+      "name": "Pán plamenu Pyroton",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3542/pn_plamenu_pyroton",
+      "sha256": "24269a0299a4026656e75bf3e38dfb0bf8237d427518aa8bbc1e5a8dee750f69",
+      "published_levels": [
+        110,
+        110
+      ],
+      "published_hp": [
+        16163,
+        16163
+      ],
+      "server_template_exists": true,
+      "server_level": 110,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3543,
+      "name": "Zlomyslný Kulbrigon",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3543/zlomysln_kulbrigon",
+      "sha256": "2602cb0fc98c19aff80a34587a3cd15e0ab86d16320ecb0f178add1cae1fa37d",
+      "published_levels": [
+        113,
+        113
+      ],
+      "published_hp": [
+        7506,
+        7506
+      ],
+      "server_template_exists": true,
+      "server_level": 113,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3544,
+      "name": "Ukrutný Zodol",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3544/ukrutn_zodol",
+      "sha256": "a4febf0bb31c10a05c88d71fd0f5e74fa45a908a7273c5de2e9ab6351d578357",
+      "published_levels": [
+        110,
+        110
+      ],
+      "published_hp": [
+        6869,
+        6869
+      ],
+      "server_template_exists": true,
+      "server_level": 110,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3545,
+      "name": "Bezectný obr",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3545/bezectn_obr",
+      "sha256": "804e0f6ecdbc6cb8b4870122ef5f86b70a367d7e3d45a97924ee75209680f2cb",
+      "published_levels": [
+        111,
+        111
+      ],
+      "published_hp": [
+        7075,
+        7075
+      ],
+      "server_template_exists": true,
+      "server_level": 111,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3546,
+      "name": "Oživlý anbarský voják",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3546/oivl_anbarsk_vojk",
+      "sha256": "ab791136d53f6e3917322b7fa59d641d3b8f3734da0d9e02b190482eec66a853",
+      "published_levels": [
+        112,
+        113
+      ],
+      "published_hp": [
+        7287,
+        7506
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": true
+    },
+    {
+      "id": 3547,
+      "name": "Oživlý anbarský voják",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3547/oivl_anbarsk_vojk",
+      "sha256": "8eee5719017cd4854545c8ca4ecc5efb36b93e51f1b66925837a29f2e107b74b",
+      "published_levels": [
+        112,
+        113
+      ],
+      "published_hp": [
+        7287,
+        7506
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": true
+    },
+    {
+      "id": 3548,
+      "name": "Karmínove temný zlobr",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3548/karmnove_temn_zlobr",
+      "sha256": "f58269d27d427c29d43b7f69a661443f8a979790a97db1af0f0f67039de3d7c2",
+      "published_levels": [
+        114,
+        114
+      ],
+      "published_hp": [
+        7731,
+        7731
+      ],
+      "server_template_exists": true,
+      "server_level": 114,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3549,
+      "name": "Zmutovaný badatel",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3549/zmutovan_badatel",
+      "sha256": "656aca0db9068ef0767b55c39ad6baa6a717afe96fab53796b5dafcc1c18ab12",
+      "published_levels": [
+        109,
+        109
+      ],
+      "published_hp": [
+        6669,
+        6669
+      ],
+      "server_template_exists": true,
+      "server_level": 109,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3550,
+      "name": "Padlý rytír Dullahan",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3550/padl_rytr_dullahan",
+      "sha256": "3134b59d4f6298497736dd3e586a37506f5f13021442c1f259613156b2f07f36",
+      "published_levels": [
+        115,
+        115
+      ],
+      "published_hp": [
+        18738,
+        18738
+      ],
+      "server_template_exists": true,
+      "server_level": 115,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3551,
+      "name": "Chamtivý kyklop",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3551/chamtiv_kyklop",
+      "sha256": "1b6ec20da8e7587cdcbbb4a88f48e6d6146aed0a73bac16932c4225dba694716",
+      "published_levels": [
+        116,
+        116
+      ],
+      "published_hp": [
+        8202,
+        8202
+      ],
+      "server_template_exists": true,
+      "server_level": 116,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3552,
+      "name": "Karmínove temný chrlic",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3552/karmnove_temn_chrlic",
+      "sha256": "bf089464404361efe8ba68b6e2afef57ab83c425a200fdb526a8b5b488b32819",
+      "published_levels": [
+        115,
+        115
+      ],
+      "published_hp": [
+        7963,
+        7963
+      ],
+      "server_template_exists": true,
+      "server_level": 115,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3553,
+      "name": "Šupinatý nága s tmavými ostny",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3553/upinat_nga_s_tmavmi_ostny",
+      "sha256": "114c738d5d9a1f0051d51a0f151db93f7857a40effe3ff0cb5ad43b952cef0ae",
+      "published_levels": [
+        117,
+        117
+      ],
+      "published_hp": [
+        8448,
+        8448
+      ],
+      "server_template_exists": true,
+      "server_level": 117,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3554,
+      "name": "Pán kostlivcu Modred",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3554/pn_kostlivcu_modred",
+      "sha256": "6171126d3a97612d1d74189e9d3356c8540fee1a80c27a73ccd84bbb253111c7",
+      "published_levels": [
+        118,
+        118
+      ],
+      "published_hp": [
+        20475,
+        20475
+      ],
+      "server_template_exists": true,
+      "server_level": 118,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3555,
+      "name": "Vylepšený temný železný bojovník",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3555/vylepen_temn_elezn_bojovnk",
+      "sha256": "be84457c9092dac17bcdb0226b7df3f08af55430c5e3afe977d3e36562918527",
+      "published_levels": [
+        118,
+        118
+      ],
+      "published_hp": [
+        8702,
+        8702
+      ],
+      "server_template_exists": true,
+      "server_level": 118,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3556,
+      "name": "Vylepšený temný Kroger",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3556/vylepen_temn_kroger",
+      "sha256": "1d72f3a36846d777724b6771766165640a7e90f08419e871006adff3d9a0c3d1",
+      "published_levels": [
+        119,
+        119
+      ],
+      "published_hp": [
+        8924,
+        8924
+      ],
+      "server_template_exists": true,
+      "server_level": 119,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3557,
+      "name": "Karmínový okrídlený dábel",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3557/karmnov_okrdlen_dbel",
+      "sha256": "cbf9de77b3d4b8b409145871eb5d409bab57ccc27aba9ccf76cd459ba31281f4",
+      "published_levels": [
+        120,
+        120
+      ],
+      "published_hp": [
+        9146,
+        9146
+      ],
+      "server_template_exists": true,
+      "server_level": 83,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3558,
+      "name": "Nebojácný Asmodeus",
+      "region": "Anbari",
+      "source": "https://cz.4story.gameforge.com/monster/details/3558/nebojcn_asmodeus",
+      "sha256": "9afdd7fbd87aff4defed7cfad661368cc34045e439d56e19d55bac5aa35db3c4",
+      "published_levels": [
+        120,
+        120
+      ],
+      "published_hp": [
+        9146,
+        9146
+      ],
+      "server_template_exists": true,
+      "server_level": 120,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3560,
+      "name": "Tanglu Kentaru",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3560/tanglu_kentaru",
+      "sha256": "b869a5821b989e9557b949486de368b9e5dc149bbafb58315a36958ca4b1731b",
+      "published_levels": [
+        121,
+        121
+      ],
+      "published_hp": [
+        9367,
+        9367
+      ],
+      "server_template_exists": true,
+      "server_level": 121,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3561,
+      "name": "Tanglu Urk",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3561/tanglu_urk",
+      "sha256": "29e57acf4c49b04f31ac4fb19a3e03cc43478e0f5a14c25e94baad7d42c5dd7f",
+      "published_levels": [
+        122,
+        122
+      ],
+      "published_hp": [
+        9589,
+        9589
+      ],
+      "server_template_exists": true,
+      "server_level": 122,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3562,
+      "name": "Tanglu Minota",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3562/tanglu_minota",
+      "sha256": "fb5761b1df23226383a8d246fbe3cafa10fcf66b6f0cc4d8550f1120de373d74",
+      "published_levels": [
+        123,
+        123
+      ],
+      "published_hp": [
+        9811,
+        9811
+      ],
+      "server_template_exists": true,
+      "server_level": 123,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3563,
+      "name": "Tanglu Boss",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3563/tanglu_boss",
+      "sha256": "2b4cf88b8646a673d591bf2c337732351679bbb788eeec32145aecf470563bb8",
+      "published_levels": [
+        124,
+        124
+      ],
+      "published_hp": [
+        23608,
+        23608
+      ],
+      "server_template_exists": true,
+      "server_level": 124,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3564,
+      "name": "Oživlá staroveká mumie",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3564/oivl_starovek_mumie",
+      "sha256": "d5e7378d76522079a421e678d9171fe14de272561bc1ed18e9fc024f686db0be",
+      "published_levels": [
+        124,
+        124
+      ],
+      "published_hp": [
+        10033,
+        10033
+      ],
+      "server_template_exists": true,
+      "server_level": 124,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3565,
+      "name": "Zlomyslný staroveký duch",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3565/zlomysln_starovek_duch",
+      "sha256": "68bb743657ec49e492f5b5ca0ec2ef6ef5529e9ed857d0c5038fe966ab5238e1",
+      "published_levels": [
+        125,
+        125
+      ],
+      "published_hp": [
+        9466,
+        9466
+      ],
+      "server_template_exists": true,
+      "server_level": 125,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3566,
+      "name": "Staroveká kamenná socha",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3566/starovek_kamenn_socha",
+      "sha256": "ee63140d787c4cbdcf228db626098ed8923b2414de36cb2163e28bb95053bc00",
+      "published_levels": [
+        126,
+        126
+      ],
+      "published_hp": [
+        10477,
+        10477
+      ],
+      "server_template_exists": true,
+      "server_level": 126,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3567,
+      "name": "Veleknez Kayapa",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3567/veleknez_kayapa",
+      "sha256": "3875b148453aedd0409586d435e8709877865b244d586f0cee045779e6fa49f4",
+      "published_levels": [
+        127,
+        127
+      ],
+      "published_hp": [
+        23238,
+        23238
+      ],
+      "server_template_exists": true,
+      "server_level": 127,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3568,
+      "name": "Agresivní masožravá rostlina",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3568/agresivn_masorav_rostlina",
+      "sha256": "bca5513c95d9711f4bb8050f445f9772696e2b6c05da084cf5b14187dd4f5ca8",
+      "published_levels": [
+        127,
+        127
+      ],
+      "published_hp": [
+        10699,
+        10699
+      ],
+      "server_template_exists": true,
+      "server_level": 127,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3569,
+      "name": "Nenasytná masožravka",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3569/nenasytn_masoravka",
+      "sha256": "9f9aef682bdcb1ad1bce54898b3645f3f3c6c7c479e828b5ed1679943f49c35c",
+      "published_levels": [
+        128,
+        128
+      ],
+      "published_hp": [
+        10921,
+        10921
+      ],
+      "server_template_exists": true,
+      "server_level": 128,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3570,
+      "name": "Zmutovaná masožravá kvetina",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3570/zmutovan_masorav_kvetina",
+      "sha256": "f473099bfda5295d3a6a81d7acb18ff6a798cc0f6dd089adbab125711327e872",
+      "published_levels": [
+        129,
+        129
+      ],
+      "published_hp": [
+        11143,
+        11143
+      ],
+      "server_template_exists": true,
+      "server_level": 129,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3571,
+      "name": "Šaman Hagenchi",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3571/aman_hagenchi",
+      "sha256": "82bb67c9b89d65307693862dc3d3cbc1c7da1410ce983df5639b4a01f47a95c8",
+      "published_levels": [
+        130,
+        130
+      ],
+      "published_hp": [
+        26741,
+        26741
+      ],
+      "server_template_exists": true,
+      "server_level": 130,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3572,
+      "name": "Hladový pavouk z kopce",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3572/hladov_pavouk_z_kopce",
+      "sha256": "833b34fcf3cca3f2d35f3db4d8d2e31c80981d319054dfa89741a0629426d59d",
+      "published_levels": [
+        131,
+        131
+      ],
+      "published_hp": [
+        11586,
+        11586
+      ],
+      "server_template_exists": true,
+      "server_level": 131,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3573,
+      "name": "Cerný jedovatý štír",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3573/cern_jedovat_tr",
+      "sha256": "86e71652393570e2dbf3b7b413605c8ba24cc2d15a9e80c540bc50b5eaf72f16",
+      "published_levels": [
+        130,
+        130
+      ],
+      "published_hp": [
+        11365,
+        11365
+      ],
+      "server_template_exists": true,
+      "server_level": 130,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3575,
+      "name": "Pavoucí královna Batuba",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3575/pavouc_krlovna_batuba",
+      "sha256": "a5e6520b51f20ba2bdae59c261491e30c52e09eff52645c956ae10e9d929fba9",
+      "published_levels": [
+        132,
+        132
+      ],
+      "published_hp": [
+        27785,
+        27785
+      ],
+      "server_template_exists": true,
+      "server_level": 132,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3576,
+      "name": "Modrošupinatý Koatel",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3576/modroupinat_koatel",
+      "sha256": "b797d69b372cd8fc9b8692e6780e0856eaa31e9043210737f5d4f158a5b883e0",
+      "published_levels": [
+        132,
+        132
+      ],
+      "published_hp": [
+        11808,
+        11808
+      ],
+      "server_template_exists": true,
+      "server_level": 132,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3577,
+      "name": "Ocelošupinatý nága z útesu",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3577/oceloupinat_nga_z_tesu",
+      "sha256": "affe8efd625d3fc6e2dfa47be25f4f9d764a6a2a150a1ece146c0e626c8bdf98",
+      "published_levels": [
+        133,
+        133
+      ],
+      "published_hp": [
+        12030,
+        12030
+      ],
+      "server_template_exists": true,
+      "server_level": 133,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3578,
+      "name": "Lamia s šedou kuží",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3578/lamia_s_edou_ku",
+      "sha256": "54c895215b55ce0de53563f7ab198ad0996d66f80d59a39d41ff4db296a671fd",
+      "published_levels": [
+        134,
+        134
+      ],
+      "published_hp": [
+        12252,
+        12252
+      ],
+      "server_template_exists": true,
+      "server_level": 134,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3579,
+      "name": "Hadí královna",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3579/had_krlovna",
+      "sha256": "f49ce4ba942c109f008e7bcee3601c849eab12fcc4d12c5a82b50771f178997c",
+      "published_levels": [
+        135,
+        135
+      ],
+      "published_hp": [
+        29351,
+        29351
+      ],
+      "server_template_exists": true,
+      "server_level": 135,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3580,
+      "name": "Vypoulené oko z kanálu",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3580/vypoulen_oko_z_kanlu",
+      "sha256": "2bb4bf0fecfde41a166249bf7e16a6d35dc2669050c17c670e0f3ef9ed55fbbf",
+      "published_levels": [
+        135,
+        135
+      ],
+      "published_hp": [
+        12474,
+        12474
+      ],
+      "server_template_exists": true,
+      "server_level": 135,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3581,
+      "name": "Štírí muž z kanálu",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3581/tr_mu_z_kanlu",
+      "sha256": "c462c3272f36f5fc7c3de871b0fa59380bfa751c4848ad9c2fdefc69f509b6f0",
+      "published_levels": [
+        136,
+        136
+      ],
+      "published_hp": [
+        12696,
+        12696
+      ],
+      "server_template_exists": true,
+      "server_level": 136,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3582,
+      "name": "Strážce kanálu",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3582/strce_kanlu",
+      "sha256": "e181619c537cb787618bf337face7fd3399e04c754f96540c070a4babaaa1fd1",
+      "published_levels": [
+        137,
+        137
+      ],
+      "published_hp": [
+        12918,
+        12918
+      ],
+      "server_template_exists": true,
+      "server_level": 137,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3583,
+      "name": "Staroveký král Angelion",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3583/starovek_krl_angelion",
+      "sha256": "31bd551711269b62d8305f49f88d1315b898d9d30fdb82b14fef25f79a6cd3de",
+      "published_levels": [
+        138,
+        138
+      ],
+      "published_hp": [
+        30918,
+        30918
+      ],
+      "server_template_exists": true,
+      "server_level": 138,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3584,
+      "name": "Zakletá Kameria",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3584/zaklet_kameria",
+      "sha256": "23a695340c4315ee2c72e81900dc209bc9ea947c9f988bc3289d1e8685c56b0c",
+      "published_levels": [
+        138,
+        138
+      ],
+      "published_hp": [
+        13140,
+        13140
+      ],
+      "server_template_exists": true,
+      "server_level": 138,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3585,
+      "name": "Drací mlok Kameria",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3585/drac_mlok_kameria",
+      "sha256": "3b1098b2bf20990a7ce81e43c5f716b9de4325d4c40773605582608c72e844fe",
+      "published_levels": [
+        139,
+        139
+      ],
+      "published_hp": [
+        13362,
+        13362
+      ],
+      "server_template_exists": true,
+      "server_level": 139,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3586,
+      "name": "Mladý Buraki",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3586/mlad_buraki",
+      "sha256": "dc3fd690e017d131bbd84fe00e369b7aa04eaea91175d72f851b303418d3597a",
+      "published_levels": [
+        140,
+        140
+      ],
+      "published_hp": [
+        13584,
+        13584
+      ],
+      "server_template_exists": true,
+      "server_level": 140,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3587,
+      "name": "Ovládnutá Kameria",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3587/ovldnut_kameria",
+      "sha256": "6e440adde2866b113abd2f21f945274da0b9b28be8678e74389169ea76c27bfc",
+      "published_levels": [
+        140,
+        140
+      ],
+      "published_hp": [
+        31962,
+        31962
+      ],
+      "server_template_exists": true,
+      "server_level": 140,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3594,
+      "name": "Kapitán hlídky",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3594/kapitn_hldky",
+      "sha256": "a563e77fcd1bb70c56a6cbdc08cd8beacc26dada47bbea3ddaff3eff8d0a8d82",
+      "published_levels": [
+        140,
+        140
+      ],
+      "published_hp": [
+        250000,
+        250000
+      ],
+      "server_template_exists": true,
+      "server_level": 140,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3595,
+      "name": "Hlídka",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3595/hldka",
+      "sha256": "b7a55ad85835ac9ed71befa05be3c5202270dc7a4c2a9eaed044c79a1625c399",
+      "published_levels": [
+        115,
+        115
+      ],
+      "published_hp": [
+        13212,
+        15615
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": true
+    },
+    {
+      "id": 3596,
+      "name": "Hlídka",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3596/hldka",
+      "sha256": "98122a4cd2e6592ac46d0f82ae198def1b6d630bb201052b1ee6559e9a3badbe",
+      "published_levels": [
+        115,
+        115
+      ],
+      "published_hp": [
+        14414,
+        14414
+      ],
+      "server_template_exists": true,
+      "server_level": 115,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": false
+    },
+    {
+      "id": 3597,
+      "name": "Hlídka",
+      "region": "Undred",
+      "source": "https://cz.4story.gameforge.com/monster/details/3597/hldka",
+      "sha256": "6b7de4b0b5584aed8e1f39c37ba1c5388fca84a2c5d10ae669aba97e817d5d72",
+      "published_levels": [
+        115,
+        115
+      ],
+      "published_hp": [
+        13212,
+        15615
+      ],
+      "server_template_exists": true,
+      "server_level": 90,
+      "server_exp_unverified": 500,
+      "exact_variant_ambiguous": true
+    },
+    {
+      "id": 30712,
+      "name": "Zlomyslný staroveký duch",
+      "region": "Undred (Mise)",
+      "source": "https://cz.4story.gameforge.com/monster/details/30712/zlomysln_starovek_duch",
+      "sha256": "0fdeb5ff86102b7fa80d7954d4daa0eb9212227a720046224f645318028e39f7",
+      "published_levels": [
+        125,
+        125
+      ],
+      "published_hp": [
+        10255,
+        10255
+      ],
+      "server_template_exists": true,
+      "server_level": 125,
+      "server_exp_unverified": 0,
+      "exact_variant_ambiguous": false
+    }
+  ],
+  "catalogue_count": 62,
+  "ambiguous_variant_count": 5,
+  "missing_server_templates": [],
+  "source_guidance_points": 140,
+  "original_spawn_points": null,
+  "spawn_or_drop_values_fabricated": false
+}

@@ -1,0 +1,200 @@
+{
+  "checked_utc": "2026-10-28T12:29:20.578261+00:00",
+  "changes": [
+    "Dokončení questu podle stavu a nabídky aktuálního NPC, bez závislosti na jazyce tlačítka.",
+    "Jedna akce na kliknutí; obsluha questových tlačítek přesunuta mimo smyčku tří seznamů.",
+    "Další úkol podle pořadí seznamu místo souřadnic; po posledním úkolu zavření dialogu.",
+    "Další / Zavřít v rozhovoru; samostatná navigace v deníku, jen pro přijatý úkol.",
+    "Vyčištění výběru a odměny při novém sestavení dialogu; respektování zakázaných tlačítek.",
+    "Inventář a nabídka bezpečnostního kódu/pláště používají uloženou akci řádku místo popisku.",
+    "Položka Společník kontroluje viditelnost vlastního tlačítka.",
+    "Převod společníka podle stavu, vlastní časovač instance, zrušení při zavření a jediné odeslání požadavku.",
+    "Překlady pevných hlášek a popisků napříč okny; odstraněny zkušební texty ukazatelů výsledku obléhání a urážlivá chybová hláška.",
+    "Generátor překladů kontroluje všechny klientské .cpp a formátové argumenty; CP1250 zůstává zachováno."
+  ],
+  "localized_call_sites_by_automated_pass": 173,
+  "localized_files_by_automated_pass": 39,
+  "client_build": "MSVC x86 Release: passed",
+  "client_sha256": "c96b06d2e06ae1628bde4c7da6f038ae61bff9c82875dfee79ff4b06f8114845",
+  "client_build_sha256": "c96b06d2e06ae1628bde4c7da6f038ae61bff9c82875dfee79ff4b06f8114845",
+  "compiled_ui_sha256": "ee5ac7446e96c80fdc0e593a5c17af696a758dcab90bc7df8e896cac6226f390",
+  "compiled_ui_asset_changed": false,
+  "ui_audit": {
+    "frames": 318,
+    "nodes": 20949,
+    "buttons": 1930,
+    "sourceFiles": 280,
+    "commandFields": 838,
+    "uniqueCommands": 307,
+    "byteIdenticalRoundTrip": true,
+    "labelComparisons": [],
+    "mismatchedHitTests": [],
+    "untranslatedDisplayLiterals": []
+  },
+  "legacy_resource_command_review": {
+    "count": 95,
+    "note": "Static resource references without a matching registered command. Constructors/manual handlers replace some. This count does not mean 95 broken buttons; remaining paths require runtime review."
+  },
+  "native_checks": {
+    "quest_execution": "12 checks passed; actual handler with recording session.",
+    "quest_buttons": "Passed: one action per click, labels, next/close/navigation/reset, disabled/hidden buttons.",
+    "broader_popup_companion_harness": "Compiled; execution blocked by Windows code-integrity policy (WinError 4551). No runtime pass claimed.",
+    "baseline_harness": "Execution also blocked; no executable baseline reproduction claimed."
+  },
+  "graphical_check": "Not performed: user cancelled the Windows launch prompt. Client is deployed; no further launch attempt made.",
+  "npc_probe": {
+    "npcs": 2755,
+    "quests": 6419,
+    "dialog_responses": 2755,
+    "quest_list_responses": 2755,
+    "natural_completion_ids": [
+      3070,
+      3071,
+      3072,
+      3073,
+      3075,
+      3084,
+      3085,
+      3086,
+      3139,
+      3140,
+      3141,
+      3142,
+      3143,
+      3144,
+      3146,
+      3147,
+      3152,
+      3156,
+      5676,
+      6270,
+      6280,
+      6915,
+      6916,
+      6917,
+      7837,
+      7977,
+      7978,
+      7981,
+      8141,
+      8425,
+      8426,
+      8442,
+      8443,
+      8921,
+      8923,
+      8925,
+      8927,
+      11232,
+      11259,
+      11300,
+      11327,
+      11356,
+      11612,
+      11613,
+      11614,
+      11615,
+      11616,
+      11617
+    ],
+    "accepted_but_not_completed_by_delivery_talk_probe": 147,
+    "failures": [],
+    "database_writes": 0,
+    "deployed_server_sha256": "12D09F8960118DED279A1F8AE9D89338E2582E4EC57CE20DA5DA7FDDC70076BC"
+  },
+  "npc_map_mismatches": [
+    {
+      "NpcId": 22424,
+      "QuestId": 4578,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22425,
+      "QuestId": 4579,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22426,
+      "QuestId": 4580,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22427,
+      "QuestId": 4581,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22428,
+      "QuestId": 4582,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22429,
+      "QuestId": 4583,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22430,
+      "QuestId": 4584,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22431,
+      "QuestId": 4585,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22432,
+      "QuestId": 4586,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    },
+    {
+      "NpcId": 22433,
+      "QuestId": 4587,
+      "ServerMap": 11,
+      "ClientMap": 12,
+      "BeforeResponse": false,
+      "CorrectedInMemoryResponse": true
+    }
+  ],
+  "npc_map_mismatches_applied": true,
+  "limits": [
+    "Static UI audit is not a graphical playthrough of every screen and feature.",
+    "The 147 other delivery/talk candidates need objectives not supplied by this probe; they are not classified as failed quests.",
+    "Other missing quest dependencies and unsupported rewards are retained in the separate NPC/quest static audit.",
+    "The ten NPC map mismatches were subsequently corrected by migration 039; see npc_map_resolution."
+  ],
+  "npc_map_resolution": {
+    "applied_utc": "2026-10-28T12:44:04.519940+00:00",
+    "report": "../npc-map-repair/report.html",
+    "migration": "039_npc_dialogue_maps.sql",
+    "npc_dialogue_identity_fixed": true
+  }
+}

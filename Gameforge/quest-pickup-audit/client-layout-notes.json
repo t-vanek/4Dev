@@ -1,0 +1,12 @@
+{
+  "additional_legacy_npc_tables_not_read_by_75_byte_decoder": [
+    "TNPC00000101.tcd",
+    "TNPC00002202.tcd",
+    "TNPC03850000.tcd",
+    "TNPC03860000.tcd",
+    "TNPC03870000.tcd",
+    "TNPC03880000.tcd",
+    "TNPC03890000.tcd",
+    "TNPC038a0000.tcd"
+  ]
+}

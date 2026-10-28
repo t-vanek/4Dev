@@ -1,0 +1,14 @@
+{
+  "checked_utc": "2026-10-27T21:28:31.931228+00:00",
+  "deployed_manifest_sha256": "196a04a871078b46a898f70c156a551f76d301f9e6d551aba55607f86f71f4bf",
+  "all_deployed_file_hashes_match": true,
+  "deployed_files_checked": 117,
+  "all_backup_file_hashes_match": true,
+  "repeat_import_summary": {
+    "changed_or_added_files": 0,
+    "chart_records_added": 0,
+    "indexed_resources_added": 0,
+    "auxiliary_files_added": 0,
+    "deferred": 9
+  }
+}

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4Story — doplnění obsahu z původního klienta</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;color:#17263c;background:#f5f7fb;max-width:1120px;margin:40px auto;padding:0 24px}
+h1{line-height:1.2}h2{margin-top:32px}a{color:#1458b4}table{border-collapse:collapse;width:100%;margin:18px 0;background:white}
+td,th{padding:9px 12px;border:1px solid #d9e1ee;text-align:left;vertical-align:top}th{background:#e8eef8}
+code{font-size:14px;overflow-wrap:anywhere}.notice{border-left:5px solid #ab7210;background:#fff7e5;padding:16px 20px}
+.ok{color:#1a6244;font-weight:650}.scroll{overflow:auto}summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<h1>Doplnění chybějícího obsahu Gameforge do klienta</h1>
+<p><strong>Aktualizace 28. 10. 2026:</strong> následně byla doplněna také otestovaná část serveru. <a href="../server-import/report.html">Aktuální serverový import, testy a zbývající mezery</a> · <a href="../server-import/research.html">Analýza dalších podkladů Gameforge</a>. Následující serverové počty popisují původní stav při tomto klientském importu.</p>
+<p class="ok">Nasazeno 27. 10. 2026 do <code>Game/</code>. Všech 117 výsledných souborů i jejich zálohy jsou ověřené pomocí SHA-256.</p>
+<p>Zdroj: <code>C:\Program Files (x86)\4Story</code>, vybraná místní Gameforge CZ instalace připnutá v <a href="../reference.json">referenčním manifestu</a>. Přesné číslo patche není potvrzené. Přidávají se chybějící ID; existující záznamy, překlady a přizpůsobené prostředky zůstávají zachované. Tento import sám nenahrazuje obsah již obsazených ID původními hodnotami.</p>
+<p>Celkem přibylo <strong>5102 záznamů</strong>, <strong>439 indexovaných prostředků</strong> a <strong>62 souborů map, modelů, animací a navigace</strong>. Dále bylo doplněno osm chybějících obrazových stránek a dvě původní stránky pod novými ID kvůli kolizi s upravenou grafikou.</p>
+<p><strong>Hlavní přírůstky:</strong> 39 předmětů, 149 monster, 2 553 questových záznamů, 48 dovedností a 21 dosud nepřítomných NPC ID. Rozmístění NPC přibylo 36; ID se mohou opakovat mezi mapami. Dále osm map, osm minimap, 54 regionů, deset portálů, 17 titulů, 683 textů a 1 214 náhledů questových odměn.</p>
+<div class="notice"><strong>Klientská definice sama neaktivuje obsah na serveru.</strong> Stav níže porovnává nově přidaná ID se serverovými tabulkami v okamžiku přípravy. Přítomné ID ještě nepotvrzuje správné chování. V tomto importu se serverová databáze neměnila.</div>
+<h2>Návaznost na server</h2>
+<table><thead><tr><th>Oblast</th><th>Nová klientská ID</th><th>ID již na serveru</th><th>ID chybějící na serveru</th></tr></thead><tbody>
+<tr><td>Předměty</td><td>39</td><td>0</td><td>39</td></tr>
+<tr><td>Monstra</td><td>149</td><td>15</td><td>134</td></tr>
+<tr><td>Questy</td><td>2553</td><td>69</td><td>2484</td></tr>
+<tr><td>NPC</td><td>21</td><td>9</td><td>12</td></tr>
+<tr><td>Dovednosti</td><td>48</td><td>0</td><td>48</td></tr>
+</tbody></table>
+<p>Chybějící serverová ID jsou přesně vypsaná v <code>server_coverage</code> v manifestu. Pro hratelnost je potřeba doplnit ověřené šablony, cíle a návaznosti questů, spawny, AI a další serverové údaje. Klient neobsahuje kompletní původní serverovou databázi. Odměny, šance na drop ani jiné neznámé hodnoty nebyly odhadnuté.</p>
+<h2>Kompatibilita a ověření</h2>
+<ul>
+<li>Nový <code>TClient.exe</code> byl sestaven a nasazen spolu s daty. Čte původní šestislotové i nové devítislotové náhledy questových odměn. Změna se týká náhledů; síťový formát předmětů se nemění.</li>
+<li>Dovednosti byly převedeny podle pojmenovaných polí obou verzí klienta. Přebytečná metadata questů jsou zachovaná v manifestu; samotné přidání textového záznamu není implementací serverového questového grafu.</li>
+<li>Dalších 683 textových ID je dostupných i nad původním rozsahem klientského výčtu. Dosavadní vlastní texty si zachovávají přednost.</li>
+<li>Kontrola přečetla všech 56 546 záznamů v podporovaných tabulkách a ověřila zachování starých záznamů i pokrytí původních ID. Staré náhledy odměn byly vratně rozšířeny třemi nulovými sloty.</li>
+<li>Kontrola prostředků ověřila uložené i rozbalené otisky a prošla 11 424 uzlů návazností nových prostředků a modelů: žádný chybějící odkaz, žádné nově přidané monstrum bez modelu.</li>
+<li>Všech 473 dosavadních obrazových stránek zůstalo zachováno. Výsledný klient má 483 stránek. Aliasy 13 → 489 a 243 → 490 používají jen nové obrázky; původní pixely i ostatní pole zůstaly stejné.</li>
+<li>Opakovaný import proti nasazenému klientu: nula nových záznamů, prostředků a souborů.</li>
+<li>Test spuštění a průchodu hrou nebyl proveden. Existující manifest vyžaduje správce a Windows automatické spuštění odmítl (<code>ShellExecuteW 5</code>). Binární kontroly nenahrazují vizuální kontrolu ve hře.</li>
+</ul>
+<h2>Co nebylo přeneseno</h2>
+<ul>
+<li>Původní instalace sama neobsahuje zvukové soubory <code>1_285964680.TMD</code>, <code>1_285964681.TMD</code> a <code>1_285964682.TMD</code>. Nebyly vytvořeny neplatné indexové odkazy.</li>
+<li><code>TAOSMacroChat.tcd</code>, <code>TAosoption.tcd</code>, <code>TFinish.tcd</code>, <code>TOperator.tcd</code> a <code>TPetComment.tcd</code> nemají ověřený převod a podporu současného klienta. Jejich zkopírování by funkce nezprovoznilo.</li>
+<li><code>TNPC00000004.tcd</code> je už ve zdroji prázdný. Ostatní nepodporované doprovodné formáty nebyly bez ověření přepisovány.</li>
+</ul>
+<h2>Tabulky s doplněnými záznamy</h2>
+<p>Sloupec „Zdroj“ udává počet záznamů v místní Gameforge instalaci. Výsledek může být větší, protože dosavadní vlastní záznamy zůstaly zachované.</p>
+<div class="scroll"><table><thead><tr><th>Soubor</th><th>Před</th><th>Zdroj</th><th>Přidáno</th><th>Po</th></tr></thead><tbody>
+<tr><td><code>Tcd/TCharTitle.tcd</code></td><td>138</td><td>112</td><td>17</td><td>155</td></tr>
+<tr><td><code>Tcd/TItem.tcd</code></td><td>8179</td><td>7766</td><td>39</td><td>8218</td></tr>
+<tr><td><code>Tcd/TMon.tcd</code></td><td>3648</td><td>3621</td><td>149</td><td>3797</td></tr>
+<tr><td><code>Tcd/TNPC00000000.tcd</code></td><td>15</td><td>19</td><td>5</td><td>20</td></tr>
+<tr><td><code>Tcd/TNPC00000003.tcd</code></td><td>314</td><td>306</td><td>5</td><td>319</td></tr>
+<tr><td><code>Tcd/TNPC00670000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC00680000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC00690000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC006a0000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC006b0000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC006c0000.tcd</code></td><td>0</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td><code>Tcd/TNPC006d0000.tcd</code></td><td>0</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><td><code>Tcd/TNPC006e0000.tcd</code></td><td>0</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><td><code>Tcd/TNPC08980000.tcd</code></td><td>0</td><td>6</td><td>6</td><td>6</td></tr>
+<tr><td><code>Tcd/TNPCINFO.tcd</code></td><td>2772</td><td>2782</td><td>12</td><td>2784</td></tr>
+<tr><td><code>Tcd/TPortal.tcd</code></td><td>552</td><td>560</td><td>10</td><td>562</td></tr>
+<tr><td><code>Tcd/TPortalRegion.tcd</code></td><td>75</td><td>77</td><td>2</td><td>77</td></tr>
+<tr><td><code>Tcd/TRegion.tcd</code></td><td>839</td><td>893</td><td>54</td><td>893</td></tr>
+<tr><td><code>Tcd/TString.tcd</code></td><td>2048</td><td>2730</td><td>683</td><td>2731</td></tr>
+<tr><td><code>Tcd/TSkill.tcd</code></td><td>765</td><td>813</td><td>48</td><td>813</td></tr>
+<tr><td><code>Tcd/TItemVisual.tcd</code></td><td>3689</td><td>3326</td><td>2</td><td>3691</td></tr>
+<tr><td><code>Tcd/TNPCTemp.tcd</code></td><td>1353</td><td>1357</td><td>4</td><td>1357</td></tr>
+<tr><td><code>Tcd/TMAP.tcd</code></td><td>101</td><td>109</td><td>8</td><td>109</td></tr>
+<tr><td><code>Tcd/TMinimap.tcd</code></td><td>90</td><td>98</td><td>8</td><td>98</td></tr>
+<tr><td><code>Tcd/TDest.tcd</code></td><td>1235</td><td>1267</td><td>43</td><td>1278</td></tr>
+<tr><td><code>Tcd/TFog.tcd</code></td><td>227</td><td>235</td><td>8</td><td>235</td></tr>
+<tr><td><code>Tcd/TLIGHT.tcd</code></td><td>786</td><td>834</td><td>48</td><td>834</td></tr>
+<tr><td><code>Tcd/TSky.tcd</code></td><td>253</td><td>269</td><td>16</td><td>269</td></tr>
+<tr><td><code>Tcd/TUnitLink.tcd</code></td><td>171</td><td>185</td><td>16</td><td>187</td></tr>
+<tr><td><code>Tcd/TItemGrade.tcd</code></td><td>25</td><td>29</td><td>4</td><td>29</td></tr>
+<tr><td><code>Tcd/TSkillFunction.tcd</code></td><td>1170</td><td>1253</td><td>83</td><td>1253</td></tr>
+<tr><td><code>TQuest.mpq</code></td><td>6407</td><td>8918</td><td>2553</td><td>8960</td></tr>
+<tr><td><code>Tcd/TInfo.tcd</code></td><td>7490</td><td>7478</td><td>45</td><td>7535</td></tr>
+<tr><td><code>Tcd/TQuestItem.tcd</code></td><td>839</td><td>2009</td><td>1214</td><td>2053</td></tr>
+</tbody></table></div>
+<details><summary>Indexované prostředky</summary><table><thead><tr><th>Katalog</th><th>Přidáno</th></tr></thead><tbody>
+<tr><td><code>Index/0_TClientS.IDX</code></td><td>26</td></tr>
+<tr><td><code>Index/1_TClientS.IDX</code></td><td>26</td></tr>
+<tr><td><code>Index/2_TClientS.IDX</code></td><td>26</td></tr>
+<tr><td><code>Index/TClientA.IDX</code></td><td>163</td></tr>
+<tr><td><code>Index/TClientI.IDX</code></td><td>4</td></tr>
+<tr><td><code>Index/TClientM.IDX</code></td><td>23</td></tr>
+<tr><td><code>Index/TClientO.IDX</code></td><td>28</td></tr>
+<tr><td><code>Index/TClientP.IDX</code></td><td>3</td></tr>
+<tr><td><code>Index/TClientX.IDX</code></td><td>140</td></tr>
+</tbody></table></details>
+<details><summary>Všech 117 nasazených souborů</summary><div class="scroll"><table><thead><tr><th>Soubor</th><th>Druh</th><th>Bajtů</th></tr></thead><tbody>
+<tr><td><code>Tcd/TCharTitle.tcd</code></td><td>chart</td><td>21293</td></tr>
+<tr><td><code>Tcd/TItem.tcd</code></td><td>chart</td><td>1066827</td></tr>
+<tr><td><code>Tcd/TMon.tcd</code></td><td>chart</td><td>555002</td></tr>
+<tr><td><code>Tcd/TNPC00000000.tcd</code></td><td>chart</td><td>2009</td></tr>
+<tr><td><code>Tcd/TNPC00000003.tcd</code></td><td>chart</td><td>33007</td></tr>
+<tr><td><code>Tcd/TNPC00670000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC00680000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC00690000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC006a0000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC006b0000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC006c0000.tcd</code></td><td>chart</td><td>205</td></tr>
+<tr><td><code>Tcd/TNPC006d0000.tcd</code></td><td>chart</td><td>419</td></tr>
+<tr><td><code>Tcd/TNPC006e0000.tcd</code></td><td>chart</td><td>419</td></tr>
+<tr><td><code>Tcd/TNPC08980000.tcd</code></td><td>chart</td><td>641</td></tr>
+<tr><td><code>Tcd/TNPCINFO.tcd</code></td><td>chart</td><td>112219</td></tr>
+<tr><td><code>Tcd/TPortal.tcd</code></td><td>chart</td><td>18983</td></tr>
+<tr><td><code>Tcd/TPortalRegion.tcd</code></td><td>chart</td><td>1414</td></tr>
+<tr><td><code>Tcd/TRegion.tcd</code></td><td>chart</td><td>68192</td></tr>
+<tr><td><code>Tcd/TString.tcd</code></td><td>chart</td><td>89346</td></tr>
+<tr><td><code>Tcd/TSkill.tcd</code></td><td>chart</td><td>149318</td></tr>
+<tr><td><code>Tcd/TItemVisual.tcd</code></td><td>chart</td><td>232535</td></tr>
+<tr><td><code>Tcd/TNPCTemp.tcd</code></td><td>chart</td><td>73280</td></tr>
+<tr><td><code>Tcd/TMAP.tcd</code></td><td>chart</td><td>5016</td></tr>
+<tr><td><code>Tcd/TMinimap.tcd</code></td><td>chart</td><td>2648</td></tr>
+<tr><td><code>Tcd/TDest.tcd</code></td><td>chart</td><td>26840</td></tr>
+<tr><td><code>Tcd/TFog.tcd</code></td><td>chart</td><td>8697</td></tr>
+<tr><td><code>Tcd/TLIGHT.tcd</code></td><td>chart</td><td>33362</td></tr>
+<tr><td><code>Tcd/TSky.tcd</code></td><td>chart</td><td>8610</td></tr>
+<tr><td><code>Tcd/TUnitLink.tcd</code></td><td>chart</td><td>1872</td></tr>
+<tr><td><code>Tcd/TItemGrade.tcd</code></td><td>chart</td><td>60</td></tr>
+<tr><td><code>Tcd/TSkillFunction.tcd</code></td><td>chart</td><td>13785</td></tr>
+<tr><td><code>TQuest.mpq</code></td><td>quest</td><td>3244148</td></tr>
+<tr><td><code>Tcd/TInfo.tcd</code></td><td>chart</td><td>5537043</td></tr>
+<tr><td><code>Tcd/TQuestItem.tcd</code></td><td>quest reward previews</td><td>71857</td></tr>
+<tr><td><code>Data/Skin/GameforgeOriginal_0_TClientS.TTX</code></td><td>resource pack</td><td>219965</td></tr>
+<tr><td><code>Index/0_TClientS.IDX</code></td><td>index</td><td>121203</td></tr>
+<tr><td><code>Data/Skin/GameforgeOriginal_1_TClientS.TTX</code></td><td>resource pack</td><td>532726</td></tr>
+<tr><td><code>Index/1_TClientS.IDX</code></td><td>index</td><td>121203</td></tr>
+<tr><td><code>Data/Skin/GameforgeOriginal_2_TClientS.TTX</code></td><td>resource pack</td><td>1681194</td></tr>
+<tr><td><code>Index/2_TClientS.IDX</code></td><td>index</td><td>121203</td></tr>
+<tr><td><code>Data/Action/GameforgeOriginal_TClientA.TAC</code></td><td>resource pack</td><td>7762360</td></tr>
+<tr><td><code>Index/TClientA.IDX</code></td><td>index</td><td>124939</td></tr>
+<tr><td><code>Data/Mesh/GameforgeOriginal_TClientM.TMH</code></td><td>resource pack</td><td>2331103</td></tr>
+<tr><td><code>Index/TClientM.IDX</code></td><td>index</td><td>112286</td></tr>
+<tr><td><code>Data/OBJ/GameforgeOriginal_TClientO.TOB</code></td><td>resource pack</td><td>38619</td></tr>
+<tr><td><code>Index/TClientO.IDX</code></td><td>index</td><td>72081</td></tr>
+<tr><td><code>Data/MAP/GameforgeOriginal_TClientP.TMA</code></td><td>resource pack</td><td>803</td></tr>
+<tr><td><code>Index/TClientP.IDX</code></td><td>index</td><td>624</td></tr>
+<tr><td><code>Data/SFX/GameforgeOriginal_TClientX.TFX</code></td><td>resource pack</td><td>11582</td></tr>
+<tr><td><code>Index/TClientX.IDX</code></td><td>index</td><td>163182</td></tr>
+<tr><td><code>Data/Img/GameforgeOriginal_TClientI.TIM</code></td><td>resource pack with isolated original image pages</td><td>697</td></tr>
+<tr><td><code>Index/TClientI.IDX</code></td><td>index</td><td>72614</td></tr>
+<tr><td><code>Data/Img/GameforgeOriginal.TIS</code></td><td>original image pages</td><td>615037</td></tr>
+<tr><td><code>Index/TClientList.LST</code></td><td>image page catalogue</td><td>137</td></tr>
+<tr><td><code>Data/Action/MON114.TAC</code></td><td>absent original asset/navigation file</td><td>453864</td></tr>
+<tr><td><code>Data/Action/MON115.TAC</code></td><td>absent original asset/navigation file</td><td>965130</td></tr>
+<tr><td><code>Data/Action/MON116.TAC</code></td><td>absent original asset/navigation file</td><td>851974</td></tr>
+<tr><td><code>Data/Action/MON117.TAC</code></td><td>absent original asset/navigation file</td><td>778255</td></tr>
+<tr><td><code>Data/Action/MON118.TAC</code></td><td>absent original asset/navigation file</td><td>1489585</td></tr>
+<tr><td><code>Data/Action/MON119.TAC</code></td><td>absent original asset/navigation file</td><td>2354997</td></tr>
+<tr><td><code>Data/MAP/EM999231772_0.tmu</code></td><td>absent original asset/navigation file</td><td>5975332</td></tr>
+<tr><td><code>Data/MAP/EM999231773_0.tmu</code></td><td>absent original asset/navigation file</td><td>5710266</td></tr>
+<tr><td><code>Data/MAP/EM999231774_0.tmu</code></td><td>absent original asset/navigation file</td><td>3660264</td></tr>
+<tr><td><code>Data/Mesh/MON107.TMH</code></td><td>absent original asset/navigation file</td><td>589836</td></tr>
+<tr><td><code>Data/Mesh/MON108.TMH</code></td><td>absent original asset/navigation file</td><td>151367</td></tr>
+<tr><td><code>Data/Mesh/MON109.TMH</code></td><td>absent original asset/navigation file</td><td>354406</td></tr>
+<tr><td><code>Data/Mesh/MON110.TMH</code></td><td>absent original asset/navigation file</td><td>237602</td></tr>
+<tr><td><code>Data/Mesh/MON111.TMH</code></td><td>absent original asset/navigation file</td><td>370620</td></tr>
+<tr><td><code>Data/Mesh/MON112.TMH</code></td><td>absent original asset/navigation file</td><td>548452</td></tr>
+<tr><td><code>Data/Mesh/MON113.TMH</code></td><td>absent original asset/navigation file</td><td>33828</td></tr>
+<tr><td><code>Node/TNODE00650000.pnd</code></td><td>absent original asset/navigation file</td><td>148586</td></tr>
+<tr><td><code>Node/TNODE00660000.pnd</code></td><td>absent original asset/navigation file</td><td>148586</td></tr>
+<tr><td><code>Node/TNODE00670000.pnd</code></td><td>absent original asset/navigation file</td><td>3004110</td></tr>
+<tr><td><code>Node/TNODE00680000.pnd</code></td><td>absent original asset/navigation file</td><td>3004110</td></tr>
+<tr><td><code>Node/TNODE00690000.pnd</code></td><td>absent original asset/navigation file</td><td>5200352</td></tr>
+<tr><td><code>Node/TNODE006A0000.pnd</code></td><td>absent original asset/navigation file</td><td>5200352</td></tr>
+<tr><td><code>Node/TNODE006B0000.pnd</code></td><td>absent original asset/navigation file</td><td>140032</td></tr>
+<tr><td><code>Node/TNODE006C0000.pnd</code></td><td>absent original asset/navigation file</td><td>140032</td></tr>
+<tr><td><code>Node/TNODE006D0000.pnd</code></td><td>absent original asset/navigation file</td><td>148586</td></tr>
+<tr><td><code>Node/TNODE006E0000.pnd</code></td><td>absent original asset/navigation file</td><td>148586</td></tr>
+<tr><td><code>Node/TNODE025A0000.pnd</code></td><td>absent original asset/navigation file</td><td>7368</td></tr>
+<tr><td><code>Node/TNODE025B0000.pnd</code></td><td>absent original asset/navigation file</td><td>7368</td></tr>
+<tr><td><code>Node/TNODE025C0000.pnd</code></td><td>absent original asset/navigation file</td><td>7368</td></tr>
+<tr><td><code>Node/TNODE025D0000.pnd</code></td><td>absent original asset/navigation file</td><td>7368</td></tr>
+<tr><td><code>Node/TNODE03250000.pnd</code></td><td>absent original asset/navigation file</td><td>330866</td></tr>
+<tr><td><code>Node/TNODE044C0000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE044D0000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE044E0000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE044F0000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE04500000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE04510000.pnd</code></td><td>absent original asset/navigation file</td><td>704</td></tr>
+<tr><td><code>Node/TNODE05DE0000.pnd</code></td><td>absent original asset/navigation file</td><td>86766</td></tr>
+<tr><td><code>Node/TNODE05DF0000.pnd</code></td><td>absent original asset/navigation file</td><td>129234</td></tr>
+<tr><td><code>Path/TFLAG00650000.tpf</code></td><td>absent original asset/navigation file</td><td>8716</td></tr>
+<tr><td><code>Path/TFLAG00660000.tpf</code></td><td>absent original asset/navigation file</td><td>8716</td></tr>
+<tr><td><code>Path/TFLAG00670000.tpf</code></td><td>absent original asset/navigation file</td><td>176188</td></tr>
+<tr><td><code>Path/TFLAG00680000.tpf</code></td><td>absent original asset/navigation file</td><td>176188</td></tr>
+<tr><td><code>Path/TFLAG00690000.tpf</code></td><td>absent original asset/navigation file</td><td>146468</td></tr>
+<tr><td><code>Path/TFLAG006a0000.tpf</code></td><td>absent original asset/navigation file</td><td>146468</td></tr>
+<tr><td><code>Path/TFLAG006b0000.tpf</code></td><td>absent original asset/navigation file</td><td>10968</td></tr>
+<tr><td><code>Path/TFLAG006c0000.tpf</code></td><td>absent original asset/navigation file</td><td>10968</td></tr>
+<tr><td><code>Path/TFLAG006d0000.tpf</code></td><td>absent original asset/navigation file</td><td>8716</td></tr>
+<tr><td><code>Path/TFLAG006e0000.tpf</code></td><td>absent original asset/navigation file</td><td>8716</td></tr>
+<tr><td><code>Path/TFLAG02590000.tpf</code></td><td>absent original asset/navigation file</td><td>2880</td></tr>
+<tr><td><code>Path/TFLAG025a0000.tpf</code></td><td>absent original asset/navigation file</td><td>2880</td></tr>
+<tr><td><code>Path/TFLAG025b0000.tpf</code></td><td>absent original asset/navigation file</td><td>2880</td></tr>
+<tr><td><code>Path/TFLAG025c0000.tpf</code></td><td>absent original asset/navigation file</td><td>2880</td></tr>
+<tr><td><code>Path/TFLAG025d0000.tpf</code></td><td>absent original asset/navigation file</td><td>2880</td></tr>
+<tr><td><code>Tmh/MH00670000.tmh</code></td><td>absent original asset/navigation file</td><td>1176236</td></tr>
+<tr><td><code>Tmh/MH00680000.tmh</code></td><td>absent original asset/navigation file</td><td>1176236</td></tr>
+<tr><td><code>Tmh/MH00690000.tmh</code></td><td>absent original asset/navigation file</td><td>373060</td></tr>
+<tr><td><code>Tmh/MH006a0000.tmh</code></td><td>absent original asset/navigation file</td><td>373060</td></tr>
+<tr><td><code>Tmh/MH006b0000.tmh</code></td><td>absent original asset/navigation file</td><td>516780</td></tr>
+<tr><td><code>Tmh/MH006c0000.tmh</code></td><td>absent original asset/navigation file</td><td>516780</td></tr>
+<tr><td><code>Tmh/MH006d0000.tmh</code></td><td>absent original asset/navigation file</td><td>1318428</td></tr>
+<tr><td><code>Tmh/MH006e0000.tmh</code></td><td>absent original asset/navigation file</td><td>1318428</td></tr>
+<tr><td><code>TClient.exe</code></td><td>rebuilt modern client: extended strings and 9-slot quest reward previews</td><td>8310784</td></tr>
+</tbody></table></div></details>
+<h2>Záloha a podklady</h2>
+<p>Záloha původních souborů: <code>C:\Users\tomas\source\repos\4Dev\.runtime\gameforge-client-import\backups\live_20261027_01</code>. <code>before-import.json</code> obsahuje očekávané původní otisky, <code>deployment.json</code> výsledek nasazení. Nově vytvořené soubory mají v manifestu <code>before_sha256: null</code>.</p>
+<p><a href="manifest.json">Manifest s přesnými ID, zdroji, převodními metadaty a otisky</a> · <a href="verification.json">Kontrola nasazených souborů, záloh a opakovatelnosti</a> · <a href="../normalization/coverage.html">Předchozí porovnání s veřejnou databází a opravy serveru</a></p>
+<p>SHA-256 nasazeného klienta: <code>604bd34c0a8c6853064b5727ed2f49b91d7742723260cd3dc7c63deca3eafa18</code>.</p>
+</body>
+</html>

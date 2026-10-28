@@ -1,0 +1,1991 @@
+{
+  "scope": "Remove only starter skills with original-client required level > 1; clear only their starter hotkey entries",
+  "source": {
+    "path": "Tcd/TSkill.tcd",
+    "sha256": "c2e4ad449b4c120994d36f871b3122050398387d3f65072581c6fa103c8f448a",
+    "bytes": 133030
+  },
+  "removed_starter_rows": [
+    {
+      "bClassID": 5,
+      "wSkillID": 602,
+      "bLevel": 0,
+      "name": "Exploze many",
+      "required_level": 4,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 101,
+      "bLevel": 0,
+      "name": "Protiúder",
+      "required_level": 8,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 102,
+      "bLevel": 0,
+      "name": "Umrtvení",
+      "required_level": 12,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 103,
+      "bLevel": 0,
+      "name": "Pouta",
+      "required_level": 26,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 104,
+      "bLevel": 0,
+      "name": "Zuřivý úder",
+      "required_level": 4,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 106,
+      "bLevel": 0,
+      "name": "Zranění",
+      "required_level": 8,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 108,
+      "bLevel": 0,
+      "name": "Nemilosrdný úder",
+      "required_level": 12,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 109,
+      "bLevel": 0,
+      "name": "Zoufalý útok",
+      "required_level": 22,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 110,
+      "bLevel": 0,
+      "name": "Rumaparkův hněv",
+      "required_level": 26,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 113,
+      "bLevel": 0,
+      "name": "Bojový řev",
+      "required_level": 18,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 114,
+      "bLevel": 0,
+      "name": "Tlaková vlna",
+      "required_level": 22,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 111,
+      "bLevel": 0,
+      "name": "Vzezření",
+      "required_level": 16,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 112,
+      "bLevel": 0,
+      "name": "Ničitel zbroje",
+      "required_level": 26,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 115,
+      "bLevel": 0,
+      "name": "Obranné zvolání",
+      "required_level": 8,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 116,
+      "bLevel": 0,
+      "name": "Vznešený zjev",
+      "required_level": 12,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 117,
+      "bLevel": 0,
+      "name": "Železná vůle",
+      "required_level": 22,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 118,
+      "bLevel": 0,
+      "name": "Přesný útok",
+      "required_level": 4,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 120,
+      "bLevel": 0,
+      "name": "Otevřená rána",
+      "required_level": 8,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 122,
+      "bLevel": 0,
+      "name": "Kombinace",
+      "required_level": 12,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 126,
+      "bLevel": 0,
+      "name": "Krvavý tanec",
+      "required_level": 22,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 127,
+      "bLevel": 0,
+      "name": "Pekelná otočka",
+      "required_level": 26,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 123,
+      "bLevel": 0,
+      "name": "Léčka",
+      "required_level": 16,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 124,
+      "bLevel": 0,
+      "name": "Blokace",
+      "required_level": 18,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 125,
+      "bLevel": 0,
+      "name": "Ničivý úder",
+      "required_level": 26,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 132,
+      "bLevel": 0,
+      "name": "Útočný postoj",
+      "required_level": 4,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 131,
+      "bLevel": 0,
+      "name": "Udržení obrany",
+      "required_level": 4,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 133,
+      "bLevel": 0,
+      "name": "Přísaha bojovníků",
+      "required_level": 12,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 0,
+      "wSkillID": 134,
+      "bLevel": 0,
+      "name": "Výdrž",
+      "required_level": 16,
+      "class_mask": 1
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 209,
+      "bLevel": 0,
+      "name": "Hod pískem",
+      "required_level": 4,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 211,
+      "bLevel": 0,
+      "name": "Otevřený řez",
+      "required_level": 12,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 213,
+      "bLevel": 0,
+      "name": "Podlé kopnutí",
+      "required_level": 16,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 214,
+      "bLevel": 0,
+      "name": "Náraz adrenalinu",
+      "required_level": 18,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 216,
+      "bLevel": 0,
+      "name": "Vysání krve",
+      "required_level": 26,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 201,
+      "bLevel": 0,
+      "name": "Nemilosrdný úder",
+      "required_level": 8,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 202,
+      "bLevel": 0,
+      "name": "Jedovatá aura",
+      "required_level": 18,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 205,
+      "bLevel": 0,
+      "name": "Otrava",
+      "required_level": 22,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 208,
+      "bLevel": 0,
+      "name": "Bouřlivý úder",
+      "required_level": 26,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 217,
+      "bLevel": 0,
+      "name": "Zlomyslná přesnost",
+      "required_level": 4,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 218,
+      "bLevel": 0,
+      "name": "Tmavá síla",
+      "required_level": 12,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 219,
+      "bLevel": 0,
+      "name": "Orlí zrak",
+      "required_level": 18,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 220,
+      "bLevel": 0,
+      "name": "Umlčení",
+      "required_level": 26,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 223,
+      "bLevel": 0,
+      "name": "Překvapivý útok",
+      "required_level": 8,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 225,
+      "bLevel": 0,
+      "name": "Zákeřný útok",
+      "required_level": 16,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 228,
+      "bLevel": 0,
+      "name": "Smrtící úder",
+      "required_level": 22,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 227,
+      "bLevel": 0,
+      "name": "Ukrutná čepel",
+      "required_level": 26,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 231,
+      "bLevel": 0,
+      "name": "Hrozivý pohled",
+      "required_level": 4,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 232,
+      "bLevel": 0,
+      "name": "Útěk",
+      "required_level": 12,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 233,
+      "bLevel": 0,
+      "name": "Pendatronův kabát",
+      "required_level": 16,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 237,
+      "bLevel": 0,
+      "name": "Oslepení",
+      "required_level": 16,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 238,
+      "bLevel": 0,
+      "name": "Strach",
+      "required_level": 22,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 234,
+      "bLevel": 0,
+      "name": "Padák",
+      "required_level": 4,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 235,
+      "bLevel": 0,
+      "name": "Stínový skok",
+      "required_level": 8,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 236,
+      "bLevel": 0,
+      "name": "Pendatronovo požehnání",
+      "required_level": 12,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 239,
+      "bLevel": 0,
+      "name": "Temná dohoda",
+      "required_level": 18,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 1,
+      "wSkillID": 240,
+      "bLevel": 0,
+      "name": "První pomoc",
+      "required_level": 22,
+      "class_mask": 2
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 302,
+      "bLevel": 0,
+      "name": "Otevřená rána",
+      "required_level": 8,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 308,
+      "bLevel": 0,
+      "name": "Bojový řev",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 309,
+      "bLevel": 0,
+      "name": "Bouřlivá čepel",
+      "required_level": 22,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 304,
+      "bLevel": 0,
+      "name": "Nemilosrdný úder",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 305,
+      "bLevel": 0,
+      "name": "Protiútok",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 306,
+      "bLevel": 0,
+      "name": "Finta",
+      "required_level": 18,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 307,
+      "bLevel": 0,
+      "name": "Ničivý úder",
+      "required_level": 26,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 310,
+      "bLevel": 0,
+      "name": "Kontrola těla",
+      "required_level": 8,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 311,
+      "bLevel": 0,
+      "name": "Požehnání větru",
+      "required_level": 16,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 312,
+      "bLevel": 0,
+      "name": "Zostřené smysly",
+      "required_level": 18,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 325,
+      "bLevel": 0,
+      "name": "Šíp blesku",
+      "required_level": 8,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 326,
+      "bLevel": 0,
+      "name": "Šíp chaosu",
+      "required_level": 22,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 315,
+      "bLevel": 0,
+      "name": "Otrávený šíp",
+      "required_level": 4,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 317,
+      "bLevel": 0,
+      "name": "Trvalá střelba",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 318,
+      "bLevel": 0,
+      "name": "Salva",
+      "required_level": 16,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 319,
+      "bLevel": 0,
+      "name": "Výbušný šíp",
+      "required_level": 18,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 321,
+      "bLevel": 0,
+      "name": "Smršť šípů",
+      "required_level": 22,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 324,
+      "bLevel": 0,
+      "name": "Manašípy",
+      "required_level": 26,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 327,
+      "bLevel": 0,
+      "name": "Vůle k lovu",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 328,
+      "bLevel": 0,
+      "name": "Ostrostřelec",
+      "required_level": 26,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 331,
+      "bLevel": 0,
+      "name": "Stíny duší",
+      "required_level": 4,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 335,
+      "bLevel": 0,
+      "name": "Pohyb rovný větru",
+      "required_level": 8,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 336,
+      "bLevel": 0,
+      "name": "Větrný štít",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 337,
+      "bLevel": 0,
+      "name": "Ochrana Lapiris",
+      "required_level": 22,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 332,
+      "bLevel": 0,
+      "name": "Útěk",
+      "required_level": 12,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 333,
+      "bLevel": 0,
+      "name": "Požehnání Lapiris",
+      "required_level": 16,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 2,
+      "wSkillID": 334,
+      "bLevel": 0,
+      "name": "Nápomocná ruka Lapiris",
+      "required_level": 22,
+      "class_mask": 4
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 402,
+      "bLevel": 0,
+      "name": "Ohnivá kletba",
+      "required_level": 4,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 409,
+      "bLevel": 0,
+      "name": "Poutající plamen",
+      "required_level": 8,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 410,
+      "bLevel": 0,
+      "name": "Pekelný plamen",
+      "required_level": 16,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 412,
+      "bLevel": 0,
+      "name": "Plamenný šíp",
+      "required_level": 26,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 404,
+      "bLevel": 0,
+      "name": "Nemilosrdný útok",
+      "required_level": 12,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 405,
+      "bLevel": 0,
+      "name": "Ohnivá koule",
+      "required_level": 18,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 407,
+      "bLevel": 0,
+      "name": "Lávový požár",
+      "required_level": 22,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 413,
+      "bLevel": 0,
+      "name": "Rozštěpující plamen",
+      "required_level": 8,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 414,
+      "bLevel": 0,
+      "name": "Oslabující plamen",
+      "required_level": 12,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 415,
+      "bLevel": 0,
+      "name": "Poutavý plamen",
+      "required_level": 16,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 416,
+      "bLevel": 0,
+      "name": "Ledová bouře",
+      "required_level": 4,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 418,
+      "bLevel": 0,
+      "name": "Poutající tornádo",
+      "required_level": 8,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 419,
+      "bLevel": 0,
+      "name": "Ledová aura",
+      "required_level": 16,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 422,
+      "bLevel": 0,
+      "name": "Mrazivé vězení",
+      "required_level": 18,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 424,
+      "bLevel": 0,
+      "name": "Ledový déšť",
+      "required_level": 22,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 423,
+      "bLevel": 0,
+      "name": "Mrazivý vítr",
+      "required_level": 22,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 428,
+      "bLevel": 0,
+      "name": "Zaměření",
+      "required_level": 8,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 429,
+      "bLevel": 0,
+      "name": "Koncentrace",
+      "required_level": 12,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 430,
+      "bLevel": 0,
+      "name": "Bleskový výpočet",
+      "required_level": 26,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 431,
+      "bLevel": 0,
+      "name": "Přeměna života",
+      "required_level": 4,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 432,
+      "bLevel": 0,
+      "name": "Blesková magie",
+      "required_level": 12,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 433,
+      "bLevel": 0,
+      "name": "Pauldronova síla",
+      "required_level": 16,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 434,
+      "bLevel": 0,
+      "name": "Vnitřní klid",
+      "required_level": 18,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 435,
+      "bLevel": 0,
+      "name": "Zesílení many",
+      "required_level": 22,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 436,
+      "bLevel": 0,
+      "name": "Nucená teleportace",
+      "required_level": 16,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 437,
+      "bLevel": 0,
+      "name": "Stínový skok",
+      "required_level": 18,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 3,
+      "wSkillID": 438,
+      "bLevel": 0,
+      "name": "Pauldronova nápomocná ruka",
+      "required_level": 26,
+      "class_mask": 8
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 505,
+      "bLevel": 0,
+      "name": "Boží ochrana",
+      "required_level": 4,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 506,
+      "bLevel": 0,
+      "name": "Jiskra života",
+      "required_level": 12,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 507,
+      "bLevel": 0,
+      "name": "Svatyně",
+      "required_level": 18,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 508,
+      "bLevel": 0,
+      "name": "Svaté požehnání",
+      "required_level": 26,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 501,
+      "bLevel": 0,
+      "name": "Boží odvaha",
+      "required_level": 8,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 502,
+      "bLevel": 0,
+      "name": "Dostatečná mana",
+      "required_level": 16,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 503,
+      "bLevel": 0,
+      "name": "Poklid",
+      "required_level": 18,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 504,
+      "bLevel": 0,
+      "name": "Odvaha",
+      "required_level": 22,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 509,
+      "bLevel": 0,
+      "name": "Uzdravení",
+      "required_level": 4,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 510,
+      "bLevel": 0,
+      "name": "Očištění",
+      "required_level": 8,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 511,
+      "bLevel": 0,
+      "name": "Skupinové léčení",
+      "required_level": 16,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 512,
+      "bLevel": 0,
+      "name": "Nápomocná ruka Rekamie",
+      "required_level": 22,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 513,
+      "bLevel": 0,
+      "name": "Znovuoživení",
+      "required_level": 26,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 516,
+      "bLevel": 0,
+      "name": "Temná kletba",
+      "required_level": 4,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 520,
+      "bLevel": 0,
+      "name": "Zatmění slunce",
+      "required_level": 8,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 521,
+      "bLevel": 0,
+      "name": "Temná bouře",
+      "required_level": 16,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 524,
+      "bLevel": 0,
+      "name": "Smrtící aura",
+      "required_level": 22,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 518,
+      "bLevel": 0,
+      "name": "Nemilosrdný útok",
+      "required_level": 12,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 519,
+      "bLevel": 0,
+      "name": "Mučivé stíny",
+      "required_level": 26,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 525,
+      "bLevel": 0,
+      "name": "Hypnóza",
+      "required_level": 8,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 526,
+      "bLevel": 0,
+      "name": "Pendatronova podoba",
+      "required_level": 12,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 528,
+      "bLevel": 0,
+      "name": "Proměna",
+      "required_level": 16,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 530,
+      "bLevel": 0,
+      "name": "Vysání many",
+      "required_level": 22,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 531,
+      "bLevel": 0,
+      "name": "Vysání krve",
+      "required_level": 26,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 532,
+      "bLevel": 0,
+      "name": "Manaoběť",
+      "required_level": 8,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 533,
+      "bLevel": 0,
+      "name": "Krvavá oběť",
+      "required_level": 12,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 534,
+      "bLevel": 0,
+      "name": "Posvátné obětování",
+      "required_level": 22,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 4,
+      "wSkillID": 536,
+      "bLevel": 0,
+      "name": "Důstojné utrpení",
+      "required_level": 26,
+      "class_mask": 16
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 613,
+      "bLevel": 0,
+      "name": "Pomatení",
+      "required_level": 8,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 614,
+      "bLevel": 0,
+      "name": "Provokace",
+      "required_level": 16,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 615,
+      "bLevel": 0,
+      "name": "Kletba rozbité zbraně",
+      "required_level": 18,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 616,
+      "bLevel": 0,
+      "name": "Blokace",
+      "required_level": 18,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 604,
+      "bLevel": 0,
+      "name": "Nemilosrdný útok",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 605,
+      "bLevel": 0,
+      "name": "Kletba zahálky",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 606,
+      "bLevel": 0,
+      "name": "Písečná bouře",
+      "required_level": 22,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 608,
+      "bLevel": 0,
+      "name": "Manabouře",
+      "required_level": 26,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 611,
+      "bLevel": 0,
+      "name": "Pomatený řev",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 612,
+      "bLevel": 0,
+      "name": "Endendrovo prokletí",
+      "required_level": 16,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 619,
+      "bLevel": 0,
+      "name": "Temný krystal",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 620,
+      "bLevel": 0,
+      "name": "Strážné oko",
+      "required_level": 14,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 623,
+      "bLevel": 0,
+      "name": "Temný rituál",
+      "required_level": 24,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 624,
+      "bLevel": 0,
+      "name": "Ochranný krystal",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 625,
+      "bLevel": 0,
+      "name": "Oko chaosu",
+      "required_level": 14,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 628,
+      "bLevel": 0,
+      "name": "Posvátný rituál",
+      "required_level": 24,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 629,
+      "bLevel": 0,
+      "name": "Výpomoc",
+      "required_level": 4,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 630,
+      "bLevel": 0,
+      "name": "Vroucí krev",
+      "required_level": 12,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 635,
+      "bLevel": 0,
+      "name": "Sjednocená duše",
+      "required_level": 16,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 636,
+      "bLevel": 0,
+      "name": "Transfuze",
+      "required_level": 18,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 637,
+      "bLevel": 0,
+      "name": "Odvrácení pozornosti",
+      "required_level": 22,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 640,
+      "bLevel": 0,
+      "name": "Oběť",
+      "required_level": 26,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 631,
+      "bLevel": 0,
+      "name": "Ochrana země",
+      "required_level": 16,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 632,
+      "bLevel": 0,
+      "name": "Zuřivost",
+      "required_level": 18,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 633,
+      "bLevel": 0,
+      "name": "Bič",
+      "required_level": 22,
+      "class_mask": 32
+    },
+    {
+      "bClassID": 5,
+      "wSkillID": 634,
+      "bLevel": 0,
+      "name": "Štěstí",
+      "required_level": 26,
+      "class_mask": 32
+    }
+  ],
+  "cleared_hotkeys": [
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 101
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 4,
+      "skill_id": 113
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 114
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 112
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 110
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 8,
+      "skill_id": 127
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 126
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 125
+    },
+    {
+      "class": 0,
+      "page": 0,
+      "slot": 11,
+      "skill_id": 117
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 102
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 3,
+      "skill_id": 103
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 116
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 5,
+      "skill_id": 115
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 133
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 134
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 10,
+      "skill_id": 131
+    },
+    {
+      "class": 0,
+      "page": 1,
+      "slot": 11,
+      "skill_id": 132
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 2,
+      "skill_id": 228
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 211
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 4,
+      "skill_id": 237
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 238
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 220
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 236
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 8,
+      "skill_id": 217
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 218
+    },
+    {
+      "class": 1,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 219
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 1,
+      "skill_id": 209
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 213
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 223
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 5,
+      "skill_id": 225
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 227
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 205
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 8,
+      "skill_id": 202
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 9,
+      "skill_id": 208
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 10,
+      "skill_id": 232
+    },
+    {
+      "class": 1,
+      "page": 1,
+      "slot": 11,
+      "skill_id": 233
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 317
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 4,
+      "skill_id": 319
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 325
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 328
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 324
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 8,
+      "skill_id": 310
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 311
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 327
+    },
+    {
+      "class": 2,
+      "page": 0,
+      "slot": 11,
+      "skill_id": 336
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 1,
+      "skill_id": 321
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 335
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 3,
+      "skill_id": 305
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 332
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 5,
+      "skill_id": 331
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 337
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 315
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 8,
+      "skill_id": 318
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 9,
+      "skill_id": 307
+    },
+    {
+      "class": 2,
+      "page": 1,
+      "slot": 10,
+      "skill_id": 333
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 2,
+      "skill_id": 410
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 422
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 4,
+      "skill_id": 418
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 409
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 437
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 405
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 429
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 434
+    },
+    {
+      "class": 3,
+      "page": 0,
+      "slot": 11,
+      "skill_id": 430
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 1,
+      "skill_id": 424
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 419
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 3,
+      "skill_id": 407
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 412
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 404
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 402
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 8,
+      "skill_id": 433
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 9,
+      "skill_id": 432
+    },
+    {
+      "class": 3,
+      "page": 1,
+      "slot": 11,
+      "skill_id": 438
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 2,
+      "skill_id": 509
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 511
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 4,
+      "skill_id": 533
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 534
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 510
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 507
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 8,
+      "skill_id": 508
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 536
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 532
+    },
+    {
+      "class": 4,
+      "page": 0,
+      "slot": 11,
+      "skill_id": 501
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 1,
+      "skill_id": 521
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 519
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 518
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 5,
+      "skill_id": 520
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 525
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 528
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 8,
+      "skill_id": 505
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 9,
+      "skill_id": 506
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 10,
+      "skill_id": 502
+    },
+    {
+      "class": 4,
+      "page": 1,
+      "slot": 11,
+      "skill_id": 503
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 3,
+      "skill_id": 604
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 5,
+      "skill_id": 624
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 6,
+      "skill_id": 619
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 7,
+      "skill_id": 620
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 8,
+      "skill_id": 625
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 9,
+      "skill_id": 637
+    },
+    {
+      "class": 5,
+      "page": 0,
+      "slot": 10,
+      "skill_id": 640
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 1,
+      "skill_id": 608
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 2,
+      "skill_id": 606
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 3,
+      "skill_id": 605
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 4,
+      "skill_id": 616
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 5,
+      "skill_id": 629
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 6,
+      "skill_id": 633
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 7,
+      "skill_id": 631
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 8,
+      "skill_id": 636
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 9,
+      "skill_id": 635
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 10,
+      "skill_id": 623
+    },
+    {
+      "class": 5,
+      "page": 1,
+      "slot": 11,
+      "skill_id": 628
+    }
+  ],
+  "remaining_per_class": {
+    "0": 15,
+    "1": 13,
+    "2": 14,
+    "3": 11,
+    "4": 10,
+    "5": 11
+  },
+  "unverified": "The complete official starter list is not published. Existing character skills/hotkeys are retained."
+}

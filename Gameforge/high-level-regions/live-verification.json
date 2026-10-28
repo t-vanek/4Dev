@@ -1,0 +1,81 @@
+{
+  "database": "TGame_gsp",
+  "passed": true,
+  "tables": [
+    {
+      "table": "TCHANNELCHART",
+      "old_rows": 361,
+      "added_rows": 2,
+      "final_rows": 363,
+      "expected_sha256": "7e02a225662fd7db0f5f95ac589a09db3096db91e0e6a2279749decb9e0e937f"
+    },
+    {
+      "table": "TLEVELCHART",
+      "old_rows": 126,
+      "added_rows": 15,
+      "final_rows": 141,
+      "expected_sha256": "6d21ca4093b7d1c27108c625da3195bd254c79aa8bb904eb0c89e5823dc140b5"
+    },
+    {
+      "table": "TNPCCHART",
+      "old_rows": 2751,
+      "added_rows": 2,
+      "final_rows": 2753,
+      "expected_sha256": "86ee95a146ce3fa9c138d165cd6394ba000ef7fff1b3003c0f680568104ad880"
+    },
+    {
+      "table": "TNPCITEMCHART",
+      "old_rows": 3408,
+      "added_rows": 26,
+      "final_rows": 3434,
+      "expected_sha256": "a68413a32baaf42abc66dd095345bbb1d5f8854ab374805bdd8875c34747c9e6"
+    },
+    {
+      "table": "TQCONDITIONCHART",
+      "old_rows": 5760,
+      "added_rows": 12,
+      "final_rows": 5772,
+      "expected_sha256": "5057270f325dab8d9a6310341301bf7554acc9ab0ffcce6257771fe68bc9e981"
+    },
+    {
+      "table": "TQREWARDCHART",
+      "old_rows": 4456,
+      "added_rows": 36,
+      "final_rows": 4492,
+      "expected_sha256": "9b7ebc65c46c844106a0c89ad61617057f21d8eb3769457c214a1d6d17ba20b4"
+    },
+    {
+      "table": "TQUESTCHART",
+      "old_rows": 6395,
+      "added_rows": 24,
+      "final_rows": 6419,
+      "expected_sha256": "7c28f431ae4e2646edca19b9110b60ba91972866a3874b293fcf87370f122672"
+    },
+    {
+      "table": "TQUESTTERMCHART",
+      "old_rows": 10985,
+      "added_rows": 24,
+      "final_rows": 11009,
+      "expected_sha256": "a1355353c173eeefa2ca38d6cda540d13f7772fa25425135842545b5bc59304f"
+    },
+    {
+      "table": "TUNITCHART",
+      "old_rows": 361,
+      "added_rows": 2,
+      "final_rows": 363,
+      "expected_sha256": "438d54b0a73bf90b23cfdf194c5b0733e549ba8885b60641a1475076da7f4e33"
+    }
+  ],
+  "plans": [
+    {
+      "path": "Gameforge\\progression-140\\plan.json",
+      "sha256": "9d466a5fae1d1d8705d02f7a0ed2c695a1e3cf19016b940ab88d2e24a3e6ac56"
+    },
+    {
+      "path": "Gameforge\\high-level-regions\\plan.json",
+      "sha256": "83d4f6073897689fcd37150f3d38e58775b8372b8d14956a24f98568d6f54c92"
+    }
+  ],
+  "changed_old_exp_thresholds": 27,
+  "saved_character_rows_written": 0
+}

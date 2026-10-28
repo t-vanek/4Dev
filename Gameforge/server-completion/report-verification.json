@@ -1,0 +1,11 @@
+{
+  "checked_utc": "2026-10-28T09:48:22.647938+00:00",
+  "passed": true,
+  "html_pages_checked": 66,
+  "local_links_checked": 59855,
+  "unresolved_local_links": 0,
+  "main_report_sha256": "7102268694f5c61f2424e55d47eac887a6218e4ecaff7bd573b65e89c7affc26",
+  "remaining_data_sha256": "16eb2bb2a300f3142406058c7f603662ad113fde45d4f6fa0034f3e6473e1452",
+  "deployment_sha256": "7561ae3473552cc3683ba259662ddd1092a0a40b12a4f8cd9bead21025700b56",
+  "client_definitions_already_match_import": true
+}

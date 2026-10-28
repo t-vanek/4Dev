@@ -1,0 +1,99 @@
+{
+  "State": "npc-maps-after",
+  "LegacyNpcId": false,
+  "DatabaseWrites": 0,
+  "Fixtures": "In-memory prerequisite quest only; NPC/quest templates loaded from actual SQL charts",
+  "MapServerSha256": "0DF782832D7D5E7D7B85ED1E9954B83314C999F408AD79FD397D95432720F75F",
+  "Results": [
+    {
+      "NpcId": 22424,
+      "QuestId": 4578,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22425,
+      "QuestId": 4579,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22426,
+      "QuestId": 4580,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22427,
+      "QuestId": 4581,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22428,
+      "QuestId": 4582,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22429,
+      "QuestId": 4583,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22430,
+      "QuestId": 4584,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22431,
+      "QuestId": 4585,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22432,
+      "QuestId": 4586,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    },
+    {
+      "NpcId": 22433,
+      "QuestId": 4587,
+      "LoadedMap": 12,
+      "Offered": true,
+      "Response": true,
+      "WrongMapResponse": false,
+      "MissingPrerequisiteResponse": true
+    }
+  ]
+}

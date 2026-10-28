@@ -1,0 +1,56 @@
+{
+  "database": "TGame_gsp",
+  "passed": true,
+  "checked_utc": "2026-10-28T06:39:48.482995+00:00",
+  "plan_sha256": "4126c2aad499cd64e4044efb5bec5f6d1f385057e09c10b519d0f67156806d14",
+  "tables": [
+    {
+      "table": "TITEMCHART",
+      "old_rows_preserved": 8142,
+      "added_rows": 8
+    },
+    {
+      "table": "TMONSTERCHART",
+      "old_rows_preserved": 3700,
+      "added_rows": 7
+    },
+    {
+      "table": "TNPCCHART",
+      "old_rows_preserved": 2623,
+      "added_rows": 128
+    },
+    {
+      "table": "TNPCITEMCHART",
+      "old_rows_preserved": 3384,
+      "added_rows": 24
+    },
+    {
+      "table": "TMAPCHART",
+      "old_rows_preserved": 301,
+      "added_rows": 9
+    },
+    {
+      "table": "TQUESTCHART",
+      "old_rows_preserved": 6261,
+      "added_rows": 134
+    },
+    {
+      "table": "TQUESTTERMCHART",
+      "old_rows_preserved": 10687,
+      "added_rows": 298
+    },
+    {
+      "table": "TQREWARDCHART",
+      "old_rows_preserved": 4322,
+      "added_rows": 134
+    },
+    {
+      "table": "TQCONDITIONCHART",
+      "old_rows_preserved": 5712,
+      "added_rows": 48
+    }
+  ],
+  "old_chart_rows_preserved": 45132,
+  "added_rows": 790,
+  "unicode_label_defaults_preserved": true
+}

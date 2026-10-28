@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-10-28T11:29:23.074982+00:00",
+  "migration": "038_gripan_training_registration.sql",
+  "source_sha256": "94c7a47b3d6f5f303e48105838b7138eed9dbec46443f643a23f92fef91e983a",
+  "deployed_map_sha256": "12D09F8960118DED279A1F8AE9D89338E2582E4EC57CE20DA5DA7FDDC70076BC",
+  "baseline_reproduced": true,
+  "completion_marker": true,
+  "dialog": true,
+  "quest_completion": true,
+  "certificate_consumed": true,
+  "correct_gold_reward_once": true,
+  "followup_7985_offered": true,
+  "migration_idempotent": true,
+  "conflicting_baseline_rejected": true,
+  "other_npcs_and_all_quest_charts_retained": true,
+  "probe_database_writes": 0,
+  "applied": [
+    {
+      "Id": "038_gripan_training_registration.sql",
+      "AppliedUtc": "2026-10-28T11:28:02.5352773"
+    }
+  ]
+}

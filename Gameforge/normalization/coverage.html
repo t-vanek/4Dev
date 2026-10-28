@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="cs">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4Story — ověřené opravy dat Gameforge</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;color:#17263c;background:#f5f7fb;max-width:1120px;margin:40px auto;padding:0 24px}h1{line-height:1.18;letter-spacing:-.025em}h2{margin-top:36px}a{color:#1458b4}table{border-collapse:collapse;width:100%;margin:18px 0;background:white}td,th{padding:10px 13px;border:1px solid #d9e1ee;text-align:left;vertical-align:top}th{background:#e8eef8}.card{padding:18px 22px;background:white;border:1px solid #d9e1ee;border-radius:10px;margin:18px 0}.notice{border-left:5px solid #ab7210;background:#fff7e5}.ok{color:#1a6244;font-weight:650}code{font-size:14px;overflow-wrap:anywhere}.muted{color:#52637a}li{margin:7px 0}
+</style>
+<h1>4Story: porovnání původních ID a ověřené opravy</h1>
+<p class="ok">Nasazeno 27. 10. 2026 • mapový server běží • migrace 027–033 jsou registrované</p>
+<p>Referencí je místní Gameforge CZ klient v <code>C:\Program Files (x86)\4Story</code> a zachycená <a href="https://cz.4story.gameforge.com/">oficiální veřejná databáze Gameforge</a>. Přesné číslo patche klienta ani webových dat není potvrzené. Zdrojové soubory, stránky a změny mají zaznamenané SHA-256.</p>
+<div class="card notice"><strong>Kompletní shoda serverové databáze s Gameforge zatím není ověřená.</strong> Níže je přesný rozsah nasazených oprav. Veřejné stránky a klient neobsahují všechny serverové údaje; chybějící hodnoty nebyly nahrazené odhadem.</div>
+<p><strong>Následný import klientského obsahu:</strong> do <code>Game/</code> byly doplněny chybějící předměty, monstra, questové záznamy, NPC, mapy a návazné prostředky. <a href="../client-import/report.html">Rozsah, ověření, záloha a zbývající serverové závislosti</a>. Níže uvedené počty a historické kontroly popisují stav této dřívější normalizace.</p>
+
+<h2>Shoda ID s veřejným přehledem</h2>
+<table>
+<tr><th>Oblast</th><th>ID v klientu</th><th>ID v přehledu webu</th><th>Nalezena v klientu</th><th>Rozdílné názvy</th></tr>
+<tr><td>Předměty</td><td>7 766</td><td>3 520</td><td>3 520</td><td>77</td></tr>
+<tr><td>Monstra</td><td>3 621</td><td>1 451</td><td>1 451</td><td>13</td></tr>
+<tr><td>NPC</td><td>2 782</td><td>1 299</td><td>1 297</td><td>6</td></tr>
+<tr><td>Questy</td><td>8 918</td><td>1 820</td><td>1 820</td><td>4</td></tr>
+</table>
+<p>Všechny zveřejněné levely předmětů a questů souhlasí s klientem. U 3 443 předmětů se shodným názvem souhlasí také porovnané přímo uložené údaje: útoky, fyzická a magická obrana, dosah, životnost a počet zušlechtění, pokud je web uvádí. U 77 odlišných názvů nebyly automaticky přebírané veřejné vlastnosti.</p>
+<p>Chybějí NPC <a href="https://cz.4story.gameforge.com/npc/details/19000/eilinora">19000 — Eilinora</a> a <a href="https://cz.4story.gameforge.com/npc/details/22773/vojk_valorinu">22773 — Voják Valoriánu</a>. Nepřítomnost potvrzuje i nezávislý soubor <code>TNPCINFO.tcd</code>, jehož množina 2 782 ID přesně odpovídá rozmístění NPC.</p>
+<p><a href="identity-audit.html">Úplný přehled rozdílů názvů a ID</a> · <a href="identity-audit.json">Strojově čitelná data všech ID</a></p>
+
+<h2>Další varianty monster</h2>
+<p>Veřejný přehled nezobrazuje samostatně všechny varianty stejného jména. Přímé dotazy podle původních klientských ID potvrdily dalších <strong>992 monster</strong>; dalších 30 požadavků zůstalo nepotvrzených a nebylo použito pro opravy.</p>
+<p><a href="https://cz.4story.gameforge.com/monster/details/283/kamenovrhac_kapaku">Kamenovrhač Kapaků 283</a> má level 11, zatímco <a href="https://cz.4story.gameforge.com/monster/details/412/kamenovrhac_kapaku">ID 412</a> má level 17. Skupinový rozsah z přehledu proto nestačí k určení jednoho ID. Opravy používají pouze jednoznačné hodnoty z detailu konkrétního ID.</p>
+
+<h2>Nasazené změny</h2>
+<table>
+<tr><th>Migrace</th><th>Rozsah</th><th>Podklady</th></tr>
+<tr><td>027</td><td>1 979 dalších dvojic level/HP monster, včetně 494 změn levelu. Spolu s předchozí migrací 026 je sledovaně opraveno 2 192 monster. Každá oprava používá vlastní kopii atributů; původní řádky i EXP zůstávají.</td><td><a href="monster-details-restoration.json">Hodnoty před/po, zdroje a odložené záznamy</a></td></tr>
+<tr><td>028</td><td>9 471 polí ze zvoleného klienta: vlastnosti a 6 883 názvů předmětů, tři mapování mountů a vybraná peněžní pole. Všech 9 002 dekódovaných řádků bojových atributů předmětů už souhlasilo.</td><td><a href="client-plan.json">Plán klientských polí</a></td></tr>
+<tr><td>029</td><td>545 misí: 1 083 hodnot zlata/XP a 143 polí levelu/hlavní linie. Kontrola vyžaduje shodný typ, rodiče, cíle a veřejného zadavatele. Chybějící nebo jinak použité questy se neaktivují odhadem.</td><td><a href="quest-plan.json">Odměny a nevyřešené questy</a></td></tr>
+<tr><td>030</td><td>Přesný zveřejněný sortiment 56 běžných obchodníků za zlato. Ověřena přítomnost předmětů v SQL i klientu a shoda cen s výslednými SQL šablonami.</td><td><a href="shop-plan.json">Sortiment a vyřazené nejednoznačné obchody</a></td></tr>
+<tr><td>031</td><td>2 051 jednoznačných přiřazení předmětů k Valoriánu, Derionu nebo Goru. Obecné označení „Válečná oblast“ nebylo převáděné na neověřený číselný kód.</td><td><a href="item-public-plan.json">Ověření vlastností a zemí</a></td></tr>
+<tr><td>032</td><td>SQL vynucuje neutrální start na levelu 1 i při staré volbě vyššího startu. Odstraněna uvítací pošta „4StoryPW“ a automatické mazání/nahrazování mounta na účtu.</td><td><a href="character-creation.json">Přesné změny procedury a kontrolní součty</a></td></tr>
+<tr><td>033</td><td>163 startovních přiřazení dovedností vyžadovalo podle původního klienta vyšší level než 1. Jsou odstraněna pouze z nových profilů, spolu s jejich 111 startovními zkratkami. Stávající naučené dovednosti a zkratky se nemění.</td><td><a href="starter-skills.json">Původní požadavky a odstraněná přiřazení</a></td></tr>
+</table>
+<p>V herním klientu jsou sladěná pouze odpovídající číselná pole v <code>TItem.tcd</code>, <code>TMount.tcd</code> a <code>TQuest.mpq</code>. Současné překlady a ostatní bajty byly zachované a zkontrolované. <code>TLevel.tcd</code> již odpovídal referenci a zůstal beze změny.</p>
+
+<h2>Co prošlo kontrolou</h2>
+<ul>
+<li>Nejprve izolovaná databáze, potom atomické nasazení sedmi migrací a opakované spuštění bez dalších změn hodnot.</li>
+<li>Úplné porovnání všech sloupců a řádků 16 dotčených nebo navazujících tabulek: 65 947 řádků odpovídá původnímu snímku plus výhradně plánovaným změnám.</li>
+<li>Všech 24 kombinací šesti tříd a čtyř starých startovních voleb: level 1, země 4, žádná custom pošta, žádná dovednost nad požadavkem levelu 1, zachovaný existující mount. Zkušební záznamy byly vrácené transakcí.</li>
+<li>Kontrolní součty ostatních 192 herních a 69 globálních tabulek zůstaly shodné. Mimo ně se záměrně změnil pouze migrační registr, který eviduje všech 33 migrací.</li>
+<li>Obě SQL databáze byly zálohované a ověřené pomocí <code>RESTORE VERIFYONLY</code>. Zálohované jsou i klientské soubory před nasazením.</li>
+<li>Mapový server načetl nové šablony, připojil se k World serveru a naslouchá na portech 5816 a 5817.</li>
+</ul>
+
+<h2>Co stále potřebuje ověřený zdroj</h2>
+<div class="card notice">
+<ul>
+<li><strong>EXP a další bojové údaje monster.</strong> Například Moray 243 už má level 11 a 311 HP, ale jeho původní neověřená odměna zůstává 0 XP. Opravené HP neprokazuje původní obtížnost ani kompletní postup hrou.</li>
+<li>Levelové/EXP křivky a související nezveřejněné tabulky, pravděpodobnosti dropů, sazby, respawn a další skripty světa.</li>
+<li>Chybějící nebo jinak použité questy a jejich kompletní návaznosti, podmínky, zvláštní odměny a NPC závislosti. Veřejný quest 5917 například uvádí jiný počet bronzových prutů než místní klient.</li>
+<li>Zbývající typy obchodů, rozmístění a interakce NPC. Kandidátní rozdíly jsou zachované v plánech; nebyla provedena hromadná změna pozic podle neověřeného významu instancí.</li>
+<li>Odvozený „Level schopností“ a výchozí cena na webu. Nejde vždy o přímo uložený atributový grade; rozdíl sám neprokazuje chybu klienta. Obě hodnoty jsou v reportu zachované pro další ověření.</li>
+<li>Celý původní startovní profil. Odstraněné dovednosti prokazatelně vyžadují vyšší level; přítomnost ostatních startovních předmětů a dovedností tím není kompletně certifikovaná.</li>
+</ul>
+</div>
+<p class="muted">Technické podklady: <a href="deployment.json">záznam nasazení a ověření</a> · <a href="../../Database/migrations/README.md">popis migrací</a>. Surová HTML, snímky před změnou, zálohy a kontrolní výstupy jsou lokálně v <code>.runtime/gameforge-normalization/</code>.</p>
+</html>

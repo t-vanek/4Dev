@@ -1,0 +1,6595 @@
+[
+  {
+    "quest": 640,
+    "parent": 0,
+    "npc": 22568,
+    "npc_type": 7,
+    "item": 9249,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Krizové ohnisko Ardir"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5553,
+        "dwQuestID": 640,
+        "bConditionType": 15,
+        "dwConditionID": 4822,
+        "bCount": 1
+      },
+      {
+        "dwID": 5554,
+        "dwQuestID": 640,
+        "bConditionType": 13,
+        "dwConditionID": 9249,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 833,
+    "parent": 0,
+    "npc": 22583,
+    "npc_type": 7,
+    "item": 9284,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Záhadný muž"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5732,
+        "dwQuestID": 833,
+        "bConditionType": 15,
+        "dwConditionID": 4906,
+        "bCount": 0
+      },
+      {
+        "dwID": 5733,
+        "dwQuestID": 833,
+        "bConditionType": 13,
+        "dwConditionID": 9284,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 877,
+    "parent": 0,
+    "npc": 22704,
+    "npc_type": 7,
+    "item": 0,
+    "category": "placeholder",
+    "context_names": [],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [
+      0,
+      0
+    ],
+    "item_exists": false,
+    "conditions": [
+      {
+        "dwID": 6097,
+        "dwQuestID": 877,
+        "bConditionType": 15,
+        "dwConditionID": 0,
+        "bCount": 0
+      },
+      {
+        "dwID": 6098,
+        "dwQuestID": 877,
+        "bConditionType": 15,
+        "dwConditionID": 0,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 896,
+    "parent": 0,
+    "npc": 22704,
+    "npc_type": 7,
+    "item": 9121,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Bitva u Narwashi"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 6083,
+        "dwQuestID": 896,
+        "bConditionType": 15,
+        "dwConditionID": 4715,
+        "bCount": 1
+      },
+      {
+        "dwID": 6084,
+        "dwQuestID": 896,
+        "bConditionType": 13,
+        "dwConditionID": 9121,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1053,
+    "parent": 1051,
+    "npc": 20432,
+    "npc_type": 7,
+    "item": 9848,
+    "category": "disabled_parent",
+    "context_names": [
+      "Taška Nebeského vojska"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 581,
+        "dwQuestID": 1053,
+        "bConditionType": 3,
+        "dwConditionID": 1051,
+        "bCount": 0
+      },
+      {
+        "dwID": 1715,
+        "dwQuestID": 1053,
+        "bConditionType": 13,
+        "dwConditionID": 9848,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1097,
+    "parent": 1095,
+    "npc": 22232,
+    "npc_type": 7,
+    "item": 9873,
+    "category": "disabled_parent",
+    "context_names": [
+      "Srdce ženy, část 2"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 622,
+        "dwQuestID": 1097,
+        "bConditionType": 13,
+        "dwConditionID": 9873,
+        "bCount": 1
+      },
+      {
+        "dwID": 1788,
+        "dwQuestID": 1097,
+        "bConditionType": 3,
+        "dwConditionID": 1095,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1104,
+    "parent": 1095,
+    "npc": 22233,
+    "npc_type": 7,
+    "item": 9874,
+    "category": "disabled_parent",
+    "context_names": [
+      "Srdce ženy, část 2"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 623,
+        "dwQuestID": 1104,
+        "bConditionType": 13,
+        "dwConditionID": 9874,
+        "bCount": 1
+      },
+      {
+        "dwID": 1789,
+        "dwQuestID": 1104,
+        "bConditionType": 3,
+        "dwConditionID": 1095,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1105,
+    "parent": 1095,
+    "npc": 22234,
+    "npc_type": 7,
+    "item": 9875,
+    "category": "disabled_parent",
+    "context_names": [
+      "Srdce ženy, část 2"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 624,
+        "dwQuestID": 1105,
+        "bConditionType": 13,
+        "dwConditionID": 9875,
+        "bCount": 1
+      },
+      {
+        "dwID": 1790,
+        "dwQuestID": 1105,
+        "bConditionType": 3,
+        "dwConditionID": 1095,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1106,
+    "parent": 1095,
+    "npc": 22235,
+    "npc_type": 7,
+    "item": 9876,
+    "category": "disabled_parent",
+    "context_names": [
+      "Srdce ženy, část 2"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 626,
+        "dwQuestID": 1106,
+        "bConditionType": 13,
+        "dwConditionID": 9876,
+        "bCount": 1
+      },
+      {
+        "dwID": 1791,
+        "dwQuestID": 1106,
+        "bConditionType": 3,
+        "dwConditionID": 1095,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1107,
+    "parent": 1095,
+    "npc": 22236,
+    "npc_type": 7,
+    "item": 9877,
+    "category": "disabled_parent",
+    "context_names": [
+      "Srdce ženy, část 2"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 627,
+        "dwQuestID": 1107,
+        "bConditionType": 13,
+        "dwConditionID": 9877,
+        "bCount": 1
+      },
+      {
+        "dwID": 1792,
+        "dwQuestID": 1107,
+        "bConditionType": 3,
+        "dwConditionID": 1095,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1123,
+    "parent": 1120,
+    "npc": 20013,
+    "npc_type": 7,
+    "item": 9834,
+    "category": "disabled_parent",
+    "context_names": [
+      "Velitel Kauptos"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 642,
+        "dwQuestID": 1123,
+        "bConditionType": 13,
+        "dwConditionID": 9834,
+        "bCount": 1
+      },
+      {
+        "dwID": 2737,
+        "dwQuestID": 1123,
+        "bConditionType": 3,
+        "dwConditionID": 1120,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1162,
+    "parent": 1160,
+    "npc": 20455,
+    "npc_type": 7,
+    "item": 9856,
+    "category": "disabled_parent",
+    "context_names": [
+      "Náčelník vesnice"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 674,
+        "dwQuestID": 1162,
+        "bConditionType": 3,
+        "dwConditionID": 1160,
+        "bCount": 0
+      },
+      {
+        "dwID": 675,
+        "dwQuestID": 1162,
+        "bConditionType": 13,
+        "dwConditionID": 9856,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1182,
+    "parent": 1180,
+    "npc": 20041,
+    "npc_type": 7,
+    "item": 9860,
+    "category": "disabled_parent",
+    "context_names": [
+      "Denberův meč"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 699,
+        "dwQuestID": 1182,
+        "bConditionType": 3,
+        "dwConditionID": 1180,
+        "bCount": 0
+      },
+      {
+        "dwID": 700,
+        "dwQuestID": 1182,
+        "bConditionType": 13,
+        "dwConditionID": 9860,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1234,
+    "parent": 1232,
+    "npc": 20404,
+    "npc_type": 7,
+    "item": 9865,
+    "category": "disabled_parent",
+    "context_names": [
+      "Marduk musí zemřít!"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 750,
+        "dwQuestID": 1234,
+        "bConditionType": 3,
+        "dwConditionID": 1232,
+        "bCount": 0
+      },
+      {
+        "dwID": 2749,
+        "dwQuestID": 1234,
+        "bConditionType": 13,
+        "dwConditionID": 9865,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1495,
+    "parent": 1493,
+    "npc": 20458,
+    "npc_type": 7,
+    "item": 15169,
+    "category": "disabled_parent",
+    "context_names": [
+      "Rozbušky a Ledová voda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 934,
+        "dwQuestID": 1495,
+        "bConditionType": 3,
+        "dwConditionID": 1493,
+        "bCount": 0
+      },
+      {
+        "dwID": 935,
+        "dwQuestID": 1495,
+        "bConditionType": 13,
+        "dwConditionID": 15169,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1496,
+    "parent": 1493,
+    "npc": 20485,
+    "npc_type": 7,
+    "item": 15170,
+    "category": "disabled_parent",
+    "context_names": [
+      "Rozbušky a Ledová voda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 936,
+        "dwQuestID": 1496,
+        "bConditionType": 3,
+        "dwConditionID": 1493,
+        "bCount": 0
+      },
+      {
+        "dwID": 937,
+        "dwQuestID": 1496,
+        "bConditionType": 13,
+        "dwConditionID": 15170,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 1516,
+    "parent": 1514,
+    "npc": 20433,
+    "npc_type": 7,
+    "item": 9848,
+    "category": "disabled_parent",
+    "context_names": [
+      "Hush peníze"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 924,
+        "dwQuestID": 1516,
+        "bConditionType": 3,
+        "dwConditionID": 1514,
+        "bCount": 0
+      },
+      {
+        "dwID": 925,
+        "dwQuestID": 1516,
+        "bConditionType": 13,
+        "dwConditionID": 9848,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2622,
+    "parent": 0,
+    "npc": 22404,
+    "npc_type": 7,
+    "item": 9042,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Skrz časoprostorovou trhlinu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4672,
+        "dwQuestID": 2622,
+        "bConditionType": 15,
+        "dwConditionID": 8133,
+        "bCount": 1
+      },
+      {
+        "dwID": 4673,
+        "dwQuestID": 2622,
+        "bConditionType": 13,
+        "dwConditionID": 9042,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2623,
+    "parent": 0,
+    "npc": 22405,
+    "npc_type": 7,
+    "item": 9831,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Solaphremův hrob"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4674,
+        "dwQuestID": 2623,
+        "bConditionType": 15,
+        "dwConditionID": 3442,
+        "bCount": 1
+      },
+      {
+        "dwID": 4675,
+        "dwQuestID": 2623,
+        "bConditionType": 13,
+        "dwConditionID": 9831,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2624,
+    "parent": 0,
+    "npc": 22406,
+    "npc_type": 7,
+    "item": 9004,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Zabránit návratu Parova meče"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4676,
+        "dwQuestID": 2624,
+        "bConditionType": 15,
+        "dwConditionID": 3941,
+        "bCount": 1
+      },
+      {
+        "dwID": 4677,
+        "dwQuestID": 2624,
+        "bConditionType": 13,
+        "dwConditionID": 9004,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2625,
+    "parent": 0,
+    "npc": 22407,
+    "npc_type": 7,
+    "item": 9042,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Časem a prostorem"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4678,
+        "dwQuestID": 2625,
+        "bConditionType": 15,
+        "dwConditionID": 8269,
+        "bCount": 1
+      },
+      {
+        "dwID": 4679,
+        "dwQuestID": 2625,
+        "bConditionType": 13,
+        "dwConditionID": 9042,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2626,
+    "parent": 0,
+    "npc": 22408,
+    "npc_type": 7,
+    "item": 9831,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Fialově zářící krystal"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4680,
+        "dwQuestID": 2626,
+        "bConditionType": 15,
+        "dwConditionID": 3555,
+        "bCount": 1
+      },
+      {
+        "dwID": 4681,
+        "dwQuestID": 2626,
+        "bConditionType": 13,
+        "dwConditionID": 9831,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2627,
+    "parent": 0,
+    "npc": 22409,
+    "npc_type": 7,
+    "item": 9004,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Časoprostorový portál u jezera Mobido"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4682,
+        "dwQuestID": 2627,
+        "bConditionType": 15,
+        "dwConditionID": 802,
+        "bCount": 1
+      },
+      {
+        "dwID": 4683,
+        "dwQuestID": 2627,
+        "bConditionType": 13,
+        "dwConditionID": 9004,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2914,
+    "parent": 0,
+    "npc": 22467,
+    "npc_type": 7,
+    "item": 9005,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Volání Nebana Mahy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5106,
+        "dwQuestID": 2914,
+        "bConditionType": 15,
+        "dwConditionID": 4054,
+        "bCount": 1
+      },
+      {
+        "dwID": 5107,
+        "dwQuestID": 2914,
+        "bConditionType": 13,
+        "dwConditionID": 9005,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 2970,
+    "parent": 0,
+    "npc": 22524,
+    "npc_type": 7,
+    "item": 9005,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Znovuzískání části duše"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5470,
+        "dwQuestID": 2970,
+        "bConditionType": 15,
+        "dwConditionID": 816,
+        "bCount": 1
+      },
+      {
+        "dwID": 5471,
+        "dwQuestID": 2970,
+        "bConditionType": 13,
+        "dwConditionID": 9005,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3250,
+    "parent": 3248,
+    "npc": 20053,
+    "npc_type": 7,
+    "item": 9838,
+    "category": "disabled_parent",
+    "context_names": [
+      "Poslední kus"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2483,
+        "dwQuestID": 3250,
+        "bConditionType": 3,
+        "dwConditionID": 3248,
+        "bCount": 0
+      },
+      {
+        "dwID": 2484,
+        "dwQuestID": 3250,
+        "bConditionType": 13,
+        "dwConditionID": 9838,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3269,
+    "parent": 3093,
+    "npc": 20123,
+    "npc_type": 7,
+    "item": 15174,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracený nástroj"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2616,
+        "dwQuestID": 3269,
+        "bConditionType": 3,
+        "dwConditionID": 3093,
+        "bCount": 0
+      },
+      {
+        "dwID": 2617,
+        "dwQuestID": 3269,
+        "bConditionType": 13,
+        "dwConditionID": 15174,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3278,
+    "parent": 3096,
+    "npc": 20511,
+    "npc_type": 7,
+    "item": 9110,
+    "category": "disabled_parent",
+    "context_names": [
+      "Luntar je silný!"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2517,
+        "dwQuestID": 3278,
+        "bConditionType": 3,
+        "dwConditionID": 3096,
+        "bCount": 0
+      },
+      {
+        "dwID": 2518,
+        "dwQuestID": 3278,
+        "bConditionType": 13,
+        "dwConditionID": 9110,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3286,
+    "parent": 3100,
+    "npc": 20430,
+    "npc_type": 7,
+    "item": 15177,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ukradená trhavina"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2529,
+        "dwQuestID": 3286,
+        "bConditionType": 13,
+        "dwConditionID": 15177,
+        "bCount": 1
+      },
+      {
+        "dwID": 2530,
+        "dwQuestID": 3286,
+        "bConditionType": 3,
+        "dwConditionID": 3100,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3296,
+    "parent": 3106,
+    "npc": 20490,
+    "npc_type": 7,
+    "item": 9039,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2537,
+        "dwQuestID": 3296,
+        "bConditionType": 3,
+        "dwConditionID": 3106,
+        "bCount": 0
+      },
+      {
+        "dwID": 2538,
+        "dwQuestID": 3296,
+        "bConditionType": 13,
+        "dwConditionID": 9039,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3297,
+    "parent": 3106,
+    "npc": 20491,
+    "npc_type": 7,
+    "item": 9044,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2539,
+        "dwQuestID": 3297,
+        "bConditionType": 3,
+        "dwConditionID": 3106,
+        "bCount": 0
+      },
+      {
+        "dwID": 2540,
+        "dwQuestID": 3297,
+        "bConditionType": 13,
+        "dwConditionID": 9044,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3298,
+    "parent": 3106,
+    "npc": 20492,
+    "npc_type": 7,
+    "item": 9045,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2541,
+        "dwQuestID": 3298,
+        "bConditionType": 3,
+        "dwConditionID": 3106,
+        "bCount": 0
+      },
+      {
+        "dwID": 2542,
+        "dwQuestID": 3298,
+        "bConditionType": 13,
+        "dwConditionID": 9045,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3299,
+    "parent": 3106,
+    "npc": 20493,
+    "npc_type": 7,
+    "item": 9046,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2543,
+        "dwQuestID": 3299,
+        "bConditionType": 3,
+        "dwConditionID": 3106,
+        "bCount": 0
+      },
+      {
+        "dwID": 2544,
+        "dwQuestID": 3299,
+        "bConditionType": 13,
+        "dwConditionID": 9046,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3300,
+    "parent": 3106,
+    "npc": 20494,
+    "npc_type": 7,
+    "item": 9047,
+    "category": "disabled_parent",
+    "context_names": [
+      "Ztracené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2545,
+        "dwQuestID": 3300,
+        "bConditionType": 3,
+        "dwConditionID": 3106,
+        "bCount": 0
+      },
+      {
+        "dwID": 2546,
+        "dwQuestID": 3300,
+        "bConditionType": 13,
+        "dwConditionID": 9047,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3304,
+    "parent": 3107,
+    "npc": 20516,
+    "npc_type": 7,
+    "item": 15180,
+    "category": "disabled_parent",
+    "context_names": [
+      "SEXU Wess"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2547,
+        "dwQuestID": 3304,
+        "bConditionType": 3,
+        "dwConditionID": 3107,
+        "bCount": 0
+      },
+      {
+        "dwID": 2548,
+        "dwQuestID": 3304,
+        "bConditionType": 13,
+        "dwConditionID": 15180,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3322,
+    "parent": 3117,
+    "npc": 20124,
+    "npc_type": 7,
+    "item": 15184,
+    "category": "disabled_parent",
+    "context_names": [
+      "Můj syn Cromin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2586,
+        "dwQuestID": 3322,
+        "bConditionType": 3,
+        "dwConditionID": 3117,
+        "bCount": 0
+      },
+      {
+        "dwID": 2587,
+        "dwQuestID": 3322,
+        "bConditionType": 13,
+        "dwConditionID": 15184,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3326,
+    "parent": 3120,
+    "npc": 22262,
+    "npc_type": 7,
+    "item": 15189,
+    "category": "disabled_parent",
+    "context_names": [
+      "Kdo má amulet?"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2588,
+        "dwQuestID": 3326,
+        "bConditionType": 3,
+        "dwConditionID": 3120,
+        "bCount": 0
+      },
+      {
+        "dwID": 2589,
+        "dwQuestID": 3326,
+        "bConditionType": 13,
+        "dwConditionID": 15189,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3332,
+    "parent": 3122,
+    "npc": 20431,
+    "npc_type": 7,
+    "item": 9335,
+    "category": "disabled_parent",
+    "context_names": [
+      "Pilarpovy pravé barvy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2598,
+        "dwQuestID": 3332,
+        "bConditionType": 3,
+        "dwConditionID": 3122,
+        "bCount": 0
+      },
+      {
+        "dwID": 2599,
+        "dwQuestID": 3332,
+        "bConditionType": 13,
+        "dwConditionID": 9335,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3358,
+    "parent": 3241,
+    "npc": 20456,
+    "npc_type": 7,
+    "item": 9988,
+    "category": "disabled_parent",
+    "context_names": [
+      "Géronimo"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2703,
+        "dwQuestID": 3358,
+        "bConditionType": 3,
+        "dwConditionID": 3241,
+        "bCount": 0
+      },
+      {
+        "dwID": 2704,
+        "dwQuestID": 3358,
+        "bConditionType": 13,
+        "dwConditionID": 9988,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3397,
+    "parent": 3395,
+    "npc": 22004,
+    "npc_type": 7,
+    "item": 9008,
+    "category": "active_mission",
+    "context_names": [
+      "Hledání stop"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2783,
+        "dwQuestID": 3397,
+        "bConditionType": 3,
+        "dwConditionID": 3395,
+        "bCount": 0
+      },
+      {
+        "dwID": 3187,
+        "dwQuestID": 3397,
+        "bConditionType": 13,
+        "dwConditionID": 9008,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3398,
+    "parent": 3395,
+    "npc": 22005,
+    "npc_type": 7,
+    "item": 9009,
+    "category": "active_mission",
+    "context_names": [
+      "Hledání stop"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2785,
+        "dwQuestID": 3398,
+        "bConditionType": 3,
+        "dwConditionID": 3395,
+        "bCount": 0
+      },
+      {
+        "dwID": 3188,
+        "dwQuestID": 3398,
+        "bConditionType": 13,
+        "dwConditionID": 9009,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3399,
+    "parent": 3395,
+    "npc": 22007,
+    "npc_type": 7,
+    "item": 9010,
+    "category": "active_mission",
+    "context_names": [
+      "Hledání stop"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2787,
+        "dwQuestID": 3399,
+        "bConditionType": 3,
+        "dwConditionID": 3395,
+        "bCount": 0
+      },
+      {
+        "dwID": 3189,
+        "dwQuestID": 3399,
+        "bConditionType": 13,
+        "dwConditionID": 9010,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3484,
+    "parent": 3482,
+    "npc": 20540,
+    "npc_type": 7,
+    "item": 9025,
+    "category": "active_mission",
+    "context_names": [
+      "Navrácení krumpáče"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2928,
+        "dwQuestID": 3484,
+        "bConditionType": 3,
+        "dwConditionID": 3482,
+        "bCount": 0
+      },
+      {
+        "dwID": 2929,
+        "dwQuestID": 3484,
+        "bConditionType": 13,
+        "dwConditionID": 9025,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3531,
+    "parent": 3529,
+    "npc": 20536,
+    "npc_type": 7,
+    "item": 9041,
+    "category": "active_mission",
+    "context_names": [
+      "Rozpoutání pekla!"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 2998,
+        "dwQuestID": 3531,
+        "bConditionType": 3,
+        "dwConditionID": 3529,
+        "bCount": 0
+      },
+      {
+        "dwID": 2999,
+        "dwQuestID": 3531,
+        "bConditionType": 13,
+        "dwConditionID": 9041,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3619,
+    "parent": 3602,
+    "npc": 20883,
+    "npc_type": 7,
+    "item": 9591,
+    "category": "active_mission",
+    "context_names": [
+      "Cesta ke Scatchovi...",
+      "Nečekaná informace"
+    ],
+    "client_maps": [
+      7
+    ],
+    "server_map": 7,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3119,
+        "dwQuestID": 3619,
+        "bConditionType": 18,
+        "dwConditionID": 3605,
+        "bCount": 0
+      },
+      {
+        "dwID": 3215,
+        "dwQuestID": 3619,
+        "bConditionType": 13,
+        "dwConditionID": 9591,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3679,
+    "parent": 3668,
+    "npc": 20469,
+    "npc_type": 7,
+    "item": 9013,
+    "category": "active_mission",
+    "context_names": [
+      "Tajemství úspěšného muže"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3276,
+        "dwQuestID": 3679,
+        "bConditionType": 3,
+        "dwConditionID": 3668,
+        "bCount": 0
+      },
+      {
+        "dwID": 3436,
+        "dwQuestID": 3679,
+        "bConditionType": 13,
+        "dwConditionID": 9013,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3680,
+    "parent": 3668,
+    "npc": 20470,
+    "npc_type": 7,
+    "item": 9115,
+    "category": "active_mission",
+    "context_names": [
+      "Tajemství úspěšného muže"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3278,
+        "dwQuestID": 3680,
+        "bConditionType": 3,
+        "dwConditionID": 3668,
+        "bCount": 0
+      },
+      {
+        "dwID": 3430,
+        "dwQuestID": 3680,
+        "bConditionType": 13,
+        "dwConditionID": 9115,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3682,
+    "parent": 3668,
+    "npc": 20472,
+    "npc_type": 7,
+    "item": 9117,
+    "category": "active_mission",
+    "context_names": [
+      "Tajemství úspěšného muže"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3280,
+        "dwQuestID": 3682,
+        "bConditionType": 3,
+        "dwConditionID": 3668,
+        "bCount": 0
+      },
+      {
+        "dwID": 3432,
+        "dwQuestID": 3682,
+        "bConditionType": 13,
+        "dwConditionID": 9117,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3683,
+    "parent": 3668,
+    "npc": 20473,
+    "npc_type": 7,
+    "item": 9118,
+    "category": "active_mission",
+    "context_names": [
+      "Tajemství úspěšného muže"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3281,
+        "dwQuestID": 3683,
+        "bConditionType": 3,
+        "dwConditionID": 3668,
+        "bCount": 0
+      },
+      {
+        "dwID": 3433,
+        "dwQuestID": 3683,
+        "bConditionType": 13,
+        "dwConditionID": 9118,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3684,
+    "parent": 3668,
+    "npc": 20474,
+    "npc_type": 7,
+    "item": 9119,
+    "category": "active_mission",
+    "context_names": [
+      "Tajemství úspěšného muže"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3282,
+        "dwQuestID": 3684,
+        "bConditionType": 3,
+        "dwConditionID": 3668,
+        "bCount": 0
+      },
+      {
+        "dwID": 3434,
+        "dwQuestID": 3684,
+        "bConditionType": 13,
+        "dwConditionID": 9119,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3693,
+    "parent": 3691,
+    "npc": 22295,
+    "npc_type": 7,
+    "item": 9007,
+    "category": "active_mission",
+    "context_names": [
+      "Dračí kost a voda života"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3295,
+        "dwQuestID": 3693,
+        "bConditionType": 3,
+        "dwConditionID": 3691,
+        "bCount": 0
+      },
+      {
+        "dwID": 3296,
+        "dwQuestID": 3693,
+        "bConditionType": 13,
+        "dwConditionID": 9007,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3694,
+    "parent": 3691,
+    "npc": 20393,
+    "npc_type": 7,
+    "item": 9011,
+    "category": "active_mission",
+    "context_names": [
+      "Dračí kost a voda života"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3297,
+        "dwQuestID": 3694,
+        "bConditionType": 3,
+        "dwConditionID": 3691,
+        "bCount": 0
+      },
+      {
+        "dwID": 3298,
+        "dwQuestID": 3694,
+        "bConditionType": 13,
+        "dwConditionID": 9011,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3704,
+    "parent": 2063,
+    "npc": 20349,
+    "npc_type": 7,
+    "item": 9058,
+    "category": "active_mission",
+    "context_names": [
+      "Hledání ztracené družiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3310,
+        "dwQuestID": 3704,
+        "bConditionType": 3,
+        "dwConditionID": 2063,
+        "bCount": 0
+      },
+      {
+        "dwID": 3311,
+        "dwQuestID": 3704,
+        "bConditionType": 13,
+        "dwConditionID": 9058,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3745,
+    "parent": 3691,
+    "npc": 20394,
+    "npc_type": 7,
+    "item": 9011,
+    "category": "active_mission",
+    "context_names": [
+      "Dračí kost a voda života"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3299,
+        "dwQuestID": 3745,
+        "bConditionType": 3,
+        "dwConditionID": 3691,
+        "bCount": 0
+      },
+      {
+        "dwID": 3300,
+        "dwQuestID": 3745,
+        "bConditionType": 13,
+        "dwConditionID": 9011,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3746,
+    "parent": 3691,
+    "npc": 20395,
+    "npc_type": 7,
+    "item": 9011,
+    "category": "active_mission",
+    "context_names": [
+      "Dračí kost a voda života"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3301,
+        "dwQuestID": 3746,
+        "bConditionType": 3,
+        "dwConditionID": 3691,
+        "bCount": 0
+      },
+      {
+        "dwID": 3302,
+        "dwQuestID": 3746,
+        "bConditionType": 13,
+        "dwConditionID": 9011,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3774,
+    "parent": 765,
+    "npc": 22298,
+    "npc_type": 7,
+    "item": 9079,
+    "category": "active_mission",
+    "context_names": [
+      "Fanatička Rudemilla"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3386,
+        "dwQuestID": 3774,
+        "bConditionType": 3,
+        "dwConditionID": 765,
+        "bCount": 0
+      },
+      {
+        "dwID": 3390,
+        "dwQuestID": 3774,
+        "bConditionType": 13,
+        "dwConditionID": 9079,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 3859,
+    "parent": 3844,
+    "npc": 20743,
+    "npc_type": 7,
+    "item": 9901,
+    "category": "active_mission",
+    "context_names": [
+      "Tajná přihrádka školního ředitele"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3497,
+        "dwQuestID": 3859,
+        "bConditionType": 3,
+        "dwConditionID": 3844,
+        "bCount": 0
+      },
+      {
+        "dwID": 3537,
+        "dwQuestID": 3859,
+        "bConditionType": 13,
+        "dwConditionID": 9901,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4143,
+    "parent": 4133,
+    "npc": 22317,
+    "npc_type": 7,
+    "item": 9004,
+    "category": "active_mission",
+    "context_names": [
+      "Vrácení fragmentu duše"
+    ],
+    "client_maps": [
+      10
+    ],
+    "server_map": 10,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3915,
+        "dwQuestID": 4143,
+        "bConditionType": 13,
+        "dwConditionID": 9004,
+        "bCount": 1
+      },
+      {
+        "dwID": 3916,
+        "dwQuestID": 4143,
+        "bConditionType": 3,
+        "dwConditionID": 4133,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4156,
+    "parent": 4151,
+    "npc": 22322,
+    "npc_type": 7,
+    "item": 9159,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3943,
+        "dwQuestID": 4156,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4039,
+        "dwQuestID": 4156,
+        "bConditionType": 13,
+        "dwConditionID": 9159,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4157,
+    "parent": 4151,
+    "npc": 22323,
+    "npc_type": 7,
+    "item": 9173,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3945,
+        "dwQuestID": 4157,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4040,
+        "dwQuestID": 4157,
+        "bConditionType": 13,
+        "dwConditionID": 9173,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4158,
+    "parent": 4151,
+    "npc": 22324,
+    "npc_type": 7,
+    "item": 9174,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3946,
+        "dwQuestID": 4158,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4041,
+        "dwQuestID": 4158,
+        "bConditionType": 13,
+        "dwConditionID": 9174,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4159,
+    "parent": 4151,
+    "npc": 22325,
+    "npc_type": 7,
+    "item": 9175,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3947,
+        "dwQuestID": 4159,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4042,
+        "dwQuestID": 4159,
+        "bConditionType": 13,
+        "dwConditionID": 9175,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4160,
+    "parent": 4151,
+    "npc": 22326,
+    "npc_type": 7,
+    "item": 9176,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3948,
+        "dwQuestID": 4160,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4043,
+        "dwQuestID": 4160,
+        "bConditionType": 13,
+        "dwConditionID": 9176,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4161,
+    "parent": 4151,
+    "npc": 22327,
+    "npc_type": 7,
+    "item": 9177,
+    "category": "active_mission",
+    "context_names": [
+      "Sběr dřeva"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3949,
+        "dwQuestID": 4161,
+        "bConditionType": 3,
+        "dwConditionID": 4151,
+        "bCount": 0
+      },
+      {
+        "dwID": 4044,
+        "dwQuestID": 4161,
+        "bConditionType": 13,
+        "dwConditionID": 9177,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4162,
+    "parent": 4152,
+    "npc": 22328,
+    "npc_type": 7,
+    "item": 9160,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3952,
+        "dwQuestID": 4162,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4153,
+        "dwQuestID": 4162,
+        "bConditionType": 13,
+        "dwConditionID": 9160,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4163,
+    "parent": 4152,
+    "npc": 22329,
+    "npc_type": 7,
+    "item": 9179,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3953,
+        "dwQuestID": 4163,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4154,
+        "dwQuestID": 4163,
+        "bConditionType": 13,
+        "dwConditionID": 9179,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4164,
+    "parent": 4152,
+    "npc": 22330,
+    "npc_type": 7,
+    "item": 9180,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3954,
+        "dwQuestID": 4164,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4155,
+        "dwQuestID": 4164,
+        "bConditionType": 13,
+        "dwConditionID": 9180,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4165,
+    "parent": 4152,
+    "npc": 22331,
+    "npc_type": 7,
+    "item": 9181,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3955,
+        "dwQuestID": 4165,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4156,
+        "dwQuestID": 4165,
+        "bConditionType": 13,
+        "dwConditionID": 9181,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4166,
+    "parent": 4152,
+    "npc": 22332,
+    "npc_type": 7,
+    "item": 9182,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3956,
+        "dwQuestID": 4166,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4157,
+        "dwQuestID": 4166,
+        "bConditionType": 13,
+        "dwConditionID": 9182,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4167,
+    "parent": 4152,
+    "npc": 22333,
+    "npc_type": 7,
+    "item": 9183,
+    "category": "active_mission",
+    "context_names": [
+      "Průzkum Jižního lesa Diane"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 3957,
+        "dwQuestID": 4167,
+        "bConditionType": 3,
+        "dwConditionID": 4152,
+        "bCount": 0
+      },
+      {
+        "dwID": 4158,
+        "dwQuestID": 4167,
+        "bConditionType": 13,
+        "dwConditionID": 9183,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4181,
+    "parent": 4179,
+    "npc": 22321,
+    "npc_type": 7,
+    "item": 9163,
+    "category": "active_mission",
+    "context_names": [
+      "Zpráva od Margina"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4010,
+        "dwQuestID": 4181,
+        "bConditionType": 3,
+        "dwConditionID": 4179,
+        "bCount": 0
+      },
+      {
+        "dwID": 4011,
+        "dwQuestID": 4181,
+        "bConditionType": 13,
+        "dwConditionID": 9163,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4188,
+    "parent": 4186,
+    "npc": 22256,
+    "npc_type": 7,
+    "item": 9184,
+    "category": "active_mission",
+    "context_names": [
+      "Cikánská píseň"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4015,
+        "dwQuestID": 4188,
+        "bConditionType": 3,
+        "dwConditionID": 4186,
+        "bCount": 0
+      },
+      {
+        "dwID": 4016,
+        "dwQuestID": 4188,
+        "bConditionType": 13,
+        "dwConditionID": 9184,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4274,
+    "parent": 4272,
+    "npc": 22257,
+    "npc_type": 7,
+    "item": 9902,
+    "category": "active_mission",
+    "context_names": [
+      "Zapomenutá truhla"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4078,
+        "dwQuestID": 4274,
+        "bConditionType": 13,
+        "dwConditionID": 9902,
+        "bCount": 1
+      },
+      {
+        "dwID": 6125,
+        "dwQuestID": 4274,
+        "bConditionType": 3,
+        "dwConditionID": 4272,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4360,
+    "parent": 4358,
+    "npc": 22388,
+    "npc_type": 7,
+    "item": 9008,
+    "category": "active_mission",
+    "context_names": [
+      "Události během noci"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4371,
+        "dwQuestID": 4360,
+        "bConditionType": 3,
+        "dwConditionID": 4358,
+        "bCount": 0
+      },
+      {
+        "dwID": 4372,
+        "dwQuestID": 4360,
+        "bConditionType": 13,
+        "dwConditionID": 9008,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4373,
+    "parent": 4369,
+    "npc": 22389,
+    "npc_type": 7,
+    "item": 9219,
+    "category": "active_mission",
+    "context_names": [
+      "Jadanova výpověď"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4385,
+        "dwQuestID": 4373,
+        "bConditionType": 3,
+        "dwConditionID": 4369,
+        "bCount": 0
+      },
+      {
+        "dwID": 4386,
+        "dwQuestID": 4373,
+        "bConditionType": 13,
+        "dwConditionID": 9219,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4406,
+    "parent": 4368,
+    "npc": 22390,
+    "npc_type": 7,
+    "item": 9218,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4426,
+        "dwQuestID": 4406,
+        "bConditionType": 13,
+        "dwConditionID": 9218,
+        "bCount": 1
+      },
+      {
+        "dwID": 4439,
+        "dwQuestID": 4406,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4407,
+    "parent": 4368,
+    "npc": 22391,
+    "npc_type": 7,
+    "item": 9225,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4427,
+        "dwQuestID": 4407,
+        "bConditionType": 13,
+        "dwConditionID": 9225,
+        "bCount": 1
+      },
+      {
+        "dwID": 4440,
+        "dwQuestID": 4407,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4408,
+    "parent": 4368,
+    "npc": 22392,
+    "npc_type": 7,
+    "item": 9226,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4428,
+        "dwQuestID": 4408,
+        "bConditionType": 13,
+        "dwConditionID": 9226,
+        "bCount": 1
+      },
+      {
+        "dwID": 4441,
+        "dwQuestID": 4408,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4409,
+    "parent": 4368,
+    "npc": 22393,
+    "npc_type": 7,
+    "item": 9227,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4429,
+        "dwQuestID": 4409,
+        "bConditionType": 13,
+        "dwConditionID": 9227,
+        "bCount": 1
+      },
+      {
+        "dwID": 4442,
+        "dwQuestID": 4409,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4410,
+    "parent": 4368,
+    "npc": 22394,
+    "npc_type": 7,
+    "item": 9228,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4430,
+        "dwQuestID": 4410,
+        "bConditionType": 13,
+        "dwConditionID": 9228,
+        "bCount": 1
+      },
+      {
+        "dwID": 4443,
+        "dwQuestID": 4410,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4411,
+    "parent": 4368,
+    "npc": 22395,
+    "npc_type": 7,
+    "item": 9229,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4431,
+        "dwQuestID": 4411,
+        "bConditionType": 13,
+        "dwConditionID": 9229,
+        "bCount": 1
+      },
+      {
+        "dwID": 4444,
+        "dwQuestID": 4411,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4412,
+    "parent": 4368,
+    "npc": 22396,
+    "npc_type": 7,
+    "item": 9230,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4432,
+        "dwQuestID": 4412,
+        "bConditionType": 13,
+        "dwConditionID": 9230,
+        "bCount": 1
+      },
+      {
+        "dwID": 4445,
+        "dwQuestID": 4412,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4413,
+    "parent": 4368,
+    "npc": 22397,
+    "npc_type": 7,
+    "item": 9231,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4433,
+        "dwQuestID": 4413,
+        "bConditionType": 13,
+        "dwConditionID": 9231,
+        "bCount": 1
+      },
+      {
+        "dwID": 4448,
+        "dwQuestID": 4413,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4414,
+    "parent": 4368,
+    "npc": 22398,
+    "npc_type": 7,
+    "item": 9232,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4434,
+        "dwQuestID": 4414,
+        "bConditionType": 13,
+        "dwConditionID": 9232,
+        "bCount": 1
+      },
+      {
+        "dwID": 4447,
+        "dwQuestID": 4414,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4415,
+    "parent": 4368,
+    "npc": 22399,
+    "npc_type": 7,
+    "item": 9233,
+    "category": "active_mission",
+    "context_names": [
+      "Obří hromada šrotu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4435,
+        "dwQuestID": 4415,
+        "bConditionType": 13,
+        "dwConditionID": 9233,
+        "bCount": 1
+      },
+      {
+        "dwID": 4446,
+        "dwQuestID": 4415,
+        "bConditionType": 3,
+        "dwConditionID": 4368,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4426,
+    "parent": 4333,
+    "npc": 22366,
+    "npc_type": 7,
+    "item": 9196,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4459,
+        "dwQuestID": 4426,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      },
+      {
+        "dwID": 4460,
+        "dwQuestID": 4426,
+        "bConditionType": 13,
+        "dwConditionID": 9196,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4427,
+    "parent": 4333,
+    "npc": 22367,
+    "npc_type": 7,
+    "item": 9251,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4461,
+        "dwQuestID": 4427,
+        "bConditionType": 13,
+        "dwConditionID": 9251,
+        "bCount": 1
+      },
+      {
+        "dwID": 4462,
+        "dwQuestID": 4427,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4428,
+    "parent": 4333,
+    "npc": 22368,
+    "npc_type": 7,
+    "item": 9252,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4463,
+        "dwQuestID": 4428,
+        "bConditionType": 13,
+        "dwConditionID": 9252,
+        "bCount": 1
+      },
+      {
+        "dwID": 4464,
+        "dwQuestID": 4428,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4429,
+    "parent": 4333,
+    "npc": 22369,
+    "npc_type": 7,
+    "item": 9253,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4465,
+        "dwQuestID": 4429,
+        "bConditionType": 13,
+        "dwConditionID": 9253,
+        "bCount": 1
+      },
+      {
+        "dwID": 4466,
+        "dwQuestID": 4429,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4430,
+    "parent": 4333,
+    "npc": 22370,
+    "npc_type": 7,
+    "item": 9254,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4467,
+        "dwQuestID": 4430,
+        "bConditionType": 13,
+        "dwConditionID": 9254,
+        "bCount": 1
+      },
+      {
+        "dwID": 4468,
+        "dwQuestID": 4430,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4431,
+    "parent": 4333,
+    "npc": 22371,
+    "npc_type": 7,
+    "item": 9255,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4469,
+        "dwQuestID": 4431,
+        "bConditionType": 13,
+        "dwConditionID": 9255,
+        "bCount": 1
+      },
+      {
+        "dwID": 4470,
+        "dwQuestID": 4431,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4432,
+    "parent": 4333,
+    "npc": 22372,
+    "npc_type": 7,
+    "item": 9256,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4471,
+        "dwQuestID": 4432,
+        "bConditionType": 13,
+        "dwConditionID": 9256,
+        "bCount": 1
+      },
+      {
+        "dwID": 4472,
+        "dwQuestID": 4432,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4433,
+    "parent": 4333,
+    "npc": 22373,
+    "npc_type": 7,
+    "item": 9257,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4473,
+        "dwQuestID": 4433,
+        "bConditionType": 13,
+        "dwConditionID": 9257,
+        "bCount": 1
+      },
+      {
+        "dwID": 4476,
+        "dwQuestID": 4433,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4434,
+    "parent": 4333,
+    "npc": 22374,
+    "npc_type": 7,
+    "item": 9258,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4474,
+        "dwQuestID": 4434,
+        "bConditionType": 13,
+        "dwConditionID": 9258,
+        "bCount": 1
+      },
+      {
+        "dwID": 4477,
+        "dwQuestID": 4434,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4435,
+    "parent": 4333,
+    "npc": 22375,
+    "npc_type": 7,
+    "item": 9259,
+    "category": "active_mission",
+    "context_names": [
+      "Ututlaná pravda"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 4475,
+        "dwQuestID": 4435,
+        "bConditionType": 13,
+        "dwConditionID": 9259,
+        "bCount": 1
+      },
+      {
+        "dwID": 4478,
+        "dwQuestID": 4435,
+        "bConditionType": 3,
+        "dwConditionID": 4333,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4691,
+    "parent": 880,
+    "npc": 22507,
+    "npc_type": 7,
+    "item": 9262,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5276,
+        "dwQuestID": 4691,
+        "bConditionType": 13,
+        "dwConditionID": 9262,
+        "bCount": 1
+      },
+      {
+        "dwID": 5277,
+        "dwQuestID": 4691,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4692,
+    "parent": 880,
+    "npc": 22508,
+    "npc_type": 7,
+    "item": 9276,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5278,
+        "dwQuestID": 4692,
+        "bConditionType": 13,
+        "dwConditionID": 9276,
+        "bCount": 1
+      },
+      {
+        "dwID": 5279,
+        "dwQuestID": 4692,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4693,
+    "parent": 880,
+    "npc": 22509,
+    "npc_type": 7,
+    "item": 9277,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5280,
+        "dwQuestID": 4693,
+        "bConditionType": 13,
+        "dwConditionID": 9277,
+        "bCount": 1
+      },
+      {
+        "dwID": 5281,
+        "dwQuestID": 4693,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4694,
+    "parent": 880,
+    "npc": 22510,
+    "npc_type": 7,
+    "item": 9278,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5282,
+        "dwQuestID": 4694,
+        "bConditionType": 13,
+        "dwConditionID": 9278,
+        "bCount": 1
+      },
+      {
+        "dwID": 5283,
+        "dwQuestID": 4694,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4695,
+    "parent": 880,
+    "npc": 22511,
+    "npc_type": 7,
+    "item": 9279,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5284,
+        "dwQuestID": 4695,
+        "bConditionType": 13,
+        "dwConditionID": 9279,
+        "bCount": 1
+      },
+      {
+        "dwID": 5285,
+        "dwQuestID": 4695,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4696,
+    "parent": 880,
+    "npc": 22512,
+    "npc_type": 7,
+    "item": 9280,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5286,
+        "dwQuestID": 4696,
+        "bConditionType": 13,
+        "dwConditionID": 9280,
+        "bCount": 1
+      },
+      {
+        "dwID": 5287,
+        "dwQuestID": 4696,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4697,
+    "parent": 880,
+    "npc": 22513,
+    "npc_type": 7,
+    "item": 9281,
+    "category": "active_mission",
+    "context_names": [
+      "Roztavené zlato"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5288,
+        "dwQuestID": 4697,
+        "bConditionType": 13,
+        "dwConditionID": 9281,
+        "bCount": 1
+      },
+      {
+        "dwID": 5289,
+        "dwQuestID": 4697,
+        "bConditionType": 3,
+        "dwConditionID": 880,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4726,
+    "parent": 888,
+    "npc": 22519,
+    "npc_type": 7,
+    "item": 9266,
+    "category": "active_mission",
+    "context_names": [
+      "Moerandina mašle"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5244,
+        "dwQuestID": 4726,
+        "bConditionType": 3,
+        "dwConditionID": 888,
+        "bCount": 0
+      },
+      {
+        "dwID": 5245,
+        "dwQuestID": 4726,
+        "bConditionType": 13,
+        "dwConditionID": 9266,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4739,
+    "parent": 4737,
+    "npc": 22523,
+    "npc_type": 7,
+    "item": 9269,
+    "category": "active_mission",
+    "context_names": [
+      "Podmínka obchodu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5255,
+        "dwQuestID": 4739,
+        "bConditionType": 13,
+        "dwConditionID": 9269,
+        "bCount": 1
+      },
+      {
+        "dwID": 5256,
+        "dwQuestID": 4739,
+        "bConditionType": 3,
+        "dwConditionID": 4737,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4845,
+    "parent": 4843,
+    "npc": 22564,
+    "npc_type": 6,
+    "item": 9244,
+    "category": "active_mission",
+    "context_names": [
+      "Brilantní plán"
+    ],
+    "client_maps": [],
+    "server_map": 13,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5581,
+        "dwQuestID": 4845,
+        "bConditionType": 3,
+        "dwConditionID": 4843,
+        "bCount": 0
+      },
+      {
+        "dwID": 5582,
+        "dwQuestID": 4845,
+        "bConditionType": 13,
+        "dwConditionID": 9244,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 4846,
+    "parent": 4843,
+    "npc": 22565,
+    "npc_type": 0,
+    "item": 9245,
+    "category": "active_mission",
+    "context_names": [
+      "Brilantní plán"
+    ],
+    "client_maps": [
+      13
+    ],
+    "server_map": 13,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5583,
+        "dwQuestID": 4846,
+        "bConditionType": 3,
+        "dwConditionID": 4843,
+        "bCount": 0
+      },
+      {
+        "dwID": 5584,
+        "dwQuestID": 4846,
+        "bConditionType": 13,
+        "dwConditionID": 9245,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4847,
+    "parent": 4843,
+    "npc": 22566,
+    "npc_type": 7,
+    "item": 9246,
+    "category": "active_mission",
+    "context_names": [
+      "Brilantní plán"
+    ],
+    "client_maps": [
+      13
+    ],
+    "server_map": 13,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5585,
+        "dwQuestID": 4847,
+        "bConditionType": 3,
+        "dwConditionID": 4843,
+        "bCount": 0
+      },
+      {
+        "dwID": 5586,
+        "dwQuestID": 4847,
+        "bConditionType": 13,
+        "dwConditionID": 9246,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4917,
+    "parent": 4882,
+    "npc": 22584,
+    "npc_type": 7,
+    "item": 9123,
+    "category": "active_mission",
+    "context_names": [
+      "Najít zlatý klíč"
+    ],
+    "client_maps": [
+      14
+    ],
+    "server_map": 14,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5681,
+        "dwQuestID": 4917,
+        "bConditionType": 13,
+        "dwConditionID": 9123,
+        "bCount": 1
+      },
+      {
+        "dwID": 5682,
+        "dwQuestID": 4917,
+        "bConditionType": 3,
+        "dwConditionID": 4882,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4972,
+    "parent": 3032,
+    "npc": 22618,
+    "npc_type": 7,
+    "item": 9299,
+    "category": "active_mission",
+    "context_names": [
+      "Sušený mech"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5768,
+        "dwQuestID": 4972,
+        "bConditionType": 3,
+        "dwConditionID": 3032,
+        "bCount": 0
+      },
+      {
+        "dwID": 5769,
+        "dwQuestID": 4972,
+        "bConditionType": 13,
+        "dwConditionID": 9299,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4973,
+    "parent": 3032,
+    "npc": 22619,
+    "npc_type": 7,
+    "item": 9300,
+    "category": "active_mission",
+    "context_names": [
+      "Sušený mech"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5770,
+        "dwQuestID": 4973,
+        "bConditionType": 3,
+        "dwConditionID": 3032,
+        "bCount": 0
+      },
+      {
+        "dwID": 5771,
+        "dwQuestID": 4973,
+        "bConditionType": 13,
+        "dwConditionID": 9300,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4974,
+    "parent": 3032,
+    "npc": 22620,
+    "npc_type": 7,
+    "item": 9301,
+    "category": "active_mission",
+    "context_names": [
+      "Sušený mech"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5772,
+        "dwQuestID": 4974,
+        "bConditionType": 3,
+        "dwConditionID": 3032,
+        "bCount": 0
+      },
+      {
+        "dwID": 5773,
+        "dwQuestID": 4974,
+        "bConditionType": 13,
+        "dwConditionID": 9301,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4975,
+    "parent": 3032,
+    "npc": 22621,
+    "npc_type": 7,
+    "item": 9302,
+    "category": "active_mission",
+    "context_names": [
+      "Sušený mech"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5774,
+        "dwQuestID": 4975,
+        "bConditionType": 3,
+        "dwConditionID": 3032,
+        "bCount": 0
+      },
+      {
+        "dwID": 5775,
+        "dwQuestID": 4975,
+        "bConditionType": 13,
+        "dwConditionID": 9302,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4976,
+    "parent": 3032,
+    "npc": 22622,
+    "npc_type": 7,
+    "item": 9303,
+    "category": "active_mission",
+    "context_names": [
+      "Sušený mech"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5776,
+        "dwQuestID": 4976,
+        "bConditionType": 3,
+        "dwConditionID": 3032,
+        "bCount": 0
+      },
+      {
+        "dwID": 5777,
+        "dwQuestID": 4976,
+        "bConditionType": 13,
+        "dwConditionID": 9303,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4981,
+    "parent": 4979,
+    "npc": 22623,
+    "npc_type": 7,
+    "item": 9304,
+    "category": "active_mission",
+    "context_names": [
+      "Kořeny květin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5781,
+        "dwQuestID": 4981,
+        "bConditionType": 3,
+        "dwConditionID": 4979,
+        "bCount": 0
+      },
+      {
+        "dwID": 5782,
+        "dwQuestID": 4981,
+        "bConditionType": 13,
+        "dwConditionID": 9304,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4982,
+    "parent": 4979,
+    "npc": 22624,
+    "npc_type": 7,
+    "item": 9307,
+    "category": "active_mission",
+    "context_names": [
+      "Kořeny květin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5783,
+        "dwQuestID": 4982,
+        "bConditionType": 3,
+        "dwConditionID": 4979,
+        "bCount": 0
+      },
+      {
+        "dwID": 5784,
+        "dwQuestID": 4982,
+        "bConditionType": 13,
+        "dwConditionID": 9307,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4983,
+    "parent": 4979,
+    "npc": 22625,
+    "npc_type": 7,
+    "item": 9308,
+    "category": "active_mission",
+    "context_names": [
+      "Kořeny květin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5785,
+        "dwQuestID": 4983,
+        "bConditionType": 3,
+        "dwConditionID": 4979,
+        "bCount": 0
+      },
+      {
+        "dwID": 5786,
+        "dwQuestID": 4983,
+        "bConditionType": 13,
+        "dwConditionID": 9308,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4984,
+    "parent": 4979,
+    "npc": 22626,
+    "npc_type": 7,
+    "item": 9309,
+    "category": "active_mission",
+    "context_names": [
+      "Kořeny květin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5787,
+        "dwQuestID": 4984,
+        "bConditionType": 3,
+        "dwConditionID": 4979,
+        "bCount": 0
+      },
+      {
+        "dwID": 5788,
+        "dwQuestID": 4984,
+        "bConditionType": 13,
+        "dwConditionID": 9309,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 4985,
+    "parent": 4979,
+    "npc": 22627,
+    "npc_type": 7,
+    "item": 9310,
+    "category": "active_mission",
+    "context_names": [
+      "Kořeny květin"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5789,
+        "dwQuestID": 4985,
+        "bConditionType": 3,
+        "dwConditionID": 4979,
+        "bCount": 0
+      },
+      {
+        "dwID": 5790,
+        "dwQuestID": 4985,
+        "bConditionType": 13,
+        "dwConditionID": 9310,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5011,
+    "parent": 3034,
+    "npc": 22608,
+    "npc_type": 7,
+    "item": 9288,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5821,
+        "dwQuestID": 5011,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5822,
+        "dwQuestID": 5011,
+        "bConditionType": 13,
+        "dwConditionID": 9288,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5012,
+    "parent": 3034,
+    "npc": 22609,
+    "npc_type": 7,
+    "item": 9289,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5823,
+        "dwQuestID": 5012,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5824,
+        "dwQuestID": 5012,
+        "bConditionType": 13,
+        "dwConditionID": 9289,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5013,
+    "parent": 3034,
+    "npc": 22610,
+    "npc_type": 7,
+    "item": 9290,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5825,
+        "dwQuestID": 5013,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5826,
+        "dwQuestID": 5013,
+        "bConditionType": 13,
+        "dwConditionID": 9290,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5014,
+    "parent": 3034,
+    "npc": 22611,
+    "npc_type": 7,
+    "item": 9291,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5827,
+        "dwQuestID": 5014,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5828,
+        "dwQuestID": 5014,
+        "bConditionType": 13,
+        "dwConditionID": 9291,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5015,
+    "parent": 3034,
+    "npc": 22612,
+    "npc_type": 7,
+    "item": 9292,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5829,
+        "dwQuestID": 5015,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5830,
+        "dwQuestID": 5015,
+        "bConditionType": 13,
+        "dwConditionID": 9292,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5039,
+    "parent": 5037,
+    "npc": 22607,
+    "npc_type": 7,
+    "item": 9569,
+    "category": "active_mission",
+    "context_names": [
+      "Dudina žádost"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5850,
+        "dwQuestID": 5039,
+        "bConditionType": 3,
+        "dwConditionID": 5037,
+        "bCount": 0
+      },
+      {
+        "dwID": 5851,
+        "dwQuestID": 5039,
+        "bConditionType": 13,
+        "dwConditionID": 9569,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 5120,
+    "parent": 3034,
+    "npc": 22613,
+    "npc_type": 7,
+    "item": 9294,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [],
+    "server_map": 0,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5923,
+        "dwQuestID": 5120,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5924,
+        "dwQuestID": 5120,
+        "bConditionType": 13,
+        "dwConditionID": 9294,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 5121,
+    "parent": 3034,
+    "npc": 22614,
+    "npc_type": 7,
+    "item": 9295,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [],
+    "server_map": 0,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5925,
+        "dwQuestID": 5121,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5926,
+        "dwQuestID": 5121,
+        "bConditionType": 13,
+        "dwConditionID": 9295,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 5122,
+    "parent": 3034,
+    "npc": 22615,
+    "npc_type": 7,
+    "item": 9296,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [],
+    "server_map": 0,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5927,
+        "dwQuestID": 5122,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5928,
+        "dwQuestID": 5122,
+        "bConditionType": 13,
+        "dwConditionID": 9296,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 5123,
+    "parent": 3034,
+    "npc": 22616,
+    "npc_type": 7,
+    "item": 9297,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [],
+    "server_map": 0,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5929,
+        "dwQuestID": 5123,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5930,
+        "dwQuestID": 5123,
+        "bConditionType": 13,
+        "dwConditionID": 9297,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 5124,
+    "parent": 3034,
+    "npc": 22617,
+    "npc_type": 7,
+    "item": 9313,
+    "category": "active_mission",
+    "context_names": [
+      "Stříbrné šupiny"
+    ],
+    "client_maps": [],
+    "server_map": 0,
+    "client_map_matches": null,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 5931,
+        "dwQuestID": 5124,
+        "bConditionType": 3,
+        "dwConditionID": 3034,
+        "bCount": 0
+      },
+      {
+        "dwID": 5932,
+        "dwQuestID": 5124,
+        "bConditionType": 13,
+        "dwConditionID": 9313,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": true
+  },
+  {
+    "quest": 5742,
+    "parent": 5679,
+    "npc": 22839,
+    "npc_type": 7,
+    "item": 9340,
+    "category": "active_mission",
+    "context_names": [
+      "Kniha pro Proneha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 6580,
+        "dwQuestID": 5742,
+        "bConditionType": 3,
+        "dwConditionID": 5679,
+        "bCount": 0
+      },
+      {
+        "dwID": 6581,
+        "dwQuestID": 5742,
+        "bConditionType": 13,
+        "dwConditionID": 9340,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6577,
+    "parent": 6558,
+    "npc": 22937,
+    "npc_type": 7,
+    "item": 9375,
+    "category": "active_mission",
+    "context_names": [
+      "Elhain batoh"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7315,
+        "dwQuestID": 6577,
+        "bConditionType": 3,
+        "dwConditionID": 6558,
+        "bCount": 0
+      },
+      {
+        "dwID": 7316,
+        "dwQuestID": 6577,
+        "bConditionType": 13,
+        "dwConditionID": 9375,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6616,
+    "parent": 6612,
+    "npc": 22933,
+    "npc_type": 7,
+    "item": 9363,
+    "category": "active_mission",
+    "context_names": [
+      "Skříňka na nářadí"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7377,
+        "dwQuestID": 6616,
+        "bConditionType": 3,
+        "dwConditionID": 6612,
+        "bCount": 0
+      },
+      {
+        "dwID": 7378,
+        "dwQuestID": 6616,
+        "bConditionType": 13,
+        "dwConditionID": 9363,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6620,
+    "parent": 6615,
+    "npc": 22934,
+    "npc_type": 7,
+    "item": 9365,
+    "category": "active_mission",
+    "context_names": [
+      "Žhavá vášeň"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7384,
+        "dwQuestID": 6620,
+        "bConditionType": 3,
+        "dwConditionID": 6615,
+        "bCount": 0
+      },
+      {
+        "dwID": 7458,
+        "dwQuestID": 6620,
+        "bConditionType": 13,
+        "dwConditionID": 9365,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6626,
+    "parent": 6624,
+    "npc": 22935,
+    "npc_type": 7,
+    "item": 9367,
+    "category": "active_mission",
+    "context_names": [
+      "Kytky pro Erkinu"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7394,
+        "dwQuestID": 6626,
+        "bConditionType": 3,
+        "dwConditionID": 6624,
+        "bCount": 0
+      },
+      {
+        "dwID": 7395,
+        "dwQuestID": 6626,
+        "bConditionType": 13,
+        "dwConditionID": 9367,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6637,
+    "parent": 6635,
+    "npc": 22936,
+    "npc_type": 7,
+    "item": 9368,
+    "category": "active_mission",
+    "context_names": [
+      "Ztracený Emillo"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7406,
+        "dwQuestID": 6637,
+        "bConditionType": 3,
+        "dwConditionID": 6635,
+        "bCount": 0
+      },
+      {
+        "dwID": 7407,
+        "dwQuestID": 6637,
+        "bConditionType": 13,
+        "dwConditionID": 9368,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6905,
+    "parent": 5055,
+    "npc": 23443,
+    "npc_type": 7,
+    "item": 9577,
+    "category": "active_mission",
+    "context_names": [
+      "Hledání posledního kousku duše."
+    ],
+    "client_maps": [
+      16
+    ],
+    "server_map": 16,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7643,
+        "dwQuestID": 6905,
+        "bConditionType": 3,
+        "dwConditionID": 5055,
+        "bCount": 0
+      },
+      {
+        "dwID": 7644,
+        "dwQuestID": 6905,
+        "bConditionType": 13,
+        "dwConditionID": 9577,
+        "bCount": 1
+      },
+      {
+        "dwID": 7885,
+        "dwQuestID": 6905,
+        "bConditionType": 13,
+        "dwConditionID": 9557,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6968,
+    "parent": 6918,
+    "npc": 23376,
+    "npc_type": 7,
+    "item": 9393,
+    "category": "active_mission",
+    "context_names": [
+      "Fiondina Květina"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7689,
+        "dwQuestID": 6968,
+        "bConditionType": 3,
+        "dwConditionID": 6918,
+        "bCount": 0
+      },
+      {
+        "dwID": 7690,
+        "dwQuestID": 6968,
+        "bConditionType": 13,
+        "dwConditionID": 9393,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6970,
+    "parent": 6919,
+    "npc": 23375,
+    "npc_type": 7,
+    "item": 9392,
+    "category": "active_mission",
+    "context_names": [
+      "Protože jsem se najednou musela dostat pryč ..."
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7695,
+        "dwQuestID": 6970,
+        "bConditionType": 3,
+        "dwConditionID": 6919,
+        "bCount": 0
+      },
+      {
+        "dwID": 7696,
+        "dwQuestID": 6970,
+        "bConditionType": 13,
+        "dwConditionID": 9392,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6972,
+    "parent": 6920,
+    "npc": 23371,
+    "npc_type": 7,
+    "item": 9388,
+    "category": "active_mission",
+    "context_names": [
+      "Pomoc pro zraněného ducha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7699,
+        "dwQuestID": 6972,
+        "bConditionType": 3,
+        "dwConditionID": 6920,
+        "bCount": 0
+      },
+      {
+        "dwID": 7701,
+        "dwQuestID": 6972,
+        "bConditionType": 13,
+        "dwConditionID": 9388,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6973,
+    "parent": 6920,
+    "npc": 23372,
+    "npc_type": 7,
+    "item": 9389,
+    "category": "active_mission",
+    "context_names": [
+      "Pomoc pro zraněného ducha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7700,
+        "dwQuestID": 6973,
+        "bConditionType": 3,
+        "dwConditionID": 6920,
+        "bCount": 0
+      },
+      {
+        "dwID": 7702,
+        "dwQuestID": 6973,
+        "bConditionType": 13,
+        "dwConditionID": 9389,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6974,
+    "parent": 6920,
+    "npc": 23373,
+    "npc_type": 7,
+    "item": 9390,
+    "category": "active_mission",
+    "context_names": [
+      "Pomoc pro zraněného ducha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7703,
+        "dwQuestID": 6974,
+        "bConditionType": 3,
+        "dwConditionID": 6920,
+        "bCount": 0
+      },
+      {
+        "dwID": 7704,
+        "dwQuestID": 6974,
+        "bConditionType": 13,
+        "dwConditionID": 9390,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6975,
+    "parent": 6920,
+    "npc": 23374,
+    "npc_type": 7,
+    "item": 9391,
+    "category": "active_mission",
+    "context_names": [
+      "Pomoc pro zraněného ducha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7705,
+        "dwQuestID": 6975,
+        "bConditionType": 3,
+        "dwConditionID": 6920,
+        "bCount": 0
+      },
+      {
+        "dwID": 7706,
+        "dwQuestID": 6975,
+        "bConditionType": 13,
+        "dwConditionID": 9391,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 6977,
+    "parent": 6921,
+    "npc": 23377,
+    "npc_type": 7,
+    "item": 9396,
+    "category": "active_mission",
+    "context_names": [
+      "Renařina kniha"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7707,
+        "dwQuestID": 6977,
+        "bConditionType": 3,
+        "dwConditionID": 6921,
+        "bCount": 0
+      },
+      {
+        "dwID": 7708,
+        "dwQuestID": 6977,
+        "bConditionType": 13,
+        "dwConditionID": 9396,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7089,
+    "parent": 0,
+    "npc": 23443,
+    "npc_type": 7,
+    "item": 9576,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Hledání posledního kousku duše."
+    ],
+    "client_maps": [
+      16
+    ],
+    "server_map": 16,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7870,
+        "dwQuestID": 7089,
+        "bConditionType": 15,
+        "dwConditionID": 5055,
+        "bCount": 1
+      },
+      {
+        "dwID": 7896,
+        "dwQuestID": 7089,
+        "bConditionType": 13,
+        "dwConditionID": 9576,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7099,
+    "parent": 0,
+    "npc": 23446,
+    "npc_type": 7,
+    "item": 9579,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Hledání posledního kousku duše."
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7859,
+        "dwQuestID": 7099,
+        "bConditionType": 15,
+        "dwConditionID": 5055,
+        "bCount": 1
+      },
+      {
+        "dwID": 7860,
+        "dwQuestID": 7099,
+        "bConditionType": 13,
+        "dwConditionID": 9579,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7110,
+    "parent": 6907,
+    "npc": 23449,
+    "npc_type": 7,
+    "item": 9571,
+    "category": "active_mission",
+    "context_names": [
+      "Vize Markabil",
+      "Hledání posledního kousku duše."
+    ],
+    "client_maps": [
+      16
+    ],
+    "server_map": 16,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 7880,
+        "dwQuestID": 7110,
+        "bConditionType": 15,
+        "dwConditionID": 6907,
+        "bCount": 1
+      },
+      {
+        "dwID": 7881,
+        "dwQuestID": 7110,
+        "bConditionType": 13,
+        "dwConditionID": 9571,
+        "bCount": 1
+      },
+      {
+        "dwID": 7887,
+        "dwQuestID": 7110,
+        "bConditionType": 3,
+        "dwConditionID": 5055,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7121,
+    "parent": 0,
+    "npc": 22585,
+    "npc_type": 7,
+    "item": 9578,
+    "category": "recovery_after_completed_quest",
+    "context_names": [
+      "Původ zla"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8068,
+        "dwQuestID": 7121,
+        "bConditionType": 15,
+        "dwConditionID": 5063,
+        "bCount": 1
+      },
+      {
+        "dwID": 8069,
+        "dwQuestID": 7121,
+        "bConditionType": 13,
+        "dwConditionID": 9578,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7157,
+    "parent": 7155,
+    "npc": 25217,
+    "npc_type": 7,
+    "item": 4146,
+    "category": "active_mission",
+    "context_names": [
+      "Příprava na výcvik"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8012,
+        "dwQuestID": 7157,
+        "bConditionType": 13,
+        "dwConditionID": 4146,
+        "bCount": 1
+      },
+      {
+        "dwID": 8057,
+        "dwQuestID": 7157,
+        "bConditionType": 3,
+        "dwConditionID": 7155,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7192,
+    "parent": 7182,
+    "npc": 25218,
+    "npc_type": 7,
+    "item": 4148,
+    "category": "active_mission",
+    "context_names": [
+      "Studium zdokonalování"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8054,
+        "dwQuestID": 7192,
+        "bConditionType": 3,
+        "dwConditionID": 7182,
+        "bCount": 0
+      },
+      {
+        "dwID": 8055,
+        "dwQuestID": 7192,
+        "bConditionType": 13,
+        "dwConditionID": 4148,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7201,
+    "parent": 7182,
+    "npc": 25219,
+    "npc_type": 7,
+    "item": 4149,
+    "category": "active_mission",
+    "context_names": [
+      "Studium zdokonalování"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8058,
+        "dwQuestID": 7201,
+        "bConditionType": 3,
+        "dwConditionID": 7182,
+        "bCount": 0
+      },
+      {
+        "dwID": 8059,
+        "dwQuestID": 7201,
+        "bConditionType": 13,
+        "dwConditionID": 4149,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7225,
+    "parent": 7223,
+    "npc": 25221,
+    "npc_type": 7,
+    "item": 9584,
+    "category": "active_mission",
+    "context_names": [
+      "Učení jak začarovat"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8060,
+        "dwQuestID": 7225,
+        "bConditionType": 3,
+        "dwConditionID": 7223,
+        "bCount": 0
+      },
+      {
+        "dwID": 8061,
+        "dwQuestID": 7225,
+        "bConditionType": 13,
+        "dwConditionID": 9584,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7226,
+    "parent": 7223,
+    "npc": 25220,
+    "npc_type": 7,
+    "item": 4147,
+    "category": "active_mission",
+    "context_names": [
+      "Učení jak začarovat"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8062,
+        "dwQuestID": 7226,
+        "bConditionType": 3,
+        "dwConditionID": 7223,
+        "bCount": 0
+      },
+      {
+        "dwID": 8063,
+        "dwQuestID": 7226,
+        "bConditionType": 13,
+        "dwConditionID": 4147,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7233,
+    "parent": 7231,
+    "npc": 25222,
+    "npc_type": 7,
+    "item": 8501,
+    "category": "active_mission",
+    "context_names": [
+      "Učení jak vylepšit předměty"
+    ],
+    "client_maps": [
+      2010
+    ],
+    "server_map": 2010,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8064,
+        "dwQuestID": 7233,
+        "bConditionType": 3,
+        "dwConditionID": 7231,
+        "bCount": 0
+      },
+      {
+        "dwID": 8065,
+        "dwQuestID": 7233,
+        "bConditionType": 13,
+        "dwConditionID": 8501,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7843,
+    "parent": 7841,
+    "npc": 26047,
+    "npc_type": 7,
+    "item": 9621,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte rozbité tréninkové štáby"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8579,
+        "dwQuestID": 7843,
+        "bConditionType": 3,
+        "dwConditionID": 7841,
+        "bCount": 0
+      },
+      {
+        "dwID": 8580,
+        "dwQuestID": 7843,
+        "bConditionType": 13,
+        "dwConditionID": 9621,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7845,
+    "parent": 7841,
+    "npc": 26049,
+    "npc_type": 7,
+    "item": 9623,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte rozbité tréninkové štáby"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8583,
+        "dwQuestID": 7845,
+        "bConditionType": 3,
+        "dwConditionID": 7841,
+        "bCount": 0
+      },
+      {
+        "dwID": 8584,
+        "dwQuestID": 7845,
+        "bConditionType": 13,
+        "dwConditionID": 9623,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7846,
+    "parent": 7841,
+    "npc": 26050,
+    "npc_type": 7,
+    "item": 9624,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte rozbité tréninkové štáby"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8585,
+        "dwQuestID": 7846,
+        "bConditionType": 3,
+        "dwConditionID": 7841,
+        "bCount": 0
+      },
+      {
+        "dwID": 8586,
+        "dwQuestID": 7846,
+        "bConditionType": 13,
+        "dwConditionID": 9624,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7908,
+    "parent": 7906,
+    "npc": 26068,
+    "npc_type": 7,
+    "item": 9644,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8649,
+        "dwQuestID": 7908,
+        "bConditionType": 3,
+        "dwConditionID": 7906,
+        "bCount": 0
+      },
+      {
+        "dwID": 8650,
+        "dwQuestID": 7908,
+        "bConditionType": 13,
+        "dwConditionID": 9644,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7909,
+    "parent": 7906,
+    "npc": 26069,
+    "npc_type": 7,
+    "item": 9645,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8651,
+        "dwQuestID": 7909,
+        "bConditionType": 3,
+        "dwConditionID": 7906,
+        "bCount": 0
+      },
+      {
+        "dwID": 8652,
+        "dwQuestID": 7909,
+        "bConditionType": 13,
+        "dwConditionID": 9645,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7910,
+    "parent": 7906,
+    "npc": 26070,
+    "npc_type": 7,
+    "item": 9646,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8653,
+        "dwQuestID": 7910,
+        "bConditionType": 3,
+        "dwConditionID": 7906,
+        "bCount": 0
+      },
+      {
+        "dwID": 8654,
+        "dwQuestID": 7910,
+        "bConditionType": 13,
+        "dwConditionID": 9646,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7911,
+    "parent": 7906,
+    "npc": 26071,
+    "npc_type": 7,
+    "item": 9647,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8655,
+        "dwQuestID": 7911,
+        "bConditionType": 3,
+        "dwConditionID": 7906,
+        "bCount": 0
+      },
+      {
+        "dwID": 8656,
+        "dwQuestID": 7911,
+        "bConditionType": 13,
+        "dwConditionID": 9647,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7912,
+    "parent": 7906,
+    "npc": 26072,
+    "npc_type": 7,
+    "item": 9648,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8657,
+        "dwQuestID": 7912,
+        "bConditionType": 3,
+        "dwConditionID": 7906,
+        "bCount": 0
+      },
+      {
+        "dwID": 8658,
+        "dwQuestID": 7912,
+        "bConditionType": 13,
+        "dwConditionID": 9648,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7925,
+    "parent": 7775,
+    "npc": 26067,
+    "npc_type": 7,
+    "item": 9649,
+    "category": "active_mission",
+    "context_names": [
+      "Nápověda Peijo"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8670,
+        "dwQuestID": 7925,
+        "bConditionType": 3,
+        "dwConditionID": 7775,
+        "bCount": 0
+      },
+      {
+        "dwID": 8671,
+        "dwQuestID": 7925,
+        "bConditionType": 13,
+        "dwConditionID": 9649,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7930,
+    "parent": 7928,
+    "npc": 26055,
+    "npc_type": 7,
+    "item": 9629,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte Otupený Tréninkové meče"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8688,
+        "dwQuestID": 7930,
+        "bConditionType": 3,
+        "dwConditionID": 7928,
+        "bCount": 0
+      },
+      {
+        "dwID": 8689,
+        "dwQuestID": 7930,
+        "bConditionType": 13,
+        "dwConditionID": 9629,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7931,
+    "parent": 7928,
+    "npc": 26056,
+    "npc_type": 7,
+    "item": 9630,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte Otupený Tréninkové meče"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8690,
+        "dwQuestID": 7931,
+        "bConditionType": 3,
+        "dwConditionID": 7928,
+        "bCount": 0
+      },
+      {
+        "dwID": 8691,
+        "dwQuestID": 7931,
+        "bConditionType": 13,
+        "dwConditionID": 9630,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7933,
+    "parent": 7928,
+    "npc": 26058,
+    "npc_type": 7,
+    "item": 9632,
+    "category": "active_mission",
+    "context_names": [
+      "Sbírejte Otupený Tréninkové meče"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8694,
+        "dwQuestID": 7933,
+        "bConditionType": 3,
+        "dwConditionID": 7928,
+        "bCount": 0
+      },
+      {
+        "dwID": 8695,
+        "dwQuestID": 7933,
+        "bConditionType": 13,
+        "dwConditionID": 9632,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7962,
+    "parent": 7960,
+    "npc": 26073,
+    "npc_type": 7,
+    "item": 9644,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros Vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8731,
+        "dwQuestID": 7962,
+        "bConditionType": 3,
+        "dwConditionID": 7960,
+        "bCount": 0
+      },
+      {
+        "dwID": 8732,
+        "dwQuestID": 7962,
+        "bConditionType": 13,
+        "dwConditionID": 9644,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7963,
+    "parent": 7960,
+    "npc": 26074,
+    "npc_type": 7,
+    "item": 9645,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros Vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8733,
+        "dwQuestID": 7963,
+        "bConditionType": 3,
+        "dwConditionID": 7960,
+        "bCount": 0
+      },
+      {
+        "dwID": 8734,
+        "dwQuestID": 7963,
+        "bConditionType": 13,
+        "dwConditionID": 9645,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7964,
+    "parent": 7960,
+    "npc": 26075,
+    "npc_type": 7,
+    "item": 9646,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros Vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8735,
+        "dwQuestID": 7964,
+        "bConditionType": 3,
+        "dwConditionID": 7960,
+        "bCount": 0
+      },
+      {
+        "dwID": 8736,
+        "dwQuestID": 7964,
+        "bConditionType": 13,
+        "dwConditionID": 9646,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7965,
+    "parent": 7960,
+    "npc": 26076,
+    "npc_type": 7,
+    "item": 9647,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros Vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8737,
+        "dwQuestID": 7965,
+        "bConditionType": 3,
+        "dwConditionID": 7960,
+        "bCount": 0
+      },
+      {
+        "dwID": 8738,
+        "dwQuestID": 7965,
+        "bConditionType": 13,
+        "dwConditionID": 9647,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 7966,
+    "parent": 7960,
+    "npc": 26077,
+    "npc_type": 7,
+    "item": 9648,
+    "category": "active_mission",
+    "context_names": [
+      "Pštros Vejce"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8739,
+        "dwQuestID": 7966,
+        "bConditionType": 3,
+        "dwConditionID": 7960,
+        "bCount": 0
+      },
+      {
+        "dwID": 8740,
+        "dwQuestID": 7966,
+        "bConditionType": 13,
+        "dwConditionID": 9648,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8005,
+    "parent": 8003,
+    "npc": 26193,
+    "npc_type": 7,
+    "item": 9656,
+    "category": "active_mission",
+    "context_names": [
+      "Byliny pro Karla"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8766,
+        "dwQuestID": 8005,
+        "bConditionType": 3,
+        "dwConditionID": 8003,
+        "bCount": 0
+      },
+      {
+        "dwID": 8767,
+        "dwQuestID": 8005,
+        "bConditionType": 13,
+        "dwConditionID": 9656,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8200,
+    "parent": 8198,
+    "npc": 20123,
+    "npc_type": 7,
+    "item": 9691,
+    "category": "active_mission",
+    "context_names": [
+      "Corkin poklad"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8941,
+        "dwQuestID": 8200,
+        "bConditionType": 3,
+        "dwConditionID": 8198,
+        "bCount": 0
+      },
+      {
+        "dwID": 8942,
+        "dwQuestID": 8200,
+        "bConditionType": 13,
+        "dwConditionID": 9691,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8261,
+    "parent": 8259,
+    "npc": 20124,
+    "npc_type": 7,
+    "item": 9699,
+    "category": "active_mission",
+    "context_names": [
+      "Lov pokračuje"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 8991,
+        "dwQuestID": 8261,
+        "bConditionType": 3,
+        "dwConditionID": 8259,
+        "bCount": 0
+      },
+      {
+        "dwID": 8992,
+        "dwQuestID": 8261,
+        "bConditionType": 13,
+        "dwConditionID": 9699,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8539,
+    "parent": 7780,
+    "npc": 26192,
+    "npc_type": 7,
+    "item": 9650,
+    "category": "active_mission",
+    "context_names": [
+      "Nápověda Melilli"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9274,
+        "dwQuestID": 8539,
+        "bConditionType": 3,
+        "dwConditionID": 7780,
+        "bCount": 0
+      },
+      {
+        "dwID": 9275,
+        "dwQuestID": 8539,
+        "bConditionType": 13,
+        "dwConditionID": 9650,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8544,
+    "parent": 8115,
+    "npc": 20053,
+    "npc_type": 7,
+    "item": 9680,
+    "category": "active_mission",
+    "context_names": [
+      "Realizace strategie!"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9286,
+        "dwQuestID": 8544,
+        "bConditionType": 3,
+        "dwConditionID": 8115,
+        "bCount": 0
+      },
+      {
+        "dwID": 9287,
+        "dwQuestID": 8544,
+        "bConditionType": 13,
+        "dwConditionID": 9680,
+        "bCount": 0
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8685,
+    "parent": 8673,
+    "npc": 20510,
+    "npc_type": 7,
+    "item": 9708,
+    "category": "active_mission",
+    "context_names": [
+      "Ztracená taška"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9433,
+        "dwQuestID": 8685,
+        "bConditionType": 3,
+        "dwConditionID": 8673,
+        "bCount": 0
+      },
+      {
+        "dwID": 9434,
+        "dwQuestID": 8685,
+        "bConditionType": 13,
+        "dwConditionID": 9708,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8697,
+    "parent": 8677,
+    "npc": 20511,
+    "npc_type": 7,
+    "item": 9110,
+    "category": "active_mission",
+    "context_names": [
+      "Neriskovat"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9443,
+        "dwQuestID": 8697,
+        "bConditionType": 3,
+        "dwConditionID": 8677,
+        "bCount": 0
+      },
+      {
+        "dwID": 9444,
+        "dwQuestID": 8697,
+        "bConditionType": 13,
+        "dwConditionID": 9110,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8830,
+    "parent": 8692,
+    "npc": 20490,
+    "npc_type": 7,
+    "item": 9039,
+    "category": "active_mission",
+    "context_names": [
+      "Ukradené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9459,
+        "dwQuestID": 8830,
+        "bConditionType": 3,
+        "dwConditionID": 8692,
+        "bCount": 0
+      },
+      {
+        "dwID": 9460,
+        "dwQuestID": 8830,
+        "bConditionType": 13,
+        "dwConditionID": 9039,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8831,
+    "parent": 8692,
+    "npc": 20491,
+    "npc_type": 7,
+    "item": 9044,
+    "category": "active_mission",
+    "context_names": [
+      "Ukradené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9461,
+        "dwQuestID": 8831,
+        "bConditionType": 3,
+        "dwConditionID": 8692,
+        "bCount": 0
+      },
+      {
+        "dwID": 9462,
+        "dwQuestID": 8831,
+        "bConditionType": 13,
+        "dwConditionID": 9044,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8832,
+    "parent": 8692,
+    "npc": 20492,
+    "npc_type": 7,
+    "item": 9045,
+    "category": "active_mission",
+    "context_names": [
+      "Ukradené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9463,
+        "dwQuestID": 8832,
+        "bConditionType": 3,
+        "dwConditionID": 8692,
+        "bCount": 0
+      },
+      {
+        "dwID": 9464,
+        "dwQuestID": 8832,
+        "bConditionType": 13,
+        "dwConditionID": 9045,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8833,
+    "parent": 8692,
+    "npc": 20493,
+    "npc_type": 7,
+    "item": 9046,
+    "category": "active_mission",
+    "context_names": [
+      "Ukradené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9465,
+        "dwQuestID": 8833,
+        "bConditionType": 3,
+        "dwConditionID": 8692,
+        "bCount": 0
+      },
+      {
+        "dwID": 9466,
+        "dwQuestID": 8833,
+        "bConditionType": 13,
+        "dwConditionID": 9046,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8834,
+    "parent": 8692,
+    "npc": 20494,
+    "npc_type": 7,
+    "item": 9047,
+    "category": "active_mission",
+    "context_names": [
+      "Ukradené šípy"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9467,
+        "dwQuestID": 8834,
+        "bConditionType": 3,
+        "dwConditionID": 8692,
+        "bCount": 0
+      },
+      {
+        "dwID": 9468,
+        "dwQuestID": 8834,
+        "bConditionType": 13,
+        "dwConditionID": 9047,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  },
+  {
+    "quest": 8836,
+    "parent": 8693,
+    "npc": 20517,
+    "npc_type": 7,
+    "item": 9026,
+    "category": "active_mission",
+    "context_names": [
+      "Gimmletina truhla"
+    ],
+    "client_maps": [
+      0
+    ],
+    "server_map": 0,
+    "client_map_matches": true,
+    "multiple_client_positions": false,
+    "missing_references": [],
+    "item_exists": true,
+    "conditions": [
+      {
+        "dwID": 9471,
+        "dwQuestID": 8836,
+        "bConditionType": 3,
+        "dwConditionID": 8693,
+        "bCount": 0
+      },
+      {
+        "dwID": 9472,
+        "dwQuestID": 8836,
+        "bConditionType": 13,
+        "dwConditionID": 9026,
+        "bCount": 1
+      }
+    ],
+    "global_template_present": false
+  }
+]

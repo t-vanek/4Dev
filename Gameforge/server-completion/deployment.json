@@ -1,0 +1,58 @@
+{
+  "prepared_utc": "2026-10-28T09:34:20.385412+00:00",
+  "stage_database": "TGame_ContentStage_20261028_093419",
+  "backups": [
+    {
+      "database": "TGame_gsp",
+      "container_path": "/var/opt/mssql/backup/TGame_gsp_before_verified_20261028_093419.bak",
+      "path": ".runtime\\gameforge-verified-import\\backups\\TGame_gsp_before_verified_20261028_093419.bak",
+      "bytes": 39981056,
+      "sha256": "8babfeb51a94067c76882b3ca9952feeee08e589540fb7adaedf789489bf7cca"
+    },
+    {
+      "database": "TGlobal_gsp",
+      "container_path": "/var/opt/mssql/backup/TGlobal_gsp_before_verified_20261028_093419.bak",
+      "path": ".runtime\\gameforge-verified-import\\backups\\TGlobal_gsp_before_verified_20261028_093419.bak",
+      "bytes": 40038400,
+      "sha256": "614f7b3e1261f9dee6eb05ff9887979246a7a153a5863f547907dc12840e7ba7"
+    }
+  ],
+  "migration_file": "037_gameforge_verified_regional_fields.sql",
+  "migration_sha256": "d297c8f42c46369fd3c6eb89ab8fde92acbc7f0f49d3ea6b64c5cea1ce68932c",
+  "plan_sha256": "0cbb8027bbcc3d3850632d22a05ccdbe1d629f12ea24e0e9e649e39e85c8a2e0",
+  "stage_passed_utc": "2026-10-28T09:38:59.781932+00:00",
+  "pre_restart_other_client_connections": 0,
+  "migration_registered": {
+    "Id": "037_gameforge_verified_regional_fields.sql",
+    "AppliedUtc": "2026-10-28T09:39:01.2264429"
+  },
+  "runtime_reloaded_utc": "2026-10-28T09:46:07.917694+00:00",
+  "startup_npcs": 2755,
+  "startup_items": 8150,
+  "startup_quests": 6419,
+  "verified_utc": "2026-10-28T09:48:19.775102+00:00",
+  "runtime_image": "sha256:5ca34c4eb7633fc6ca48c611523e01357064e9a636db417c2352f239ebf6de41",
+  "runtime_server_dll_sha256": "83a0047fcf8a6432f601446d447dd7b8664b95918c0a49ed2543acc92d8b6108",
+  "runtime_templates_reloaded": true,
+  "live_gameplay_writes_to_sql": 0,
+  "purchases_verified": 22,
+  "monster_restores_verified": 2,
+  "mapped_monster_fields_verified": 16,
+  "old_delivery_regressions_verified": 12,
+  "retained_game_tables": 198,
+  "retained_global_tables_excluding_migration_metadata": 69,
+  "affected_old_rows_verified": 23568,
+  "graphical_playthrough": false,
+  "full_gameforge_alignment": false,
+  "evidence": {
+    "client-compatibility.json": "573e70aa6285f8d041f8e1f41055747b09056102899782a5fb317fd3edd89dfb",
+    "guard-verification.json": "4470df9411cc164cfcccf1993246abb7f7fa3bf5f0aa0863e8722e81314f8802",
+    "live-gameplay.json": "9aac37da6adf9b324cfb78e211483f3e986ab7ee54800b18aa9e377364a44f16",
+    "live-verification.json": "2e68e3f55fe3dfee433eb78e6f7a7ab5f8f433cc08b60477c0e47080858ea8c9",
+    "plan.json": "0cbb8027bbcc3d3850632d22a05ccdbe1d629f12ea24e0e9e649e39e85c8a2e0",
+    "stage-gameplay.json": "6e7a1e2c1924f82b85b6351fe7706fe0fe65c305e2848506c95159a856220eb0",
+    "stage-verification.json": "db277e26ec326414a2d13e2d76c200329d1be57c7ba18c2ddecea4c925b68f95"
+  },
+  "original_client_files_modified": false,
+  "saved_character_rows_rewritten_by_import": 0
+}
