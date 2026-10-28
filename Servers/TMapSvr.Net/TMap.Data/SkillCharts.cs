@@ -351,6 +351,12 @@ public sealed record SkillTemplate(
 
     /// <summary>SKILL_DATA_TYPE SDT_STATUS (NetCode.h:1552) — a status-effect data row.</summary>
     public const byte SdtStatus = 6;
+    public const byte SdtStatusTeleport = 16, SdtStatusWarp = 24, SdtStatusReturn = 31, SdtStatusReturnPos = 56;
+
+    /// <summary>Instant movement effects executed when a skill lands (C++ PerformSkill SDT_STATUS).</summary>
+    public bool HasMovementStatus() => Data.Any(d => d.Type == SdtStatus
+        && d.Exec is SdtStatusTeleport or SdtStatusWarp or SdtStatusReturn or SdtStatusReturnPos);
+
     /// <summary>SDT_STATUS_TYPE HP↔MP execs (NetCode.h:1737) — swap HP↔MP, and sacrifice half HP into MP; the
     /// only vitals-mutating status effects the map server applies inline (the rest are movement / flags).</summary>
     public const byte SdtStatusHpMpChange = 50, SdtStatusHpToMp = 51;

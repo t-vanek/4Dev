@@ -1080,16 +1080,19 @@ void CTClientGame::CalcSCENE( DWORD dwTick)
 	CalcBREATH(dwTick);
 	CalcLAVA(dwTick);
 
-	if(m_pMainChar->m_dwDropDamage &&
-		(m_pMainChar->m_pTREGION ? m_pMainChar->m_pTREGION->m_bContryID != TCONTRY_PEACE : TRUE) )
+	if(m_pMainChar->m_dwDropDamage)
 	{
-		SendCS_DROPDAMAGE_REQ(
-			m_pMainChar->m_dwID,
-			m_pMainChar->m_bType,
-			m_pMainChar->m_dwDropDamage,
-			m_pMainWnd->m_bChannel,
-			m_vMAP.m_wMapID);
+		if( !m_pMainChar->m_pTREGION || m_pMainChar->m_pTREGION->m_bContryID != TCONTRY_PEACE )
+		{
+			SendCS_DROPDAMAGE_REQ(
+				m_pMainChar->m_dwID,
+				m_pMainChar->m_bType,
+				m_pMainChar->m_dwDropDamage,
+				m_pMainWnd->m_bChannel,
+				m_vMAP.m_wMapID);
+		}
 
+		// A fall in a peace region is discarded, never deferred until the player leaves it.
 		m_pMainChar->m_dwDropDamage = 0;
 	}
 
@@ -10555,6 +10558,8 @@ int CTClientGame::OnSessionMsg( CTachyonSession *pSession, CPacket *pPacket)
 
 void CTClientGame::ReleaseForTELEPORT()
 {
+	// Pending damage belongs to the old location, including falls suppressed in Thebekut.
+	m_pMainChar->m_dwDropDamage = 0;
 	((CTClientObjBase *) m_pMainChar)->CalcTick( m_pDevice->m_pDevice, 0);
 	m_pCtrlHost = m_pMainChar;
 

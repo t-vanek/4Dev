@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using TMap.Data;
 using TMap.Protocol;
 
@@ -39,7 +40,11 @@ public sealed partial class MapService
         uint targetId = r.ReadUInt32();
         byte targetType = r.ReadByte();
         uint damage = r.ReadUInt32();
+        byte channel = r.ReadByte();
+        ushort mapId = r.ReadUInt16();
         if (s.State != EnterState.InGame || s.Char is not { } ch) return;
+        // A delayed report from before a map/channel change must not hurt the player at the destination.
+        if (channel != s.Channel || mapId != ch.MapId) return;
         if (targetType != OtPc && targetType != Monster.OtMon) return;
         if (targetId != ch.CharId)
         {
@@ -52,7 +57,9 @@ public sealed partial class MapService
         }
         if (!s.IsMain || targetType != OtPc || ch.Hp == 0) return;
 
+        uint hpBefore = ch.Hp;
         ch.Hp = ch.Hp > damage ? ch.Hp - damage : 0;
+        _log.LogInformation("Fall damage char {Char} on map {Map}: damage {Damage}, HP {Before} -> {After}.", ch.CharId, ch.MapId, damage, hpBefore, ch.Hp);
         ch.EnterBattle(NowMs, RecoverInit);                                                     // m_dwRecoverHP/MPTick = now + RECOVER_INIT
         var viewers = _state.InView(s).ToList();
         var fall = new PacketWriter(Msg.CS_DROPDAMAGE_ACK).WriteUInt32(targetId).WriteByte(targetType).WriteUInt32(damage).ToArray();

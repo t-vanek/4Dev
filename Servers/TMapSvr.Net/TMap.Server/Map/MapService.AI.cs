@@ -201,6 +201,7 @@ public sealed partial class MapService
     /// (<c>ReleaseMaintain(FALSE)</c>).</summary>
     private void PlayerDied(Character target, IEnumerable<ClientSession> viewers)
     {
+        _log.LogWarning("Player death char {Char} on map {Map}, HP {Hp}, position ({X},{Y},{Z}).", target.CharId, target.MapId, target.Hp, target.PosX, target.PosY, target.PosZ);
         foreach (var p in viewers) SendCS_DIE_ACK(p, target.CharId, OtPc);
         if (_state.FindByChar(target.CharId) is not { } dead) return;
         CastleOnDeath(target);                                                  // a carried god ball falls; a kill point (MapService.Castle.cs)

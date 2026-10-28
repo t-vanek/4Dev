@@ -348,9 +348,8 @@ public sealed partial class MapService
     /// fail silently (C++ <c>PERFORM_FAIL</c>) when the required pool is empty (MP == 0 / HP == 0). Broadcasts
     /// <c>CS_HPMP_ACK</c> on a change (Phase 43).
     ///
-    /// <para><b>Deferred (documented):</b> the non-vitals <c>SDT_STATUS</c> execs (teleport/warp/return, the
-    /// mode/hide/silence/mark flags, <c>SDT_STATUS_DISTRIBUTE</c> pet-share, …) — their target subsystems aren't
-    /// ported. Only the two HP↔MP conversions are applied here.</para></summary>
+    /// Teleport/warp/return effects execute through <see cref="ApplyPlayerMovementStatus"/>. Persistent
+    /// status flags are handled by their maintained buffs rather than this instant-effect path.</summary>
     private void ApplyPlayerStatus(ClientSession casterSession, Character caster, uint targetId, SkillTemplate tpl,
                                    byte level, uint attackId, float px, float py, float pz)
     {
@@ -359,6 +358,8 @@ public sealed partial class MapService
         if (targetId == caster.CharId) { targetSession = casterSession; target = caster; }
         else if (_state.FindByChar(targetId) is { State: EnterState.InGame, Char: { } tc } ts) { targetSession = ts; target = tc; }
         else return;
+
+        if (tpl.HasMovementStatus() && (targetSession.Channel != casterSession.Channel || target.MapId != caster.MapId)) return;
 
         bool changed = false;
         for (int i = 0; i < tpl.Data.Count; i++)
@@ -390,6 +391,7 @@ public sealed partial class MapService
         }
 
         if (changed) BroadcastHpMp(targetSession, target);
+        ApplyPlayerMovementStatus(targetSession, target, tpl, level, px, py, pz);
         var ack = BuildDefendAckMaintain(attackId, OtPc, target.CharId, OtPc, tpl.Id, level, isMaintain: 0, 0, px, py, pz);
         foreach (var p in _state.NearView(targetSession)) p.Send(ack);
     }

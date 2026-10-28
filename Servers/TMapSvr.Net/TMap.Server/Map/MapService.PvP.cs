@@ -65,6 +65,9 @@ public sealed partial class MapService
                 if (d.Type == SkillTemplate.SdtCure && d.Exec is SctPosRemove or SctNegRemove)
                     StripMaintains(ts, target, positive: d.Exec == SctPosRemove);
 
+        if (hitType != HtMiss && target.Hp != 0 && tpl is { } movement)
+            ApplyPlayerMovementStatus(ts, target, movement, level, atkX, atkY, atkZ);
+
         byte isMaintain = 0; uint maintainTick = 0;
         if (hitType != HtMiss && hpBefore != 0 && tpl is { } dt && dt.IsMaintainType())
         {

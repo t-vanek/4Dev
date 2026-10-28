@@ -189,7 +189,7 @@ public sealed partial class MapService
                     ApplyPlayerMaintain(s, ch, targetId, tpl, lvl, attackId, atkX, atkY, atkZ);
                 if (tpl.HasCure())
                     ApplyPlayerCure(s, ch, targetId, tpl, lvl, attackId, transHp, transMp, atkX, atkY, atkZ);
-                if (tpl.HasVitalsStatus())
+                if (tpl.HasVitalsStatus() || tpl.HasMovementStatus())
                     ApplyPlayerStatus(s, ch, targetId, tpl, lvl, attackId, atkX, atkY, atkZ);
                 // PerformSkill SDT_RECALL / SDT_TRAP — summon skills are cast on oneself.
                 if (targetId == ch.CharId && tpl.Data.Any(d => d.Type is SdtRecall or SdtTrap))
@@ -310,6 +310,8 @@ public sealed partial class MapService
         bool performed = true;
         if (hitType != HtMiss && attackType == OtPc && atkTpl is { } pt)
             performed = PerformTameSkill(owner, pt, mon, attackerLevel);
+        if (hitType != HtMiss && !corpse && mon.Hp != 0 && atkTpl is { } movement)
+            performed &= ApplyMonsterMovementStatus(mon, movement, ackSkillLevel, atkX, atkY, atkZ);
 
         // ---- broadcast the hit (with the full per-exec damage map) + the new HP/MP bar to nearby players ----
         // Byte-audit (Phase 28): bHit carries the attacker's crit prob; bPerform is FALSE on a miss; the damage

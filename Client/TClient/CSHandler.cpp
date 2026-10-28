@@ -78,6 +78,24 @@
 
 #include "TSoulLotteryWinDlg.h"
 #include "CompStyleDlg.h"
+#include <cstdio>
+
+// Opt-in local diagnostics for the teleport/death regression. No account data is recorded.
+static void TraceTeleportState(const char* stage, CTClientChar* character, BYTE gameGhost, WORD mapId,
+	DWORD receivedHp = 0, DWORD receivedMaxHp = 0)
+{
+	char enabled[2];
+	if (!GetEnvironmentVariableA("TCLIENT_TELEPORT_TRACE", enabled, sizeof(enabled)) || !character)
+		return;
+	FILE* trace = NULL;
+	if (fopen_s(&trace, "TeleportTrace.log", "a") != 0 || !trace)
+		return;
+	fprintf(trace, "%lu %s id=%lu hp=%lu maxhp=%lu receivedHp=%lu receivedMaxHp=%lu action=%u ghost=%u gameGhost=%u map=%u pos=%.3f,%.3f,%.3f\n",
+		GetTickCount(), stage, character->m_dwID, character->m_dwHP, character->m_dwMaxHP,
+		receivedHp, receivedMaxHp, character->m_bAction, character->m_bGhost, gameGhost, mapId,
+		(double)character->GetPositionX(), (double)character->GetPositionY(), (double)character->GetPositionZ());
+	fclose(trace);
+}
 
 #include "GuildSkillsDlg.h"
 #include "ArenaRanking.h"
@@ -3514,6 +3532,8 @@ int CTClientGame::OnCS_HPMP_ACK( CTachyonSession *pSession, CPacket *pPacket)
 
 	if(pOBJ)
 	{
+		if (pOBJ == m_pMainChar)
+			TraceTeleportState("HPMP_RECEIVED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID, dwHP, dwMaxHP);
 		pOBJ->m_dwMaxHP = dwMaxHP;
 		pOBJ->m_dwMaxMP = dwMaxMP;
 
@@ -3567,6 +3587,8 @@ int CTClientGame::OnCS_DIE_ACK( CTachyonSession *pSession, CPacket *pPacket)
 
 	if(pDIE)
 	{
+		if (pDIE == m_pMainChar)
+			TraceTeleportState("DIE_RECEIVED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 		pDIE->m_dwHP = 0;
 
 		pDIE->OnDIE( m_pDevice, m_pRES);
@@ -8112,6 +8134,7 @@ int CTClientGame::OnCS_WARP_ACK( CTachyonSession *pSession, CPacket *pPacket)
 
 int CTClientGame::OnCS_TELEPORT_ACK( CTachyonSession *pSession, CPacket *pPacket)
 {
+	TraceTeleportState("TELEPORT_RECEIVED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 	DWORD dwObjID;
 	DWORD dwRange;
 	BYTE bObjType;
@@ -8214,11 +8237,13 @@ int CTClientGame::OnCS_TELEPORT_ACK( CTachyonSession *pSession, CPacket *pPacket
 			{
 				m_pMainWnd->m_bResetTick = TRUE;
 				ReleaseForTELEPORT();
+				TraceTeleportState("SAME_MAP_RELEASED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 
 				m_vMAP.ResetTMAP(
 					m_pDevice,
 					m_pCamera,
 					0, TRUE);
+				TraceTeleportState("SAME_MAP_LOADED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 
 
 				if (IsInBOWMap() || IsInBRMap())
@@ -8305,11 +8330,13 @@ int CTClientGame::OnCS_TELEPORT_ACK( CTachyonSession *pSession, CPacket *pPacket
 */
 
 			ReleaseForTELEPORT();
+			TraceTeleportState("NEW_MAP_RELEASED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 			m_vMAP.LoadMAP(
 				m_pDevice,
 				m_pCamera,
 				m_pRES,
 				m_vMAP.m_wMapID);
+			TraceTeleportState("NEW_MAP_LOADED", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 
 			if (IsInBOWMap() || IsInBRMap())
 			{
@@ -8451,6 +8478,7 @@ int CTClientGame::OnCS_TELEPORT_ACK( CTachyonSession *pSession, CPacket *pPacket
 
 int CTClientGame::OnCS_BEGINTELEPORT_ACK( CTachyonSession *pSession, CPacket *pPacket)
 {
+	TraceTeleportState("BEGIN_TELEPORT", m_pMainChar, m_bGHOST, m_vMAP.m_wMapID);
 	BYTE bChannel = 0;
 	WORD wMapID = (WORD) -1;
 

@@ -79,8 +79,8 @@ public class ItemLeftoverTests
         return item;
     }
 
-    private static byte[] Fall(uint target, byte type, uint damage)
-        => new PacketWriter(Msg.CS_DROPDAMAGE_REQ).WriteUInt32(target).WriteByte(type).WriteUInt32(damage).WriteByte(1).WriteUInt16(0).ToArray();
+    private static byte[] Fall(uint target, byte type, uint damage, byte channel = 1, ushort mapId = 0)
+        => new PacketWriter(Msg.CS_DROPDAMAGE_REQ).WriteUInt32(target).WriteByte(type).WriteUInt32(damage).WriteByte(channel).WriteUInt16(mapId).ToArray();
 
     private static byte[] Act(uint attacker, ushort skill = Firework)
     {
@@ -105,6 +105,36 @@ public class ItemLeftoverTests
         await x.H.Service.DispatchClientAsync(x.Sa, Fall(A, 1, 500));
         Assert.Equal(0u, x.A.Hp);
         Assert.True(x.Cb.Has(Msg.CS_DIE_ACK));
+    }
+
+    [Theory]
+    [InlineData(2, 0)]
+    [InlineData(1, 3)]
+    public async Task AFallFromThePreviousMapOrChannel_DoesNotKillAtTheDestination(byte channel, ushort mapId)
+    {
+        var x = await Open();
+        x.Ca.Clear(); x.Cb.Clear();
+
+        await x.H.Service.DispatchClientAsync(x.Sa, Fall(A, 1, 500, channel, mapId));
+
+        Assert.Equal(100u, x.A.Hp);
+        Assert.False(x.Ca.Has(Msg.CS_DROPDAMAGE_ACK));
+        Assert.False(x.Ca.Has(Msg.CS_HPMP_ACK));
+        Assert.False(x.Ca.Has(Msg.CS_DIE_ACK));
+        Assert.False(x.Cb.Has(Msg.CS_DIE_ACK));
+    }
+
+    [Fact]
+    public async Task AFallWhileLoadingTheDestination_DoesNotKill()
+    {
+        var x = await Open();
+        x.Sa.State = EnterState.Granted;
+        x.Ca.Clear();
+
+        await x.H.Service.DispatchClientAsync(x.Sa, Fall(A, 1, 500));
+
+        Assert.Equal(100u, x.A.Hp);
+        Assert.False(x.Ca.Has(Msg.CS_DIE_ACK));
     }
 
     [Fact]

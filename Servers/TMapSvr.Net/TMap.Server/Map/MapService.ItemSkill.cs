@@ -83,7 +83,8 @@ public sealed partial class MapService
     {
         if (tpl.IsMaintainType()) ForceMaintain(s, ch, tpl.Id, ch.CharId, OtPc, ch.CharId, OtPc, remainMs);
         if (tpl.HasCure()) ApplyPlayerCure(s, ch, ch.CharId, tpl, 1, ch.CharId, 0, 0, ch.PosX, ch.PosY, ch.PosZ);
-        if (tpl.HasVitalsStatus()) ApplyPlayerStatus(s, ch, ch.CharId, tpl, 1, ch.CharId, ch.PosX, ch.PosY, ch.PosZ);
+        if (tpl.HasVitalsStatus() || tpl.HasMovementStatus())
+            ApplyPlayerStatus(s, ch, ch.CharId, tpl, 1, ch.CharId, ch.PosX, ch.PosY, ch.PosZ);
     }
 
     /// <summary>The <c>IK_RETURN</c> case: to the spawn point the scroll names, unless one is of the peace country.</summary>

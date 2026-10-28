@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using TMap.Data;
 using TMap.Protocol;
 
@@ -150,6 +151,8 @@ public sealed partial class MapService
     /// <summary>C++ <c>Teleport(pPlayer, bChannel, wMapID, x, y, z)</c> (TMapSvr.cpp:7189).</summary>
     private bool Teleport(ClientSession s, Character ch, byte channel, ushort mapId, float x, float y, float z)
     {
+        _log.LogInformation("Teleport char {Char}: HP {Hp}/{MaxHp}, from {FromMap} ({FromX},{FromY},{FromZ}) to {ToMap} ({ToX},{ToY},{ToZ}).",
+            ch.CharId, ch.Hp, MaxHpFor(ch), ch.MapId, ch.PosX, ch.PosY, ch.PosZ, mapId, x, y, z);
         PetRiding(s, ch, 0);
         for (int i = ch.MaintainSkills.Count - 1; i >= 0; i--)
             if (Array.IndexOf(TeleportClearedSkills, ch.MaintainSkills[i].SkillId) >= 0) EraseMaintainPlayer(s, ch, i);
@@ -189,6 +192,7 @@ public sealed partial class MapService
         s.Channel = channel;
         ch.MapId = mapId;
         ch.PosX = x; ch.PosY = y; ch.PosZ = z;
+        _log.LogInformation("Teleport char {Char} left map: HP {Hp}/{MaxHp}, destination {Map}.", charId, ch.Hp, MaxHpFor(ch), mapId);
 
         if (!s.IsMain) return;
         // TGetServerID: the server owning that map unit. This deployment runs one map server, which owns them all.
@@ -213,6 +217,8 @@ public sealed partial class MapService
         float x = r.ReadFloat(), y = r.ReadFloat(), z = r.ReadFloat();
         byte result = r.ReadByte();
         if (FindPlayer(charId, key) is not { } s) return;
+        if (s.Char is { } ch)
+            _log.LogInformation("Teleport char {Char} verdict {Result}: HP {Hp}/{MaxHp}, destination {Map}.", charId, result, ch.Hp, MaxHpFor(ch), mapId);
         SendCS_TELEPORT_ACK(s, result, mapId, x, y, z);
     }
 
