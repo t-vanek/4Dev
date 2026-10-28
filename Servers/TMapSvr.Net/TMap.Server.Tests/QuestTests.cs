@@ -68,6 +68,105 @@ public class QuestTests
     }
 
     [Fact]
+    public async Task Craft_UsesInventoryWithoutAcceptingMission_AndCanRepeat()
+    {
+        var store = Store();
+        store.Quests[6000] = Q(6000, (byte)QuestType.Craft, Giver,
+            terms: new[] { ((uint)CollectItem, QttGetItem, (byte)2) },
+            rewards: new[] { ((uint)RewardItem, RtItem, RmDefault, (byte)0, (byte)1) });
+        var ch = Hero();
+        ch.FindInven(0xFF)!.Items.Add(new Item { ItemSlot = 0, TemplateId = CollectItem, Count = 4, Template = store.Item(CollectItem) });
+        var (h, s, c) = await Enter(store, ch);
+
+        for (int i = 0; i < 2; i++)
+        {
+            await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(6000));
+            var ack = new PacketReader(c.Last(Msg.CS_QUESTCOMPLETE_ACK)!);
+            Assert.Equal((byte)QuestResult.Success, ack.ReadByte());
+            Assert.Equal(6000u, ack.ReadUInt32());
+        }
+
+        Assert.Equal(2, ch.FindInven(0xFF)!.Items.Where(i => i.TemplateId == RewardItem).Sum(i => i.Count));
+        Assert.DoesNotContain(ch.FindInven(0xFF)!.Items, i => i.TemplateId == CollectItem);
+        Assert.Null(ch.FindQuest(6000));
+        Assert.False(c.Has(Msg.CS_QUESTADD_ACK));
+    }
+
+    [Fact]
+    public async Task Craft_MissingIngredients_ReportsUnmetTermWithoutSpendingItems()
+    {
+        var store = Store();
+        store.Quests[6000] = Q(6000, (byte)QuestType.Craft, Giver,
+            terms: new[] { ((uint)CollectItem, QttGetItem, (byte)2) },
+            rewards: new[] { ((uint)RewardItem, RtItem, RmDefault, (byte)0, (byte)1) });
+        var ch = Hero();
+        ch.FindInven(0xFF)!.Items.Add(new Item { ItemSlot = 0, TemplateId = CollectItem, Count = 1, Template = store.Item(CollectItem) });
+        var (h, s, c) = await Enter(store, ch);
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(6000));
+
+        var ack = new PacketReader(c.Last(Msg.CS_QUESTCOMPLETE_ACK)!);
+        Assert.Equal((byte)QuestResult.Term, ack.ReadByte());
+        Assert.Equal(6000u, ack.ReadUInt32());
+        Assert.Equal((uint)CollectItem, ack.ReadUInt32());
+        Assert.Equal(1, ch.FindInven(0xFF)!.Items.Single().Count);
+        Assert.Null(ch.FindQuest(6000));
+    }
+
+    [Fact]
+    public async Task Craft_ClassCondition_PreventsConsumptionAndReward()
+    {
+        var store = Store();
+        store.Quests[6000] = Q(6000, (byte)QuestType.Craft, Giver,
+            terms: new[] { ((uint)CollectItem, QttGetItem, (byte)1) },
+            rewards: new[] { ((uint)RewardItem, RtItem, RmDefault, (byte)0, (byte)1) },
+            conds: new[] { (2u, (byte)5, (byte)0) }); // class 1 only; the hero is class 0
+        var ch = Hero();
+        ch.FindInven(0xFF)!.Items.Add(new Item { ItemSlot = 0, TemplateId = CollectItem, Count = 1, Template = store.Item(CollectItem) });
+        var (h, s, c) = await Enter(store, ch);
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(6000));
+
+        Assert.False(c.Has(Msg.CS_QUESTCOMPLETE_ACK));
+        Assert.Equal(CollectItem, ch.FindInven(0xFF)!.Items.Single().TemplateId);
+    }
+
+    [Fact]
+    public async Task Craft_FullInventory_LeavesIngredientsIntact()
+    {
+        var store = Store();
+        store.Quests[6000] = Q(6000, (byte)QuestType.Craft, Giver,
+            terms: new[] { ((uint)CollectItem, QttGetItem, (byte)1) },
+            rewards: new[] { ((uint)RewardItem, RtItem, RmDefault, (byte)0, (byte)1) });
+        var ch = Hero();
+        ch.FindInven(0xFF)!.SlotCount = 1;
+        ch.FindInven(0xFF)!.Items.Add(new Item { ItemSlot = 0, TemplateId = CollectItem, Count = 2, Template = store.Item(CollectItem) });
+        var (h, s, c) = await Enter(store, ch);
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(6000));
+
+        var ack = new PacketReader(c.Last(Msg.CS_QUESTCOMPLETE_ACK)!);
+        Assert.Equal((byte)QuestResult.InventoryFull, ack.ReadByte());
+        Assert.Equal(2, ch.FindInven(0xFF)!.Items.Single().Count);
+        Assert.Null(ch.FindQuest(6000));
+    }
+
+    [Fact]
+    public async Task Craft_ForeignCountryNpc_RejectsDirectQuestRequest()
+    {
+        var store = Store();
+        store.Quests[6000] = Q(6000, (byte)QuestType.Craft, Giver,
+            rewards: new[] { ((uint)RewardItem, RtItem, RmDefault, (byte)0, (byte)1) });
+        var (h, s, c) = await Enter(store);
+        h.Service.AddNpc(new Npc { Id = Giver, Type = 20, Country = 0, MapId = 0 });
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(6000));
+
+        Assert.False(c.Has(Msg.CS_QUESTCOMPLETE_ACK));
+        Assert.DoesNotContain(s.Char!.FindInven(0xFF)!.Items, i => i.TemplateId == RewardItem);
+    }
+
+    [Fact]
     public async Task Exec_Mission_AddsQuest_AndAnnounces()
     {
         var store = Store();
@@ -225,6 +324,48 @@ public class QuestTests
         Assert.Equal(QttTalk, u.ReadByte());
         Assert.Equal((byte)1, u.ReadByte());
         Assert.Equal((byte)QuestTermStatus.Success, u.ReadByte());
+    }
+
+    [Fact]
+    public async Task NpcDialogue_QuestExecution_EchoesTriggerNpcForClientTargetMatching()
+    {
+        var store = Store();
+        store.Quests[3100] = Q(3100, (byte)QuestType.NpcTalk, Giver);
+        var (h, s, c) = await Enter(store);
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(3100));
+
+        var response = new PacketReader(c.Last(Msg.CS_NPCTALK_ACK)!);
+        Assert.Equal(3100u, response.ReadUInt32());
+        Assert.Equal(Giver, response.ReadUInt16());
+    }
+
+    [Fact]
+    public async Task NpcDialogue_UnmetConditions_ReturnsDefaultTalkForTheSameNpc()
+    {
+        var store = Store();
+        store.Quests[3100] = Q(3100, (byte)QuestType.NpcTalk, Giver,
+            conds: new[] { (10u, QctUpperLevel, (byte)0) });
+        var (h, s, c) = await Enter(store);
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(3100));
+
+        var response = new PacketReader(c.Last(Msg.CS_NPCTALK_ACK)!);
+        Assert.Equal(0u, response.ReadUInt32());
+        Assert.Equal(Giver, response.ReadUInt16());
+    }
+
+    [Fact]
+    public async Task NpcDialogue_QuestExecutionOnAnotherMap_DoesNotOpenDialogue()
+    {
+        var store = Store();
+        store.Quests[3100] = Q(3100, (byte)QuestType.NpcTalk, Giver);
+        var (h, s, c) = await Enter(store);
+        s.Char!.MapId = 1;
+
+        await h.Service.DispatchClientAsync(s, MapTestHarness.QuestExecReq(3100));
+
+        Assert.False(c.Has(Msg.CS_NPCTALK_ACK));
     }
 
     [Fact]

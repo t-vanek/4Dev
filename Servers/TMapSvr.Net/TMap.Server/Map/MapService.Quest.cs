@@ -397,6 +397,7 @@ public sealed partial class MapService
             case QuestType.Mission:
             case QuestType.Guild: ExecMission(s, ch, q, monId, x, y, z); break;
             case QuestType.Complete: ExecComplete(s, ch, q, rewardType, rewardId); break;
+            case QuestType.Craft: ExecCraft(s, ch, q, rewardType, rewardId); break;
             case QuestType.GiveItem: ExecGiveItem(s, ch, q, monId, x, y, z); break;
             case QuestType.DeleteItem: ExecDeleteItem(s, ch, q); break;        // Phase 29
             case QuestType.DropQuest: ExecDropQuest(s, ch, q); break;          // Phase 29
@@ -562,7 +563,9 @@ public sealed partial class MapService
     private void ExecTalk(ClientSession s, Character ch, QuestTemplate q, uint npcId)
     {
         uint offered = CanRunQuest(ch, q, out _) == QctNone ? q.QuestId : 0;
-        SendCS_NPCTALK_ACK(s, offered, (ushort)npcId);
+        // Direct quest execution has no monster/event target; the client matches this ID to its NPC.
+        ushort dialogNpc = q.TriggerType == TtTalkNpc ? (ushort)q.TriggerId : (ushort)npcId;
+        SendCS_NPCTALK_ACK(s, offered, dialogNpc);
     }
 
     /// <summary>C++ <c>CQuestMission::ExecQuest</c> — begin the quest: register it, announce
@@ -780,6 +783,29 @@ public sealed partial class MapService
         }
     }
 
+    /// <summary>C++ <c>CQuestCraft::ExecQuest</c>: recipes complete directly from inventory, without accepting
+    /// a mission first. Failed requirements/capacity checks leave ingredients intact; success fires the
+    /// completion trigger and child chain. Craft progress is temporary, so repeatable recipes do not
+    /// accumulate a saved mission or overflow byte-sized mission counters.</summary>
+    private void ExecCraft(ClientSession s, Character ch, QuestTemplate q, byte rewardType, uint rewardId)
+    {
+        if (CanRunQuest(ch, q, out _) != QctNone) return;
+        var progress = new QuestProgress { Template = q };
+        var unmet = CheckComplete(ch, progress);
+        if (unmet is not null)
+        {
+            if (q.ForceRun == 0)
+                SendCS_QUESTCOMPLETE_ACK(s, QuestResult.Term, q.QuestId, unmet.TermId, unmet.TermType, 0);
+            return;
+        }
+
+        var result = OnQuestComplete(s, ch, q, rewardType, rewardId);
+        SendCS_QUESTCOMPLETE_ACK(s, result, q.QuestId, 0, 0, 0);
+        if (result != QuestResult.Success) return;
+        CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, q.QuestId, QttQuestCompleted, TtComplete, 1);
+        ExecChildren(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ);
+    }
+
     /// <summary>C++ <c>CTPlayer::OnQuestComplete</c> — grant the rewards: item rewards (take-method + class
     /// gate → bag push, QR_INVENTORYFULL when they won't fit), then gold / exp, then consume the fetch
     /// (QTT_GETITEM) items. RT_MAGICITEM / RT_SKILL / RT_SKILLUP / title / soul / point rewards are deferred.</summary>
@@ -887,6 +913,7 @@ public sealed partial class MapService
         {
             if (_state.FindNpc((ushort)q.TriggerId) is not { } npc) return;
             if (ch.MapId != npc.MapId) return;
+            if (!CanTalk(npc, ch)) return;
         }
 
         ExecQuest(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ, rewardType, rewardId);

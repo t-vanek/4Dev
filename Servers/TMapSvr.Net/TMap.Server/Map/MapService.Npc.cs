@@ -11,10 +11,9 @@ namespace TMap.Server.Map;
 /// them from <c>TNPCCHART</c>/<c>TNPCITEMCHART</c>) — the client already knows their positions, so nothing is
 /// broadcast; the server validates by id + country (<see cref="Npc.CanTalk"/>) and holds the stock.
 ///
-/// <para>Deferred (documented — PORT_STATUS.md): the <b>quest engine</b> (<c>CheckQuest</c>/<c>FindQuestTemplate</c>/
-/// <c>CanRunQuest</c>) — talk always returns questId 0, and a client-supplied nonzero <c>dwQuestID</c> resolves
-/// the item from shop stock and skips payment exactly as the C++ does when no quest chart matches (a latent
-/// free-buy that closes once quests gate the item list); <b>BoW-mode</b> pricing (a gold NPC is assumed); the price-up
+/// <para>Quest pickups resolve a runnable routing quest's QTT_ITEMID term against the item chart, bound to
+/// its trigger NPC and map. Ordinary purchases resolve shop stock and pay the shop's price.
+/// Deferred (documented — PORT_STATUS.md): <b>BoW-mode</b> pricing (a gold NPC is assumed); the price-up
 /// buff on sell (<c>SDT_STATUS_PRICEUP</c>); the secure-code, player-store, deal (trade) and tournament guards;
 /// the item-count / quest / UDP logging. No DB save (the C++ buy/sell path saves nothing back).</para>
 /// </summary>
@@ -98,9 +97,18 @@ public sealed partial class MapService
         if (npc is null || count == 0) { SendCS_ITEMBUY_ACK(s, ch, ItemBuyResult.NotFound, itemId); return; }
         if (!CanTalk(npc, ch)) return;
 
-        // Quest-item resolution deferred: with no quest chart FindQuestTemplate is null, so (like the C++) the
-        // item resolves from shop stock and the price gate below stays on questId == 0.
-        var t = npc.GetItem(itemId);
+        ItemTemplate? t;
+        if (questId != 0)
+        {
+            var quest = _templates.Quest(questId);
+            bool canCollect = quest is not null && quest.Type == (byte)QuestType.Routing
+                && quest.TriggerType == TtTalkNpc && quest.TriggerId == npcId && npc.MapId == ch.MapId
+                && CanRunQuest(ch, quest, out _) == QctNone
+                && quest.Terms.Any(term => term.TermType == QttItemId && term.TermId == itemId);
+            t = canCollect ? _templates.Item(itemId) : null;
+        }
+        else
+            t = npc.GetItem(itemId);
         if (t is null) { SendCS_ITEMBUY_ACK(s, ch, ItemBuyResult.NotFound, itemId); return; }
 
         if (t.Stack < count) count = t.Stack;

@@ -137,19 +137,18 @@ public class NpcShopTests
     }
 
     [Fact]
-    public async Task Buy_QuestId_SkipsPayment()
+    public async Task Buy_UnknownQuestId_DoesNotBypassPayment()
     {
-        // Faithful to C++ with no quest chart: a nonzero dwQuestID resolves from shop stock and charges nothing.
         var store = ShopStore();
         var (h, s, c) = await Enter(store, Shopper());
-        s.Char!.SetMoneyTotal(0);      // broke, yet the quest buy still succeeds (free)
+        s.Char!.SetMoneyTotal(0);
         h.Service.AddNpc(ShopNpc(store));
 
         await h.Service.DispatchClientAsync(s, MapTestHarness.ItemBuyReq(NpcId, ShopItemId, count: 1, questId: 42));
 
-        Assert.Equal((byte)ItemBuyResult.Success, new PacketReader(c.Last(Msg.CS_ITEMBUY_ACK)!).ReadByte());
-        Assert.Single(s.Char.FindInven(0xFF)!.Items);
-        Assert.Equal(0L, s.Char.MoneyTotal);   // no charge
+        Assert.Equal((byte)ItemBuyResult.NotFound, new PacketReader(c.Last(Msg.CS_ITEMBUY_ACK)!).ReadByte());
+        Assert.Empty(s.Char.FindInven(0xFF)!.Items);
+        Assert.Equal(0L, s.Char.MoneyTotal);
     }
 
     private static Item SellItem(TemplateStore store, byte slot, byte count, ushort tempId = ShopItemId)
