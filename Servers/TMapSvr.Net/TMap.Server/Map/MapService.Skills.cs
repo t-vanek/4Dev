@@ -10,18 +10,12 @@ namespace TMap.Server.Map;
 /// cooldown, and broadcasts <c>CS_SKILLUSE_ACK</c> (the attack-power payload the follow-up <c>CS_DEFEND</c>
 /// reads back) + <c>CS_HPMP_ACK</c> (the cost) to the near players. Closes the two-packet attack.
 ///
-/// <para><b>Phase-14 slice (documented — PORT_STATUS.md).</b> Caster = <c>OT_PC</c> only (OT_MON/OT_RECALL/
-/// OT_SELF summon/recall objects unported). Guards ported: skill-known (<c>SKILL_NOTFOUND</c>), MP
-/// (<c>&lt;</c> ⇒ <c>SKILL_NEEDMP</c>), HP (<c>&lt;=</c> ⇒ <c>SKILL_NEEDHP</c>), cooldown
-/// (<c>SKILL_SPEEDYUSE</c>) — in the C++ order (skill → MP → HP → cooldown). Deferred guards (each gates an
-/// unported subsystem): toggleable-recast, wrong-region, peace-zone, tournament/arena, premium-skill
-/// medals, <c>CheckAttack</c> stun/hold buffs, <c>CheckPrevAct</c>, and <c>UseSkillItem</c> weapon/consumable.
-/// The power payload uses the <b>physical-melee</b> path (<c>GetAttackType()</c>/<c>IsLongAttack()</c>,
-/// derived from the skill-data rows <c>m_vData</c>, are deferred ⇒ every skill is treated as SAT_PHYSIC
-/// short): <c>wAttackLevel = GetAttackLevel()</c>, phys AP from the melee set, <c>bCP = CriticalPysProb</c>;
-/// magic AP is still populated. <c>wBackSkill</c> (weapon-durability <c>DurationDec</c>), <c>wTransHP/MP</c>
-/// (SCT_HPTRANS/MPTRANS transform-cost), <c>bEquipSpecial</c> and aggro are 0/deferred. Target validation is
-/// deferred — the requested target list is echoed verbatim.</para>
+/// <para>A player casts only as its own main session. Learned-skill, map, combat/status, resource and cooldown
+/// checks run before the weapon/consumable commit. The server selects multi-attack hits, spends the matching
+/// equipped weapon's ammunition plus any required skill item, then authorizes the corresponding impacts.
+/// Physical, ranged and magic power use the skill's effect rows. Monster and summon casters have separate paths.</para>
+/// <para>Accepted ordinary player casts also wear the chart-selected equipment and announce its rolled
+/// item skill. Remaining work includes transfer-cost fields and full target-distance validation.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -86,12 +80,15 @@ public sealed partial class MapService
             SummonSkillUse(s, s.Char, attackType, attackId, skillId, actionId, actId, aniId, posX, posY, posZ, targets);
             return;
         }
-        if (attackType != OtPc) return;
-        if (_state.FindByChar(attackId) is not { State: EnterState.InGame, Char: { } ch } casterSession) return;
+        if (attackType != OtPc || !s.IsMain || attackId != s.CharId) return;
+        var casterSession = s;
+        var ch = s.Char;
 
         // ---- skill known? (pATTACK->FindTSkill(wSkillID)) ----
         var skill = LearnedSkill(ch, skillId);
         if (skill is null) { SendSkillUseFail(s, SkillUseResult.NotFound, attackId, attackType, skillId, actionId, actId, aniId); return; }
+        if (skill.Template is { MapId: not InvalidMapId } restricted && restricted.MapId != ch.MapId)
+        { SendSkillUseFail(s, SkillUseResult.NotFound, attackId, attackType, skillId, actionId, actId, aniId); return; }
         // ---- a guild skill: the guild, the duty, its time (MapService.GuildSkill.cs) ----
         if (!CanCastGuildSkill(ch, skillId)) { SendSkillUseFail(s, SkillUseResult.NotFound, attackId, attackType, skillId, actionId, actId, aniId); return; }
         if (TournamentSkillBanned(ch, skillId) is { } banned)                             // the tournament (MapService.TournamentMatch.cs)
@@ -101,6 +98,8 @@ public sealed partial class MapService
         // ---- no hostile skill in a peace zone (C++ CheckPeaceZone, CSHandler.cpp:2584) ----
         if ((skill.Template?.IsNegative ?? true) && CheckPeaceZone(s.Char!))
         { SendSkillUseFail(s, SkillUseResult.PeaceZone, attackId, attackType, skillId, actionId, actId, aniId); return; }
+        if (skill.Template is { IsNegative: true } && !BuffLayer.CanAttack(ch.MaintainSkills, player: true))
+        { SendSkillUseFail(s, SkillUseResult.SpeedyUse, attackId, attackType, skillId, actionId, actId, aniId); return; }
 
         // ---- MP cost (GetRequiredMP vs GetPureMaxMP; strict <) ----
         uint needMp = skill.GetRequiredMp(StatEngine.PureMaxMp(ch, _templates));
@@ -111,7 +110,14 @@ public sealed partial class MapService
         if (ch.Hp <= needHp) { SendSkillUseFail(s, SkillUseResult.NeedHp, attackId, attackType, skillId, actionId, actId, aniId); return; }
 
         // ---- cooldown (non-mon caster: !CanUse ⇒ SPEEDYUSE) ----
+        if (!HasActiveSkill(ch.MaintainSkills, skill.Template?.PrevActiveId ?? 0))
+        { SendSkillUseFail(s, SkillUseResult.NeedPrevAct, attackId, attackType, skillId, actionId, actId, aniId); return; }
         if (!skill.CanUse(NowMs)) { SendSkillUseFail(s, SkillUseResult.SpeedyUse, attackId, attackType, skillId, actionId, actId, aniId); return; }
+
+        if (skill.Template is { } castTemplate)
+            targets = PickLoopTargets(castTemplate, skill.Level, targets.Select(t => (t.id, t.type, true)).ToList());
+        if (!TryConsumeSkillItems(s, ch, skill.Template, targets.Length))
+        { SendSkillUseFail(s, SkillUseResult.UnsuitWeapon, attackId, attackType, skillId, actionId, actId, aniId); return; }
 
         // ---- arm the cooldown (SkillUse), then deduct the caster's own HP/MP ----
         SkillUse(ch, skill, NowMs);
@@ -130,11 +136,16 @@ public sealed partial class MapService
         uint mgMax = StatEngine.MaxMagicAp(ch, _templates);
         byte cp = isMagic ? StatEngine.CriticalMagicProb(ch, _templates) : StatEngine.CriticalPysProb(ch, _templates);
 
+        // The announce carries pre-wear power, as in CSHandler.cpp:2953. Only an accepted ordinary cast
+        // wears equipment; ACTION, LOOPSKILL and later/replayed impacts must not wear it again.
+        ushort backSkill = WearSkillEquipment(s, ch, skill.Template);
+        AuthorizePlayerCast(s, skill, targets, backSkill: backSkill);
+
         if (skill.Template is { } used) EraseBuffByAttack(casterSession, ch, used);   // C++ CSHandler.cpp:2971
         GuildSkillCast(ch, skillId, skill.Level);                                       // C++ CSHandler.cpp:2974: the guild's cooldown
 
         var ack = BuildCS_SKILLUSE_ACK(SkillUseResult.Success, attackId, attackType, skillId, actionId, actId, aniId,
-            skill.Level, backSkill: 0, attackLevel, ch.Level, pysMin, pysMax, mgMin, mgMax,
+            skill.Level, backSkill, attackLevel, ch.Level, pysMin, pysMax, mgMin, mgMax,
             transHp: 0, transMp: 0, curseProb: 0, equipSpecial: 0, canSelect: 1,
             ch.Country, ch.AidCountry, cp, posX, posY, posZ, targets);
 
@@ -176,10 +187,13 @@ public sealed partial class MapService
             return;
         }
 
+        if (!HasActiveSkill(mon.MaintainSkills, _templates.Skill(skillId)?.PrevActiveId ?? 0))
+        { SendSkillUseFail(s, SkillUseResult.NeedPrevAct, monId, Monster.OtMon, skillId, actionId, actId, aniId); return; }
+        var power = AttackerPower.Of(mon, _templates.Skill(skillId));
         var ack = BuildCS_SKILLUSE_ACK(SkillUseResult.Success, monId, Monster.OtMon, skillId, actionId, actId, aniId,
-            skillLevel: 1, backSkill: 0, attackLevel: mon.GetAttackLevel(), attackerLevel: mon.Level,
-            pysMin: mon.GetMinAp(), pysMax: mon.GetMaxAp(), mgMin: 0, mgMax: 0, transHp: 0, transMp: 0, curseProb: 0,
-            equipSpecial: 0, canSelect: 1, mon.Country, mon.AidCountry, mon.GetCritProb(), posX, posY, posZ, targets);
+            skillLevel: 1, backSkill: 0, attackLevel: power.AttackLevel, attackerLevel: mon.Level,
+            pysMin: power.PysMin, pysMax: power.PysMax, mgMin: power.MgMin, mgMax: power.MgMax, transHp: 0, transMp: 0, curseProb: 0,
+            equipSpecial: 0, canSelect: 1, mon.Country, mon.AidCountry, power.Crit, posX, posY, posZ, targets);
         foreach (var p in _state.PlayersAround(mon)) p.Send(ack);   // C++ GetNeerPlayer around the monster
     }
 

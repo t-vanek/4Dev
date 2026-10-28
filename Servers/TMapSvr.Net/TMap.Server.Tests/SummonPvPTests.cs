@@ -94,7 +94,7 @@ public class SummonPvPTests
         var x = await Setup();
         var pet = Pet(x.H, x.B, PetB);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
 
         Assert.True(pet.Hp < 500);
         var r = new PacketReader(x.Cb.Last(Msg.CS_DEFEND_ACK)!);
@@ -107,7 +107,7 @@ public class SummonPvPTests
         var x = await Setup();
         var pet = Pet(x.H, x.A, PetA);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetA, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetA, OtRecall)));
 
         Assert.Equal(500u, pet.Hp);
     }
@@ -118,7 +118,7 @@ public class SummonPvPTests
         var x = await Setup();
         Pet(x.H, x.B, PetB, hp: 1);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
 
         Assert.True(x.Cb.Has(Msg.CS_DIE_ACK));
         var del = new PacketReader(x.H.World.Last(Msg.MW_RECALLMONDEL_ACK)!);
@@ -131,7 +131,7 @@ public class SummonPvPTests
         var x = await Setup();
         var pet = Pet(x.H, x.B, PetB);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Slow, (PetB, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Slow, (PetB, OtRecall)));
 
         Assert.Contains(pet.MaintainSkills, m => m.SkillId == Slow);
     }
@@ -142,7 +142,7 @@ public class SummonPvPTests
         var x = await Setup();
         var pet = Pet(x.H, x.B, PetB);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Bless, (PetB, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Bless, (PetB, OtRecall)));
 
         Assert.Contains(pet.MaintainSkills, m => m.SkillId == Bless);
         Assert.Equal(500u, pet.Hp);
@@ -156,7 +156,7 @@ public class SummonPvPTests
         var x = await Setup();
         Pet(x.H, x.A, PetA);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
 
         Assert.True(x.B.Hp < 100);
         var r = new PacketReader(x.Cb.Last(Msg.CS_DEFEND_ACK)!);
@@ -170,7 +170,7 @@ public class SummonPvPTests
         Pet(x.H, x.A, PetA);
         x.B.Hp = 1;
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
 
         Assert.Equal(0u, x.B.Hp);
         Assert.Equal(1, x.A.MonthWin);                                                // the owner's win
@@ -186,7 +186,7 @@ public class SummonPvPTests
         var enemy = Pet(x.H, x.B, PetB);
         var mine = Pet(x.H, x.A, 0x6003);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (PetB, OtRecall), (0x6003, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (PetB, OtRecall), (0x6003, OtRecall)));
 
         Assert.True(enemy.Hp < 500);
         Assert.Equal(500u, mine.Hp);
@@ -204,12 +204,12 @@ public class SummonPvPTests
     {
         var x = await Setup();
         var pet = Pet(x.H, x.A, PetA);
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
         uint plain = 100 - x.B.Hp;
 
         x.B.Hp = 100;
         pet.MaintainSkills.Add(BuffOf(new SkillDataRow(SaBuff, SdtAbility, 0, 7 /* MTYPE_PAP */, 1, 40, 0, 0)));
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, PetA, OtRecall, Strike, (B, OtPc)));
 
         Assert.Equal(plain + 40, 100 - x.B.Hp);
     }
@@ -221,7 +221,7 @@ public class SummonPvPTests
         var pet = Pet(x.H, x.B, PetB);
         pet.MaintainSkills.Add(BuffOf(new SkillDataRow(SaBuff, 6 /* SDT_STATUS */, 0, BuffLayer.StatusExceptPhysic, 1, 0, 0, 0)));
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
+        await x.H.CastAndHitAsync(x.Sa, Finish(A, A, OtPc, Strike, (PetB, OtRecall)));
 
         Assert.Equal(500u, pet.Hp);
     }

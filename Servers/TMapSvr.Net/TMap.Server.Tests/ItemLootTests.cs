@@ -42,8 +42,8 @@ public class ItemLootTests
         h.Service.CombatRng = new Random(1);
         h.Service.LootRng = new Random(1);
         c.Clear();
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
         return (h, s, c, mob);
     }
 
@@ -119,8 +119,8 @@ public class ItemLootTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
         h.Service.LootRng = new Random(1);
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
         Assert.Equal((byte)2 /* OWNER_PARTY */, mob.KeeperType);
         await h.Service.DispatchClientAsync(s1, MapTestHarness.MonItemListReq(mob.Id));
         Assert.Equal(1u, mob.InvenLock);

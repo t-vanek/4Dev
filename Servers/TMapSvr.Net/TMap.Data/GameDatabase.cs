@@ -177,7 +177,7 @@ public sealed partial class GameDatabase
                  fPrice, bCanRepair, wDelayGroupID, bConsumable, bIsSell,
                  bGrade, bCanGrade, bCanMagic, bCanRare, bCanWrap, bCanColor, dwDuraMax, wUseTime, bUseType,
                  bItemCountry, fPvPrice, bEquipSkill, dwCode, bCanGamble, bGambleProb, bDestroyProb,
-                 bGroupID, bDropLevel, bInitState, wWeight, wItemProb_G FROM TITEMCHART";
+                 bGroupID, bDropLevel, bInitState, wWeight, wItemProb_G, bUseItemKind, bUseItemCount FROM TITEMCHART";
     // The per-level chart (CTBLLevelChart): the repair-cost coefficient (m_dwRepairCost), dwEXP (the
     // level-up threshold) + bSkillPoint (granted per level), and dwMoney (the base price the item
     // buy/sell math scales by m_fPrice).
@@ -233,7 +233,7 @@ public sealed partial class GameDatabase
         @"SELECT wID, wMapID, fPosX, fPosY, fPosZ, wDir, bCountry, bCount, bRange, bProb, dwRegion, dwDelay, bEvent, bArea, wLocalID FROM TMONSPAWNCHART";
     private const string MapMonChartSql = @"SELECT wSpawnID, wMonID, bLeader, bEssential, bProb FROM TMAPMONCHART ORDER BY wSpawnID";
     private const string MagicChartSql =
-        @"SELECT bMagic, bRvType, wMaxValue, dwKind, bIsMagic, bIsRare, bExclIndex, bOptionKind, wRareBound, bRefine, bMinLevel, wMaxBound FROM TITEMMAGICCHART";
+        @"SELECT bMagic, bRvType, wMaxValue, dwKind, bIsMagic, bIsRare, bExclIndex, bOptionKind, wRareBound, bRefine, bMinLevel, wMaxBound, wAutoSkill FROM TITEMMAGICCHART";
     // Stat / HP-MP charts (FORMULA_TYPE FTYPE_1ST = 34 is the per-level stat-growth factor).
     private const string FormulaChartSql = @"SELECT bID, dwInit, fRateX, fRateY FROM TFORMULACHART";
     private const string ClassChartSql = @"SELECT bClassID, wSTR, wDEX, wCON, wINT, wWIS, wMEN FROM TCLASSCHART";
@@ -277,7 +277,8 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                  dwReuseDelay, nReuseDelayInc, dwLoopDelay, dwKindDelay, bSpeedApply, bPositive, wMapID,
                  dwDuration, dwDurationInc, bMaintainType, bPriority, bStatic, dwClassID, bGlobal,
                  bIsRide, bIsHideSkill, bIsDismount, bEraseAct, bTargetRange, fPrice, wParentSkillID,
-                 dwWeaponID, wPosture, bORadius, bEraseHide, bTargetHit, bCanLearn, wItemID FROM TSKILLCHART";
+                 dwWeaponID, wPosture, bORadius, bEraseHide, bTargetHit, bCanLearn, wItemID,
+                 bRepeatCount, wTriggerID, dwActionTime, wPrevActiveID, wTargetActiveID, bDuraSlot FROM TSKILLCHART";
     // The learning costs per skill level (CTBLSkillPoint → CTSkillTemp::m_mapTSkillPoint).
     private const string SkillPointChartSql =
         @"SELECT wID, bLevel, bSkillPoint, bGroupPoint, bPrevSkillLevel, dwPayback FROM TSKILLPOINTCHART";
@@ -330,7 +331,7 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                     ItemCountry: r.GetByteSafe(32), PvPrice: r.GetFloatSafe(33), EquipSkill: r.GetByteSafe(34), Code: r.GetUIntSafe(35),
                     CanGamble: r.GetByteSafe(36), GambleProb: r.GetByteSafe(37), DestroyProb: r.GetByteSafe(38),
                     GroupId: r.GetByteSafe(39), DropLevel: r.GetByteSafe(40), InitState: r.GetByteSafe(41), Weight: r.GetUShortSafe(42),
-                    ItemProbG: r.GetUShortSafe(43));
+                    ItemProbG: r.GetUShortSafe(43), UseItemKind: r.GetByteSafe(44), UseItemCount: r.GetByteSafe(45));
                 var t = store.Items[id];
                 if (t.DropLevel != 0)                                                        // C++ m_mapTMONITEM (TMapSvr.cpp:1983)
                 {
@@ -348,7 +349,7 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                 var m = new MagicTemplate(id, r.GetByteSafe(1), r.GetUShortSafe(2), Kind: r.GetUIntSafe(3),
                     IsMagic: r.GetByteSafe(4), IsRare: r.GetByteSafe(5), ExclIndex: r.GetByteSafe(6),
                     OptionKind: r.GetByteSafe(7), RareBound: r.GetUShortSafe(8), Refine: r.GetByteSafe(9),
-                    MinLevel: r.GetByteSafe(10), MaxBound: r.GetUShortSafe(11));
+                    MinLevel: r.GetByteSafe(10), MaxBound: r.GetUShortSafe(11), AutoSkill: r.GetUShortSafe(12));
                 store.Magics[id] = m;
                 // C++ m_vItemMagic[i] for i in 1..IK_HP-1 (IK_HP = 26): one list per item kind the option fits.
                 for (byte k = 1; k < 26; k++)
@@ -696,7 +697,9 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                     IsDismount: r.GetByteSafe(25) != 0, EraseAct: r.GetByteSafe(26), TargetRange: r.GetByteSafe(27),
                     Price: r.IsDBNull(28) ? 0f : Convert.ToSingle(r.GetValue(28)), ParentSkillId: r.GetUShortSafe(29),
                     WeaponId: r.GetUIntSafe(30), Posture: r.GetUShortSafe(31), ORadius: r.GetByteSafe(32),
-                    EraseHide: r.GetByteSafe(33), TargetHit: r.GetByteSafe(34), CanLearn: r.GetByteSafe(35), UseItem: r.GetUShortSafe(36));
+                    EraseHide: r.GetByteSafe(33), TargetHit: r.GetByteSafe(34), CanLearn: r.GetByteSafe(35), UseItem: r.GetUShortSafe(36),
+                    RepeatCount: r.GetByteSafe(37), TriggerId: r.GetUShortSafe(38), ActionTime: r.GetUIntSafe(39),
+                    PrevActiveId: r.GetUShortSafe(40), TargetActiveId: r.GetUShortSafe(41), DuraSlot: r.GetByteSafe(42));
             }
 
         await using (var cmd = new SqlCommand(SkillPointChartSql, c))

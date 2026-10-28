@@ -116,7 +116,7 @@ public class BuffLayerTests
         mon.MaintainSkills.Add(Buff(1, Status(BuffLayer.StatusExceptPhysic)));
         var (h, s, _, _) = await Setup(mon);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 920, hostId: 1));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 920, hostId: 1));
 
         Assert.Equal(10_000u, mon.Hp);
     }
@@ -127,7 +127,7 @@ public class BuffLayerTests
         var mon = Mob();
         var (h, s, _, _) = await Setup(mon);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 920, hostId: 1));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 920, hostId: 1));
 
         Assert.True(mon.Hp < 10_000);
     }

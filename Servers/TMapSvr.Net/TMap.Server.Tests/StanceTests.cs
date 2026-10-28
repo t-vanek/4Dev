@@ -48,7 +48,7 @@ public class StanceTests
     }
 
     private static Task Cast(MapTestHarness h, ClientSession s, ushort skill)
-        => h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: 1, skillId: skill));
+        => h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: 1, skillId: skill));
 
     private static ushort[] Buffs(Character ch) => ch.MaintainSkills.Select(m => m.SkillId).OrderBy(x => x).ToArray();
 

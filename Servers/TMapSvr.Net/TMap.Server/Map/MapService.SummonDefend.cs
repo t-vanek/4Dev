@@ -40,31 +40,42 @@ public sealed partial class MapService
     private void MonsterHitsSummon(ClientSession reporter, Character owner, Monster mon, RecallMon target, ushort skillId,
         uint actId, uint aniId, float atkX, float atkY, float atkZ, float defX, float defY, float defZ, MonsterHitEcho echo)
     {
-        uint dp = SummonDefendPower(target, owner, _templates, magic: false);
-        uint defLevel = SummonDefendLevel(target, owner, _templates, magic: false);
-
-        byte hitType = HitTypeVsMonster(CombatRng, _templates.Formula(FtypePar), mon.Level, target.Level, defLevel,
-            mon.GetCritProb(), mon.GetAttackLevel());
-        int lo = Math.Max((int)(mon.GetMinAp() - dp), 5), hi = Math.Max((int)(mon.GetMaxAp() - dp), 7);
-        uint roll = hitType switch
-        {
-            HtMiss => 0u,
-            HtCritical => CritDamage(CombatRng, _templates.Formula(FtypePcd), (uint)hi),
-            _ => (uint)(lo + CombatRng.Next(Math.Max(hi - lo, 1))),
-        };
-        uint dmg = Math.Min(roll, target.Hp);
-        uint hpBefore = target.Hp;
-        if (hitType != HtMiss) target.Hp -= dmg;
+        var tpl = _templates.Skill(skillId);
+        if (!HasActiveSkill(target.MaintainSkills, tpl?.TargetActiveId ?? 0)) return;
+        var power = AttackerPower.Of(mon, tpl);
+        var defender = DamageTarget.Of(target, owner, _templates);
+        byte hitType = HitTypeVsMonster(CombatRng, _templates.Formula(power.IsMagic ? FtypeMar : FtypePar),
+            mon.Level, target.Level, defender.DefendLevel(power.IsMagic), power.Crit, power.AttackLevel);
+        var dmg = CalcDamage(power, defender, tpl, 1, hitType, power.IsMagic, power.IsLong);
+        uint hpBefore = target.Hp, mpBefore = target.Mp;
+        if (dmg.DamageHp > 0) target.Hp -= Math.Min((uint)dmg.DamageHp, target.Hp);
+        else if (dmg.DamageHp < 0) target.Hp = (uint)Math.Min((long)target.MaxHp, (long)target.Hp - dmg.DamageHp);
+        if (dmg.DamageMp > 0) target.Mp -= Math.Min((uint)dmg.DamageMp, target.Mp);
+        else if (dmg.DamageMp < 0) target.Mp = (uint)Math.Min((long)target.MaxMp, (long)target.Mp - dmg.DamageMp);
 
         SummonEnterBattle(target);                                      // CTRecallMon::OnDamage → ChgMode(MT_BATTLE)
 
         byte atkHit = hitType == HtMiss ? HtMiss : target.Hp == 0 ? HtLastHit : hitType;
+        byte isMaintain = 0; uint maintainTick = 0;
+        if (tpl is { IsNegative: true } hostile)
+            EraseBuffByDefend(target.MaintainSkills, hostile, i => EraseMaintainSummon(target, i));
+        if (hitType != HtMiss && hpBefore != 0 && target.Hp != 0 && tpl is not null)
+        {
+            foreach (var row in tpl.Data)
+                if (row.Type == SkillTemplate.SdtCure && row.Exec is SctPosRemove or SctNegRemove)
+                    StripSummonMaintains(target, positive: row.Exec == SctPosRemove);
+            var snap = new MaintainSnapshot(mon.Id, Monster.OtMon, reporter.CharId, OtPc, power.Crit,
+                power.AttackLevel, power.Level, power.PysMin, power.PysMax, power.MgMin, power.MgMax,
+                echo.CanSelect, power.Country, atkX, atkY, atkZ);
+            if (ApplyMaintainToSummon(target, tpl, 1, 0, snap) is { } applied)
+            { isMaintain = 1; maintainTick = applied.MaintainTick; }
+        }
         var hitAck = BuildMonsterHitAck(mon, target.Id, target.ObjType, dmg, atkHit, landed: hitType != HtMiss, skillId, 1,
-            reporter.CharId, actId, aniId, atkX, atkY, atkZ, defX, defY, defZ, echo);
+            reporter.CharId, actId, aniId, atkX, atkY, atkZ, defX, defY, defZ, echo, power, isMaintain, maintainTick);
         foreach (var p in _state.PlayersAround(mon))
         {
             p.Send(hitAck);
-            if (target.Hp != hpBefore) SendSummonHpMp(p, target);
+            if (target.Hp != hpBefore || target.Mp != mpBefore) SendSummonHpMp(p, target);
         }
         if (target.Hp == 0) SummonDied(reporter, owner, target);
     }

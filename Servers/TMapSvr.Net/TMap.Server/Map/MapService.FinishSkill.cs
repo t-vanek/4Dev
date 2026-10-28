@@ -16,7 +16,8 @@ namespace TMap.Server.Map;
 /// else
 ///     FinishSkill(...)  // players                             → this packet
 /// </code>
-/// <para>So a player's swing never produces <c>CS_DEFEND_REQ</c>. Without this handler every player attack is
+/// <para>Ordinary player swings use this handler; the exception skills still use <c>CS_DEFEND_REQ</c>.
+/// Without this handler every ordinary player attack is
 /// dropped, and the whole damage engine is unreachable from a real client. The wire carries only the attacker,
 /// the ground point, the skill and the target list; attack power, crit rate, attack level and the hit roll are
 /// all derived here. Each target is then resolved through the same per-target body the classic path uses
@@ -26,20 +27,17 @@ namespace TMap.Server.Map;
 /// <list type="bullet">
 /// <item><c>GetTransHPMPFromType</c> ignores its argument and returns the first cure row that is <i>either</i>
 /// HP-transfer or MP-transfer, so both transfer amounts come out the same (<see cref="TransHpMp"/>).</item>
-/// <item>The repeat-count kick and the reuse "Cant use" check are guarded by
-/// <c>m_wID &lt; 31 &amp;&amp; m_wID &gt; 34 &amp;&amp; …</c>, which is never true — both are dead code, so neither is
-/// ported.</item>
 /// </list>
 ///
 /// <para><b>Deliberate hardening:</b> the C++ resolves an <c>OT_PC</c> attacker by <c>dwAttackID</c> from the
 /// global player map, so any client could name any other player as the attacker. Here the attacker must be the
 /// sender, the same rule the port's <c>CS_DEFEND_REQ</c> already applies.</para>
 ///
-/// <para><b>Deferred</b> (subsystems or columns this port does not carry): the <c>m_vUsedSkill</c> anti-cheat
-/// ledger (it is populated by <c>CS_SKILLUSE</c>, and for ordinary skills a miss only logs), the charge-time and
-/// <c>m_bRunFromServer</c> / <c>m_bCheckAttacker</c> / <c>m_wTargetActiveID</c> checks (columns not loaded),
-/// guild skills (the guild-skill subsystem is not ported), the peace-zone and local-battle gates, and the
-/// <c>SDT_STATUS_LINK</c> self-maintain tail. Random skills and the 229/128/3604 special cases: see the loop below.</para>
+/// <para>Impacts consume a connection-local authorization created by a successful paid SKILLUSE/LOOPSKILL
+/// or act-item use. Legacy DEFEND consumes the same budget. Repeat counts, announced missiles and declared
+/// linked effects are chart-driven; the C++'s unreachable repeat/reuse guards are not copied.
+/// The target's required active effect is checked again at impact. Charge-time, run-from-server
+/// and check-attacker fields remain separate work.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -83,22 +81,14 @@ public sealed partial class MapService
 
         // Skill level from the attacker's own copy (C++ FindTSkill(m_wTriggerID); triggerID == wSkillID here).
         // One the character holds at level 0 is not learned (see LearnedSkill): the cast does nothing.
-        var own = ch.Skills.FirstOrDefault(k => k.SkillId == skillId);
-        if (own is not null && !IsLearned(own))
-        { _log.LogDebug("FINISHSKILL from char {Char}: skill {Skill} is not learned (level 0); dropped.", s.CharId, skillId); return; }
-        byte skillLevel = own?.Level ?? 0;
+        if (ConsumePlayerCast(s, skillId, targets) is not { } authorized) return;
+        byte skillLevel = authorized.Level;
         ushort trans = TransHpMp(tpl);
         byte attackCountry = GetAttackCountry(ch.Country, ch.AidCountry);
 
         // C++ (CSHandler.cpp:20601): Deadly Poison's damage over time (3604) is not learned — it hits at the level of
         // Deadly Poison itself (3603), and not at all without it.
-        Skill? fixedCast = null;
-        if (skillId == DeadlyPoisonDot)
-        {
-            if (ch.Skills.FirstOrDefault(k => k.SkillId == DeadlyPoison) is not { } poison) return;
-            skillLevel = poison.Level;
-            fixedCast = new Skill { SkillId = skillId, Level = poison.Level, Template = tpl };
-        }
+        Skill? fixedCast = authorized;
 
         _log.LogDebug("FINISHSKILL from char {Char}: skill {Skill} lvl {Level}, {Count} target(s).", s.CharId, skillId, skillLevel, targets.Length);
         foreach (var (targetId, targetType) in targets)
@@ -130,6 +120,8 @@ public sealed partial class MapService
             {
                 continue;
             }
+
+            if (!TargetHasActiveSkill(targetType, targetId, tpl.TargetActiveId)) continue;
 
             // C++ RandTransSkill / RandBuffSkill: a random skill lands as one of its run, picked for each target.
             var cast = fixedCast;

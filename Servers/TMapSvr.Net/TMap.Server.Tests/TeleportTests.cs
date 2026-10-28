@@ -151,7 +151,7 @@ public class TeleportTests
         start.WriteFloat(900); start.WriteFloat(5); start.WriteFloat(700);
         await h.Service.DispatchWorldAsync(start.ToArray());
 
-        Assert.Equal(EnterState.Granted, s.State);
+        Assert.Equal(EnterState.Entering, s.State);
         Assert.Equal(3, ch.MapId);
         Assert.Equal(900f, ch.PosX);
         Assert.True(otherClient.Has(Msg.CS_LEAVE_ACK));        // the neighbour saw it leave

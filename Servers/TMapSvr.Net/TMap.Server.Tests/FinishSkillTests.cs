@@ -77,7 +77,7 @@ public class FinishSkillTests
         var mon = Mob(0x30001);
         var (h, s, _) = await Setup(DrainSkill(), mon);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
 
         Assert.Equal(80u, mon.Hp);
     }
@@ -88,7 +88,7 @@ public class FinishSkillTests
         var mon = Mob(0x30001);
         var (h, s, c) = await Setup(DrainSkill(), mon);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
 
         Assert.True(c.Has(Msg.CS_DEFEND_ACK), "the attacker must see the hit result");
     }
@@ -98,11 +98,11 @@ public class FinishSkillTests
     {
         var viaFinish = Mob(0x30001);
         var (h1, s1, c1) = await Setup(DrainSkill(), viaFinish);
-        await h1.Service.DispatchClientAsync(s1, FinishSkill(1, Sid, (viaFinish.Id, OtMon)));
+        await h1.CastAndHitAsync(s1, FinishSkill(1, Sid, (viaFinish.Id, OtMon)));
 
         var viaDefend = Mob(0x30001);
         var (h2, s2, c2) = await Setup(DrainSkill(), viaDefend);
-        await h2.Service.DispatchClientAsync(s2, MapTestHarness.DefendReq(1, viaDefend.Id, skillId: Sid, hostId: 1));   // a real client sends its own id as host
+        await h2.CastAndHitAsync(s2, MapTestHarness.DefendReq(1, viaDefend.Id, skillId: Sid, hostId: 1));   // a real client sends its own id as host
 
         Assert.Equal(viaDefend.Hp, viaFinish.Hp);
         // Two fields legitimately differ between the doors: dwActID/dwAniID (literal 0 on the FINISHSKILL path, per
@@ -128,7 +128,7 @@ public class FinishSkillTests
         var a = Mob(0x30001); var b = Mob(0x30002);
         var (h, s, _) = await Setup(DrainSkill(), a, b);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, Sid, (a.Id, OtMon), (b.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, Sid, (a.Id, OtMon), (b.Id, OtMon)));
 
         Assert.Equal(80u, a.Hp);
         Assert.Equal(80u, b.Hp);
@@ -142,7 +142,7 @@ public class FinishSkillTests
         var mon = Mob(0x30001);
         var (h, s, _) = await Setup(DrainSkill(), mon);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, 999, (mon.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, 999, (mon.Id, OtMon)));
 
         Assert.Equal(100u, mon.Hp);
     }
@@ -153,7 +153,7 @@ public class FinishSkillTests
         var mon = Mob(0x30001);
         var (h, s, _) = await Setup(DrainSkill(), mon);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(attackId: 42, Sid, (mon.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(attackId: 42, Sid, (mon.Id, OtMon)));
 
         Assert.Equal(100u, mon.Hp);
     }
@@ -164,7 +164,7 @@ public class FinishSkillTests
         var mon = Mob(0x30001);
         var (h, s, _) = await Setup(DrainSkill(mapId: 550), mon);   // usable only on map 550; hero is on 0
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, Sid, (mon.Id, OtMon)));
 
         Assert.Equal(100u, mon.Hp);
     }
@@ -175,7 +175,7 @@ public class FinishSkillTests
         var own = Mob(0x30001, country: 1);   // hero is country 1 (the enter packet's) — a same-faction guard
         var (h, s, _) = await Setup(DrainSkill(positive: 0), own);
 
-        await h.Service.DispatchClientAsync(s, FinishSkill(1, Sid, (own.Id, OtMon)));
+        await h.CastAndHitAsync(s, FinishSkill(1, Sid, (own.Id, OtMon)));
 
         Assert.Equal(100u, own.Hp);
     }

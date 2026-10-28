@@ -304,20 +304,42 @@ public sealed partial class MapService
     private void OnCS_MONMONEYTAKE_REQ(ClientSession s, PacketReader r)
     {
         uint monId = r.ReadUInt32();
-        if (s.Char is not { } ch || _state.FindMonster(monId) is not { } mon) return;
-        // Keeper rule: the private keeper, or any member of the keeper party. The C++ level-weighted party
-        // money split (near members each get money·level/ΣlvL) is deferred — a party member takes the full
-        // corpse money here (documented, PORT_STATUS.md).
-        if (!CanLootKeeper(mon, ch) || mon.CorpseMoney == 0) return;
-        ch.EarnMoney(mon.CorpseMoney);
-        mon.CorpseMoney = 0;
-        SendCS_MONEY_ACK(s, ch);
+        if (!s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
+            || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
+        if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
+        if (!CanLootKeeper(mon, ch) || !CanTakePartyLoot(mon, ch) || mon.CorpseMoney == 0) return;
+        TakeCorpseMoney(s, ch, mon);
         SendCS_MONITEMLIST_ACK(s, mon, update: 1);
     }
 
+    // Both the separate money request and the pre-existing take-all path must use the same split.
+    // Access, map/channel and trade checks are completed by the caller before any grant.
+    private void TakeCorpseMoney(ClientSession s, Character ch, Monster mon)
+    {
+        if (mon.CorpseMoney == 0) return;
+        uint money = mon.CorpseMoney, remaining = money;
+        if (mon.KeeperType == OwnerParty)
+        {
+            var members = _state.PlayersAround(mon)
+                .Where(p => p.IsMain && p.Char is { } c && c.GetPartyId() == mon.KeeperId).ToList();
+            uint levels = (uint)members.Sum(p => p.Char!.Level);
+            if (levels != 0)
+                foreach (var member in members.Where(p => p.CharId != ch.CharId))
+                {
+                    uint share = (uint)((ulong)money * member.Char!.Level / levels);
+                    member.Char.EarnMoney(share);
+                    remaining -= share;
+                    SendCS_MONEY_ACK(member, member.Char);
+                }
+        }
+        ch.EarnMoney(remaining); // The collector receives its share and integer-division remainder, as in C++.
+        mon.CorpseMoney = 0;
+        SendCS_MONEY_ACK(s, ch);
+    }
+
     /// <summary>C++ <c>OnCS_MONITEMTAKE_REQ</c> → <c>MonItemTake</c> (TMapSvr.cpp:9089), solo/OWNER_PRIVATE path:
-    /// move one corpse item into the taker's bags. Party loot modes, item owner-tags/routing, the deal guard,
-    /// and the cross-map relay are deferred.</summary>
+    /// move one corpse item into the taker's bags. Keeper, hunter and inventory-lock checks also apply
+    /// to direct take requests; opening the loot window is not an authorization token.</summary>
     private void OnCS_MONITEMTAKE_REQ(ClientSession s, PacketReader r)
     {
         uint monId = r.ReadUInt32();  // dwMonID
@@ -325,7 +347,9 @@ public sealed partial class MapService
         r.ReadByte();                 // bInvenID (target bag — the free-slot allocator is used instead)
         r.ReadByte();                 // bSlotID
 
-        if (s.Char is not { } ch || _state.FindMonster(monId) is not { } mon) return;
+        if (!s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
+            || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
+        if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
         if (mon.CorpseInven.FindItem(itemId) is not { } item)
         {
             SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.NotFound);
@@ -337,7 +361,7 @@ public sealed partial class MapService
         {
             if (item.OwnerId != ch.CharId) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.NotFound); return; }
         }
-        else if (!CanLootKeeper(mon, ch))     // keeper char, or any member of the keeper party
+        else if (!CanLootKeeper(mon, ch) || !CanTakePartyLoot(mon, ch))
         {
             SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.NotFound);
             return;
@@ -384,6 +408,10 @@ public sealed partial class MapService
         if (mon.KeeperType == OwnerPrivate) return mon.KeeperId == ch.CharId;
         return true;   // OWNER_NONE
     }
+
+    private static bool CanTakePartyLoot(Monster mon, Character ch) =>
+        (mon.InvenLock == 0 || mon.InvenLock == ch.CharId)
+        && (mon.KeeperType != OwnerParty || ch.PartyType != PtHunter || ch.CharId == GetHunter(mon));
 
     /// <summary>C++ <c>SendCS_PARTYITEMTAKE_ACK</c> (CSSender.cpp:4303) — <c>dwCharID</c> (the looter) + the item
     /// block via <see cref="Item.WrapPacketClient"/> with <c>addItemId=false</c> (the leading slot byte omitted).</summary>

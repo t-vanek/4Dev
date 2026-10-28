@@ -165,7 +165,7 @@ public class ItemSkillTests
         var (h, s, _, ch) = await Setup();
         ch.Skills.Add(new Skill { SkillId = RandomBag, Level = 1, Template = _t.Skills[RandomBag] });
 
-        await h.Service.DispatchClientAsync(s, Finish(RandomBag, 1));
+        await h.CastAndHitAsync(s, Finish(RandomBag, 1));
 
         Assert.Equal(new[] { BagA }, ch.MaintainSkills.Select(m => m.SkillId).ToArray());
     }
@@ -177,7 +177,7 @@ public class ItemSkillTests
         ch.Skills.Add(new Skill { SkillId = SixthSense, Level = 1, Template = _t.Skills[SixthSense] });
         ch.MaintainSkills.Add(new MaintainSkill { SkillId = SixthEffect, Level = 1, Template = _t.Skills[SixthEffect] });
 
-        await h.Service.DispatchClientAsync(s, Finish(SixthSense, 1));
+        await h.CastAndHitAsync(s, Finish(SixthSense, 1));
 
         Assert.DoesNotContain(ch.MaintainSkills, m => m.SkillId == SixthEffect);
         Assert.Contains(ch.MaintainSkills, m => m.SkillId == SixthSense);
@@ -191,10 +191,11 @@ public class ItemSkillTests
             Region = 7, Channel = 1, MapId = 0, Country = 3 };
         h.Service.SpawnMonster(mob);
 
-        await h.Service.DispatchClientAsync(s, Finish(PoisonDot, mob.Id, Monster.OtMon));
+        await h.CastAndHitAsync(s, Finish(PoisonDot, mob.Id, Monster.OtMon));
         Assert.Equal(1000u, mob.Hp);                                                   // no Deadly Poison: nothing
 
         ch.Skills.Add(new Skill { SkillId = Poison, Level = 3, Template = _t.Skills[Poison] });
+        await h.Service.DispatchClientAsync(s, MapTestHarness.SkillUseReq(1, Poison, targets: new[] { (mob.Id, Monster.OtMon) }));
         await h.Service.DispatchClientAsync(s, Finish(PoisonDot, mob.Id, Monster.OtMon));
         Assert.True(mob.Hp < 1000);
     }

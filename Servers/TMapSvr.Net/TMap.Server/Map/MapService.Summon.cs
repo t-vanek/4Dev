@@ -213,6 +213,15 @@ public readonly record struct AttackerPower(uint ShortMin, uint ShortMax, uint L
     public uint ApMin(bool magic, bool arrow) => magic ? MgMin : arrow ? LongMin : ShortMin;
     public uint ApMax(bool magic, bool arrow) => magic ? MgMax : arrow ? LongMax : ShortMax;
 
+    public static AttackerPower Of(Monster mon, SkillTemplate? tpl)
+    {
+        bool magic = tpl?.GetAttackType() == SkillTemplate.SatMagic;
+        return new AttackerPower(mon.GetMinAp(), mon.GetMaxAp(), mon.GetMinLongAp(), mon.GetMaxLongAp(),
+            mon.GetMinMagicAp(), mon.GetMaxMagicAp(), magic ? mon.GetMagicAttackLevel() : mon.GetAttackLevel(),
+            magic ? mon.GetMagicCritProb() : mon.GetCritProb(), magic, tpl?.IsLongAttack() ?? false,
+            mon.Level, mon.Country, mon.AidCountry, 0);
+    }
+
     /// <summary>A player's figures for a skill (by the skill's attack type and range), as <c>CS_SKILLUSE</c> reports them.</summary>
     public static AttackerPower Of(Character ch, TemplateStore t, SkillTemplate? tpl)
     {

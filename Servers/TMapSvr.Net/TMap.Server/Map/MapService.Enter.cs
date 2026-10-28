@@ -409,12 +409,14 @@ public sealed partial class MapService
     {
         if (s.State is not (EnterState.Granted or EnterState.InGame)) return;
         if (s.Char is null) return;
+        if (s.TeleportPending && s.State == EnterState.InGame) return; // an old ready packet cannot finish a new move
 
         bool firstEntry = s.State != EnterState.InGame;
         s.State = EnterState.InGame;
 
         if (firstEntry)
         {
+            s.TeleportPending = false;
             // Place into the world grid, then exchange CS_ENTER_ACK with the 3×3-cell neighbours
             // (CTMap::EnterMAP adds the player to its centre cell, then CTCell::EnterPlayer runs the
             // bidirectional exchange across the neighbour block). The player must be in the grid first so

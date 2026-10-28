@@ -28,6 +28,7 @@ public sealed class Monster
     /// <summary>The monster template / chart id (C++ <c>m_pMON->m_wID</c>) — the client's model+name key.</summary>
     public ushort ChartId { get; set; }
     public byte Level { get; set; }              // m_pMON->m_bLevel
+    public MonAttrRow? Attr { get; set; }
 
     // Vitals — MaxHP/MaxMP come from the monster attr chart (m_pATTR->m_dwMaxHP/m_dwMaxMP); buff deltas deferred.
     public uint MaxHp { get; set; }
@@ -181,6 +182,7 @@ public sealed class Monster
     /// key is the attacker's party (when partied) or char id (C++ <c>nKey = wPartyID ? MAKEINT64(wPartyID,0) :
     /// dwHostID</c>), so a party's hits accumulate together.</summary>
     private readonly Dictionary<long, uint> _damage = new();
+    public IReadOnlyDictionary<long, uint> DamageCredits => _damage;
     /// <summary>The loot/exp owner (C++ <c>m_dwKeeperID</c>) — the first bucket to cross the <c>MONKEEP_PER</c>
     /// (10% of MaxHP) cumulative-damage threshold. For <see cref="KeeperType"/> Private it's a char id; for
     /// Party it's a party id. 0 = none yet.</summary>
@@ -209,6 +211,52 @@ public sealed class Monster
     /// <summary>C++ <c>m_mapGuildDamage</c> — the damage each guild did (TMonster.cpp:403): a fort's boss goes to the guild that
     /// did the most.</summary>
     public Dictionary<uint, uint> GuildDamage { get; } = new();
+
+    /// <summary>CTMonster::Recover: subtract the healed fraction of the pre-recovery HP deficit from
+    /// every personal/party and guild bucket. Native arithmetic uses a float ratio and truncates each
+    /// remaining bucket separately. At 90% HP the keeper is released.</summary>
+    public bool RecoverDamageCredit(uint previousHp)
+    {
+        if (previousHp >= MaxHp || Hp < previousHp) return false;
+        float ratio = Math.Clamp((Hp - previousHp) / (float)(MaxHp - previousHp), 0f, 1f);
+        uint Remaining(uint damage) => ratio == 0 ? damage : ratio == 1 ? 0 : (uint)(damage - damage * ratio);
+
+        // .NET 10 permits overwriting values and removing entries during dictionary enumeration.
+        // Avoid allocating copies on every recovery tick; keep the earlier AI performance work intact.
+        foreach (var (key, damage) in _damage)
+        {
+            uint remaining = Remaining(damage);
+            if (remaining == 0) _damage.Remove(key); else _damage[key] = remaining;
+        }
+        foreach (var (guild, damage) in GuildDamage)
+        {
+            uint remaining = Remaining(damage);
+            if (remaining == 0) GuildDamage.Remove(guild); else GuildDamage[guild] = remaining;
+        }
+
+        uint releaseHp = MaxHp - (uint)((ulong)MaxHp * 10 / 100); // MONKEEP_PER = 10
+        if (KeeperId == 0 || Hp < releaseHp) return false;
+        KeeperId = 0;
+        KeeperType = 0;
+        return true;
+    }
+
+    /// <summary>CTMonster::GetColor: faction, go-home, personal/party keeper, other keeper, battle and
+    /// first-attack AI. The Aggressive fallback serves script-less monsters and does not change the
+    /// existing C# AI acquisition/scheduling rules.</summary>
+    public byte ColorFor(uint charId, ushort partyId, byte warCountry)
+    {
+        const byte ally = 0, noReward = 1, peaceful = 2, enemy = 3;
+        if (WarCountry == warCountry) return ally;
+        if (WarCountry != TcontryN) return enemy;
+        if (Mode == 2) return peaceful; // MT_GOHOME precedes keeper colour
+        uint viewerKeeper = partyId != 0 ? partyId : charId;
+        byte viewerType = partyId != 0 ? OwnerParty : OwnerPrivate;
+        if (KeeperId == viewerKeeper && KeeperType == viewerType) return enemy;
+        if (KeeperId != 0) return noReward;
+        if (Mode == 1 || Ai?.AiType == 1 || Ai is null && Aggressive) return enemy;
+        return peaceful;
+    }
 
     /// <summary>Enter battle mode on being hit (C++ <c>ChgMode(MT_BATTLE)</c>): pushes the recover anchors to
     /// <c>now + RECOVER_INIT</c> on the transition (suppressing monster HP regen while <c>MT_BATTLE</c>), and
@@ -245,6 +293,12 @@ public sealed class Monster
 
     public uint GetMinAp() => Buffed(DisWeapon ? AtkMin - Math.Min(MinWap, AtkMin) : AtkMin, BuffLayer.Pap);
     public uint GetMaxAp() => Buffed(DisWeapon ? AtkMax - Math.Min(MaxWap, AtkMax) : AtkMax, BuffLayer.Pap);
+    public uint GetMinLongAp() => Buffed((uint)(Attr?.LongAp ?? 0) + (DisWeapon ? 0 : MinWap), BuffLayer.Lap);
+    public uint GetMaxLongAp() => Buffed((uint)(Attr?.LongAp ?? 0) + (DisWeapon ? 0 : MaxWap), BuffLayer.Lap);
+    public uint GetMinMagicAp() => Buffed((uint)(Attr?.MagicAp ?? 0) + (DisWeapon ? 0 : MinWap), BuffLayer.Map);
+    public uint GetMaxMagicAp() => Buffed((uint)(Attr?.MagicAp ?? 0) + (DisWeapon ? 0 : MaxWap), BuffLayer.Map);
+    public ushort GetMagicAttackLevel() => (ushort)Buffed(Attr?.MagicAtkLevel ?? 0, BuffLayer.Mal);
+    public byte GetMagicCritProb() => (byte)Buffed(Attr?.CritMagicProb ?? 0, BuffLayer.Mcr);
     public uint GetDefendPower() => Buffed(DisDefend ? DefendPower - Math.Min(Wdp, DefendPower) : DefendPower, BuffLayer.Pdp);
     public uint GetMagicDefPower() => Buffed(DisDefend ? MagicDefPower - Math.Min(Wdp, MagicDefPower) : MagicDefPower, BuffLayer.Mdp);
     public ushort GetAttackLevel() => (ushort)Buffed(AttackLevel, BuffLayer.Al);

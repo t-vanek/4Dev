@@ -110,6 +110,8 @@ public sealed partial class MapService
         if (m.Mp < needMp) { _log.LogDebug("[summon] SKILLUSE {Id} skill {Skill} refused.", id, skillId); SendSkillUseFail(s, SkillUseResult.NeedMp, id, type, skillId, actionId, actId, aniId); return; }
         uint needHp = skill.GetRequiredHp(m.MaxHp);
         if (m.Hp <= needHp) { _log.LogDebug("[summon] SKILLUSE {Id} skill {Skill} refused.", id, skillId); SendSkillUseFail(s, SkillUseResult.NeedHp, id, type, skillId, actionId, actId, aniId); return; }
+        if (!HasActiveSkill(m.MaintainSkills, skill.Template?.PrevActiveId ?? 0))
+        { SendSkillUseFail(s, SkillUseResult.NeedPrevAct, id, type, skillId, actionId, actId, aniId); return; }
         if (!skill.CanUse(NowMs)) { _log.LogDebug("[summon] SKILLUSE {Id} skill {Skill} refused.", id, skillId); SendSkillUseFail(s, SkillUseResult.SpeedyUse, id, type, skillId, actionId, actId, aniId); return; }
 
         skill.UseSkill(NowMs, m.Attr?.AtkSpeed ?? 0, 100);             // CTMonster::GetAtkSpeed = attr dwAtkSpeed

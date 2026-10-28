@@ -102,15 +102,12 @@ public sealed partial class MapService
     private void OnCS_MONITEMTAKEALL_REQ(ClientSession s, PacketReader r)
     {
         uint monId = r.ReadUInt32();
-        if (s.Char is not { } ch || !s.IsMain || _state.FindMonster(monId) is not { } mon) return;
+        if (s.Char is not { } ch || !s.IsMain || _state.FindMonster(monId) is not { } mon
+            || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
         if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
-        if (!CanLootKeeper(mon, ch)) { SendCS_MONITEMLIST_CANTACCESS(s, monId); return; }
-        if (mon.CorpseMoney != 0)
-        {
-            ch.EarnMoney(mon.CorpseMoney);
-            mon.CorpseMoney = 0;
-            SendCS_MONEY_ACK(s, ch);
-        }
+        if (!CanLootKeeper(mon, ch) || !CanTakePartyLoot(mon, ch))
+        { SendCS_MONITEMLIST_CANTACCESS(s, monId); return; }
+        TakeCorpseMoney(s, ch, mon);
         var result = MonItemTakeResult.Success;
         foreach (var item in mon.CorpseInven.Items.OrderBy(i => i.ItemSlot).ToList())
         {

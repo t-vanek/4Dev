@@ -121,6 +121,8 @@ public sealed partial class MapService
         {
             if (session.IsControl) { DispatchControl(session, r); return; }                     // the admin tool's link (MapService.Gm.cs)
             if (r.Id != Msg.CS_CONNECT_REQ && session.State is EnterState.Connected or EnterState.Entering) return;
+            if (session.TeleportPending && r.Id is not (Msg.CS_CONREADY_REQ or Msg.CS_PINGMEASUREMENT_REQ
+                or Msg.CS_DISCONNECT_REQ or Msg.CS_COUNTDOWN_REQ)) return;
             if (session.SecurityStateFailed) return;
             if (TournamentRefuses(session, r.Id)) return;                                       // MapService.TournamentMatch.cs
             if (SecurityRefuses(session, r.Id)) return;
@@ -585,6 +587,7 @@ public sealed partial class MapService
                 case Msg.MW_CREATESPOLECNIKMON_REQ: OnMW_CREATESPOLECNIKMON_REQ(r); break;
                 case Msg.MW_SPOLECNIKMONDEL_REQ: OnMW_SPOLECNIKMONDEL_REQ(r); break;
                 case Msg.MW_RECALLMONDATA_REQ: break;   // cross-server summon handoff — never sent to a single map server
+                case Msg.MW_GETBLOOD_REQ: OnMW_GETBLOOD_REQ(r); break;
                 case Msg.MW_CHGPARTYCHIEF_REQ: OnMW_CHGPARTYCHIEF_REQ(r); break;
                 case Msg.MW_CHGPARTYTYPE_REQ: OnMW_CHGPARTYTYPE_REQ(r); break;
                 case Msg.MW_PARTYMANSTAT_REQ: OnMW_PARTYMANSTAT_REQ(r); break;
@@ -619,6 +622,10 @@ public sealed partial class MapService
     public void OnWorldDisconnect()
     {
         _worldReady = false;
+        // A loading client cannot complete its routing cycle after the world loses the session. Closing
+        // it runs the normal save/disconnect path and lets it re-enter instead of remaining frozen forever.
+        foreach (var s in _state.ByChar.Values)
+            if (s.TeleportPending) s.Conn.Close();
         _log.LogWarning("World link down; clients will re-handshake on reconnect.");
     }
 

@@ -129,7 +129,7 @@ public class TournamentMatchTests
         await x.H.Service.DispatchWorldAsync(Enable(StepQFinal));
         Assert.False(x.H.World.Has(Msg.MW_TOURNAMENTRESULT_ACK));                               // both sides are there
         x.B.Ch.Hp = 1;
-        await x.H.Service.DispatchClientAsync(x.A.S, MapTestHarness.DefendReq(1, 2, attackType: 1, targetType: 1, hostId: 1));
+        await x.H.CastAndHitAsync(x.A.S, MapTestHarness.DefendReq(1, 2, attackType: 1, targetType: 1, hostId: 1));
         Assert.Equal(0, (int)x.B.Ch.Hp);
         await x.H.Service.DispatchWorldAsync(Enable(StepQFEnd));
         Assert.Equal((StepQFinal, true, 1u, 2u), Result(x.H));                                  // Ann's side scored

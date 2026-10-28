@@ -55,7 +55,7 @@ public class CureDispelTests
         var cure = Cure(900, (SctHp, 50));
         var (h, s, c, ch) = await Enter(Wounded(hp: 10), cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: 1, targetType: OtPc, skillId: 900));
 
         Assert.InRange(ch.Hp, 60u, 67u);              // 10 + 50 + 0–15% over-heal, clamped ≤ 100
         Assert.True(c.Has(Msg.CS_HPMP_ACK));
@@ -68,7 +68,7 @@ public class CureDispelTests
         var cure = Cure(900, (SctMp, 40));
         var (h, s, _, ch) = await Enter(Wounded(mp: 10), cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
 
         Assert.InRange(ch.Mp, 50u, 56u);              // 10 + 40 + 0–15%
     }
@@ -79,7 +79,7 @@ public class CureDispelTests
         var cure = Cure(900, (SctHp, 200));
         var (h, s, _, ch) = await Enter(Wounded(hp: 90), cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
 
         Assert.Equal(100u, ch.Hp);                    // clamped to MaxHp
     }
@@ -96,7 +96,7 @@ public class CureDispelTests
         ch.MaintainSkills.Add(new MaintainSkill { SkillId = 12, Level = 1, Template = Maint(12, SptNone) });
         var (h, s, c, _) = await Enter(ch, cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
 
         Assert.DoesNotContain(ch.MaintainSkills, m => m.SkillId == 10);   // positive buff stripped
         Assert.Contains(ch.MaintainSkills, m => m.SkillId == 11);         // debuff kept
@@ -114,7 +114,7 @@ public class CureDispelTests
         ch.MaintainSkills.Add(new MaintainSkill { SkillId = 12, Level = 1, Template = Maint(12, SptNone) });
         var (h, s, c, _) = await Enter(ch, cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
 
         Assert.Contains(ch.MaintainSkills, m => m.SkillId == 10);         // buff kept
         Assert.DoesNotContain(ch.MaintainSkills, m => m.SkillId == 11);   // debuff stripped
@@ -130,7 +130,7 @@ public class CureDispelTests
         ch.MaintainSkills.Add(new MaintainSkill { SkillId = 10, Level = 1, Template = Maint(10, SptPositive) });
         var (h, s, _, _) = await Enter(ch, cure);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900));
 
         Assert.DoesNotContain(ch.MaintainSkills, m => m.SkillId == 10);   // buff stripped
         Assert.InRange(ch.Hp, 40u, 44u);                                 // and healed (10 + 30 + 0–15%)

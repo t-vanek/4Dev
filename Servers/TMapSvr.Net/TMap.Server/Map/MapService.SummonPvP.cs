@@ -39,6 +39,7 @@ public sealed partial class MapService
         byte level, ushort skillId, byte canSelect, RecallMon target, uint actId, uint aniId, bool forceMiss,
         float atkX, float atkY, float atkZ, float defX, float defY, float defZ)
     {
+        if (!HasActiveSkill(target.MaintainSkills, tpl?.TargetActiveId ?? 0)) return;
         if (target.OwnerId == owner.CharId) return;                                      // never one's own
         if (target.Hp == 0 && tpl?.CanDefendAtDie() != true) return;                     // OS_DEAD && !CanDefendAtDie
         var victimOwner = _state.FindByChar(target.OwnerId) is { State: EnterState.InGame, Char: { } vo } vs ? (vs, vo) : default;

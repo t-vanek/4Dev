@@ -187,8 +187,8 @@ public class SoulmateTests
         h.Service.CombatRng = new Random(1);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
 
         Assert.Equal(322u, s1.Char.Exp);                                                         // see PartyTests
         Assert.Equal(322u + 32u, s2.Char!.Exp);
@@ -209,7 +209,7 @@ public class SoulmateTests
         bob.SoulmateId = Ann;
         h.Service.CombatRng = new Random(1);
 
-        await h.Service.DispatchClientAsync(c, MapTestHarness.DefendReq(Cid, Ann, attackType: 1, targetType: 1));
+        await h.CastAndHitAsync(c, MapTestHarness.DefendReq(Cid, Ann, attackType: 1, targetType: 1));
 
         Assert.Equal(65u, bob.Hp);                                                               // keeps 65%
         Assert.InRange(ann.Hp, 41u, 42u);                                                        // 12 − (5..6) + 35

@@ -82,7 +82,7 @@ public sealed class TeleportSkillTests
         c.Clear(); spectator.Clear();
         ch.Riding = 123;
 
-        await h.Service.DispatchClientAsync(s, Finish(437));
+        await h.CastAndHitAsync(s, Finish(437));
 
         Assert.True(c.Has(Msg.CS_WARP_ACK));
         Assert.False(spectator.Has(Msg.CS_WARP_ACK));
@@ -99,7 +99,7 @@ public sealed class TeleportSkillTests
     public async Task ReturnToExplicitPositionUsesTheRowSpawnInsteadOfTheBoundVillage()
     {
         var (h, s, c, _) = await Setup(Template(907, StatusReturnPos, 8000));
-        await h.Service.DispatchClientAsync(s, Finish(907));
+        await h.CastAndHitAsync(s, Finish(907));
         Assert.True(c.Has(Msg.CS_TELEPORT_ACK));
         var r = new PacketReader(c.Last(Msg.CS_TELEPORT_ACK)!);
         Assert.Equal(0, r.ReadByte()); r.ReadUInt32(); r.ReadByte(); r.ReadUInt32();
@@ -114,7 +114,7 @@ public sealed class TeleportSkillTests
     {
         var (h, s, c, ch) = await Setup(Template(437, StatusWarp), dead ? (byte)1 : (byte)0);
         if (dead) ch.Hp = 0;
-        await h.Service.DispatchClientAsync(s, Finish(437));
+        await h.CastAndHitAsync(s, Finish(437));
         Assert.False(c.Has(Msg.CS_WARP_ACK));
         Assert.False(c.Has(Msg.CS_BEGINTELEPORT_ACK));
     }
@@ -135,7 +135,7 @@ public sealed class TeleportSkillTests
     public async Task NonFiniteBlinkPositionIsIgnored()
     {
         var (h, s, c, _) = await Setup(Template(437, StatusWarp));
-        await h.Service.DispatchClientAsync(s, Finish(437, x: float.NaN));
+        await h.CastAndHitAsync(s, Finish(437, x: float.NaN));
         Assert.False(c.Has(Msg.CS_WARP_ACK));
     }
 
@@ -149,7 +149,7 @@ public sealed class TeleportSkillTests
         var (_, targetClient) = await h.EnterAsync(2, 2, 2, x: 101, z: 100,
             mapId: otherMap ? (ushort)3 : (ushort)0, preSeeded: target);
         c.Clear(); targetClient.Clear();
-        await h.Service.DispatchClientAsync(s, Finish(436, target: 2));
+        await h.CastAndHitAsync(s, Finish(436, target: 2));
         Assert.Equal(!otherMap, targetClient.Has(Msg.CS_WARP_ACK));
         Assert.False(c.Has(Msg.CS_WARP_ACK));
         Assert.Equal(100u, target.Hp); // The movement skill has no damage rows.
@@ -167,7 +167,7 @@ public sealed class TeleportSkillTests
             Country = 3, Channel = 1, MapId = 0, PosX = 101, PosZ = 100, HostId = 1 };
         h.Service.SpawnMonster(monster);
         c.Clear();
-        await h.Service.DispatchClientAsync(s, Finish(436, monster.Id, Monster.OtMon));
+        await h.CastAndHitAsync(s, Finish(436, monster.Id, Monster.OtMon));
         Assert.Equal(allowed, c.Has(Msg.CS_WARP_ACK));
         Assert.Equal(100u, monster.Hp);
         if (allowed)

@@ -60,7 +60,7 @@ public class PvPTests
     {
         var (h, sk, ck, _, _, cv, v) = await Duel(victimHp: 80);
 
-        await h.Service.DispatchClientAsync(sk, Hit(Victim));
+        await h.CastAndHitAsync(sk, Hit(Victim));
 
         Assert.InRange(v.Hp, 74u, 75u);                                   // 80 − (5..6)
         foreach (var c in new[] { ck, cv })
@@ -76,7 +76,7 @@ public class PvPTests
     {
         var (h, sk, ck, k, _, cv, v) = await Duel();
 
-        await h.Service.DispatchClientAsync(sk, Hit(Victim));
+        await h.CastAndHitAsync(sk, Hit(Victim));
 
         Assert.Equal(0u, v.Hp);
         Assert.True(cv.Has(Msg.CS_DIE_ACK));
@@ -91,7 +91,7 @@ public class PvPTests
     {
         var (h, sk, ck, k, _, _, v) = await Duel(killerLevel: 30);
 
-        await h.Service.DispatchClientAsync(sk, Hit(Victim));
+        await h.CastAndHitAsync(sk, Hit(Victim));
 
         Assert.Equal(0u, v.Hp);
         Assert.Equal(0u, k.PvpTotalPoint);                                // KILL_L: 0% / 0%
@@ -105,7 +105,7 @@ public class PvPTests
         var (h, sk, _, k, _, _, v) = await Duel();
         v.Persist.Aftermath = 40;                                          // 100 − 40/2 = 80%
 
-        await h.Service.DispatchClientAsync(sk, Hit(Victim));
+        await h.CastAndHitAsync(sk, Hit(Victim));
 
         Assert.Equal(8u, k.PvpTotalPoint);                                // 11 × 80 / 100
     }
@@ -118,7 +118,7 @@ public class PvPTests
         for (int i = 0; i < 4; i++)
         {
             v.Hp = 5;
-            await h.Service.DispatchClientAsync(sk, Hit(Victim));
+            await h.CastAndHitAsync(sk, Hit(Victim));
         }
 
         Assert.Equal(33u, k.PvpTotalPoint);                               // 3 × 11, the 4th within 600 s pays 0
@@ -132,7 +132,7 @@ public class PvPTests
         var (_, cp) = await h.EnterAsync(Partner, 3, 3, x: 101, z: 100, name: "Partner", preSeeded: p);
         k.PartyId = 9; k.PartyType = 2; p.PartyId = 9; p.PartyType = 2;
 
-        await h.Service.DispatchClientAsync(sk, Hit(Victim));
+        await h.CastAndHitAsync(sk, Hit(Victim));
 
         Assert.Equal(11u, k.PvpTotalPoint);
         Assert.Equal((12u, 12u, (byte)2), Points(cp));
@@ -143,7 +143,7 @@ public class PvPTests
     {
         var (h, sk, _, k, _, _, _) = await Duel();
 
-        await h.Service.DispatchClientAsync(sk, Hit(Killer));
+        await h.CastAndHitAsync(sk, Hit(Killer));
 
         Assert.Equal(100u, k.Hp);
     }
@@ -181,7 +181,7 @@ public class PvPTests
         var curse = CurseSkill();
         k.Skills.Add(new Skill { SkillId = Curse, Level = 1, Template = curse });
 
-        await h.Service.DispatchClientAsync(sk, Cast(Victim));
+        await h.CastAndHitAsync(sk, Cast(Victim));
 
         var m = Assert.Single(v.MaintainSkills);
         Assert.Equal((Curse, Killer), (m.SkillId, m.AttackId));
@@ -197,7 +197,7 @@ public class PvPTests
         var (h, sk, ck, k, _, _, v) = await Duel(victimHp: 5);
         k.Skills.Add(new Skill { SkillId = Curse, Level = 1, Template = CurseSkill() });
 
-        await h.Service.DispatchClientAsync(sk, Cast(Victim));
+        await h.CastAndHitAsync(sk, Cast(Victim));
 
         Assert.Equal(0u, v.Hp);
         Assert.Empty(v.MaintainSkills);
@@ -210,8 +210,8 @@ public class PvPTests
         var (h, sk, _, k, _, _, v) = await Duel(victimHp: 90);
         k.Skills.Add(new Skill { SkillId = Curse, Level = 1, Template = CurseSkill() });
 
-        await h.Service.DispatchClientAsync(sk, Cast(Victim));
-        await h.Service.DispatchClientAsync(sk, Cast(Victim));
+        await h.CastAndHitAsync(sk, Cast(Victim));
+        await h.CastAndHitAsync(sk, Cast(Victim));
 
         Assert.Single(v.MaintainSkills);                                     // UpdateBuffSkill: a debuff replaces its own id
     }

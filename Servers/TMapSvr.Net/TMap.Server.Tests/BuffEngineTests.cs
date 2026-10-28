@@ -151,7 +151,7 @@ public class BuffEngineTests
         c.Clear();
 
         // Cast the positive buff on self: CS_DEFEND with the caster as its own target.
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(ch.CharId, ch.CharId, targetType: OtPc, skillId: 900));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(ch.CharId, ch.CharId, targetType: OtPc, skillId: 900));
 
         Assert.Contains(ch.MaintainSkills, m => m.SkillId == 900);
         var (isMaintain, _) = ReadMaintainFields(c.Last(Msg.CS_DEFEND_ACK)!);
@@ -176,7 +176,7 @@ public class BuffEngineTests
         h.Service.SpawnMonster(mob);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(ch.CharId, mob.Id, targetType: OtMon, skillId: 910));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(ch.CharId, mob.Id, targetType: OtMon, skillId: 910));
 
         Assert.Contains(mob.MaintainSkills, m => m.SkillId == 910);
         var (isMaintain, _) = ReadMaintainFields(c.Last(Msg.CS_DEFEND_ACK)!);

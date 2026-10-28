@@ -58,7 +58,7 @@ public class RankTitleTests
     private static async Task Kill(Two x)
     {
         x.V.Hp = 5;
-        await x.H.Service.DispatchClientAsync(x.Sk, MapTestHarness.DefendReq(Killer, Victim, attackType: 1, targetType: 1, hostId: Killer));
+        await x.H.CastAndHitAsync(x.Sk, MapTestHarness.DefendReq(Killer, Victim, attackType: 1, targetType: 1, hostId: Killer));
     }
 
     private static List<(ushort Id, bool Selected)> Titles(PacketReader r)

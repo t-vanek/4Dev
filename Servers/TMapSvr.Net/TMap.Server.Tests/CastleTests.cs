@@ -182,7 +182,7 @@ public class CastleTests
         a.Char!.Hp = 5;
 
         for (int i = 0; i < 5 && a.Char.Hp > 0; i++)
-            await h.Service.DispatchClientAsync(b, MapTestHarness.DefendReq(b.CharId, a.CharId, attackType: 1, targetType: 1));
+            await h.CastAndHitAsync(b, MapTestHarness.DefendReq(b.CharId, a.CharId, attackType: 1, targetType: 1));
 
         Assert.Equal((ushort)1, War(h).AtkKillPoint);
     }

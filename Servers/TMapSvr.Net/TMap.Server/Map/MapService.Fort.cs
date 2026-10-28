@@ -32,7 +32,7 @@ namespace TMap.Server.Map;
 /// <para><b>Fixed C++ bug:</b> <c>ResetLocal</c> marks the fort taken (<c>m_bOccupied</c>) after every result, and only the next
 /// peace cleared it — so every other war of a fort that was held ended without its <c>OCCUPY_DEFEND</c> result. It is now cleared
 /// when a war starts. <b>Deviations:</b> the proc's answer comes back on the next timer tick (the C++ posts it to its batch
-/// thread); the monsters' colour in <c>CS_CHANGECOLOR_ACK</c> is 0, as everywhere in this port; the stat-exp change is not sent
+/// thread); the stat-exp change is not sent
 /// to the world's guild info (guilds are not ported).</para>
 /// </summary>
 public sealed partial class MapService
@@ -169,10 +169,7 @@ public sealed partial class MapService
                     if (slot.Live is not { } m) continue;
                     LeaveAggro(m, m.HostId, m.TargetId, m.TargetType, NowMs);
                     m.Country = country;
-                    var w = new PacketWriter(Msg.CS_CHANGECOLOR_ACK, capacity: 7);
-                    w.WriteByte(Monster.OtMon); w.WriteUInt32(m.Id); w.WriteByte(0 /* GetColor */); w.WriteByte(country);
-                    var msg = w.ToArray();
-                    foreach (var p in _state.PlayersAround(m)) p.Send(msg);
+                    foreach (var p in _state.PlayersAround(m)) SendMonsterColor(p, m);
                 }
 
         foreach (var s in _state.AllInGame().ToList())

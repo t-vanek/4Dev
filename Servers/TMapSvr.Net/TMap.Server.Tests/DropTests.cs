@@ -47,8 +47,8 @@ public class DropTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
         h.Service.LootRng = new Random(1);
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
         return (h, mob);
     }
 

@@ -295,8 +295,8 @@ public class QuestTests
         h.Service.SpawnMonster(mob);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id)); // kills it → hunt advances
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id)); // kills it → hunt advances
 
         var r = new PacketReader(c.Last(Msg.CS_QUESTUPDATE_ACK)!);
         Assert.Equal(2000u, r.ReadUInt32());

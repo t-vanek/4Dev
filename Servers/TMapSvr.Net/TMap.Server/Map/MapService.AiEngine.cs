@@ -610,8 +610,7 @@ public sealed partial class MapService
 
     /// <summary>C++ <c>CTObjBase::ChgMode</c> (TObjBase.cpp:295) — set the mode and tell every viewer. The client
     /// needs the ACK: it is what clears the monster's follow target and sets or clears its go-home flag
-    /// (TClient CSHandler.cpp:1952). The <c>CS_CHANGECOLOR_ACK</c> that follows it is deferred with the rest of
-    /// <c>GetColor</c>.</summary>
+    /// (TClient CSHandler.cpp:1952). Follow it with each viewer's monster colour, as the native ChgMode does.</summary>
     private void ChgMode(Monster mon, byte mode)
     {
         if (mode == MtBattle && mon.Mode != MtBattle) mon.EnterBattle(NowMs, RecoverInit);
@@ -623,7 +622,11 @@ public sealed partial class MapService
         w.WriteByte(Monster.OtMon);
         w.WriteByte(mode);
         var ack = w.ToArray();
-        foreach (var p in _state.PlayersAround(mon)) p.Send(ack);
+        foreach (var p in _state.PlayersAround(mon))
+        {
+            p.Send(ack);
+            SendMonsterColor(p, mon);
+        }
     }
 
     /// <summary>C++ <c>CTMonster::ResetHost</c> (TMonster.cpp:2392) — stand the monster down to <c>MT_NORMAL</c>,
@@ -680,9 +683,10 @@ public sealed partial class MapService
     }
 
     /// <summary>C++ <c>CTObjBase::CheckAttack</c> — whether the monster is able to act offensively (not
-    /// silenced/rooted). The blocking maintain-types that drive it are not ported for monsters, so this reads
-    /// as always-true; the gate is threaded through every call site so it becomes live for free later.</summary>
-    private static bool CheckAttack(Monster mon) => !mon.Dead;
+    /// blocked, held, hypnotised, frightened, blinded or darkened). The same gate also applies immediately
+    /// before an already scheduled attack starts.</summary>
+    private static bool CheckAttack(Monster mon) => !mon.Dead && mon.Hp != 0
+        && BuffLayer.CanAttack(mon.MaintainSkills, player: false);
 
     /// <summary>C++ <c>m_pSPAWN-&gt;m_pSPAWN-&gt;m_bRoamType == 4</c> — a pinned "fixed monster" never follows.
     /// The roam-type column is unloaded, so no monster is fixed yet.</summary>

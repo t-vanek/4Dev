@@ -44,7 +44,9 @@ public sealed record ItemTemplate(ushort ItemId, byte RefineMax, float[] Revisio
     byte CanGamble = 0, byte GambleProb = 0, byte DestroyProb = 0,
     // Monster drops (MapService.Drops.cs): the drop group and level it may be picked from (m_bGroupID / m_bDropLevel, 0 = never),
     // whether it drops at all (m_bInitState), its pick weight (m_wWeight) and the chance a drop comes sealed (m_wItemProb_G).
-    byte GroupId = 0, byte DropLevel = 0, byte InitState = 0, ushort Weight = 0, ushort ItemProbG = 0);
+    byte GroupId = 0, byte DropLevel = 0, byte InitState = 0, ushort Weight = 0, ushort ItemProbG = 0,
+    // Weapon ammunition: required item kind and base count per accepted skill cast (TITEMCHART).
+    byte UseItemKind = 0, byte UseItemCount = 0);
 
 /// <summary>
 /// An item-attribute row from <c>TITEMATTRCHART</c> (C++ <c>CTBLItemAttrChart</c> → <c>tagITEMATTR</c>,
@@ -68,7 +70,7 @@ public sealed record MagicTemplate(byte MagicId, byte RvType, ushort MaxValue,
     // m_bRefine: an option a catalyst (a gambled refine item) may roll (CTItem::Catalyzer).
     byte Refine = 0,
     // Monster drops: the least monster level the option may roll at (m_bMinLevel) and the bound of a normal roll (m_wMaxBound).
-    byte MinLevel = 0, ushort MaxBound = 0);
+    byte MinLevel = 0, ushort MaxBound = 0, ushort AutoSkill = 0);
 
 /// <summary>A gamble outcome (C++ <c>TGAMBLE</c> from <c>TGAMBLECHART</c>): the item it becomes, how many at most, the level band
 /// (unused by the C++) and its weight.</summary>

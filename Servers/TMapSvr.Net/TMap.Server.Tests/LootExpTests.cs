@@ -36,8 +36,8 @@ public class LootExpTests
     private static async Task Kill(MapTestHarness h, ClientSession s, uint monId)
     {
         // 2 hits (5..6 each with seed 1) ⇒ ≥10 total ⇒ dead.
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, monId));
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, monId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, monId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, monId));
     }
 
     [Fact]

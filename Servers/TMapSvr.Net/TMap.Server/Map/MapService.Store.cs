@@ -52,6 +52,7 @@ public sealed partial class MapService
             {
                 SlotKey = i, Gold = e[i].gold, Silver = e[i].silver, Cooper = e[i].cooper, Credits = e[i].credits,
                 Inven = e[i].inven, ItemSlot = e[i].slot, Count = e[i].cnt,
+                SourceItem = item, Snapshot = item.Clone(),
             });
         }
 
@@ -112,14 +113,19 @@ public sealed partial class MapService
         if (offer is null) { SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNoItem, 0, 0); return; }
         var sellInv = seller.FindInven(offer.Inven);
         var sellItem = sellInv?.FindItem(offer.ItemSlot);
-        if (sellItem is null || sellItem.Count == 0) { SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNoItem, 0, 0); return; }
+        if (!offer.Matches(sellItem))
+        {
+            StoreClose(t);
+            SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNoItem, 0, 0);
+            return;
+        }
         if (count == 0 || offer.Count < count) { SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNoItemCount, 0, 0); return; }
         if (offer.Credits != 0) { SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNeedMoney, 0, 0); return; }   // credits path deferred
 
         long money = offer.UnitPrice * count;
         if (!buyer.UseMoney(money, commit: false)) { SendCS_STOREITEMBUY_ACK(s, StoreResult.ItemNeedMoney, 0, 0); return; }
 
-        var bought = sellItem.Clone();
+        var bought = sellItem!.Clone();
         bought.Count = count;
         bought.DlId = 0;                                   // fresh row for the buyer
         ushort itemId = bought.TemplateId;
@@ -177,7 +183,7 @@ public sealed partial class MapService
     {
         var st = owner.Store;
         var seller = owner.Char!;
-        var live = st.Items.Where(o => seller.FindInven(o.Inven)?.FindItem(o.ItemSlot) is not null).ToList();
+        var live = st.Items.Where(o => o.Matches(seller.FindInven(o.Inven)?.FindItem(o.ItemSlot))).ToList();
         var w = new PacketWriter(Msg.CS_STOREITEMLIST_ACK, capacity: 128);
         w.WriteUInt32(owner.CharId);
         w.WriteString(st.Name);

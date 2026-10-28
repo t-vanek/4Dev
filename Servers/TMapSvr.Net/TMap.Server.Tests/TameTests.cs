@@ -116,7 +116,7 @@ public class TameTests
         var (h, s, c, ch) = await Setup();
         var mob = Spawn(h, Mob(dead: true));
 
-        await h.Service.DispatchClientAsync(s, Finish(Enslave, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Enslave, mob.Id));
 
         Assert.Equal(TameMon, ch.Persist.TemptedMon);
         Assert.Equal(1, Perform(c.Last(Msg.CS_DEFEND_ACK)!));
@@ -131,7 +131,7 @@ public class TameTests
         var (h, s, c, ch) = await Setup();
         var mob = Spawn(h, Mob(chart: WildMon, dead: true));
 
-        await h.Service.DispatchClientAsync(s, Finish(Enslave, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Enslave, mob.Id));
 
         Assert.Equal(0, ch.Persist.TemptedMon);
         Assert.Equal(0, Perform(c.Last(Msg.CS_DEFEND_ACK)!));   // PERFORM_FAIL
@@ -143,7 +143,7 @@ public class TameTests
         var (h, s, _, ch) = await Setup();
         var mob = Spawn(h, Mob(level: Level + 1, dead: true));
 
-        await h.Service.DispatchClientAsync(s, Finish(Enslave, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Enslave, mob.Id));
 
         Assert.Equal(0, ch.Persist.TemptedMon);
     }
@@ -154,7 +154,7 @@ public class TameTests
         var (h, s, _, ch) = await Setup();
         var mob = Spawn(h, Mob(level: Level, dead: true));
 
-        await h.Service.DispatchClientAsync(s, Finish(Enslave, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Enslave, mob.Id));
 
         Assert.Equal(TameMon, ch.Persist.TemptedMon);
     }
@@ -165,7 +165,7 @@ public class TameTests
         var (h, s, c, _) = await Setup();
         var mob = Spawn(h, Mob(dead: true));
 
-        await h.Service.DispatchClientAsync(s, Finish(Plain, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Plain, mob.Id));
 
         Assert.False(c.Has(Msg.CS_DEFEND_ACK));        // C++ OS_DEAD && !CanDefendAtDie
     }
@@ -178,7 +178,7 @@ public class TameTests
         var (h, s, c, _) = await Setup();
         var mob = Spawn(h, Mob());
 
-        await h.Service.DispatchClientAsync(s, Finish(Plain, mob.Id));   // max level 0, held at 0
+        await h.CastAndHitAsync(s, Finish(Plain, mob.Id));   // max level 0, held at 0
 
         Assert.True(c.Has(Msg.CS_DEFEND_ACK));
         Assert.True(mob.Hp < 1000);
@@ -190,7 +190,7 @@ public class TameTests
         var (h, s, c, _) = await Setup();
         var mob = Spawn(h, Mob());
 
-        await h.Service.DispatchClientAsync(s, Finish(Leveled, mob.Id));   // max level 5, held at 0
+        await h.CastAndHitAsync(s, Finish(Leveled, mob.Id));   // max level 5, held at 0
 
         Assert.False(c.Has(Msg.CS_DEFEND_ACK));
         Assert.Equal(1000u, mob.Hp);
@@ -204,7 +204,7 @@ public class TameTests
         var (h, s, c, _) = await Setup(tempted: TameMon);
         var mob = Spawn(h, Mob(chart: WildMon));
 
-        await h.Service.DispatchClientAsync(s, Finish(Evocate, mob.Id));
+        await h.CastAndHitAsync(s, Finish(Evocate, mob.Id));
 
         Assert.False(h.World.Has(Msg.MW_CREATERECALLMON_ACK));   // the 5.0 three-copies flow is not kept
         Assert.Equal(0, Perform(c.Last(Msg.CS_DEFEND_ACK)!));      // old sources: PERFORM_FAIL off a player
@@ -215,7 +215,7 @@ public class TameTests
     {
         var (h, s, _, ch) = await Setup(tempted: TameMon);
 
-        await h.Service.DispatchClientAsync(s, Finish(Evocate, 1, OtPc));
+        await h.CastAndHitAsync(s, Finish(Evocate, 1, OtPc));
 
         var a = ReadCreate(Assert.Single(h.World.WithId(Msg.MW_CREATERECALLMON_ACK)));
         Assert.Equal((TameMon, (byte)0, 0u), (a.Mon, a.Auto, a.Target));     // one plain main summon, no target
@@ -230,7 +230,7 @@ public class TameTests
     {
         var (h, s, _, _) = await Setup();
 
-        await h.Service.DispatchClientAsync(s, Finish(Evocate, 1, OtPc));
+        await h.CastAndHitAsync(s, Finish(Evocate, 1, OtPc));
 
         Assert.False(h.World.Has(Msg.MW_CREATERECALLMON_ACK));
     }
@@ -239,14 +239,14 @@ public class TameTests
     public async Task Evocate_OnOneself_SendsTheOldMainSummonAway()
     {
         var (h, s, _, ch) = await Setup(tempted: TameMon);
-        await h.Service.DispatchClientAsync(s, Finish(Evocate, 1, OtPc));
+        await h.CastAndHitAsync(s, Finish(Evocate, 1, OtPc));
         var raw = (byte[])h.World.Last(Msg.MW_CREATERECALLMON_ACK)!.Clone();
         PacketHeader.WriteId(raw, Msg.MW_CREATERECALLMON_REQ);
         BitConverter.GetBytes(900u).CopyTo(raw, PacketHeader.Size + 8);
         await h.Service.DispatchWorldAsync(raw);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s, Finish(Evocate, 1, OtPc));
+        await h.CastAndHitAsync(s, Finish(Evocate, 1, OtPc));
 
         var del = new PacketReader(h.World.Last(Msg.MW_RECALLMONDEL_ACK)!);
         del.ReadUInt32(); del.ReadUInt32();

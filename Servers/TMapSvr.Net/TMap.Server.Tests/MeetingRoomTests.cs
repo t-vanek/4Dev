@@ -28,7 +28,7 @@ public class MeetingRoomTests
     {
         await h.Service.DispatchWorldAsync(new PacketWriter(Msg.MW_STARTTELEPORT_REQ).WriteUInt32(s.CharId).WriteUInt32(s.Key)
             .WriteByte(1).WriteUInt16(1101).WriteFloat(10).WriteFloat(0).WriteFloat(10).ToArray());
-        await h.Service.DispatchClientAsync(s, MapTestHarness.ConReady());
+        await h.FinishTeleportAsync(s);
     }
 
     [Fact]

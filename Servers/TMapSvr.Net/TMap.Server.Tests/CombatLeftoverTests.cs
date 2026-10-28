@@ -124,7 +124,7 @@ public class CombatLeftoverTests
         x.B.MaintainSkills.Add(Buff(Sleep, 99, eraseAct: BeaDefend, positive: 0));   // a sleep someone put on Ben
         x.B.MaintainSkills.Add(Buff(Might, B));
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Hit(Strike));
+        await x.H.CastAndHitAsync(x.Sa, Hit(Strike));
 
         Assert.Equal(new[] { Might }, Buffs(x.B));                            // woken up
         Assert.True(x.Cb.Has(Msg.CS_SKILLEND_ACK));
@@ -139,7 +139,7 @@ public class CombatLeftoverTests
         mob.MaintainSkills.Add(Buff(Sleep, A, eraseAct: BeaDefend, positive: 0));
         x.H.Service.SpawnMonster(mob);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, MapTestHarness.DefendReq(A, mob.Id, skillId: Strike, hostId: A));
+        await x.H.CastAndHitAsync(x.Sa, MapTestHarness.DefendReq(A, mob.Id, skillId: Strike, hostId: A));
 
         Assert.Empty(mob.MaintainSkills);
     }
@@ -153,7 +153,7 @@ public class CombatLeftoverTests
         x.B.MaintainSkills.Add(Buff(Might, B));
         x.B.MaintainSkills.Add(Buff(Guard, 99, positive: 0));                 // a debuff stays
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Hit(Dispel));
+        await x.H.CastAndHitAsync(x.Sa, Hit(Dispel));
 
         Assert.Equal(new[] { Guard }, Buffs(x.B));
     }
@@ -174,7 +174,7 @@ public class CombatLeftoverTests
         var x = await Setup();
         var pet = MainSummon(x.B, 100);                                       // 100%: all of it
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Hit(Strike));
+        await x.H.CastAndHitAsync(x.Sa, Hit(Strike));
 
         Assert.Equal(100u, x.B.Hp);                                           // Ben loses nothing
         Assert.InRange(pet.Hp, 494u, 495u);                                   // the 5..6 hit went to the summon
@@ -186,7 +186,7 @@ public class CombatLeftoverTests
         var x = await Setup();
         var pet = MainSummon(x.B, 0);
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Hit(Strike));
+        await x.H.CastAndHitAsync(x.Sa, Hit(Strike));
 
         Assert.InRange(x.B.Hp, 94u, 95u);
         Assert.Equal(500u, pet.Hp);
@@ -201,7 +201,7 @@ public class CombatLeftoverTests
         var share = Skill(Share, positive: 1, rows: new[] { Row(SaBuff, SdtStatus, 20, 50) });
         x.A.Skills.Add(new Skill { SkillId = Share, Level = 1, Template = share });
 
-        await x.H.Service.DispatchClientAsync(x.Sa, MapTestHarness.DefendReq(A, pet.Id, attackType: 1, targetType: 7, skillId: Share, hostId: A));
+        await x.H.CastAndHitAsync(x.Sa, MapTestHarness.DefendReq(A, pet.Id, attackType: 1, targetType: 7, skillId: Share, hostId: A));
 
         Assert.Contains(pet.MaintainSkills, m => m.SkillId == Share);
     }

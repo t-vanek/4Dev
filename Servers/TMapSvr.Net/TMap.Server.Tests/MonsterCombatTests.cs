@@ -38,7 +38,7 @@ public class MonsterCombatTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: 0x20001));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: 0x20001));
 
         Assert.InRange(mob.Hp, 94u, 95u);           // 100 − (5..6)
         Assert.True(c.Has(Msg.CS_DEFEND_ACK));
@@ -55,7 +55,7 @@ public class MonsterCombatTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20002));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20002));
 
         var r = new PacketReader(c.Last(Msg.CS_DEFEND_ACK)!);
         r.ReadUInt32();                              // dwAttackID
@@ -97,11 +97,11 @@ public class MonsterCombatTests
         h.Service.SpawnMonster(Mob(0x20009, 100, 100, hp: 100));
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(9, 0x20009, hostId: 0xABCD));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(9, 0x20009, hostId: 0xABCD));
 
         var r = new PacketReader(c.Last(Msg.CS_DEFEND_ACK)!);
         r.ReadUInt32(); r.ReadUInt32(); r.ReadByte(); r.ReadByte(); // attackId, targetId, attackType, targetType
-        Assert.Equal(0xABCDu, r.ReadUInt32());       // dwHostID echoes the client value (not attackId)
+        Assert.Equal(9u, r.ReadUInt32());           // dwHostID is the authenticated attacker
         r.ReadByte(); r.ReadUInt32(); r.ReadUInt32(); // bHostType, actId, aniId
         r.ReadByte(); r.ReadUInt32();                 // bIsMaintain, dwMaintainTick
         r.ReadByte(); r.ReadByte();                   // bHit, bAtkHit
@@ -128,8 +128,8 @@ public class MonsterCombatTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, monId)); // 5..6
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, monId)); // ≥10 total ⇒ dead
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, monId)); // 5..6
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, monId)); // ≥10 total ⇒ dead
 
         Assert.True(c.Has(Msg.CS_DIE_ACK));
         Assert.True(c.Has(Msg.CS_DELMON_ACK));
@@ -150,11 +150,11 @@ public class MonsterCombatTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20003)); // ≥5 dmg ⇒ dead (hp 5)
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20003)); // ≥5 dmg ⇒ dead (hp 5)
         Assert.Null(h.State.FindMonster(0x20003));
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20003)); // target gone
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20003)); // target gone
         Assert.False(c.Has(Msg.CS_DEFEND_ACK));
     }
 
@@ -167,7 +167,7 @@ public class MonsterCombatTests
         c.Clear();
 
         // targetType OT_PC (1) — PvP is deferred this phase.
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20004, targetType: 1));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20004, targetType: 1));
         Assert.False(c.Has(Msg.CS_DEFEND_ACK));
         Assert.Equal(100u, h.State.FindMonster(0x20004)!.Hp); // untouched
     }

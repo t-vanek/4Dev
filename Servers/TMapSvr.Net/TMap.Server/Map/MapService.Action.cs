@@ -22,11 +22,8 @@ namespace TMap.Server.Map;
 /// <para>The skill checks here are a pure gate: unlike <c>CS_SKILLUSE</c>, the C++ deducts no HP/MP and arms
 /// no cooldown at this point.</para>
 ///
-/// <para><b>Deferred</b> (columns/subsystems this port does not carry): the <c>SKILL_NEEDPREVACT</c> check
-/// (<c>m_wPrevActiveID</c> is not among the loaded <c>TSKILLCHART</c> columns), the charge-skill latch
-/// (<c>m_dwActionTime</c> / <c>m_wCurChargeSkill</c>, same reason), <c>EraseBuffByAttack</c>, and the
-/// summon actors resolve among the sender's own (C++ <c>FindRecallMon</c> / <c>FindSelfObj</c> / <c>FindCompanion</c>),
-/// the reply going to the players around the summon.</para>
+/// <para>The required previous active effect is checked before the accepted action erases buffs.
+/// Summon actors resolve among the sender's own objects. The charge-skill latch remains deferred.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -86,7 +83,8 @@ public sealed partial class MapService
                 result = SkillUseResult.NeedMp;
             else if (ch.Hp < skill.GetRequiredHp(StatEngine.PureMaxHp(ch, _templates)))
                 result = SkillUseResult.NeedHp;
-            // SKILL_NEEDPREVACT (for wPrevActiveID) + the charge latch are deferred (see the type doc).
+            else if (!HasActiveSkill(ch.MaintainSkills, skill.Template?.PrevActiveId ?? 0))
+                result = SkillUseResult.NeedPrevAct;
             // Evocate Monster with nothing tamed answers SKILL_NEEDPREVACT (CSHandler.cpp:1321).
             else if (skill.Template is { } mr && mr.IsMonRecall() && ch.Persist.TemptedMon == 0)
                 result = SkillUseResult.NeedPrevAct;

@@ -64,6 +64,8 @@ public static class Msg
     public const ushort CS_ITEMUSE_REQ = CS_MAP + 0x004A;    // use an item (potion): wTempID/bInven/bItem/wDelayGroup/bCount + targets
     public const ushort CS_ITEMUSE_ACK = CS_MAP + 0x004B;    // BYTE result, WORD delayGroup, BYTE kind, DWORD delay
     public const ushort CS_MONEY_ACK = CS_MAP + 0x0049;      // DWORD gold, silver, cooper (money changed)
+    public const ushort CS_DURATIONDEC_ACK = CS_MAP + 0x01BA;    // BYTE inventory, BYTE slot, DWORD durability
+    public const ushort CS_DURATIONEND_ACK = CS_MAP + 0x01BB;    // BYTE inventory, BYTE slot, BYTE deleted
     public const ushort CS_DURATIONREP_REQ = CS_MAP + 0x01BC;    // repair durability: bNeedCost/bType/bInven/bItem/wNpcID/bNpcInven/bNpcItem
     public const ushort CS_DURATIONREPCOST_ACK = CS_MAP + 0x01BD; // DWORD cost, BYTE discountRate (the bNeedCost quote)
     public const ushort CS_DURATIONREP_ACK = CS_MAP + 0x01BE;    // BYTE result, BYTE count, count×{bInven,bItem,DWORD duraMax,DWORD duraCur}
@@ -1043,7 +1045,8 @@ public static class Msg
     public const ushort MW_CHAT_ACK = MW_BASE + 0x003E;
     public const ushort MW_RESETCONNECTION_REQ = MW_BASE + 0x0040;
     public const ushort MW_RESETCONNECTION_ACK = MW_BASE + 0x0041;
-    public const ushort MW_GETBLOOD_ACK = MW_BASE + 0x008A;   // HP/MP lifedrain (MTYPE_HI/MI) → world grants it to the attacker
+    public const ushort MW_GETBLOOD_REQ = MW_BASE + 0x0089;   // World -> main: HP/MP gain or reflected damage
+    public const ushort MW_GETBLOOD_ACK = MW_BASE + 0x008A;   // HP/MP lifedrain or reflected damage -> World
     public const ushort MW_CONLIST_REQ = MW_BASE + 0x00BF;
     public const ushort MW_CONLIST_ACK = MW_BASE + 0x00C0;
     public const ushort MW_ENTERSOLOMAP_REQ = MW_BASE + 0x00C1;

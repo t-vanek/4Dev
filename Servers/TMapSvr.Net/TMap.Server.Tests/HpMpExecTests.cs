@@ -69,7 +69,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 10), Transfer(900, SctHpTrans));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900, transHp: 30));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 900, transHp: 30));
 
         Assert.Equal(40u, ch.Hp);                                   // 10 + the 30 transferred (no over-heal roll)
         var (_, hp, _, _) = Vitals(c.Last(Msg.CS_HPMP_ACK)!);
@@ -82,7 +82,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(mp: 10), Transfer(901, SctMpTrans));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 901, transMp: 25));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 901, transMp: 25));
 
         Assert.Equal(35u, ch.Mp);                                   // 10 + 25
     }
@@ -92,7 +92,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 90), Transfer(902, SctHpTrans));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 902, transHp: 50));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 902, transHp: 50));
 
         Assert.Equal(100u, ch.Hp);                                  // 90 + 50 clamped to MaxHP
     }
@@ -104,7 +104,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 30, mp: 80), Status(910, StatusHpMpChange));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 910));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 910));
 
         Assert.Equal(80u, ch.Hp);                                   // new HP = min(old MP 80, MaxHP 100)
         Assert.Equal(30u, ch.Mp);                                   // new MP = min(old HP 30, MaxMP 100)
@@ -119,7 +119,7 @@ public class HpMpExecTests
         // Old MP (150) exceeds MaxHP (100) ⇒ new HP clamps to 100; old HP (40) ≤ MaxMP ⇒ new MP = 40.
         var (h, s, c, ch) = await Enter(Char(hp: 40, mp: 150, maxHp: 100, maxMp: 200), Status(911, StatusHpMpChange));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 911));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 911));
 
         Assert.Equal(100u, ch.Hp);   // min(150, MaxHP 100)
         Assert.Equal(40u, ch.Mp);    // min(40, MaxMP 200)
@@ -130,7 +130,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 50, mp: 0), Status(912, StatusHpMpChange));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 912));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 912));
 
         Assert.Equal(50u, ch.Hp);    // C++ returns PERFORM_FAIL when MP == 0 ⇒ no swap
         Assert.Equal(0u, ch.Mp);
@@ -143,7 +143,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 40, mp: 10), Status(920, StatusHpToMp));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 920));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 920));
 
         Assert.Equal(20u, ch.Hp);    // 40 − 40/2
         Assert.Equal(30u, ch.Mp);    // 10 + Calculate(dec 20) = 10 + 20
@@ -154,7 +154,7 @@ public class HpMpExecTests
     {
         var (h, s, c, ch) = await Enter(Char(hp: 100, mp: 45, maxMp: 50), Status(921, StatusHpToMp));
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 921));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 1, targetType: OtPc, skillId: 921));
 
         Assert.Equal(50u, ch.Hp);    // 100 − 50
         Assert.Equal(50u, ch.Mp);    // 45 + 50 clamped to MaxMP 50

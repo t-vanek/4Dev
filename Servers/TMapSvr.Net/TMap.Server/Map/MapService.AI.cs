@@ -1,3 +1,4 @@
+using TMap.Data;
 using TMap.Protocol;
 
 namespace TMap.Server.Map;
@@ -118,6 +119,7 @@ public sealed partial class MapService
     /// animation.</summary>
     private void AttackTarget(Monster mon, MonTarget target, long nowMs)
     {
+        if (!CheckAttack(mon)) return;
         // C++ BeginAtk/Attack only swing when the monster has an m_pNextSkill, and announce that skill's id. A
         // monster's basic attack is one of its chart skills (there is no skill 0) — and this client dereferences
         // the skill-chart lookup unguarded in BOTH OnCS_MONATTACK_ACK and OnCS_DEFEND_ACK, so an unknown id
@@ -146,43 +148,54 @@ public sealed partial class MapService
         MonsterHitEcho? echo = null)
     {
         var e = echo ?? MonsterHitEcho.Default;
-        uint hpBefore = target.Hp;
+        uint hpBefore = target.Hp, mpBefore = target.Mp;
         // C++ order: GetAtkHitType (attacker side) decides miss/normal/crit FIRST; then Defend→CalcDamage runs
         // the DEFENDER's shield-block roll (GetShieldDP), and only on a landed hit (a miss short-circuits before
         // CalcDamage, so it can never become a block). A successful roll returns the shield's defence power,
         // which is ADDED to normal defence (additive reduction — the 5/7 floor still holds) and flags HT_BLOCK.
-        byte hitType = HitTypeVsPlayer(CombatRng, mon.GetCritProb(), mon.GetAttackLevel());
-        uint shieldDp = hitType == HtMiss ? 0u : StatEngine.ShieldBlockDp(target, CombatRng, _templates); // physical melee
-        uint dp = StatEngine.DefendPower(target, _templates) + shieldDp;
-        int a = Math.Max((int)(mon.GetMinAp() - dp), 5);          // C++ CalcDamage floors (min 5 / max 7)
-        int b = Math.Max((int)(mon.GetMaxAp() - dp), 7);
-
-        uint baseDmg = hitType switch
-        {
-            HtMiss => 0u,
-            HtCritical => CritDamage(CombatRng, _templates.Formula(FtypePcd), (uint)b), // physical crit off the max band
-            _ => (uint)(a + CombatRng.Next(Math.Max(b - a, 1))),
-        };
-        if (hitType != HtMiss && _state.FindByChar(target.CharId) is { } shared)
-            baseDmg -= DistributeSkill(shared, target, baseDmg);   // C++ CalcDamage: dwValue -= DistributeSkill(dwValue)
-        uint dmg = (uint)Math.Min((int)baseDmg, (int)target.Hp); // clamp to remaining HP
-        if (hitType != HtMiss) target.Hp -= dmg;
-        if (dmg != 0 && target.Hp != 0 && _state.FindByChar(target.CharId) is { } hurt) CheckSoulHp(hurt, target);   // C++ OnDamage
+        var tpl = _templates.Skill(skillId);
+        if (!HasActiveSkill(target.MaintainSkills, tpl?.TargetActiveId ?? 0)) return;
+        var power = AttackerPower.Of(mon, tpl);
+        byte hitType = HitTypeVsPlayer(CombatRng, power.Crit, power.AttackLevel);
+        var targetSession = _state.FindByChar(target.CharId)!;
+        uint maxHp = MaxHpFor(target), maxMp = MaxMpFor(target);
+        var defender = DamageTarget.Of(target, self: false, maxHp, maxMp, CombatRng, _templates,
+            damage => DistributeSkill(targetSession, target, damage));
+        var dmg = CalcDamage(power, defender, tpl, skillLevel, hitType, power.IsMagic, power.IsLong);
+        ushort backSkill = ApplyDefensiveEquipment(targetSession, target, power, mon.Id, Monster.OtMon, hostId,
+            tpl, skillLevel, hitType, ref dmg);
+        maxHp = MaxHpFor(target); maxMp = MaxMpFor(target);
+        ApplyPlayerDamage(target, dmg, maxHp, maxMp);
+        if (dmg.DamageHp > 0 && target.Hp != 0) CheckSoulHp(targetSession, target);
         // C++ Defend: the monster's hostile skill, hit or miss, ends the player's buffs that stop on being hit.
         if (_templates.Skills.TryGetValue(skillId, out var hostile) && hostile.IsNegative && _state.FindByChar(target.CharId) is { } hit)
             EraseBuffByDefend(target.MaintainSkills, hostile, i => EraseMaintainPlayer(hit, target, i));
         target.EnterBattle((uint)nowMs, RecoverInit);         // player enters battle ⇒ HP regen suppressed
 
+        byte isMaintain = 0; uint maintainTick = 0;
+        if (hitType != HtMiss && hpBefore != 0 && target.Hp != 0 && tpl is not null)
+        {
+            foreach (var row in tpl.Data)
+                if (row.Type == SkillTemplate.SdtCure && row.Exec is SctPosRemove or SctNegRemove)
+                    StripMaintains(targetSession, target, positive: row.Exec == SctPosRemove);
+            ApplyPlayerMovementStatus(targetSession, target, tpl, skillLevel, atkX, atkY, atkZ);
+            var snap = new MaintainSnapshot(mon.Id, Monster.OtMon, hostId, OtPc, power.Crit,
+                power.AttackLevel, power.Level, power.PysMin, power.PysMax, power.MgMin, power.MgMax,
+                e.CanSelect, power.Country, atkX, atkY, atkZ);
+            if (ApplyMaintainToPlayer(targetSession, target, tpl, skillLevel, 0, snap, NowMs) is { } applied)
+            { isMaintain = 1; maintainTick = applied.MaintainTick; }
+        }
+
         // The reported hit result: a kill downgrades to HT_LASTHIT (C++ Defend `m_dwHP ? bAtkHit : HT_LASTHIT`);
         // otherwise a successful shield roll flags HT_BLOCK (set last in CalcDamage, so it wins over a crit report).
         byte atkHit = hitType == HtMiss ? HtMiss
             : target.Hp == 0 ? HtLastHit
-            : shieldDp != 0 ? HtBlock
+            : dmg.Blocked ? HtBlock
             : hitType;
         var hitAck = BuildMonsterHitAck(mon, target.CharId, OtPc, dmg, atkHit, landed: hitType != HtMiss, skillId, skillLevel,
-            hostId, actId, aniId, atkX, atkY, atkZ, defX, defY, defZ, e);
+            hostId, actId, aniId, atkX, atkY, atkZ, defX, defY, defZ, e, power, isMaintain, maintainTick, backSkill);
         // C++ Defend: CS_HPMP_ACK only when the hit changed something (bHPMP), with MP shown as 0 on a kill.
-        bool hpmp = target.Hp != hpBefore;
+        bool hpmp = target.Hp != hpBefore || target.Mp != mpBefore;
         foreach (var p in _state.PlayersAround(mon))
         {
             p.Send(hitAck);
@@ -251,9 +264,10 @@ public sealed partial class MapService
 
     /// <summary>The hit result for a monster→player attack — the same <c>CS_DEFEND_ACK</c> layout as the
     /// player→monster path, with the monster as attacker and the player as target.</summary>
-    private static byte[] BuildMonsterHitAck(Monster mon, uint targetId, byte targetType, uint dmg, byte atkHit, bool landed, ushort skillId,
+    private static byte[] BuildMonsterHitAck(Monster mon, uint targetId, byte targetType, DamageResult dmg, byte atkHit, bool landed, ushort skillId,
         byte skillLevel, uint hostId, uint actId, uint aniId,
-        float atkX, float atkY, float atkZ, float defX, float defY, float defZ, MonsterHitEcho echo)
+        float atkX, float atkY, float atkZ, float defX, float defY, float defZ, MonsterHitEcho echo,
+        AttackerPower power, byte isMaintain = 0, uint maintainTick = 0, ushort backSkill = 0)
     {
         var w = new PacketWriter(Msg.CS_DEFEND_ACK, capacity: 96);
         w.WriteUInt32(mon.Id);        // dwAttackID
@@ -264,36 +278,28 @@ public sealed partial class MapService
         w.WriteByte(OtPc);            // bHostType (C++ Defend passes OT_PC)
         w.WriteUInt32(actId);         // dwActID — echoed from the request
         w.WriteUInt32(aniId);         // dwAniID
-        w.WriteByte(0);               // bIsMaintain
-        w.WriteUInt32(0);             // dwMaintainTick
-        w.WriteByte(mon.GetCritProb());    // bHit == bCP (the monster's crit prob)
+        w.WriteByte(isMaintain);
+        w.WriteUInt32(maintainTick);
+        w.WriteByte(power.Crit);
         w.WriteByte(atkHit);          // bAtkHit (HT_MISS/NORMAL/CRITICAL, HT_LASTHIT on the killing blow)
-        w.WriteUInt16(mon.GetAttackLevel()); // wAttackLevel (GetAttackLevel)
+        w.WriteUInt16(power.AttackLevel);
         w.WriteByte(mon.Level);       // bAttackerLevel
-        w.WriteUInt32(mon.GetMinAp());    // dwPysMinPower
-        w.WriteUInt32(mon.GetMaxAp());    // dwPysMaxPower
-        w.WriteUInt32(echo.MgMin);    // dwMgMinPower  — the reporter's value, as the C++ echoes it
-        w.WriteUInt32(echo.MgMax);    // dwMgMaxPower
+        w.WriteUInt32(power.PysMin);
+        w.WriteUInt32(power.PysMax);
+        w.WriteUInt32(power.MgMin);
+        w.WriteUInt32(power.MgMax);
         w.WriteByte(echo.CanSelect);  // bCanSelect    — echoed
         w.WriteByte(0);               // bCancelCharge
         w.WriteByte(mon.Country);     // bAttackCountry
         w.WriteByte(echo.AidCountry); // bAttackAidCountry — echoed
         w.WriteUInt16(skillId);       // wSkillID — must exist in the client's skill chart
         w.WriteByte(skillLevel);      // bSkillLevel
-        w.WriteUInt16(0);             // wBackSkillID
+        w.WriteUInt16(backSkill);     // wBackSkillID — the defender's rolled counter-skill
         w.WriteByte((byte)(landed ? 1 : 0)); // bPerform — 0 on a miss (PERFORM_MISS)
         w.WriteFloat(atkX); w.WriteFloat(atkY); w.WriteFloat(atkZ);   // the request's positions, as the C++ echoes
         w.WriteFloat(defX); w.WriteFloat(defY); w.WriteFloat(defZ);
-        if (dmg > 0)
-        {
-            w.WriteByte(1);               // damage-map count
-            w.WriteByte(MtypeDamage);     // key
-            w.WriteUInt32((ushort)dmg);   // damage (WORD-truncated, matching the C++)
-        }
-        else
-        {
-            w.WriteByte(0);               // empty damage map on a miss
-        }
+        w.WriteByte((byte)dmg.Map.Count);
+        foreach (var (exec, value) in dmg.Map) { w.WriteByte(exec); w.WriteUInt32(value); }
         return w.ToArray();
     }
 

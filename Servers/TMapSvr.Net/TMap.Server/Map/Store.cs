@@ -15,6 +15,12 @@ public sealed class StoreItem
     public byte Inven { get; set; }        // m_bInvenID — the seller's container
     public byte ItemSlot { get; set; }     // m_bItemID — the seller's slot
     public byte Count { get; set; }        // m_bItemCount — listed quantity
+    public Item? SourceItem { get; init; }
+    public Item? Snapshot { get; init; }
+
+    public bool Matches(Item? item) => item is { Count: > 0 } && ReferenceEquals(item, SourceItem)
+        && Snapshot is not null && item.SameStackAs(Snapshot) && item.GradeEffect == Snapshot.GradeEffect
+        && item.CanDeal() && item.Count >= Count;
 
     /// <summary>The unit price in copper (C++ <c>CalcMoney(gold, silver, cooper)</c>).</summary>
     public long UnitPrice => Cooper + (long)Silver * Character.MoneyMultiply + (long)Gold * Character.MoneyMultiply * Character.MoneyMultiply;

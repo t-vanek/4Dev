@@ -21,7 +21,8 @@ namespace TMap.Server.Map;
 /// <para><b>C++ bugs fixed:</b> the act-item caster was the packet's <c>dwAttackID</c>, any player — whose items were spent; it must
 /// be the sender. The item delay was armed before checking the item is there, so a use without the item still cost the delay.
 /// The medal handler had no map/main check.</para>
-/// <para>Not ported for act items, as for every skill here: <c>CheckAttack</c> and <c>CheckPrevAct</c>.</para>
+/// <para>Act items also validate attack-blocking effects and weapon/ammunition requirements before consuming
+/// the item or arming its delay. <c>CheckPrevAct</c> remains unported.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -88,26 +89,32 @@ public sealed partial class MapService
         if (s.State != EnterState.InGame || s.Char is not { } ch) return;
         void Fail(SkillUseResult why) => SendSkillUseFail(s, why, attackId, attackType, skillId, actionId, actId, aniId);
 
-        if (!s.IsMain || attackId != ch.CharId) return;                                         // the sender's own (C++: any player)
+        if (!s.IsMain || attackId != ch.CharId || attackType != OtPc) return;
         if (ch.Riding != 0) { Fail(SkillUseResult.ActionLock); return; }
         if (!_templates.Skills.TryGetValue(skillId, out var skill)) { Fail(SkillUseResult.NotFound); return; }
         if (skill.MapId != 0xFFFF && skill.MapId != ch.MapId) { Fail(SkillUseResult.WrongRegion); return; }
+        if (ch.Hp == 0 || skill.IsNegative && !BuffLayer.CanAttack(ch.MaintainSkills, player: true))
+        { Fail(SkillUseResult.ActionLock); return; }
         if (attackType != Monster.OtMon && skill.IsNegative && CheckPeaceZone(ch)) { Fail(SkillUseResult.PeaceZone); return; }
         if (TournamentSkillBanned(ch, skillId) is { } banned) { Fail(banned); return; }
         if (ch.ArenaId != 0 && skillId == TournamentCantUseSkill) { Fail(SkillUseResult.NotFound); return; }
 
+        if (!HasActiveSkill(ch.MaintainSkills, skill.PrevActiveId)) { Fail(SkillUseResult.NeedPrevAct); return; }
+        if (skill.UseItem == 0 || ItemCount(ch, skill.UseItem) < 1) { Fail(SkillUseResult.NeedItem); return; }
+        _templates.Items.TryGetValue(skill.UseItem, out var it);
+        if (it is not null && ch.ItemCoolTime.TryGetValue(it.DelayGroup, out uint ready) && unchecked((int)(ready - NowMs)) > 0)
+        { Fail(SkillUseResult.SpeedyUse); return; }
+        if (!TryConsumeSkillItems(s, ch, skill, hitCount: 1)) { Fail(SkillUseResult.UnsuitWeapon); return; }
+
         if (skill.IsNegative) ch.EnterBattle(NowMs, RecoverInit);
         EraseBuffByAttack(s, ch, skill);
-
-        if (skill.UseItem == 0 || ItemCount(ch, skill.UseItem) < 1) { Fail(SkillUseResult.NeedItem); return; }
-        if (_templates.Items.TryGetValue(skill.UseItem, out var it))
+        if (it is not null)
         {
-            if (ch.ItemCoolTime.TryGetValue(it.DelayGroup, out uint ready) && unchecked((int)(ready - NowMs)) > 0)
-            { Fail(SkillUseResult.SpeedyUse); return; }
             ch.ItemCoolTime[it.DelayGroup] = NowMs + it.Delay;
             SendCS_ITEMUSE_ACK(s, ItemUseResult.Success, it.DelayGroup, it.Kind, it.Delay);
         }
-        UseItemById(s, ch, skill.UseItem, 1);
+        AuthorizePlayerCast(s, new Skill { SkillId = skillId, Level = 1, Template = skill },
+            new[] { (defendId, defendType) }, requireLearned: false);
 
         var ack = BuildCS_SKILLUSE_ACK(SkillUseResult.Success, attackId, attackType, skillId, actionId, actId, aniId,
             skillLevel: 1, backSkill: 0, attackLevel: 0, attackerLevel: ch.Level, pysMin: 0, pysMax: 0, mgMin: 0, mgMax: 0,

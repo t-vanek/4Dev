@@ -10,12 +10,9 @@ namespace TMap.Server.Map;
 /// players in its 3×3 view block, and a player entering / moving into a cell block learns of the monsters
 /// there. Monsters use their own packets (not the player <c>CS_ENTER_ACK</c>).
 ///
-/// <para>This phase is spawn + visibility only. Deferred (documented — PORT_STATUS.md): the DB spawn-chart
-/// pipeline (<c>TMONSPAWNCHART</c>/<c>TMAPMONCHART</c>/<c>TMONSTERCHART</c>/<c>TMONATTRCHART</c>) and the
-/// regen/respawn timer with its RNG weighted type-pick + radius scatter; monster movement/roam and all AI;
-/// combat/damage/death/loot; the <c>GetColor</c> faction logic (a constant 0 is sent, as for the player
-/// <c>bColor</c>); and monster maintain/buff skills (a fresh monster has none ⇒ a 0 count). Recall-mons,
-/// companions, self-objs and NPCs (their own <c>ADD*</c> packets) are also deferred.</para>
+/// <para>This file handles visibility and per-viewer faction/keeper colours. Spawn selection, AI, combat,
+/// rewards and maintained effects live in the other MapService partials; see PORT_STATUS.md for their
+/// current implementation and verification limits.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -23,6 +20,8 @@ public sealed partial class MapService
     /// (C++ <c>CTMap::EnterMAP(monster)</c> → <c>CTCell::EnterMonster</c>, <c>bNewMember = TRUE</c>).</summary>
     public void SpawnMonster(Monster m)
     {
+        if (m.Attr is null && _templates.MonsterTemplates.TryGetValue(m.ChartId, out var chart))
+            m.Attr = _templates.MonAttr(chart.MonAttr, m.Level);
         _state.AddMonster(m);
         foreach (var p in _state.PlayersAround(m)) SendCS_ADDMON_ACK(p, m, newMember: true);
 
@@ -78,11 +77,18 @@ public sealed partial class MapService
         w.WriteByte(m.Mode);
         w.WriteByte(newMember ? (byte)1 : (byte)0);
         w.WriteByte(m.Country);
-        w.WriteByte(0);              // GetColor(...) — faction/name color vs viewer (deferred, as the player bColor)
+        w.WriteByte(m.ColorFor(s.CharId, s.Char?.GetPartyId() ?? 0, s.Char is { } viewer ? WarCountryOf(viewer) : TcontryN));
         w.WriteUInt32(m.Region);
         w.WriteByte((byte)m.MaintainSkills.Count);   // the monster's active debuffs
         foreach (var buff in m.MaintainSkills) WriteMaintainSkill(w, buff, NowMs);
         s.Send(w);
+    }
+
+    private static void SendMonsterColor(ClientSession s, Monster mon)
+    {
+        if (s.Char is not { } ch) return;
+        s.Send(new PacketWriter(Msg.CS_CHANGECOLOR_ACK).WriteByte(Monster.OtMon).WriteUInt32(mon.Id)
+            .WriteByte(mon.ColorFor(ch.CharId, ch.GetPartyId(), WarCountryOf(ch))).WriteByte(mon.Country));
     }
 
     /// <summary>C++ <c>CTPlayer::SendCS_DELMON_ACK</c> — <c>dwMonID</c> + <c>bExitMap</c>.</summary>

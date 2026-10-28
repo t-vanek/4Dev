@@ -111,7 +111,7 @@ public class MonsterAggroTableTests
 
         // A PC attack carries its own id as dwHostID (the client sends it; C++ only overwrites host for a monster
         // attacker, CSHandler.cpp:1523) — that host is the TRUE recipient of CS_MONHOST_ACK.
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x40021, hostId: 1));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x40021, hostId: 1));
 
         Assert.Equal(1u, mob.TargetId);    // aggroed the attacker
         Assert.Equal((byte)1, mob.Mode);   // MT_BATTLE
@@ -130,9 +130,9 @@ public class MonsterAggroTableTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
 
-        await h.Service.DispatchClientAsync(sA, MapTestHarness.DefendReq(1, 0x40022, hostId: 1)); // A pulls the monster
+        await h.CastAndHitAsync(sA, MapTestHarness.DefendReq(1, 0x40022, hostId: 1)); // A pulls the monster
         Assert.Equal(1u, mob.TargetId);
-        await h.Service.DispatchClientAsync(sB, MapTestHarness.DefendReq(2, 0x40022, hostId: 2)); // B adds hate (below the steal threshold)
+        await h.CastAndHitAsync(sB, MapTestHarness.DefendReq(2, 0x40022, hostId: 2)); // B adds hate (below the steal threshold)
         Assert.Equal(1u, mob.TargetId);   // A still the target (B hasn't beaten the 10% rule)
 
         h.Service.RunMonsterAI(1_000);    // A is past the leash ⇒ drop A, switch to the in-view survivor B

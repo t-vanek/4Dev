@@ -186,7 +186,7 @@ public class TerritoryTests
         await h.Service.DispatchClientAsync(b, Region(2, Castle));
         uint hp = b.Char!.Hp;
 
-        await h.Service.DispatchClientAsync(a, MapTestHarness.DefendReq(1, 2, targetType: 1, skillId: Hostile));
+        await h.CastAndHitAsync(a, MapTestHarness.DefendReq(1, 2, targetType: 1, skillId: Hostile));
 
         Assert.Equal(hp, b.Char.Hp);
         Assert.False(cb.Has(Msg.CS_DEFEND_ACK));

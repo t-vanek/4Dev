@@ -12,10 +12,12 @@ public class MovementTests
     private const byte ServerId = 1, ServerType = 4;
     private static ushort WId => (ushort)((ServerType << 8) | ServerId);
 
-    private static void Connect(TcpTestClient client)
+    private static void Connect(TcpTestClient client, params byte[] channels)
     {
         var c = new PacketWriter(Msg.MW_CONNECT_ACK);
-        c.WriteUInt16(WId); c.WriteByte(1); c.WriteByte(0);
+        if (channels.Length == 0) channels = new byte[] { 0 };
+        c.WriteUInt16(WId); c.WriteByte((byte)channels.Length);
+        foreach (var channel in channels) c.WriteByte(channel);
         client.Send(c);
     }
 
@@ -123,6 +125,66 @@ public class MovementTests
 
         await Task.Delay(80);
         Assert.Equal((byte)6, host.State.Characters[charId].Channel);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public async Task ChannelTransfer_OnOneMapServer_CompletesRoutingAndDrainsTheCycle(byte channel)
+    {
+        const uint charId = 19, key = 0x1234;
+        await using var host = new WorldTestHost();
+        using var client = await host.ConnectAsync();
+        Connect(client, 1, 2);
+        EnterChar(client, charId, key);
+
+        var begin = new PacketWriter(Msg.MW_BEGINTELEPORT_ACK);
+        begin.WriteUInt32(charId); begin.WriteUInt32(key); begin.WriteByte(0); begin.WriteByte(channel);
+        begin.WriteUInt16(0); begin.WriteFloat(100); begin.WriteFloat(4); begin.WriteFloat(100);
+        client.Send(begin);
+
+        var start = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_STARTTELEPORT_REQ, start.Id);
+        Assert.Equal(charId, start.ReadUInt32()); Assert.Equal(key, start.ReadUInt32());
+        Assert.Equal(channel, start.ReadByte()); Assert.Equal(0, start.ReadUInt16());
+        Assert.Equal((100f, 4f, 100f), (start.ReadFloat(), start.ReadFloat(), start.ReadFloat()));
+
+        var owner = new PacketWriter(Msg.MW_TELEPORT_ACK);
+        owner.WriteUInt32(charId); owner.WriteUInt32(key); owner.WriteByte(ServerId);
+        client.Send(owner);
+        var verdict = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_TELEPORT_REQ, verdict.Id);
+        Assert.Equal(charId, verdict.ReadUInt32()); Assert.Equal(key, verdict.ReadUInt32());
+        Assert.Equal(channel, verdict.ReadByte()); Assert.Equal(0, verdict.ReadUInt16());
+        Assert.Equal((100f, 4f, 100f), (verdict.ReadFloat(), verdict.ReadFloat(), verdict.ReadFloat()));
+        Assert.Equal(0, verdict.ReadByte());
+        var list = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_CONLIST_REQ, list.Id);
+        list.ReadUInt32(); list.ReadUInt32();
+        Assert.Equal(channel, list.ReadByte());
+
+        var connections = new PacketWriter(Msg.MW_CONLIST_ACK);
+        connections.WriteUInt32(charId); connections.WriteUInt32(key); connections.WriteByte(1); connections.WriteByte(ServerId);
+        client.Send(connections);
+        var check = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_CHECKMAIN_REQ, check.Id);
+        check.ReadUInt32(); check.ReadUInt32();
+        Assert.Equal(channel, check.ReadByte());
+        var main = new PacketWriter(Msg.MW_CHECKMAIN_ACK);
+        main.WriteUInt32(charId); main.WriteUInt32(key);
+        client.Send(main);
+        var granted = client.Receive(TimeSpan.FromSeconds(5));
+        Assert.Equal(Msg.MW_CONRESULT_REQ, granted.Id);
+        granted.ReadUInt32(); granted.ReadUInt32();
+        Assert.Equal(0, granted.ReadByte());
+
+        var ch = host.State.Characters[charId];
+        Assert.Equal(channel, ch.Channel);
+        Assert.Equal((ushort)0, ch.MapId);
+        Assert.Equal((100f, 4f, 100f), (ch.PosX, ch.PosY, ch.PosZ));
+        Assert.Equal(ServerId, ch.MainId);
+        Assert.Empty(ch.ConCess);
+        Assert.Equal(ServerId, Assert.Single(ch.Connections).Key);
     }
 
     [Fact]

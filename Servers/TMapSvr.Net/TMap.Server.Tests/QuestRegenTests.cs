@@ -60,7 +60,7 @@ public class QuestRegenTests
         AddRegenQuest(store, DynMon);
         var (h, s, origId) = await Setup(store);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: origId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: origId));
 
         Assert.Null(h.State.FindMonster(origId));                             // original despawned (no loot)
         Assert.Single(h.State.AllMonsters());                                 // exactly one monster: the replacement
@@ -75,7 +75,7 @@ public class QuestRegenTests
         var store = Store();
         AddRegenQuest(store, DynMon);
         var (h, s, origId) = await Setup(store);
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, origId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, origId));
         Assert.Contains(h.State.AllMonsters(), m => m.ChartId == DynMon);
 
         h.Service.RunMonsterRegen(1000);                                     // the original respawns → link fires
@@ -91,7 +91,7 @@ public class QuestRegenTests
         AddRegenQuest(store, 9999);                                          // 9999 not in MonsterTemplates
         var (h, s, origId) = await Setup(store);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, origId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, origId));
 
         Assert.Empty(h.State.AllMonsters());                                 // original gone; nothing minted
     }
@@ -102,10 +102,10 @@ public class QuestRegenTests
         var store = Store(dynHp: 5);                                         // one-shot dynamic too
         AddRegenQuest(store, DynMon);
         var (h, s, origId) = await Setup(store);
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, origId));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, origId));
         var dyn = h.State.AllMonsters().Single(m => m.ChartId == DynMon);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, dyn.Id)); // kill the replacement
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, dyn.Id)); // kill the replacement
         Assert.DoesNotContain(h.State.AllMonsters(), m => m.ChartId == DynMon);
 
         h.Service.RunMonsterRegen(1000);                                     // its SE_DYNAMIC spawn must not re-arm

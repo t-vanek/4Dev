@@ -34,6 +34,7 @@ public sealed partial class MapService
         byte level, ushort skillId, byte canSelect, ClientSession ts, Character target, uint actId, uint aniId,
         float atkX, float atkY, float atkZ, float defX, float defY, float defZ, AttackerPower? power = null, bool forceMiss = false)
     {
+        if (!HasActiveSkill(target.MaintainSkills, tpl?.TargetActiveId ?? 0)) return;
         if (target.Hp == 0 && tpl?.CanDefendAtDie() != true) return;                     // OS_DEAD && !CanDefendAtDie
 
         var p = power ?? AttackerPower.Of(ch, _templates, tpl) with { Level = ch.Level };
@@ -46,6 +47,8 @@ public sealed partial class MapService
         var def = DamageTarget.Of(target, self: false, maxHp, maxMp, CombatRng, _templates, v => DistributeSkill(ts, target, v));
         var dmg = CalcDamage(p, def, tpl, level, hitType, isMagic, isLong);
         uint hpBefore = target.Hp, mpBefore = target.Mp;
+        ushort backSkill = ApplyDefensiveEquipment(ts, target, p, attackId, attackType, hostId, tpl, level, hitType, ref dmg);
+        maxHp = MaxHpFor(target); maxMp = MaxMpFor(target);
         ApplyPlayerDamage(target, dmg, maxHp, maxMp);
         if (dmg.DamageHp > 0 && target.Hp != 0) CheckSoulHp(ts, target);                // C++ OnDamage (MapService.Soulmate.cs)
 
@@ -85,7 +88,7 @@ public sealed partial class MapService
         var ack = BuildCS_DEFEND_ACK(attackId, hostId, target.CharId, OtPc, attackType, actId, aniId,
             p.AttackLevel, p.Level, p.ApMin(isMagic, isLong), p.ApMax(isMagic, isLong), isMagic, p.Crit, canSelect,
             p.Country, p.AidCountry, skillId, level, atkHit, hitType != HtMiss, atkX, atkY, atkZ, defX, defY, defZ, dmg.Map,
-            isMaintain, maintainTick);
+            isMaintain, maintainTick, backSkill);
         bool hpmp = target.Hp != hpBefore || target.Mp != mpBefore;
         var viewers = _state.InView(ts).ToList();
         foreach (var v in viewers)

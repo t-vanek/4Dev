@@ -151,6 +151,7 @@ public sealed partial class MapService
     /// <summary>C++ <c>Teleport(pPlayer, bChannel, wMapID, x, y, z)</c> (TMapSvr.cpp:7189).</summary>
     private bool Teleport(ClientSession s, Character ch, byte channel, ushort mapId, float x, float y, float z)
     {
+        if (s.TeleportPending) return false;
         _log.LogInformation("Teleport char {Char}: HP {Hp}/{MaxHp}, from {FromMap} ({FromX},{FromY},{FromZ}) to {ToMap} ({ToX},{ToY},{ToZ}).",
             ch.CharId, ch.Hp, MaxHpFor(ch), ch.MapId, ch.PosX, ch.PosY, ch.PosZ, mapId, x, y, z);
         PetRiding(s, ch, 0);
@@ -167,6 +168,7 @@ public sealed partial class MapService
         }
 
         LeaveDuel(ch, loses: true);                                                     // teleporting away forfeits
+        s.TeleportPending = true;
         var w = new PacketWriter(Msg.MW_BEGINTELEPORT_ACK);
         w.WriteUInt32(ch.CharId); w.WriteUInt32(s.Key); w.WriteByte(0 /* bSameChannel */); w.WriteByte(channel);
         w.WriteUInt16(mapId); w.WriteFloat(x); w.WriteFloat(y); w.WriteFloat(z);
@@ -189,6 +191,8 @@ public sealed partial class MapService
         if (FindPlayer(charId, key) is not { Char: { } ch } s) return;
 
         ExitMap(s, ch);
+        s.TeleportPending = true;
+        s.State = EnterState.Entering; // wait for the world's new CONRESULT before accepting client CONREADY
         s.Channel = channel;
         ch.MapId = mapId;
         ch.PosX = x; ch.PosY = y; ch.PosZ = z;
@@ -196,12 +200,7 @@ public sealed partial class MapService
 
         if (!s.IsMain) return;
         // TGetServerID: the server owning that map unit. This deployment runs one map server, which owns them all.
-        byte serverId = OwnsMap(mapId) ? _opt.ServerId : InvalidServerId;
-        if (serverId == InvalidServerId)
-        {
-            SendCS_TELEPORT_ACK(s, TprNoDestination, ch.MapId, 0, 0, 0);
-            return;
-        }
+        byte serverId = HostsChannel(channel) && OwnsMap(mapId) ? _opt.ServerId : InvalidServerId;
         var w = new PacketWriter(Msg.MW_TELEPORT_ACK);
         w.WriteUInt32(charId); w.WriteUInt32(key); w.WriteByte(serverId);
         _world.Send(w);
@@ -227,11 +226,11 @@ public sealed partial class MapService
     private void OnMW_CONLIST_REQ(PacketReader r)
     {
         uint charId = r.ReadUInt32(), key = r.ReadUInt32();
-        r.ReadByte(); ushort mapId = r.ReadUInt16();                    // bChannel, wMapID; position follows
+        byte channel = r.ReadByte(); ushort mapId = r.ReadUInt16();    // position follows
 
         var w = new PacketWriter(Msg.MW_CONLIST_ACK);
         w.WriteUInt32(charId); w.WriteUInt32(key);
-        if (OwnsMap(mapId)) { w.WriteByte(1); w.WriteByte(_opt.ServerId); }
+        if (HostsChannel(channel) && OwnsMap(mapId)) { w.WriteByte(1); w.WriteByte(_opt.ServerId); }
         else w.WriteByte(0);
         _world.Send(w);
     }
@@ -260,6 +259,7 @@ public sealed partial class MapService
 
         if (s.State != EnterState.InGame) return;
 
+        s.PendingCasts.Clear(); // impacts from the old world must not become valid after switching back
         ReleaseMeetingRoom(s);
 
         EraseZoneEffects(s, ch);               // C++ ExitMAP → EraseMissionSkill (MapService.Mission.cs)

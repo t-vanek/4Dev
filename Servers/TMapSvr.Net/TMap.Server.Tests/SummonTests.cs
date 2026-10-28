@@ -103,7 +103,7 @@ public class SummonTests
     /// <summary>Casts a world summon and plays the world's answer (the record with an id).</summary>
     private static async Task<RecallMon> Summon(MapTestHarness h, ClientSession s, Character ch, ushort skill, uint id)
     {
-        await h.Service.DispatchClientAsync(s, Cast(skill));
+        await h.CastAndHitAsync(s, Cast(skill));
         var raw = (byte[])h.World.Last(Msg.MW_CREATERECALLMON_ACK)!.Clone();
         PacketHeader.WriteId(raw, Msg.MW_CREATERECALLMON_REQ);
         BitConverter.GetBytes(id).CopyTo(raw, PacketHeader.Size + 8);
@@ -118,7 +118,7 @@ public class SummonTests
     {
         var (h, s, c, ch, _) = await Setup();
 
-        await h.Service.DispatchClientAsync(s, Cast(RainSkill, x: 120, z: 130));
+        await h.CastAndHitAsync(s, Cast(RainSkill, x: 120, z: 130));
 
         var obj = Assert.Single(ch.SelfObjs.Values);
         Assert.Equal((120f, 130f), (obj.PosX, obj.PosZ));
@@ -141,7 +141,7 @@ public class SummonTests
     public async Task APlacedObject_DiesWhenItsTimeIsUp()
     {
         var (h, s, c, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(RainSkill));
+        await h.CastAndHitAsync(s, Cast(RainSkill));
         uint id = ch.SelfObjs.Keys.Single();
 
         for (int i = 0; i < 11; i++) await h.Service.OnTimerAsync();
@@ -155,7 +155,7 @@ public class SummonTests
     public async Task AMainSummon_IsAskedOfTheWorld()
     {
         var (h, s, _, _, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(RitualSkill));
+        await h.CastAndHitAsync(s, Cast(RitualSkill));
 
         var r = new PacketReader(h.World.Last(Msg.MW_CREATERECALLMON_ACK)!);
         Assert.Equal(1u, r.ReadUInt32()); Assert.Equal(Key, r.ReadUInt32()); Assert.Equal(0u, r.ReadUInt32());
@@ -170,7 +170,7 @@ public class SummonTests
         await Summon(h, s, ch, RitualSkill, 900);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s, Cast(RitualSkill));
+        await h.CastAndHitAsync(s, Cast(RitualSkill));
 
         var del = new PacketReader(h.World.Last(Msg.MW_RECALLMONDEL_ACK)!);
         del.ReadUInt32(); del.ReadUInt32(); Assert.Equal(900u, del.ReadUInt32());
@@ -180,10 +180,10 @@ public class SummonTests
     public async Task OnlyOneCrystal_IsKept()
     {
         var (h, s, _, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(CrystalSkill));
+        await h.CastAndHitAsync(s, Cast(CrystalSkill));
         uint first = ch.SelfObjs.Keys.Single();
 
-        await h.Service.DispatchClientAsync(s, Cast(CrystalSkill));
+        await h.CastAndHitAsync(s, Cast(CrystalSkill));
 
         uint second = Assert.Single(ch.SelfObjs.Keys);
         Assert.NotEqual(first, second);
@@ -193,7 +193,7 @@ public class SummonTests
     public async Task APlacedObject_CanBeDismissed_AndDiesWithItsOwner()
     {
         var (h, s, _, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(RainSkill));
+        await h.CastAndHitAsync(s, Cast(RainSkill));
         uint id = ch.SelfObjs.Keys.Single();
 
         var del = new PacketWriter(Msg.CS_DELRECALLMON_REQ);
@@ -233,7 +233,7 @@ public class SummonTests
         mob.MaxHp = mob.Hp = 400;                                        // 50 is past the 10% keeper mark
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, Finish(900, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(900, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal(400u - 50u, mob.Hp);
         Assert.Equal(1u, mob.KeeperId);                                  // the owner's kill
@@ -256,10 +256,10 @@ public class SummonTests
     public async Task AStormsHit_AngersTheMonsterAtItsOwner()
     {
         var (h, s, _, ch, mob) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(RainSkill));       // a "skill" object whose template is not selectable
+        await h.CastAndHitAsync(s, Cast(RainSkill));       // a "skill" object whose template is not selectable
         uint id = ch.SelfObjs.Keys.Single();
 
-        await h.Service.DispatchClientAsync(s, Finish(id, OtSelf, RainHit, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(id, OtSelf, RainHit, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal((1u, OtPc), (mob.TargetId, mob.TargetType));       // never SKILLUSE'd: keeps its template's flag
     }
@@ -268,10 +268,10 @@ public class SummonTests
     public async Task AnEyesHit_AngersTheMonsterAtTheEye()
     {
         var (h, s, _, ch, mob) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(EyeSkill));
+        await h.CastAndHitAsync(s, Cast(EyeSkill));
         uint id = ch.SelfObjs.Keys.Single();
 
-        await h.Service.DispatchClientAsync(s, Finish(id, OtSelf, SummonHit, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(id, OtSelf, SummonHit, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal((id, OtSelf), (mob.TargetId, mob.TargetType));     // SKILLUSE's TRUE for OT_SELF
     }
@@ -282,7 +282,7 @@ public class SummonTests
         var (h, s, _, ch, _) = await Setup();
         ch.Skills.Single(k => k.SkillId == RitualSkill).Level = 0;       // listed (TSTARTSKILL) but not learned
 
-        await h.Service.DispatchClientAsync(s, Cast(RitualSkill));
+        await h.CastAndHitAsync(s, Cast(RitualSkill));
 
         Assert.False(h.World.Has(Msg.MW_CREATERECALLMON_ACK));
     }
@@ -304,7 +304,7 @@ public class SummonTests
         var (h, s, _, ch, mob) = await Setup();
         await Summon(h, s, ch, AutoSkill, 901);
 
-        await h.Service.DispatchClientAsync(s, Finish(901, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(901, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal(1000u - 150u, mob.Hp);
     }
@@ -314,7 +314,7 @@ public class SummonTests
     {
         var (h, s, _, ch, mob) = await Setup();
         await Summon(h, s, ch, RitualSkill, 900);
-        await h.Service.DispatchClientAsync(s, Finish(900, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }, fake: true));
+        await h.CastAndHitAsync(s, Finish(900, OtRecall, SummonHit, new[] { (mob.Id, OtMon) }, fake: true));
         Assert.Equal(1000u, mob.Hp);
     }
 
@@ -322,10 +322,10 @@ public class SummonTests
     public async Task ASkillPlacedObject_HitsWithItsOwnersFigures()
     {
         var (h, s, _, ch, mob) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(RainSkill));
+        await h.CastAndHitAsync(s, Cast(RainSkill));
         uint id = ch.SelfObjs.Keys.Single();
 
-        await h.Service.DispatchClientAsync(s, Finish(id, OtSelf, RainHit, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(id, OtSelf, RainHit, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal(1000u - 5u, mob.Hp);   // the owner (no charts ⇒ no power): the 5 floor, not the row's 50
     }
@@ -355,7 +355,7 @@ public class SummonTests
         var summon = await Summon(h, s, ch, RitualSkill, 900);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(mob.Id, 900, attackType: OtMon, targetType: OtRecall,
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(mob.Id, 900, attackType: OtMon, targetType: OtRecall,
             skillId: MapTestHarness.MonsterMelee));
 
         Assert.Equal(400u - 40u, summon.Hp);                            // the monster's 40 vs the summon's 0 defence
@@ -373,7 +373,7 @@ public class SummonTests
         summon.Hp = 10;
         h.World.Clear(); c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(mob.Id, 900, attackType: OtMon, targetType: OtRecall,
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(mob.Id, 900, attackType: OtMon, targetType: OtRecall,
             skillId: MapTestHarness.MonsterMelee));
 
         Assert.Equal(0u, summon.Hp);
@@ -456,7 +456,7 @@ public class SummonTests
     public async Task TheCrystal_BuffsItself_ForWhatIsLeftOfItsLife()
     {
         var (h, s, c, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(CrystalSkill));
+        await h.CastAndHitAsync(s, Cast(CrystalSkill));
         var crystal = ch.SelfObjs.Values.Single();
         c.Clear();
 
@@ -473,7 +473,7 @@ public class SummonTests
     public async Task APlayerInTheCrystalsAura_GetsItsBuff_UntilTheyLeaveIt()
     {
         var (h, s, _, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(CrystalSkill));
+        await h.CastAndHitAsync(s, Cast(CrystalSkill));
         var crystal = ch.SelfObjs.Values.Single();
 
         await h.Service.DispatchClientAsync(s, AuraReq(crystal.Id, 1, OtPc, 25_000));
@@ -493,7 +493,7 @@ public class SummonTests
     public async Task OnlyTheReporter_CanBeTheAurasPlayerTarget()
     {
         var (h, s, _, ch, _) = await Setup();
-        await h.Service.DispatchClientAsync(s, Cast(CrystalSkill));
+        await h.CastAndHitAsync(s, Cast(CrystalSkill));
         var crystal = ch.SelfObjs.Values.Single();
         var (other, _) = await h.EnterAsync(2, 2, 2, name: "Other", x: 100, z: 100);
 
@@ -508,7 +508,7 @@ public class SummonTests
         var (h, s, _, ch, mob) = await Setup();
         await Summon(h, s, ch, RitualSkill, 900);
 
-        await h.Service.DispatchClientAsync(s, Finish(900, OtRecall, BombSkill, new[] { (mob.Id, OtMon) }));
+        await h.CastAndHitAsync(s, Finish(900, OtRecall, BombSkill, new[] { (mob.Id, OtMon) }));
 
         Assert.Equal(1000u, mob.Hp);        // C++ CalcDamage only walks the skill's rows: the linked skill does the damage
     }

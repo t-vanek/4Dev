@@ -174,6 +174,7 @@ public sealed partial class MapService
             Id = Monster.MakeId(s.Id, sp.Channel, slot.Index),
             ChartId = tpl.Id,
             Level = tpl.Level,
+            Attr = attr,
             MaxHp = attr.MaxHp, Hp = attr.MaxHp,
             MaxMp = attr.MaxMp, Mp = attr.MaxMp,
             DefendPower = attr.DefendPower,

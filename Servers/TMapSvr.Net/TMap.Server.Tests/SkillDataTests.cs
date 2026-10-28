@@ -155,7 +155,7 @@ public class SkillDataTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20001, skillId: 100));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20001, skillId: 100));
 
         // naked AP 0, DP 100 ⇒ base roll 5..6; scaled ×2 ⇒ 10..12.
         Assert.True(c.Has(Msg.CS_DEFEND_ACK));
@@ -174,7 +174,7 @@ public class SkillDataTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x20002)); // skillId 0
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x20002)); // skillId 0
 
         Assert.InRange(100u - mob.Hp, 5u, 6u);
     }

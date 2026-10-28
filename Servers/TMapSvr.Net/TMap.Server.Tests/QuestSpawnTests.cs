@@ -156,7 +156,7 @@ public class QuestSpawnTests
         });
         h.Service.CombatRng = new Random(1);
         c.Clear();
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: monId)); // one-shot kill
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(attackerId: 1, targetId: monId)); // one-shot kill
         return (h, s, c, monId);
     }
 

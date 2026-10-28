@@ -35,14 +35,46 @@ internal sealed class MapTestHarness
         t.Skills.TryAdd(MonsterMelee, new SkillTemplate(MonsterMelee, Kind: 0, UseMp: 0, UseMpType: 0, UseHp: 0,
             UseHpType: 0, StartLevel: 1, MaxLevel: 1, NextLevel: 0, ReuseDelay: 0, ReuseDelayInc: 0, LoopDelay: 0,
             KindDelay: 0, SpeedApply: 0, Positive: 0, MapId: 0xFFFF));
+        if (t.Skills[MonsterMelee].Data.Count == 0)
+            t.Skills[MonsterMelee].Data.Add(new SkillDataRow(0, 1, 1, 30, 1, 0, 0, 0));
         return t;
     }
 
     public MapTestHarness(TemplateStore? templates = null, IMapEntryStore? entryStore = null)
     {
+        _templates = templates ?? new TemplateStore();
         Options = new MapServerOptions { ServerId = 1, Channels = new byte[] { 1 } };
         Service = new MapService(Options, State, World, gameDb: null,
-            templates ?? new TemplateStore(), NullLogger<MapService>.Instance, entryStore ?? new TestEntryStore());
+            _templates, NullLogger<MapService>.Instance, entryStore ?? new TestEntryStore());
+    }
+
+    private readonly TemplateStore _templates;
+
+    /// <summary>Drive the paid cast before its impact, as the real client does. Older combat-only fixtures
+    /// use skill 0 for a synthetic basic attack; give that fixture an explicit learned damage template.
+    /// Security tests use Service.DispatchClientAsync directly to exercise unauthorised packets.</summary>
+    public async Task CastAndHitAsync(ClientSession s, byte[] packet)
+    {
+        var body = packet.AsSpan(PacketHeader.Size).ToArray();
+        ushort message = PacketHeader.ReadId(packet);
+        byte type = body[message == Msg.CS_DEFEND_REQ ? 12 : 8];
+        if (type != 1) { await Service.DispatchClientAsync(s, packet); return; }
+        ushort skillId = BitConverter.ToUInt16(body, message == Msg.CS_DEFEND_REQ ? 56 : 21);
+        uint attacker = BitConverter.ToUInt32(body, message == Msg.CS_DEFEND_REQ ? 4 : 0);
+        var targets = new List<(uint id, byte type)>();
+        if (message == Msg.CS_DEFEND_REQ) targets.Add((BitConverter.ToUInt32(body, 8), body[13]));
+        else for (int i = 0; i < body[33]; i++) targets.Add((BitConverter.ToUInt32(body, 34 + i * 5), body[38 + i * 5]));
+        if (skillId == 0 && s.Char is { } ch && ch.Skills.All(k => k.SkillId != 0))
+        {
+            var basic = new SkillTemplate(0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0xFFFF);
+            basic.Data.Add(new SkillDataRow(0, 1, 1, 30, 1, 0, 0, 0));
+            _templates.Skills[0] = basic;
+            ch.Skills.Add(new Skill { SkillId = 0, Level = 1, Template = basic });
+        }
+        if (s.Char?.Skills.FirstOrDefault(k => k.SkillId == skillId)?.Template is { } known)
+            _templates.Skills.TryAdd(skillId, known);
+        await Service.DispatchClientAsync(s, SkillUseReq(attacker, skillId, targets: targets.ToArray()));
+        await Service.DispatchClientAsync(s, packet);
     }
 
     private sealed class TestEntryStore : IMapEntryStore
@@ -492,6 +524,23 @@ internal sealed class MapTestHarness
     }
 
     private readonly List<(ClientSession session, FakeClientChannel client)> _clients = new();
+
+    /// <summary>Finish a world-coordinated move after STARTTELEPORT: verdict, destination connection list,
+    /// CHECKMAIN and CONRESULT, then the client's ready packet. Ready alone cannot grant a new world entry.</summary>
+    public async Task FinishTeleportAsync(ClientSession s)
+    {
+        var ch = s.Char!;
+        foreach (ushort message in new[] { Msg.MW_TELEPORT_REQ, Msg.MW_CONLIST_REQ })
+        {
+            var w = new PacketWriter(message).WriteUInt32(s.CharId).WriteUInt32(s.Key).WriteByte(s.Channel)
+                .WriteUInt16(ch.MapId).WriteFloat(ch.PosX).WriteFloat(ch.PosY).WriteFloat(ch.PosZ);
+            if (message == Msg.MW_TELEPORT_REQ) w.WriteByte(0);
+            await Service.DispatchWorldAsync(w.ToArray());
+        }
+        await Service.DispatchWorldAsync(CheckMainReq(s.CharId, s.Key, s.Channel, ch.MapId, ch.PosX, ch.PosY, ch.PosZ));
+        await Service.DispatchWorldAsync(ConResultReq(s.CharId, s.Key, ConnectResult.Success));
+        await Service.DispatchClientAsync(s, ConReady());
+    }
 
     /// <summary>One monster-AI tick, then every client plays the host's part: each <c>CS_MONATTACK_ACK</c> it
     /// received during the tick is answered with the <c>CS_DEFEND_REQ</c> the real client sends when that

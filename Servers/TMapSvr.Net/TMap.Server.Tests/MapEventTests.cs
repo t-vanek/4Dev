@@ -62,8 +62,8 @@ public class MapEventTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
         h.Service.LootRng = new Random(3);
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mob.Id));
         return mob;
     }
 

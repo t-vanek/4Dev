@@ -145,7 +145,7 @@ public class AftermathTests
         var (_, deadClient) = await h.EnterAsync(2, 2, 2, name: "Hero2", preSeeded: dead);
         dead.Hp = 0; deadClient.Clear();
 
-        await h.Service.DispatchClientAsync(priest, CastOn(2, Resurrect));
+        await h.CastAndHitAsync(priest, CastOn(2, Resurrect));
 
         Assert.Equal(0u, dead.Hp);                                     // not yet
         var r = new PacketReader(deadClient.Last(Msg.CS_REVIVALASK_ACK)!);
@@ -239,7 +239,7 @@ public class AftermathTests
         var (ps, pc) = await h.EnterAsync(1, 1, 1, preSeeded: priest);
         priest.Persist.Aftermath = 40; pc.Clear();
 
-        await h.Service.DispatchClientAsync(ps, CastOn(1, Purify));   // on itself
+        await h.CastAndHitAsync(ps, CastOn(1, Purify));   // on itself
 
         Assert.Equal(25, priest.Persist.Aftermath);                    // 40 − 15
         Assert.Equal(25, AftermathOf(pc));

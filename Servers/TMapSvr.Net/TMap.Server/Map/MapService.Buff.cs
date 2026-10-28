@@ -174,7 +174,7 @@ public sealed partial class MapService
     /// template (DB-free) needs nothing.</summary>
     private static bool IsEquipSkillItem(Character ch, SkillTemplate? tpl)
         => tpl is not { WeaponId: not 0 } t
-           || ch.Equipped?.Items.Any(it => it.Template is { Kind: > 0 } e && ((1u << (e.Kind - 1)) & t.WeaponId) != 0) == true;
+           || ch.Equipped?.Items.Any(it => it.Template is { } e && MatchesSkillWeaponKind(e.Kind, t.WeaponId)) == true;
 
     private void ReleaseMaintainMonster(Monster mon, bool notify)
     {

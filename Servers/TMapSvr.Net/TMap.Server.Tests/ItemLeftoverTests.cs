@@ -85,7 +85,7 @@ public class ItemLeftoverTests
     private static byte[] Act(uint attacker, ushort skill = Firework)
     {
         var w = new PacketWriter(Msg.CS_ACTITEMSUSE_REQ);
-        w.WriteUInt32(attacker); w.WriteByte(0); w.WriteByte(1); w.WriteUInt16(0); w.WriteUInt16(skill); w.WriteByte(1);
+        w.WriteUInt32(attacker); w.WriteByte(1); w.WriteByte(1); w.WriteUInt16(0); w.WriteUInt16(skill); w.WriteByte(1);
         w.WriteUInt32(5); w.WriteUInt32(6); w.WriteFloat(100); w.WriteFloat(0); w.WriteFloat(100); w.WriteUInt32(0); w.WriteByte(0);
         return w.ToArray();
     }

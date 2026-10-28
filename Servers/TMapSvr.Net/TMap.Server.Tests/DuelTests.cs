@@ -149,7 +149,7 @@ public class DuelTests
         var x = await Started();
         x.B.Hp = 5; x.A.Hp = 30;
 
-        await x.H.Service.DispatchClientAsync(x.Sa, Hit(A, B, host: A));
+        await x.H.CastAndHitAsync(x.Sa, Hit(A, B, host: A));
 
         Assert.Equal((100u, 100u), (x.A.Hp, x.B.Hp));
         Assert.False(x.Cb.Has(Msg.CS_DIE_ACK));
@@ -171,7 +171,7 @@ public class DuelTests
         var (sc, _) = await x.H.EnterAsync(C, 3, 3, x: 102, z: 100, name: "Carl", preSeeded: c);
         c.Country = 1; c.AidCountry = 3;
 
-        await x.H.Service.DispatchClientAsync(sc, Hit(C, B, host: C));
+        await x.H.CastAndHitAsync(sc, Hit(C, B, host: C));
 
         Assert.Equal(100u, x.B.Hp);
         Assert.NotEqual(0u, x.B.DuelId);
@@ -185,7 +185,7 @@ public class DuelTests
         var (sc, _) = await x.H.EnterAsync(C, 3, 3, x: 102, z: 100, name: "Carl", preSeeded: c);
         c.Country = 0; c.AidCountry = 3;
 
-        await x.H.Service.DispatchClientAsync(sc, Hit(C, B, host: C));
+        await x.H.CastAndHitAsync(sc, Hit(C, B, host: C));
 
         Assert.True(x.B.Hp < 100);
         Assert.Equal(0u, Loser(x.Cb));                                       // no loser

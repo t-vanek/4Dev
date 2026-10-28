@@ -43,7 +43,7 @@ public sealed partial class MapService
         QctHaveNoItem = 13, QctCountry = 14, QctAfterQuestComplete = 15, QctSameLevel = 16, QctSex = 17,
         QctBeforeQuestComplete = 18, QctMaintainSkill = 19, QctSwitch = 20, QctCountMax = 21, QctNoParent = 22;
     // REWARD_TYPE (RT_*) / REWARD_METHOD (RM_*)
-    private const byte RtGold = 1, RtItem = 2, RtExp = 6, RtMagicItem = 7;
+    private const byte RtGold = 1, RtItem = 2, RtSkill = 3, RtSkillUp = 4, RtExp = 6, RtMagicItem = 7;
     private const byte RmDefault = 1, RmSelect = 2, RmProb = 3, RmRandom = 4;
     // TNPC_TYPE TNPC_BOX — the bType of the routing item-list packet (CS_NPCITEMLIST_ACK).
     private const byte TNpcBox = 7;
@@ -808,7 +808,8 @@ public sealed partial class MapService
 
     /// <summary>C++ <c>CTPlayer::OnQuestComplete</c> — grant the rewards: item rewards (take-method + class
     /// gate → bag push, QR_INVENTORYFULL when they won't fit), then gold / exp, then consume the fetch
-    /// (QTT_GETITEM) items. RT_MAGICITEM / RT_SKILL / RT_SKILLUP / title / soul / point rewards are deferred.</summary>
+    /// (QTT_GETITEM) items. Prebuilt magic items retain their options and lifetime; skill rewards use the
+    /// ordinary learn/update packets. Invalid selected rewards fail before any items or progress change.</summary>
     private QuestResult OnQuestComplete(ClientSession s, Character ch, QuestTemplate q, byte reqRewardType, uint reqRewardId)
     {
         var give = new List<Item>();
@@ -829,16 +830,51 @@ public sealed partial class MapService
             };
             if (!take) continue;
 
-            if (rw.RewardType == RtMagicItem) { if (randSum != 0) break; continue; } // pre-built magic items deferred
-
-            ushort itemId = (ushort)rw.RewardId;
-            if (_templates.Item(itemId) is { } tmpl && (tmpl.ClassId & (1u << ch.Class)) != 0)
+            Item? prototype;
+            if (rw.RewardType == RtMagicItem)
             {
-                var item = new Item { TemplateId = itemId, Count = rw.Count, Template = tmpl };
-                LinkItemAttr(item);
-                give.Add(item);
+                if (!_templates.QuestItems.TryGetValue(rw.RewardId, out var magic)
+                    || ItemFromRow(magic.Item) is not { } built) return QuestResult.Term;
+                prototype = built;
+                SetEndTime(prototype, magic.UseTime * 86400L);
+            }
+            else
+            {
+                ushort itemId = (ushort)rw.RewardId;
+                if (_templates.Item(itemId) is not { } tmpl) return QuestResult.Term;
+                prototype = new Item { TemplateId = itemId, Template = tmpl };
+                LinkItemAttr(prototype);
+            }
+            if (prototype.Template is { } itemTemplate && (itemTemplate.ClassId & (1u << ch.Class)) != 0)
+            {
+                int remaining = rw.Count;
+                while (remaining > 0)
+                {
+                    var item = prototype.Clone();
+                    item.Count = (byte)Math.Min(remaining, Math.Max(1, (int)itemTemplate.Stack));
+                    give.Add(item);
+                    remaining -= item.Count;
+                }
             }
             if (randSum != 0) break; // RM_RANDOM grants exactly one
+        }
+
+        var otherRewards = new List<QuestReward>();
+        foreach (var rw in q.Rewards)
+        {
+            if (rw.RewardType is RtItem or RtMagicItem) continue;
+            bool take = rw.TakeMethod switch
+            {
+                RmSelect => rw.RewardType == reqRewardType && rw.RewardId == reqRewardId,
+                RmProb => QuestRng.Next(100) < rw.TakeData,
+                RmDefault => true,
+                _ => false,
+            };
+            if (!take) continue;
+            if (rw.RewardType is RtSkill or RtSkillUp && _templates.Skill((ushort)rw.RewardId) is null)
+                return QuestResult.Term;
+            if (rw.RewardType is not (RtGold or RtExp or RtSkill or RtSkillUp)) return QuestResult.Term;
+            otherRewards.Add(rw);
         }
 
         if (!CanPush(ch, give)) return QuestResult.InventoryFull;
@@ -851,23 +887,33 @@ public sealed partial class MapService
                 CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, id, QttGetItem, TtGetItem, count);
         }
 
-        foreach (var rw in q.Rewards)
+        foreach (var rw in otherRewards)
         {
-            if (rw.RewardType is RtItem or RtMagicItem) continue;
-            bool take = rw.TakeMethod switch
-            {
-                RmSelect => rw.RewardType == reqRewardType && rw.RewardId == reqRewardId,
-                RmProb => QuestRng.Next(100) < rw.TakeData,
-                RmDefault => true,
-                _ => false,
-            };
-            if (!take) continue;
-
             switch (rw.RewardType)
             {
                 case RtGold: ch.EarnMoney(rw.RewardId); SendCS_MONEY_ACK(s, ch); break;
                 case RtExp: GainExp(s, ch, rw.RewardId); break;                 // quest-exp buff deferred (0)
-                // RT_SKILL / RT_SKILLUP / RT_CHGCLASS deferred (skill-learn path unported)
+                case RtSkill:
+                    var template = _templates.Skill((ushort)rw.RewardId)!;
+                    if (template.IsClassMatch(ch.Class))
+                    {
+                        if (ch.Skills.FirstOrDefault(k => k.SkillId == template.Id) is { Level: 0 } placeholder
+                            && template.MaxLevel != 0)
+                        {
+                            placeholder.Level = 1;
+                            placeholder.Template = template;
+                            SendCS_SKILLBUY_ACK(s, ch, SkillUseResult.Success, template.Id, 1);
+                        }
+                        else UpdateSkill(s, ch, template, template.Id, 1);
+                    }
+                    break;
+                case RtSkillUp:
+                    if (LearnedSkill(ch, (ushort)rw.RewardId) is { Level: < byte.MaxValue } skill)
+                    {
+                        skill.Level++;
+                        SendCS_SKILLBUY_ACK(s, ch, SkillUseResult.Success, skill.SkillId, skill.Level);
+                    }
+                    break;
             }
         }
 

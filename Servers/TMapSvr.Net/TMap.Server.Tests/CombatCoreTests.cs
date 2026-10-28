@@ -79,7 +79,7 @@ public class CombatCoreTests
     {
         var (h, s, c, mon) = await Setup(Skill(200, DRow(MtypeHp, SattPhysic, SviDecrease, 20)), monHp: 100);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 200));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 200));
 
         Assert.Equal(80u, mon.Hp);                                         // exactly −20 (direct, off MaxHP)
         Assert.Equal(new (byte, uint)[] { (MtypeHp, 20) }, DamageMap(c.Last(Msg.CS_DEFEND_ACK)!).ToArray());
@@ -90,7 +90,7 @@ public class CombatCoreTests
     {
         var (h, s, c, mon) = await Setup(Skill(201, DRow(MtypeMp, SattPhysic, SviDecrease, 15)), monMp: 50);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 201));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 201));
 
         Assert.Equal(35u, mon.Mp);                                         // −15 MP
         Assert.Equal(100u, mon.Hp);                                        // HP pool untouched
@@ -105,7 +105,7 @@ public class CombatCoreTests
         var (h, s, c, mon) = await Setup(Skill(202, DRow(MtypeHp, SattPhysic, SviIncrease, 20)), monHp: 100);
         mon.Hp = 50;
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 202));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 202));
 
         Assert.Equal(70u, mon.Hp);                                         // 50 + 20, clamped to MaxHP 100
         Assert.Empty(DamageMap(c.Last(Msg.CS_DEFEND_ACK)!));               // heal not shown
@@ -117,7 +117,7 @@ public class CombatCoreTests
         var (h, s, c, mon) = await Setup(Skill(203, DRow(MtypeHp, SattPhysic, SviIncrease, 80)), monHp: 100);
         mon.Hp = 90;
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 203));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 203));
 
         Assert.Equal(100u, mon.Hp);                                        // 90 + 80 clamped to MaxHP
     }
@@ -130,7 +130,7 @@ public class CombatCoreTests
         var (h, s, c, mon) = await Setup(Skill(210, DRow(MtypeMdamage, SattMagicNo, SviIncrease, 0)),
             monHp: 100, monMp: 100, monMdp: 0);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 210));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 210));
 
         var map = DamageMap(c.Last(Msg.CS_DEFEND_ACK)!);
         Assert.Single(map);
@@ -150,7 +150,7 @@ public class CombatCoreTests
             DRow(MtypeMdamage, SattMagicNo, SviIncrease, 0)), // magic MP damage
             monHp: 100, monMp: 100);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 220));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 220));
 
         var map = DamageMap(c.Last(Msg.CS_DEFEND_ACK)!);
         Assert.Equal(2, map.Count);
@@ -169,7 +169,7 @@ public class CombatCoreTests
         // the FULL rolled value (C++ nDamageHP is uncapped; OnDamage floors HP) — not the 3 HP actually removed.
         var (h, s, c, mon) = await Setup(Skill(230, DRow(MtypeDamage, SattPhysic, SviIncrease, 100)), monHp: 3);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 230));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 230));
 
         var map = DamageMap(c.Last(Msg.CS_DEFEND_ACK)!);
         Assert.Single(map);
@@ -186,7 +186,7 @@ public class CombatCoreTests
     {
         var (h, s, c, mon) = await Setup(Skill(240, DRow(MtypeDamage, SattNone, SviIncrease, 100)), monHp: 100);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 240));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 240));
 
         Assert.Equal(100u, mon.Hp);                        // attr NONE ⇒ the component is skipped
         Assert.Empty(DamageMap(c.Last(Msg.CS_DEFEND_ACK)!));
@@ -203,12 +203,12 @@ public class CombatCoreTests
             DRow(MtypeHi, SattPhysic, SviIncrease, 7)), monHp: 100);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 250, hostId: 0xABCD));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 250, hostId: 0xABCD));
 
         var b = new PacketReader(h.World.Last(Msg.MW_GETBLOOD_ACK)!);
         Assert.Equal(1u, b.ReadUInt32());          // dwAtkID = the attacker
         Assert.Equal(OtPc, b.ReadByte());          // bAtkType = OT_PC
-        Assert.Equal(0xABCDu, b.ReadUInt32());     // dwHostID (echoed from the request)
+        Assert.Equal(1u, b.ReadUInt32());          // dwHostID is the authenticated attacker
         Assert.Equal(MtypeHi, b.ReadByte());       // bBloodType = MTYPE_HI (38)
         Assert.Equal(7u, b.ReadUInt32());          // dwBlood = the flat leech amount
     }
@@ -221,7 +221,7 @@ public class CombatCoreTests
             DRow(MtypeMi, SattMagicNo, SviIncrease, 3)), monMp: 100, monMdp: 0);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 251));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 251));
 
         var b = new PacketReader(h.World.Last(Msg.MW_GETBLOOD_ACK)!);
         b.ReadUInt32(); b.ReadByte(); b.ReadUInt32();   // atkId / atkType / hostId
@@ -238,7 +238,7 @@ public class CombatCoreTests
             DRow(MtypeHi, SattPhysic, SviIncrease, 7)), monMp: 100);
         h.World.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 252));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, mon.Id, skillId: 252));
 
         Assert.False(h.World.Has(Msg.MW_GETBLOOD_ACK));
     }

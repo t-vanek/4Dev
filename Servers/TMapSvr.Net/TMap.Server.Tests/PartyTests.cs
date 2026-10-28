@@ -54,8 +54,8 @@ public class PartyTests
         var mob = ExpMob();
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));   // P1 (the party member) kills
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));   // P1 (the party member) kills
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
         return (h, s1, s2);
     }
 
@@ -109,7 +109,7 @@ public class PartyTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
 
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
 
         Assert.Equal((byte)OwnerType.Party, mob.KeeperType);
         Assert.Equal((uint)Party, mob.KeeperId);
@@ -129,8 +129,8 @@ public class PartyTests
         h.Service.SpawnMonster(mob);
         h.Service.CombatRng = new Random(1);
         h.Service.LootRng = new Random(1);
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));   // P1 (party 7) kills
-        await h.Service.DispatchClientAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));   // P1 (party 7) kills
+        await h.CastAndHitAsync(s1, MapTestHarness.DefendReq(1, mob.Id));
         c1.Clear(); c2.Clear();
         return (h, s1, c1, s2, c2, mob);
     }

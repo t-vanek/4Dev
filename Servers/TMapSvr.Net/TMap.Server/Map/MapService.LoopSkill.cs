@@ -12,8 +12,10 @@ namespace TMap.Server.Map;
 /// <para><b>Multi-attack skills</b> (an <c>SDT_ABILITY</c> / <c>MTYPE_EFC</c> row — Mana Arrows, Flame Missiles…) fire that many
 /// missiles: each picked target takes one plus a random few more (up to the skill's <c>bTargetHit</c>), and what is left
 /// goes to the first target.</para>
-/// <para>Casters: a player and its summons / placed objects; no hostile one in a peace zone. <b>Not ported</b> (as for
-/// <c>CS_SKILLUSE</c>): a monster caster, <c>CheckPrevAct</c>, the skill item (<c>UseSkillItem</c>) and the aggro on the bystanders.</para>
+/// <para>Casters: a player and its summons / placed objects; no hostile one in a peace zone. Player repeats recheck
+/// the equipped weapon and spend their ammunition/skill items before resource or cooldown changes. Summons use
+/// their own resources. Repeats require the caster's wTargetActiveID effect (the original loop gate).
+/// <b>Not ported:</b> a monster caster and aggro on bystanders.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -35,15 +37,19 @@ public sealed partial class MapService
         Character? pc = null;
         RecallMon? summon = null;
         ClientSession casterSession = s;
-        if (attackType == OtPc && _state.FindByChar(attackId) is { State: EnterState.InGame, IsMain: true, Char: { } c } cs)
-        { pc = c; casterSession = cs; }
+        if (attackType == OtPc && s.IsMain && attackId == s.CharId)
+        { pc = me; }
         else if (attackType is RecallMon.OtRecall or RecallMon.OtSelf && OwnSummon(s, me, attackType, attackId) is { InMap: true } m)
             summon = m;
         else return;
 
         var skill = pc is not null ? LearnedSkill(pc, skillId) : summon!.Skills.FirstOrDefault(k => k.SkillId == skillId);
         if (skill?.Template is not { } tpl) { SendLoopSkillFail(s, SkillUseResult.NotFound, attackId, attackType, skillId); return; }
+        if (pc is not null && tpl.LoopDelay == 0 || tpl.MapId != InvalidMapId && tpl.MapId != me.MapId)
+        { SendLoopSkillFail(s, SkillUseResult.NotFound, attackId, attackType, skillId); return; }
         if (tpl.IsNegative && CheckPeaceZone(me)) { SendLoopSkillFail(s, SkillUseResult.PeaceZone, attackId, attackType, skillId); return; }
+        if (tpl.IsNegative && !BuffLayer.CanAttack(pc?.MaintainSkills ?? summon!.MaintainSkills, player: pc is not null))
+        { SendLoopSkillFail(s, SkillUseResult.SpeedyUse, attackId, attackType, skillId); return; }
 
         var targets = PickLoopTargets(tpl, skill.Level, listed);
 
@@ -52,13 +58,20 @@ public sealed partial class MapService
         uint pureMaxHp = pc is not null ? StatEngine.PureMaxHp(pc, _templates) : summon!.MaxHp;
         uint needMp = skill.GetRequiredMp(pureMaxMp), needHp = skill.GetRequiredHp(pureMaxHp);
         if ((pc?.Mp ?? summon!.Mp) < needMp) { SendLoopSkillFail(s, SkillUseResult.NeedMp, attackId, attackType, skillId); return; }
-        if ((pc?.Hp ?? summon!.Hp) < needHp) { SendLoopSkillFail(s, SkillUseResult.NeedHp, attackId, attackType, skillId); return; }
+        if ((pc?.Hp ?? summon!.Hp) <= needHp) { SendLoopSkillFail(s, SkillUseResult.NeedHp, attackId, attackType, skillId); return; }
+
+        if (!HasActiveSkill(pc?.MaintainSkills ?? summon!.MaintainSkills, tpl.TargetActiveId))
+        { SendLoopSkillFail(s, SkillUseResult.NeedPrevAct, attackId, attackType, skillId); return; }
+
+        if (pc is not null && !TryConsumeSkillItems(s, pc, tpl, targets.Length))
+        { SendLoopSkillFail(s, SkillUseResult.UnsuitWeapon, attackId, attackType, skillId); return; }
 
         // pSkill->Use(SDELAY_LOOP, tick, GetAtkSpeed, GetAtkSpeedRate) — the speed of the player who sent it, as the C++.
         byte speedApply = tpl.SpeedApply;
         skill.UseLoop(NowMs, StatEngine.AtkSpeed(me, speedApply, _templates), StatEngine.AtkSpeedRate(me, speedApply, _templates));
         if (pc is not null) { pc.Hp -= needHp; pc.Mp -= needMp; }
         else { summon!.Hp -= needHp; summon.Mp -= needMp; }
+        if (pc is not null) AuthorizePlayerCast(s, skill, targets);
 
         var p = pc is not null ? AttackerPower.Of(pc, _templates, tpl) : SummonPower(summon!, tpl, me);
         byte canSelect = attackType == RecallMon.OtRecall ? (summon!.Template?.CanSelect ?? 1) : (byte)1;
@@ -89,7 +102,7 @@ public sealed partial class MapService
             if (left <= 0) continue;
             left--;
             int roll = CombatRng.Next(tpl.TargetHit + 1);
-            for (int hit = 1; left > 0 && hit < roll; hit++) { hits.Add((id, type)); left--; }
+            for (int hit = 1; left > 0 && hit < roll && hits.Count < MaxTarget; hit++) { hits.Add((id, type)); left--; }
         }
         while (left > 0 && hits.Count > 0 && hits.Count < MaxTarget) { hits.Add(hits[0]); left--; }
         return hits.ToArray();

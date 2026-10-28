@@ -59,7 +59,7 @@ public class MonsterHitReportTests
     }
 
     [Fact]
-    public async Task TheAck_EchoesTheReportersMagicPowerSelectAndAidCountry()
+    public async Task TheAck_DerivesMagicPowerAndEchoesSelectAndAidCountry()
     {
         var (h, s, c, _, mon) = await Setup();
         var req = MapTestHarness.MonsterHitReq(mon.Id, 1);
@@ -76,8 +76,8 @@ public class MonsterHitReportTests
         r.ReadUInt32(); r.ReadUInt32(); r.ReadByte(); r.ReadByte(); r.ReadUInt32(); r.ReadByte();   // ids, host
         r.ReadUInt32(); r.ReadUInt32(); r.ReadByte(); r.ReadUInt32(); r.ReadByte(); r.ReadByte();   // act/ani, maintain, hit
         r.ReadUInt16(); r.ReadByte(); r.ReadUInt32(); r.ReadUInt32();                               // AL, level, pys power
-        Assert.Equal(33u, r.ReadUInt32());   // dwMgMinPower
-        Assert.Equal(44u, r.ReadUInt32());   // dwMgMaxPower
+        Assert.Equal(0u, r.ReadUInt32());    // dwMgMinPower comes from the monster
+        Assert.Equal(0u, r.ReadUInt32());    // dwMgMaxPower comes from the monster
         Assert.Equal(0, r.ReadByte());       // bCanSelect
         r.ReadByte(); r.ReadByte();          // bCancelCharge, bAttackCountry
         Assert.Equal(2, r.ReadByte());       // bAttackAidCountry
@@ -147,7 +147,7 @@ public class MonsterHitReportTests
     {
         var (h, s, c, _, mon) = await Setup();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(mon.Id, 1, attackType: 2, targetType: 1,
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(mon.Id, 1, attackType: 2, targetType: 1,
             skillId: MapTestHarness.MonsterMelee, actId: 0x11, aniId: 0x22));
 
         // CS_DEFEND_ACK: attackId(4) targetId(4) attackType(1) targetType(1) hostId(4) hostType(1) actId(4) aniId(4)

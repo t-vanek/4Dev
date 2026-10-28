@@ -393,7 +393,7 @@ public class PetTests
         Assert.Equal(0u, ch.Riding);
         Assert.False(ch.Recalls[900].InMap);
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.ConReady());
+        await h.FinishTeleportAsync(s);
         var del = new PacketReader(h.World.Last(Msg.MW_RECALLMONDEL_ACK)!);
         del.ReadUInt32(); del.ReadUInt32(); Assert.Equal(900u, del.ReadUInt32());
     }

@@ -4,9 +4,8 @@ using TMap.Protocol;
 namespace TMap.Server.Map;
 
 /// <summary>
-/// Small client-plane handlers: ping, disconnect/terminate, and the handshake-adjacent requests that are
-/// acknowledged-but-deferred in Phase-1 (channel change); the mode change is in MapService.SmallRequests.cs, the region in
-/// MapService.Territory.cs. See PORT_STATUS.md.
+/// Small client-plane handlers: ping and disconnect/terminate. Channel changes are in MapService.Channels.cs,
+/// mode changes in MapService.SmallRequests.cs, and regions in MapService.Territory.cs.
 /// </summary>
 public sealed partial class MapService
 {
@@ -40,11 +39,5 @@ public sealed partial class MapService
     {
         // The C++ treats CS_TERMINATE_REQ as a backdoor-attack probe: it logs and does nothing else.
         _log.LogWarning("CS_TERMINATE_REQ from {Endpoint} (char {Char}); ignored.", s.Conn.RemoteEndPoint, s.CharId);
-    }
-
-    private void OnCS_CHGCHANNEL_REQ(ClientSession s, PacketReader r)
-    {
-        // Channel switch requires the world routing plane; deferred (PORT_STATUS.md).
-        _log.LogDebug("CS_CHGCHANNEL_REQ from char {Char} (deferred).", s.CharId);
     }
 }

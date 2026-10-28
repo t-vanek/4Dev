@@ -82,6 +82,11 @@ public class GmTests
         tp.ReadUInt32(); tp.ReadUInt32(); tp.ReadByte(); tp.ReadByte();
         Assert.Equal((ushort)3, tp.ReadUInt16());
 
+        await x.H.Service.DispatchWorldAsync(new PacketWriter(Msg.MW_STARTTELEPORT_REQ)
+            .WriteUInt32(x.Sg.CharId).WriteUInt32(x.Sg.Key).WriteByte(1).WriteUInt16(3)
+            .WriteFloat(500).WriteFloat(0).WriteFloat(500).ToArray());
+        await x.H.FinishTeleportAsync(x.Sg);
+
         await Client(x.Sg, x.H, new PacketWriter(Msg.CS_CMMOVETOUSER_REQ).WriteString("Bob"));
         var r = new PacketReader(x.H.World.Last(Msg.CT_USERPOSITION_ACK)!);
         Assert.Equal(("Bob", "Gina"), (r.ReadString(), r.ReadString()));

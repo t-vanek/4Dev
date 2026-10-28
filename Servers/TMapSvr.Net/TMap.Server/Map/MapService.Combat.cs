@@ -96,14 +96,16 @@ public sealed partial class MapService
                 atkX, atkY, atkZ, defX, defY, defZ);
             return;
         }
-        if (attackType != OtPc) return;
+        if (attackType != OtPc || attackId != s.CharId || !s.IsMain) return;
         // C++ (CSHandler.cpp:1653): no hostile skill out of a peace zone, on anything.
         if ((_templates.Skill(skillId)?.IsNegative ?? true) && CheckPeaceZone(ch)) return;
         // Arena fighters and outsiders can't hit each other (C++ CSHandler.cpp:1541; MapService.Arena.cs).
         if (targetType == OtPc && _state.FindByChar(targetId)?.Char is { } tc && ArenaApart(ch, tc)) return;
 
-        PlayerHitsTarget(s, ch, hostId, attackId, attackType, targetId, targetType, actId, aniId, attackerLevel,
-            transHp, transMp, canSelect, skillId, skillLevel, atkX, atkY, atkZ, defX, defY, defZ);
+        if (ConsumePlayerCast(s, skillId, new[] { (targetId, targetType) }) is not { } authorized) return;
+        PlayerHitsTarget(s, ch, ch.CharId, attackId, attackType, targetId, targetType, actId, aniId, ch.Level,
+            transHp, transMp, canSelect, skillId, authorized.Level,
+            atkX, atkY, atkZ, defX, defY, defZ, authorized);
         CheckEquipSkill(s, ch);
     }
 
@@ -162,6 +164,7 @@ public sealed partial class MapService
         // Resolve the attacking skill (C++ FindTSkill(m_wTriggerID); for a basic attack triggerID == wSkillID) — or the one
         // FINISHSKILL decided on (a random pick, Deadly Poison's damage over time).
         var atkSkill = castSkill ?? LearnedSkill(ch, skillId);
+        if (!TargetHasActiveSkill(targetType, targetId, atkSkill?.Template?.TargetActiveId ?? 0)) return;
         // C++ OnCS_DEFEND_REQ (CSHandler.cpp:1626): a guild skill needs the guild and the duty, and never touches a monster.
         if (IsGuildSkill(skillId) && (targetType != OtPc || !CanCastGuildSkill(ch, skillId))) return;
 
@@ -250,6 +253,7 @@ public sealed partial class MapService
         SkillTemplate? atkTpl, byte ackSkillLevel, byte canSelect, Monster mon, uint actId, uint aniId, ushort skillId,
         bool forceMiss, bool triple, float atkX, float atkY, float atkZ, float defX, float defY, float defZ)
     {
+        if (!HasActiveSkill(mon.MaintainSkills, atkTpl?.TargetActiveId ?? 0)) return;
         // The DISPLAY attack profile (by the skill's overall attack type) — fills CS_DEFEND_ACK and drives the
         // single GetAtkHitType roll. Each damage COMPONENT below re-picks the physical/magic band from its own
         // data-row attr (a skill can carry both — C++ CalcDamage switches attr per row).
@@ -275,7 +279,11 @@ public sealed partial class MapService
         uint hpBefore = mon.Hp;
         ApplyMonsterDamage(mon, dmg);   // C++ OnDamage: HP/MP damage floors at 0, heal clamps to max
         // Loot/exp owner = the HP actually removed this swing (party bucket if partied — Phase 17/38; 0 on a miss/heal).
+        uint previousKeeper = mon.KeeperId;
+        byte previousKeeperType = mon.KeeperType;
         mon.AddDamage(owner.CharId, owner.GetPartyId(), hpBefore - mon.Hp);
+        if (mon.KeeperId != previousKeeper || mon.KeeperType != previousKeeperType)
+            foreach (var viewer in _state.PlayersAround(mon)) SendMonsterColor(viewer, mon);
         AddGuildDamage(mon, owner, hpBefore - mon.Hp);   // MapService.Fort.cs
 
         // bAtkHit carries the hit result (HT_MISS/NORMAL/CRITICAL), overridden to HT_LASTHIT on the killing blow.
@@ -654,7 +662,7 @@ public sealed partial class MapService
         ushort attackLevel, byte attackerLevel, uint apMin, uint apMax, bool isMagic, byte critProb, byte canSelect,
         byte attackCountry, byte attackAid, ushort skillId, byte skillLevel, byte atkHit, bool landed,
         float atkX, float atkY, float atkZ, float defX, float defY, float defZ, IReadOnlyList<(byte Exec, uint Value)> map,
-        byte isMaintain = 0, uint maintainTick = 0)
+        byte isMaintain = 0, uint maintainTick = 0, ushort backSkill = 0)
     {
         var w = new PacketWriter(Msg.CS_DEFEND_ACK, capacity: 96);
         w.WriteUInt32(attackId);      // dwAttackID
@@ -681,7 +689,7 @@ public sealed partial class MapService
         w.WriteByte(attackAid);       // bAttackAidCountry
         w.WriteUInt16(skillId);       // wSkillID
         w.WriteByte(skillLevel);      // bSkillLevel (server skill level)
-        w.WriteUInt16(0);             // wBackSkillID
+        w.WriteUInt16(backSkill);     // wBackSkillID — the defender's rolled counter-skill
         w.WriteByte((byte)(landed ? 1 : 0)); // bPerform — 1 on a landed hit, 0 on a miss (PERFORM_MISS)
         w.WriteFloat(atkX); w.WriteFloat(atkY); w.WriteFloat(atkZ);
         w.WriteFloat(defX); w.WriteFloat(defY); w.WriteFloat(defZ);

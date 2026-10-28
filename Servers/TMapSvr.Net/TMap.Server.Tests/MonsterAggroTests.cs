@@ -26,7 +26,7 @@ public class MonsterAggroTests
         h.Service.CombatRng = new Random(1);
         c.Clear();
 
-        await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(1, 0x40001));
+        await h.CastAndHitAsync(s, MapTestHarness.DefendReq(1, 0x40001));
 
         Assert.Equal(1u, mob.TargetId);      // aggroed the attacker
         Assert.Equal((byte)1, mob.Mode);     // MT_BATTLE

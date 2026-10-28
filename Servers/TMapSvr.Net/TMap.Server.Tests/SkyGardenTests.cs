@@ -55,7 +55,7 @@ public class SkyGardenTests
 
     private static async Task Kill(MapTestHarness h, ClientSession s, Monster mon)
     {
-        for (int i = 0; i < 20 && mon.Hp > 0; i++) await h.Service.DispatchClientAsync(s, MapTestHarness.DefendReq(s.CharId, mon.Id));
+        for (int i = 0; i < 20 && mon.Hp > 0; i++) await h.CastAndHitAsync(s, MapTestHarness.DefendReq(s.CharId, mon.Id));
     }
 
     [Fact]

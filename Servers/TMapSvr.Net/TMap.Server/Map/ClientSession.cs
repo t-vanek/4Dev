@@ -43,6 +43,10 @@ public sealed class ClientSession
     /// <summary>True once this map is the char's "main" server for the CHECKMAIN handshake.</summary>
     public bool IsMain { get; set; }
     public bool EntryValidated { get; set; }
+    /// <summary>A world-coordinated teleport is waiting for STARTTELEPORT / CONRESULT / client CONREADY.
+    /// Prevents overlapping moves and gameplay packets while the client is loading its destination.</summary>
+    public bool TeleportPending { get; internal set; }
+    internal List<AuthorizedPlayerCast> PendingCasts { get; } = new();
 
     /// <summary>Unlock applies only to this connection; the code and failed attempts are account-wide.</summary>
     public bool SecurityUnlocked { get; set; }
