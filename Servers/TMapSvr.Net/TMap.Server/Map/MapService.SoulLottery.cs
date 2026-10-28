@@ -22,12 +22,18 @@ public sealed partial class MapService
     private const uint SoulLotteryBuffMs = 15 * 60 * 1000;
     private const byte SmEventLottery = 27;
 
-    private uint SoulBarWidth(Character ch) => (_templates.LevelExpOf(ch.Level) ?? 0) - (_templates.LevelExpOf(ch.Level - 1) ?? 0);
+    private uint SoulBarWidth(Character ch)
+    {
+        uint ceiling = _templates.LevelExpOf(ch.Level) ?? 0, floor = _templates.LevelExpOf(ch.Level - 1) ?? 0;
+        return ceiling > floor ? ceiling - floor : 0;
+    }
 
     /// <summary>C++ <c>CTPlayer::GainExp</c>'s soul part: the bar fills; full the first time, it is shown around.</summary>
     private void FillSoulBar(ClientSession s, Character ch, uint gain)
     {
-        uint width = SoulBarWidth(ch), filled = ch.SoulLotExp + gain;
+        uint width = SoulBarWidth(ch);
+        if (width == 0) return;
+        uint filled = (uint)Math.Min((ulong)ch.SoulLotExp + gain, uint.MaxValue);
         if (width <= filled)
         {
             if (ch.UseLot) return;
@@ -42,7 +48,7 @@ public sealed partial class MapService
     /// <summary>C++ <c>OnCS_SOULLOTTERY_REQ</c> (CSHandler.cpp:17724).</summary>
     private void OnCS_SOULLOTTERY_REQ(ClientSession s)
     {
-        if (!s.IsMain || s.Char is not { } ch || ch.SoulLotExp != SoulBarWidth(ch)) return;
+        if (!s.IsMain || s.Char is not { } ch || SoulBarWidth(ch) == 0 || ch.SoulLotExp != SoulBarWidth(ch)) return;
         uint Draw() => (uint)(Rand() % 30 + 1);
         uint n1 = Draw(), n2 = Draw(), n3 = Draw(), n4 = Draw();
         while (n2 == n1) n2 = Draw();

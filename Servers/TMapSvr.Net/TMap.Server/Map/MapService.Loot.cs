@@ -157,13 +157,16 @@ public sealed partial class MapService
     /// <c>CS_EXP_ACK</c> to avoid a packet on every loot-less kill).</summary>
     private void GainExp(ClientSession s, Character ch, uint gain)
     {
-        if (gain == 0) return;
+        const byte playerLevelCap = 140;        // Gameforge 5.0.1 maximum; see Gameforge/target.json.
+        if (gain == 0 || ch.Level >= playerLevelCap) return;
         FillSoulBar(s, ch, gain);                // C++ GainExp's soul bar (MapService.SoulLottery.cs)
-        ch.Exp += gain;
+        ulong total = (ulong)ch.Exp + gain;
+        uint ceiling = _templates.LevelExpOf(playerLevelCap - 1) ?? uint.MaxValue;
+        ch.Exp = (uint)Math.Min(total, ceiling);
 
         byte oldLevel = ch.Level;
         byte lvl = ch.Level;
-        while (lvl < 254 && _templates.LevelExpOf(lvl) is { } th && th != 0 && th <= ch.Exp) lvl++;
+        while (lvl < playerLevelCap && _templates.LevelExpOf(lvl) is { } th && th != 0 && th <= ch.Exp) lvl++;
 
         if (lvl != oldLevel)
         {

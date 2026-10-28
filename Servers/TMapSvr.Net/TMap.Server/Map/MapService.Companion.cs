@@ -334,6 +334,7 @@ public sealed partial class MapService
         if (s.Char is not { } ch) return;
         byte slot = r.ReadByte();
         if (!ch.Companions.TryGetValue(slot, out var c)) return;
+        if (c.Level >= CompanionMaxLevel) return;
         if (!_templates.CompanionBonuses.TryGetValue(c.BonusId, out var bonus)) return;
         if (c.Exp < c.NextExp) return;
 
@@ -367,7 +368,7 @@ public sealed partial class MapService
 
         if (t.Kind == IkCompExp)
         {
-            if (c.Level > CompanionMaxLevel || c.Exp >= c.NextExp) return;
+            if (c.Level >= CompanionMaxLevel || c.Exp >= c.NextExp) return;
             c.Exp = Math.Min(c.Exp + t.UseValue, c.NextExp);
         }
         else
@@ -533,7 +534,7 @@ public sealed partial class MapService
         uint drop = c.Life <= CompanionLowLife ? 5u : 1u;
         c.Life = c.Life > drop ? c.Life - drop : 0;
         uint gain = c.Life >= 10000 ? 60u : 30u;
-        if (c.Level <= 19) c.Exp = Math.Min(c.Exp + gain, c.NextExp);
+        if (c.Level < CompanionMaxLevel) c.Exp = Math.Min(c.Exp + gain, c.NextExp);
 
         var w = new PacketWriter(Msg.CS_UPDATECOMPANIONBYSYSTEM_REQ);
         w.WriteByte(ch.CompanionSlot); w.WriteUInt32(c.Life); w.WriteUInt32(c.Exp);

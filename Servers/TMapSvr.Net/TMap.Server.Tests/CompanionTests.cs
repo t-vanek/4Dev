@@ -280,6 +280,69 @@ public class CompanionTests
         Assert.Equal(2, ch.FindInven(0)!.Items.First(i => i.ItemSlot == 2).Count);
     }
 
+    [Theory]
+    [InlineData(20)]
+    [InlineData(21)]
+    [InlineData(255)]
+    public async Task Gameforge5_CompanionAtOrAboveCap_CannotLevelFurther(byte level)
+    {
+        var (h, s, c, ch, _) = await Setup(ch =>
+        {
+            var companion = Comp(0, level: level);
+            companion.Exp = companion.NextExp;
+            companion.StatPoints = 4;
+            ch.Companions[0] = companion;
+        });
+
+        await h.Service.DispatchClientAsync(s, Req(Msg.CS_COMPANIONLUP_REQ, w => w.WriteByte(0)));
+
+        Assert.Equal(level, ch.Companions[0].Level);
+        Assert.Equal(4, ch.Companions[0].StatPoints);
+        Assert.Equal(ch.Companions[0].NextExp, ch.Companions[0].Exp);
+        Assert.False(c.Has(Msg.CS_COMPANIONLUPDATE_REQ));
+    }
+
+    [Theory]
+    [InlineData(20)]
+    [InlineData(21)]
+    public async Task Gameforge5_ExpPotionAtCompanionCap_IsNotConsumed(byte level)
+    {
+        var (h, s, c, ch, _) = await Setup(ch => ch.Companions[0] = Comp(0, level: level));
+        await h.Service.DispatchClientAsync(s, Req(Msg.CS_USEPETITEM_REQ, w =>
+        {
+            w.WriteUInt32(3u << 16); // inventory 0, EXP potion slot 3
+            w.WriteByte(0);
+        }));
+
+        Assert.Equal(0u, ch.Companions[0].Exp);
+        Assert.Equal(3, ch.FindInven(0)!.FindItem(3)!.Count);
+        Assert.False(c.Has(Msg.CS_UPDATECOMPANIONBYITEM_REQ));
+    }
+
+    [Fact]
+    public async Task Gameforge5_LevelNineteen_CanReachTwenty_ThenStops()
+    {
+        var (h, s, c, ch, _) = await Setup(ch =>
+        {
+            var companion = Comp(0, level: 19);
+            companion.Exp = companion.NextExp;
+            ch.Companions[0] = companion;
+        });
+        var request = Req(Msg.CS_COMPANIONLUP_REQ, w => w.WriteByte(0));
+
+        await h.Service.DispatchClientAsync(s, request);
+        Assert.Equal(20, ch.Companions[0].Level);
+        Assert.True(c.Has(Msg.CS_COMPANIONLUPDATE_REQ));
+
+        ch.Companions[0].Exp = ch.Companions[0].NextExp;
+        byte points = ch.Companions[0].StatPoints;
+        c.Clear();
+        await h.Service.DispatchClientAsync(s, request);
+        Assert.Equal(20, ch.Companions[0].Level);
+        Assert.Equal(points, ch.Companions[0].StatPoints);
+        Assert.False(c.Has(Msg.CS_COMPANIONLUPDATE_REQ));
+    }
+
     [Fact]
     public async Task EquippingAnItemOfTheSameKind_ReplacesIt_AndGivesTheOldOneBack()
     {

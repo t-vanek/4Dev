@@ -486,8 +486,8 @@ public sealed partial class MapService
         w.WriteUInt32(ch.Gold);
         w.WriteUInt32(ch.Silver);
         w.WriteUInt32(ch.Cooper);
-        w.WriteUInt32(ch.PrevExp);
-        w.WriteUInt32(ch.NextExp);
+        w.WriteUInt32(_templates.LevelExpOf(ch.Level - 1) ?? 0);
+        w.WriteUInt32(_templates.LevelExpOf(ch.Level) ?? 0);
         w.WriteUInt32(ch.Exp);
         uint maxHp = MaxHpFor(ch), maxMp = MaxMpFor(ch); // C++ GetMaxHP/GetMaxMP; current HP/MP clamped down
         w.WriteUInt32(maxHp);
