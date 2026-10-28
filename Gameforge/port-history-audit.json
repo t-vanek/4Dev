@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "baseline_commit": "e2c69c2a66d7f9e03a99715397c21c6224583820",
+  "scope": "Targeted retrospective review of this conversation's uncommitted .NET changes against relevant C# history and tests; not an exhaustive audit of every project commit or proof of whole-game parity.",
+  "prior_work_limitation": "Earlier work checked current C# code and tests but did not systematically inspect history for every affected flow. This review followed the user's warning that native/C# differences may be deliberate fixes.",
+  "reviewed_history": [
+    {"commit": "706a8ad", "change": "Movement skills and stale fall-damage rejection", "result": "Movement implementation and fall-damage handler match HEAD. New channel loading retains their map/channel and movement checks."},
+    {"commit": "84018c5", "change": "NPC quests, crafting and quest-object pickup", "result": "NPC handler matches HEAD. Eligibility, pickup/payment checks and validation before ingredient spending remain."},
+    {"commit": "b7c7fe4", "change": "Authenticated Map entry and service links", "result": "Main-entry, ENTERCHAR and ValidateEntryAsync handlers match HEAD; production authentication and TLS/admin separation remain."},
+    {"commit": "683e693", "change": "Security codes and meeting rooms", "result": "Both implementation files match HEAD. Exit still releases reservations and channel changes reject private rooms."},
+    {"commit": "5a43d64", "change": "Summons in combat/PvP", "result": "Summon power/defence helpers match HEAD. Owner credit, target types and fake hits remain; common monster damage uses the same defence helpers."},
+    {"commit": "484c163", "change": "Monster/summon buffs, disarm and immunities", "result": "Buffed getters, immunity gates and damage-layer hooks remain in the typed damage path."},
+    {"commit": "333853a", "change": "Buff erasure, dispel and summon damage sharing", "result": "DistributeSkill matches HEAD. Existing share, erasure and dispel calls remain; defensive reactions follow the shared damage calculation."},
+    {"commit": "c1ca46a", "change": "Cross-map hit rejection", "result": "Map/channel gates remain; cast authorization adds ownership constraints."},
+    {"commit": "0ca6e5e", "change": "AI cancellation performance", "result": "CancelAi matches HEAD: HostKey invalidation, without rebuilding the queue."},
+    {"commit": "02ad633", "change": "Innate level-zero skills", "result": "LearnedSkill and IsLearned match HEAD; MaxLevel == 0 remains usable while ordinary unlearned placeholders are rejected."},
+    {"commit": "1019c82", "change": "Monster hit occurs at landed report", "result": "Announce/report timing remains. The separate client-power echo contract is deliberately changed as documented below."},
+    {"commit": "7a240ad", "change": "Loot-window locks, hunter and lock release", "result": "Window and lock-release handlers match HEAD. Access restrictions extend to direct requests."},
+    {"commit": "8053b4b", "change": "Existing take-all entry point", "result": "The review found the new party-money/access rules missing from this separate path. It now uses shared money distribution and access checks, retaining trade, capacity and item-owner checks."}
+  ],
+  "retained_code_checks": {
+    "passed": 22,
+    "whole_files_unchanged": ["MapService.SkillMovement.cs", "MapService.SecurityCode.cs", "MapService.MeetingRooms.cs", "MapService.Items.cs", "MapService.Persist.cs", "MapService.Npc.cs", "MapService.SkillBuy.cs"],
+    "methods_unchanged": ["LearnedSkill", "IsLearned", "OnCS_DROPDAMAGE_REQ", "OnMW_ENTERSVR_REQ", "OnMW_ENTERCHAR_REQ", "ValidateEntryAsync", "CancelAi", "SummonPower", "SummonDefendPower", "SummonDefendLevel", "HitPower", "DistributeSkill", "OnCS_MONITEMLIST_REQ", "ReleaseLootLock(Character)", "ReleaseLootLock(Character, Monster)"],
+    "local_evidence": ".runtime/commit-preservation/retained-code.json"
+  },
+  "intentional_legacy_test_changes": [
+    {"assertion_lines": 2, "area": "PC hit host ID", "before": "Echo arbitrary client host ID", "after": "Authenticated player ID", "reason": "Prevent forged attacker credit while preserving packet layout."},
+    {"assertion_lines": 2, "area": "Monster magic-power ACK", "before": "Echo client min/max magic power", "after": "Monster chart/getter values", "reason": "Authoritative power; existing landed-report timing remains."},
+    {"assertion_lines": 1, "area": "Teleport before World verdict", "before": "Granted after STARTTELEPORT", "after": "Entering until World grants the destination", "reason": "Prevent premature CONREADY from bypassing routing/loading."}
+  ],
+  "audit_corrections": [
+    "Share level-weighted money distribution between the separate request and take-all.",
+    "Apply map/channel, hunter and inventory-lock checks to take-all.",
+    "Retain the earlier take-all trade gate and enforce it on separate item/money requests.",
+    "Record mandatory history-preservation checks in AGENTS.md."
+  ],
+  "validation": {
+    "platform": "Isolated Linux .NET 10 SDK container; source and host NuGet cache mounted read-only",
+    "map_solution_tests_passed": 1457,
+    "new_loot_entry_point_regressions": 19,
+    "test_source": "Servers/TMapSvr.Net/TMap.Server.Tests/GameplayIntegrityTests.cs",
+    "local_results": ".runtime/commit-preservation/linux-tests/",
+    "production_database_written": false,
+    "deployed": false
+  },
+  "remaining_limits": [
+    "This bounded review does not certify every earlier C# fix or every interaction.",
+    "Broader loot routing modes, original-client playthroughs, real restart persistence and publisher parity require separate verification.",
+    "Changes remain uncommitted; no push or deployment was performed."
+  ]
+}

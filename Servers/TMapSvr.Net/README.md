@@ -2,6 +2,21 @@
 
 ## Current implementation
 
+The current [deployment record](../../Gameforge/deployments/2026-10-28-baseline.json) contains image IDs,
+client hash, SQL verification and test results. All five Docker services were rebuilt and recreated;
+Map/World/Control peer registration succeeds and migration 040 is applied. The client Release build is
+in `Game/`. Across all five server solutions 1,838 tests pass; five unchanged Control Linux process tests
+still fail as in the earlier baseline. Real-client gameplay remains unverified.
+
+Natural monster HP recovery now reduces personal/party and guild damage credit according to the healed
+fraction of its previous HP deficit. Reaching the inherited 90% threshold releases its loot/EXP keeper,
+allowing a new attacker to claim it. Client colours reflect faction, party/private ownership and AI mode
+on appearance, ownership changes, mode changes and fort capture. Recovery keeps existing aggro, hosts,
+loot locks and AI scheduling intact. Relevant C# commits were checked before editing, retaining earlier
+AI and fort fixes. `MonsterRecoveryCreditTests` and an additional fort case add 35 regressions; all 1,492
+map-solution tests pass in the isolated Linux .NET 10 build. See `Gameforge/monster-recovery-credit.json`.
+This source is now deployed; real-client and independent Gameforge parity checks remain.
+
 Entry now checks the supplied account/character/key against `TCURRENTUSER` in the global database and
 the non-deleted character's owner in `TCHARTABLE` before loading or announcing character data. The
 world-driven main-entry step rechecks credentials and calls the original `TEnterServer` procedure. Secondary
@@ -9,6 +24,67 @@ connections revalidate on `MW_ENTERCHAR_REQ` without replacing the main route; p
 `TEnterServer` even on an existing socket. Missing
 databases, rejected credentials, a failed procedure or an unavailable character deny entry. Synthetic
 characters are confined to explicitly injected test stores. The client packet layout is unchanged.
+
+Channel changes now use the world-coordinated teleport cycle on the current single-map-server deployment.
+Set `Map:Channels` to the hosted logical channels (for example `[1, 2]`); the default remains `[1]`.
+The Login server's active `TCHANNEL` rows for this group must advertise those same channels.
+The client keeps its socket, map and position, leaves the old channel's grid, and enters the new channel's
+player/monster/object view after the world grants entry. The existing character and inventory stay in memory.
+Unknown channels, private meeting rooms, arena participants and a disconnected World receive `CHC_NOCHANNEL`
+before any move starts. Selecting the current channel is a no-op. Loading blocks overlapping requests and
+gameplay until the world completes routing and the client sends `CS_CONREADY_REQ`; loss of World during
+loading closes that session through the normal disconnect/save path so it can relog. Old cast authorizations
+are discarded when leaving. No new protocol fields or SQL columns are required.
+`ChannelTests` covers the map/client cycle and `TWorld.Server.Tests/MovementTests` the real-socket World cycle.
+Shared physical maps across logical channels and handoff to a different map server remain outside this port's
+current topology; in-game verification against the pinned client is still required before deployment sign-off.
+
+Player skill casts, loop repeats and act-item skills now enforce their weapon-kind mask against the three
+equipped weapon slots and reject broken weapons. `TITEMCHART.bUseItemKind/bUseItemCount` supply the weapon's
+ammunition requirement. Each accepted cast spends its base count plus one per additional server-selected hit;
+impact/replay packets do not spend it again. The inherited search combines stacks within one inventory and
+skips an insufficient inventory without consuming it. `TSKILLCHART.wItemID` adds one required item per cast.
+All requirements are checked before committing any item, HP/MP or cooldown changes; item notifications also
+queue the existing incremental persistence. Act-item use retains its item delay and does not double-consume
+the required item. Store/trade locks block these casts. No new SQL columns or wire fields are required.
+The old source's infinite-ammunition item IDs 25020–25022 have no matching records in the pinned Gameforge
+item table and are not copied as exemptions. `SkillItemTests` covers the cast paths and inventory snapshots;
+the read-only SQL check verifies ammunition fields on 142 templates.
+
+Skills now load and enforce `wPrevActiveID` on the caster for actions, ordinary casts and act items;
+loops check the caster's `wTargetActiveID`, following the inherited loop handler. The required effect
+must be maintained and unexpired; merely learning it is insufficient. Target-active prerequisites are
+checked again when damage, a buff or a cure lands, including monster/summon defenders.
+Accepted ordinary player casts apply `bDuraSlot` equipment wear (0–2 points per selected item), send
+`CS_DURATIONDEC_ACK` / `CS_DURATIONEND_ACK`, retain repairable broken gear or delete non-repairable gear,
+refresh derived stats and queue persistence. Natural wear preserves indestructible equipment. Animation,
+loop and impact packets do not repeat this wear. `wAutoSkill` option rolls announce a weapon effect at
+level 1; only the server's selected effect receives a bounded impact authorization.
+`SkillPrerequisiteAndWearTests` adds 46 cases. The Linux map solution passes 1,367 tests; a separate live
+read-only SQL test confirms the new fields on 765 skills and 27 magic-option templates. The pinned
+client agrees with all three skill fields on the 765 shared IDs except skill 201's missing target effect
+200 in SQL. Migration `040_gameforge_skill_target_active.sql` corrects that single field and passes five
+temporary-table checks; it is now applied to the live database. Source evidence is recorded in
+`Gameforge/normalization/skill-active-wear.json`. Original-client playthroughs and real
+logout/restart persistence remain unverified; inherited wear/proc probabilities are not publisher-certified.
+
+Incoming landed damage now wears the secondary shield on a block, otherwise one native armor slot when
+net HP damage is positive. This runs after damage calculation and before HP/MP loss, including lethal
+hits, through monster, player and summon attacks. Misses, heals, immunity and unblocked MP-only damage
+do not wear armor. Selected empty slots stay empty; the selection does not fall through to another piece.
+Repair/deletion rules, durability messages, stat refresh and persistence reuse the cast-wear implementation.
+The target-delete effect can exhaust the selected gear. A hostile-side option reaction can sequentially
+adjust HP damage, reflect it through World, or announce a defender counter-skill. Only that rolled skill
+is authorized, at level 1, against its attacker; player impact replay does not repeat wear or reactions.
+The previously missing `MW_GETBLOOD_REQ` receiver now completes both HP/MP lifedrain and reflection.
+It checks the main session/key and object ownership/map/channel, does not resurrect dead objects, caps
+gains without integer overflow, and preserves at least 1 HP on reflection without recursively defending.
+`DefensiveEquipmentTests` and `BloodTests` add 71 cases; the Linux map solution passes 1,438 tests.
+A read-only SQL inspection found no configured `wAutoSkill` links. No links or probabilities were invented;
+the runtime branches are covered by isolated fixtures. Expected official assignments, inherited wear/proc
+probabilities, original-client behaviour and real logout/restart persistence still require verification.
+See `Gameforge/normalization/defensive-equipment.json` for implementation-time evidence; the current
+deployment is recorded above.
 
 Set `Map:WorldTls:CertificatePath` to this Map's client-auth PFX, supply its password through
 `Map__WorldTls__CertificatePassword`, and set `Map:WorldTls:ServerName` (matching the World certificate

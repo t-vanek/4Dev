@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "baseline_commit": "e2c69c2a66d7f9e03a99715397c21c6224583820",
+  "scope": "Complete missing natural monster recovery damage-credit/keeper branches and their per-viewer colour notifications. Functional port against inherited implementation; not certification of publisher balance or whole-server completeness.",
+  "reference_manifest": "Gameforge/reference.json",
+  "history_review_before_editing": [
+    {"commit": "34a9afe", "finding": "Initial .NET RecoverMonster updates only HP/MP; credit decay and keeper release were omitted. AddDamage's existing ownership threshold is retained."},
+    {"commit": "3515365", "finding": "Preserve mode ACKs, LastAtkTick and recovery-anchor updates only when entering battle. The commit explicitly deferred GetColor; colour notifications are now appended after the existing mode packet."},
+    {"commit": "0ca6e5e", "finding": "Keep HostKey-based O(1) AI cancellation. Recovery neither cancels AI nor rebuilds any queue."},
+    {"commit": "7a240ad", "finding": "Keep InvenLock/LeaveCount and the existing loot-window protections. Keeper release changes only keeper ID/type."},
+    {"commit": "6a08080", "finding": "Keep guild damage attribution and the C# fix clearing Occupied when a fort war starts. Replace only the documented constant-zero colour packet on capture."}
+  ],
+  "implementation_references": [
+    {"path": "Servers/TMapSvr/TMonster.cpp", "function": "CTMonster::Recover", "line": 1920, "rule": "On an eligible natural HP pass: ratio = actualHPgain / pre-recoveryHPdeficit as float32; each damage and guild bucket becomes uint32(damage - damage*ratio), with zero entries erased. Release keeper at maxHP - floor(maxHP*MONKEEP_PER/100), MONKEEP_PER=10. Send HP/MP before any keeper-change colour."},
+    {"path": "Servers/TMapSvr/TMonster.cpp", "function": "CTMonster::SetKeeper", "line": 996, "rule": "Changes keeper type and ID only; does not clear aggro, hosts, targets or loot-window state."},
+    {"path": "Servers/TMapSvr/TMonster.cpp", "function": "CTMonster::GetColor", "line": 54, "rule": "Priority: effective faction ally/enemy; neutral go-home; matching party/private keeper; another keeper; battle; first-attack AI; peaceful. Colour IDs are 0/3/2/3/1/3/3/2 respectively."},
+    {"path": "Servers/TMapSvr/TObjBase.cpp", "function": "CTObjBase::ChgMode", "line": 295, "rule": "Send existing mode ACK, followed by per-viewer colour."},
+    {"path": "Servers/TMapSvr/CSSender.cpp", "function": "CTPlayer::SendCS_CHANGECOLOR_ACK", "line": 995, "rule": "Wire body is byte objectType, uint32 objectID, byte colour, byte country; no new protocol fields."},
+    {"path": "Client/TClient/CSHandler.cpp", "function": "CTClientGame::OnCS_CHANGECOLOR_ACK", "line": 7129, "rule": "Consumes the same body and updates the object's colour/country."}
+  ],
+  "retained_behavior": [
+    "Existing STOPRECOVER/action gates, HPR/MPR modifiers, recovery timing and saturating HP/MP arithmetic.",
+    "MP-only healing and direct healing outside natural Recover do not adjust damage credit or release a keeper.",
+    "An eligible HP pass with an HPR modifier producing zero gain retains damage credit but still checks the native keeper-release threshold.",
+    "Aggro, host/target, loot locks and AI epoch remain intact on full recovery.",
+    "Existing AI acquisition/binding logic is unchanged. Colour uses a loaded script's native AiType flag; script-less monsters use the existing Aggressive value as a fallback.",
+    "Private and party damage keys stay separate, with each remaining bucket truncated independently. Explicit ratio-zero/full endpoints avoid float rounding overflow at uint32 extremes."
+  ],
+  "validation": {
+    "platform": "Isolated Linux .NET 10 SDK container; source and host NuGet cache mounted read-only",
+    "map_solution_tests_passed": 1492,
+    "map_server_tests_passed": 1470,
+    "data_tests_passed_without_live_connection": 13,
+    "protocol_tests_passed": 9,
+    "new_recovery_and_colour_cases": 34,
+    "new_fort_viewer_colour_cases": 1,
+    "earlier_retained_code_checks": 22,
+    "focused_retained_code_checks": 7,
+    "test_sources": ["Servers/TMapSvr.Net/TMap.Server.Tests/MonsterRecoveryCreditTests.cs", "Servers/TMapSvr.Net/TMap.Server.Tests/FortTests.cs"],
+    "local_results": ".runtime/monster-recovery-credit/validation.json",
+    "database_written": false,
+    "deployed": false,
+    "real_client_verified": false,
+    "publisher_rule_parity_verified": false
+  },
+  "remaining_verification": [
+    "Play the claim, disengage/recover, re-claim and loot sequence with multiple real clients, including parties and opposing factions.",
+    "Verify colour changes through actual fort capture and AI mode transitions in the pinned client.",
+    "Establish independent compatible publisher/pinned-client evidence for server-side recovery thresholds and credit arithmetic; inherited C++ is an implementation reference."
+  ]
+}

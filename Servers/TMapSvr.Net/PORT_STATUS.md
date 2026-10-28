@@ -1,5 +1,120 @@
 # TMapSvr → TMapSvr.Net — Port Status
 
+The current priority is a complete playable Gameforge baseline before custom gameplay changes. The
+[readiness checklist](../../Gameforge/baseline-readiness.json) separates implementation, reference evidence,
+database persistence and real-client verification. The baseline remains incomplete.
+
+The [2026-10-28 deployment](../../Gameforge/deployments/2026-10-28-baseline.json) records the current
+committed runtime: all five Docker services rebuilt without cache and running, migration 040 applied,
+and a read-only probe of the deployed loader against live SQL. The client Release build is in `Game/`.
+Map passes 1,492 tests and World 164. Across all five solutions 1,838 pass; five unchanged Control
+local-process tests reproduce earlier Linux failures. Source-validation notes below describe their
+original snapshots; their uncommitted/undeployed flags are historical. Real-client gameplay is pending.
+
+Monster HP recovery now proportionally reduces every personal/party and guild damage bucket, truncating
+each result as the inherited `CTMonster::Recover` does. Full recovery removes the remaining credit; an
+eligible HP-recovery pass releases the keeper at `maxHP - floor(maxHP * 10 / 100)`. A new attacker can then
+claim the monster and receive its existing EXP/loot rewards. MP-only, blocked, dead and not-yet-due HP
+passes leave this state alone. Recovery preserves aggro, host, target, loot-window locks and AI epochs.
+Monster appearance and colour notifications now use each viewer's faction and personal/party keeper;
+notifications cover claim/release, AI mode changes and fort capture, with HP/MP preceding recovery colour.
+Relevant history was reviewed before editing: initial port `34a9afe`, AI fix `3515365`, cancellation
+performance `0ca6e5e`, loot locks `7a240ad` and fort fix `6a08080`. The previous transition-only recovery
+anchors, O(1) cancellation and next-war fort reset remain. Validation: 35 new cases and 1,492 map-solution
+tests pass on Linux .NET 10; 22 earlier retained-code checks and seven focused checks pass. No existing
+assertion was removed for this slice. Evidence: `Gameforge/monster-recovery-credit.json`. Source is now
+deployed as recorded above; pinned-client gameplay and independent official-rule parity remain unverified.
+
+The targeted [C# history audit](../../Gameforge/port-history-audit.json) checks the current changes
+against 13 earlier commits, including movement/fall damage, summon combat, buffs, authentication,
+loot locks and AI cancellation. Seven complete files and 15 selected methods match HEAD. Five changed
+legacy assertion lines are documented explicitly: authenticated PC host, authoritative monster magic
+power and waiting for the World verdict during teleport. The audit found that take-all bypassed the
+new party-money/access rules; it now shares distribution and access gates while retaining the earlier
+trade/capacity/item-owner protections. Separate item/money requests also honor the trade gate.
+Nineteen new regressions pass; the Linux map solution passes 1,457 tests. History review is now required
+before changing existing .NET behaviour. This bounded review does not certify every C# fix or full parity;
+that audit was recorded before commit and deployment; the current deployment is recorded above.
+
+Weapon and ammunition requirements are implemented for ordinary player casts, loop repeats and act-item skills.
+The matching equipped weapon must have power; its ammo kind/base count come from the newly loaded existing
+`bUseItemKind/bUseItemCount` columns. Server-selected multi-hits add ammunition cost. Required skill items and
+ammunition are reserved together before any consumption, HP/MP debit or cooldown, avoiding partial losses and
+BYTE overflow. Update/delete packets use the existing incremental persistence hooks. Unsupported legacy
+infinite-ammunition IDs are not exemptions: the pinned Gameforge item catalogue contains none of 25020–25022.
+Validation passed 1,320 map-solution tests on Linux .NET 10, including 36 new gameplay cases and one new
+database-gated field check. That field check also passed separately against live SQL, read-only, for 142 templates.
+Windows blocked the rebuilt server DLL with application-control error `0x800711C7`; no host security policy was
+changed. The current deployment is recorded above; pinned-client playthroughs and actual logout/restart persistence remain unverified.
+Ordinary cast wear and active-effect prerequisites are now implemented as described below.
+
+`wPrevActiveID` gates actions, ordinary casts and act items; the original loop's `wTargetActiveID`
+gates repeats on the caster. Summons use their own effects. The required effect must be maintained and
+unexpired. Target-active effects gate landed damage, buffs and cures, through FINISHSKILL and legacy
+DEFEND. `bDuraSlot` selects the equipment worn by an accepted ordinary player cast: ranged weapon,
+both melee weapons excluding shields, one of six armor slots, or the secondary shield. The inherited
+0–2 wear roll, forced user-item exhaustion, durability packets, break/delete handling, stat refresh
+and persistence snapshots are implemented. Natural wear never destroys an indestructible 0/0 item.
+Actions, loops and impact replays do not apply ordinary cast wear. Item-option `wAutoSkill` uses its
+stored option value and ID order; only the server-rolled effect is announced and authorized at level 1.
+Validation: 46 new gameplay cases, 1,367 map-solution tests on Linux .NET 10, one separate live read-only
+SQL check on 765 skills / 27 magic-option templates, and five migration checks on connection-local temp
+tables. The pinned original client's three fields match on all 765 shared IDs except skill 201's absent
+target-active effect 200 in SQL. Migration 040 restores that one field; its frozen evidence is
+`Gameforge/normalization/skill-active-wear.json`. Migration 040 and the source changes are now deployed.
+Original-client gameplay and real logout/restart durability persistence still need verification.
+The inherited wear/proc probability is not independent evidence of official Gameforge balance.
+
+Defensive equipment wear and reactive item branches are now implemented. A landed damage skill wears
+the secondary shield on block; otherwise positive net HP loss selects one of the six native armor slots.
+It happens after CalcDamage and before OnDamage, including lethal hits. Misses, healing, attribute-zero
+rows, immunity and unblocked MP-only damage do not wear armor. The target-delete flag, durability packets,
+break/repairability rules, stat refresh and queued persistence share the ordinary cast helper. Native
+CanFight gates the rolled reaction after wear. Damage-modifier options apply DAMAGE then HP scaling at
+the incoming skill's level; mirrors forward only HP loss through World; other rolled effects are announced
+as a defender counter-skill and receive a bounded level-one authorization against the attacker.
+The original damage map remains the pre-reaction display, while HP/MP packets carry the resulting bars.
+The missing `MW_GETBLOOD_REQ` receiver now applies HP/MP lifedrain and reflection to the routed main
+player, its hosted monster or its own recall/self/companion. Key, main/map/channel/ownership and live-object
+checks prevent stale or foreign updates. Gains cap at max without overflow; reflection leaves at least
+1 HP and never re-enters Defend. A game client cannot send this World-only instruction.
+Validation: 71 new cases (32 defensive-equipment + 39 blood-return), 1,438 map-solution tests passed
+on Linux .NET 10. Source/data evidence is in `Gameforge/normalization/defensive-equipment.json`.
+Read-only live SQL inspection found no configured automatic option-skill links. The branches are tested
+with isolated templates; official assignments and probabilities are not inferred or added to live data.
+No deployment or production chart/character writes were performed during that initial validation. Original-client playthroughs and
+actual logout/restart durability persistence remain pending.
+
+Channel switching is implemented for the hosted `Map:Channels` on one map server. `CS_CHGCHANNEL_REQ`
+starts the full BEGINTELEPORT → STARTTELEPORT → TELEPORT/CONLIST → CHECKMAIN/CONRESULT → client CONREADY
+cycle so channel-specific grids and views actually change. It preserves the character, inventory, vitals,
+position and following summons. Unhosted channels, private meeting rooms, arena participants and unavailable
+World links receive `CHC_NOCHANNEL` before loading. A current-channel request is ignored. Pending moves block
+overlapping gameplay and premature ready packets; World loss closes a loading session for relog. Old cast
+budgets are cleared on leaving. `ChannelTests` adds 18 cases, and the World socket suite adds two routing cases.
+The inherited acknowledgement-only shared-map branch and multi-map-server handoff are not claimed by this
+single-server implementation. Source is deployed with channel 1; real multi-channel/pinned-client verification remains pending.
+Validation: 1,283 map-solution tests and 164 world-solution tests passed, including the 20 new channel cases.
+
+Natural HP/MP recovery now respects STOPRECOVER on players and monsters. Monster recovery also uses the
+same action-blocking gate as the inherited Recover implementation and applies HPR/MPR modifiers to its
+quarter-max recovery amounts. Player battle timeout continues while recovery is blocked; HOLD alone
+does not stop player recovery. `RecoverTests` covers blocking, expiry, resumed recovery and modifier bounds.
+This is a functional correction against the inherited implementation, not independent proof of publisher balance.
+
+The gameplay-integrity audit fixes stale personal-store offers (item identity, tradability and live quantity),
+foreign-player skill/loop casts, unpaid or replayed player impacts through both FINISHSKILL and legacy DEFEND,
+and missing-skill fallback hits. Connection-local cast budgets retain chart-defined repeats, missiles and
+linked effects. The skill loader now also reads `bRepeatCount`, `wTriggerID` and `dwActionTime`; no new SQL
+columns or packet fields are required. Act-item casts authorize their paid effects separately from learned skills.
+
+Monster attacks use the common typed HP/MP damage engine with physical/magic defence, immunities and maintained
+effects. Attack-blocking statuses gate player casts and monster attack starts. Quest magic-item and skill
+rewards are granted before consuming ingredients; invalid or unsupported selected rewards leave requirements
+intact. Party corpse money is shared by level, with rounding residue paid to the collector, and direct hunter
+loot requests enforce the same access rule as opening the corpse. `GameplayIntegrityTests` covers these fixes;
+older combat fixtures now perform the real cast-to-impact sequence. These changes do not certify full Gameforge parity.
+
 The gameplay target is now **Gameforge 5.0+**, anchored in the documented 5.0.1 rules. The
 [version audit](../../Gameforge/version-target/report.html) and [profile](../../Gameforge/target.json)
 take precedence when choosing current gameplay rules. Older port phases below describe implementation
@@ -197,7 +312,7 @@ proper enter/leave-on-move, replacing the Phase-1 whole-map broadcast.
 >   cross-map-server routing / relay handoff is not exercised.
 > - World-relayed chat **delivery** back to clients (`OnMW_CHAT_REQ`) is a no-op stub (the exact
 >   `MW_CHAT_REQ` payload layout isn't transcribed yet); local chat works end-to-end.
-> - `CS_CHGMODE` / `CS_REGION` / `CS_CHGCHANNEL` are recognized but deferred (logged no-ops).
+> - Historical Phase-1 deferrals: mode/region handlers were implemented in later phases; channel switching is now implemented as described above.
 
 ## ✅ Done (Phase 2 — character data: inventory, gear, skills, hotkeys)
 
@@ -627,7 +742,8 @@ damage half that follows). C++ `OnCS_SKILLUSE_REQ` (CSHandler.cpp:2429).
   (`wAttackLevel`, phys/magic min-max AP, `bCP`, level, country) + the echoed target list, sent to the near
   players (`GetNeerPlayer` ≈ `NearView`, includes the caster). The follow-up `CS_DEFEND` reads this payload back.
 
-> **Fidelity notes (Phase 14):** OT_PC casters only (OT_MON/OT_RECALL/OT_SELF summon/recall objects unported ⇒
+> **Historical fidelity notes (Phase 14; superseded by later phases and the current status above):**
+> OT_PC casters only (OT_MON/OT_RECALL/OT_SELF summon/recall objects unported ⇒
 > silent return). Guards ported in the C++ order (skill-known → MP → HP → cooldown); **deferred guards** each
 > gate an unported subsystem: toggleable-recast, wrong-region, peace-zone, tournament/arena, premium-skill
 > medals, `CheckAttack` (stun/hold buffs), `CheckPrevAct`, and `UseSkillItem` (weapon/consumable). The power

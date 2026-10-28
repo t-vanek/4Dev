@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "overall_status": "incomplete",
+  "development_phase": "restore_official_baseline",
+  "custom_gameplay_changes_allowed": false,
+  "target_profile": "Gameforge/target.json",
+  "reference_manifest": "Gameforge/reference.json",
+  "reference_release_exact": null,
+  "acceptance_gates": [
+    "Required player journeys work end to end in the real client.",
+    "Character, inventory, currency, quest and social state persist correctly across logout and restart.",
+    "Material defects have regression tests; relevant protocol, server and database checks pass.",
+    "Content and balance rules have compatible publisher or pinned-client evidence.",
+    "Required features and reference-data gaps are resolved; deployed builds are verified separately from source builds."
+  ],
+  "latest_source_validation": {
+    "map_solution_tests_passed": 1492,
+    "platform": "Linux .NET 10, isolated source build",
+    "history_audit": "Gameforge/port-history-audit.json",
+    "retained_code_checks": 22,
+    "new_loot_entry_point_regressions": 19,
+    "monster_recovery_evidence": "Gameforge/monster-recovery-credit.json",
+    "new_monster_recovery_and_color_regressions": 35,
+    "focused_monster_history_checks": 7,
+    "deployed": true,
+    "deployment_evidence": "Gameforge/deployments/2026-10-28-baseline.json"
+  },
+  "work_order": [
+    {
+      "priority": 1,
+      "area": "Basic player journey",
+      "status": "partial",
+      "journey": "Login, create a neutral level-one character, enter the world, move, use an NPC, accept a quest, fight, receive loot and EXP, equip an item, die, revive, return to character selection and relog.",
+      "evidence": [
+        "Servers/TLoginSvr.Net/README.md",
+        "Servers/TMapSvr.Net/PORT_STATUS.md"
+      ],
+      "remaining_verification": "Repeat the whole journey with the deployed client and SQL-backed servers, then verify the saved state after restart."
+    },
+    {
+      "priority": 2,
+      "area": "Combat, skills and resources",
+      "status": "partial",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server.Tests/GameplayIntegrityTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/RecoverTests.cs"
+      ],
+      "remaining_verification": "Verify the supported class skill trees, weapons and consumables, effects, monster AI and HP/MP behaviour against the selected client and compatible reference rules."
+    },
+    {
+      "priority": 3,
+      "area": "Quests, progression and world content",
+      "status": "partial",
+      "evidence": [
+        "Gameforge/progression-140/report.html",
+        "Gameforge/server-completion/remaining.json",
+        "Gameforge/content-gaps/report.html"
+      ],
+      "remaining_verification": "Resolve missing quest graphs, NPCs, monster populations, portal links, drop rules and uncertified non-EXP progression fields. Refresh inventories before using their historical counts as current measurements."
+    },
+    {
+      "priority": 4,
+      "area": "Economy and persistence",
+      "status": "partial",
+      "evidence": [
+        "Servers/TMapSvr.Net/PORT_STATUS.md"
+      ],
+      "remaining_verification": "Verify shops, repairs, crafting, warehouse, trade, personal stores, mail and auctions with durable item/currency ownership and interruption/restart cases."
+    },
+    {
+      "priority": 5,
+      "area": "Groups and official game modes",
+      "status": "partial",
+      "evidence": [
+        "Servers/TWorldSvr.Net/README.md",
+        "Gameforge/version-target/report.html"
+      ],
+      "remaining_verification": "Verify parties and loot modes, guilds, companions, travel between channels and maps, PvP and the required official event modes in multi-client sessions."
+    }
+  ],
+  "known_implementation_gaps": [
+    {
+      "area": "Channel changes",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Channels.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/ChannelTests.cs",
+        "Servers/TWorldSvr.Net/TWorld.Server.Tests/MovementTests.cs"
+      ],
+      "detail": "Hosted logical channels now switch through the full World teleport cycle on one map server, preserving character state and exchanging channel-specific visibility. Map regressions and World socket routing tests cover both directions, blocked destinations, pending transfers, summons and cast replay. Source is deployed with logical channel 1 hosted; real multi-channel/pinned-client verification remains pending; shared physical/global maps and multi-map-server handoff need separate topology work."
+    },
+    {
+      "area": "Skill weapon and consumable rules",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SkillItems.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/SkillItemTests.cs",
+        "Servers/TMapSvr.Net/TMap.Data.Tests/DataSmokeTests.cs",
+        "Client/TClient/TClientObjBase.cpp",
+        "Servers/TMapSvr/TObjBase.cpp"
+      ],
+      "detail": "Weapon-slot, kind-mask and durability-power checks now precede atomic ammo/required-item consumption on ordinary casts, loops and act-item skills. Per-inventory ammo aggregation and the base-plus-additional-hit rule follow the inherited implementation. 36 gameplay regressions pass; a live read-only SQL check confirms ammo kind/count on 142 templates. Legacy infinite-ammo IDs absent from the pinned item catalogue are not exemptions. Source is deployed and the deployed library passes the read-only SQL field check. Pinned-client parity and actual logout/restart persistence remain to verify. Ordinary cast wear and active-effect prerequisites are implemented in the following entries."
+    },
+    {
+      "area": "Active-effect skill prerequisites",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.SkillPrerequisites.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/SkillPrerequisiteAndWearTests.cs",
+        "Gameforge/normalization/skill-active-wear.json",
+        "Database/migrations/040_gameforge_skill_target_active.sql"
+      ],
+      "detail": "Caster previous-active effects gate actions, ordinary casts and act items; loops use the caster target-active field. Targets require their effect at impact, for damage, buffs and cures. Learned-only or expired effects do not satisfy the requirement. The pinned client's fields agree on the 765 shared SQL IDs except skill 201's target effect, restored from 0 to 200 by migration 040. That migration passes five temporary-table scenarios and is now applied to live SQL; a read-only probe using the deployed library verifies all fields on 765 skills and 27 options. Gameplay in the pinned client is pending."
+    },
+    {
+      "area": "Equipment wear and item-triggered skills",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.EquipmentWear.cs",
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.CastAuthorization.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/SkillPrerequisiteAndWearTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/DefensiveEquipmentTests.cs",
+        "Gameforge/normalization/defensive-equipment.json"
+      ],
+      "detail": "Accepted ordinary casts wear chart-selected gear; incoming landed damage wears a shield on block or one armor slot on positive HP loss, before HP/MP loss and including lethal hits. Break/deletion messages, stat refresh and persistence are shared. Natural wear preserves indestructible gear. Hostile-side item reactions can modify damage, reflect it or authorize the rolled level-one counter-skill against the attacker. Player impact replay cannot repeat wear/reactions. 32 defensive-equipment cases now supplement the earlier 46 prerequisite/cast-wear cases; the map solution passes 1438 tests on Linux. Live SQL currently has no configured automatic option-skill links. Source is deployed. Expected official assignments, inherited probabilities, pinned-client gameplay and real logout/restart persistence remain to verify."
+    },
+    {
+      "area": "World return of lifedrain and reflected damage",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Blood.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/BloodTests.cs",
+        "Servers/TMapSvr/SSHandler.cpp",
+        "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Pet.cs"
+      ],
+      "detail": "The missing MW_GETBLOOD_REQ receiver now completes the existing Map-to-World route. HP/MP gains cap without overflow, dead objects cannot revive, and reflection leaves at least 1 HP without recursive reactions. The main route/key and target object ownership/map/channel are checked for players, hosted monsters and own recall/self/companion objects. 39 return-path regressions pass, including stale routes, foreign objects and rejection on the client port. Source is deployed; real multi-client gameplay remains pending."
+    },
+    {
+      "area": "Monster recovery and damage credit",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Recover.cs",
+        "Servers/TMapSvr.Net/TMap.Server/Map/Monster.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/MonsterRecoveryCreditTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/FortTests.cs",
+        "Gameforge/monster-recovery-credit.json",
+        "Servers/TMapSvr/TMonster.cpp"
+      ],
+      "detail": "Natural HP recovery now scales personal/party and guild damage credit by the healed share of the previous deficit, erases zero buckets and releases the keeper at the inherited integer 90% threshold. A new attacker can claim EXP and loot. MP-only, blocked, dead and premature HP passes do not change credit; aggro, host, loot locks and scheduled AI identity remain. Monster appearance and claim/release, mode and fort-capture notifications use each viewer's faction and party/private keeper colour. History was inspected before editing; transition-only recovery anchors, O(1) cancellation and the next-war fort fix remain. All 35 new cases and 1492 map-solution tests pass. Source is deployed and migration 040 is applied in the same release. Pinned-client playthrough and independent publisher-rule parity remain pending."
+    }
+  ],
+  "reference_limitations": [
+    "The pinned original client's exact release is unknown.",
+    "Complete official server-side spawn, probability and balance data has not been established.",
+    "Inherited private-server data and implemented C++ behaviour require independent parity evidence."
+  ],
+  "latest_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-28-baseline.json",
+    "tag": "baseline-port-2026-10-28",
+    "client_build": "Release / msvc-x86",
+    "docker_services_rebuilt_and_running": [
+      "loginsvr",
+      "worldsvr",
+      "mapsvr",
+      "patchsvr",
+      "controlsvr"
+    ],
+    "migration_040_applied": true,
+    "deployed_loader_read_only_verified": true,
+    "all_server_suite_tests_passed": 1838,
+    "known_unchanged_control_tests_failed": 5,
+    "real_client_gameplay_verified": false
+  }
+}

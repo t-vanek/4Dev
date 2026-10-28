@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "verified_utc": "2026-10-28T17:48:33.661494+00:00",
+  "branch": "codex/complete-map-server",
+  "tag": "baseline-port-2026-10-28",
+  "source_commit": "949d26c061a8b62034598888279c6bf3de01c053",
+  "migration_commit": "7ec3c812ceb95e803928c6943acdbb1277cf7a35",
+  "client": {
+    "configuration": "Release / msvc-x86",
+    "build_succeeded": true,
+    "deployed_path": "Game/TClient.exe",
+    "sha256": "f29ad597c6f58a1e7ba2640629c02d9e841c85f75aa43258b0d0663d2372d921"
+  },
+  "docker": {
+    "build_succeeded": true,
+    "build_mode": "no-cache",
+    "services": [
+      {
+        "service": "loginsvr",
+        "image": "sha256:56369aed4b8cb7e2e99ce127b3244e0b5389a4fafb23e4247c9b28a771777241",
+        "running": true,
+        "restarts": 0,
+        "created_utc": "2026-10-28T17:45:05.295619044Z"
+      },
+      {
+        "service": "worldsvr",
+        "image": "sha256:b45bc236dd5dc93fef76c35bdaa8f0c08926543783b3e5978d55c5ccf9478c2a",
+        "running": true,
+        "restarts": 0,
+        "created_utc": "2026-10-28T17:45:05.2952925Z"
+      },
+      {
+        "service": "mapsvr",
+        "image": "sha256:a0e33dda78618c97e30a4aea25ad67e860662fc5ff8463eb0591d736423837ca",
+        "running": true,
+        "restarts": 0,
+        "created_utc": "2026-10-28T17:45:05.908549888Z"
+      },
+      {
+        "service": "patchsvr",
+        "image": "sha256:f8af4a68431907fd84571daa3eb4ba571f17879e1a2f7daa4debe677ec437c47",
+        "running": true,
+        "restarts": 0,
+        "created_utc": "2026-10-28T17:45:05.263965456Z"
+      },
+      {
+        "service": "controlsvr",
+        "image": "sha256:215c8aae54611d70dc3a5bb5bbed253ae39d3e0232bca0928afd7bf18bfb12ba",
+        "running": true,
+        "restarts": 0,
+        "created_utc": "2026-10-28T17:45:06.049999588Z"
+      }
+    ],
+    "database_and_mailpit_containers_preserved": true,
+    "database_volumes_preserved": true,
+    "map_channels": [
+      1
+    ],
+    "peer_registration_verified": true,
+    "tcp_checks": [
+      {
+        "host": "127.0.0.1",
+        "port": 3615,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 3716,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 4816,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 5816,
+        "connected": true
+      }
+    ]
+  },
+  "database": {
+    "backups_verified": true,
+    "private_backup_directory": ".runtime/release-20261028-baseline/",
+    "migration": "040_gameforge_skill_target_active.sql",
+    "applied": true,
+    "skill_201_target_active_before": 0,
+    "skill_201_target_active_after": 200,
+    "importer_local_topology_reapplied": true,
+    "deployed_loader_probe": {
+      "deployed_assembly": true,
+      "read_only": true,
+      "skills": 765,
+      "options": 27,
+      "ammo": 142,
+      "skill_201_target_active": 200
+    }
+  },
+  "tests": {
+    "solutions": {
+      "TControlSvr": {
+        "passed": 98,
+        "failed": 5
+      },
+      "TLoginSvr": {
+        "passed": 70,
+        "failed": 0
+      },
+      "TMapSvr": {
+        "passed": 1492,
+        "failed": 0
+      },
+      "TPatchSvr": {
+        "passed": 14,
+        "failed": 0
+      },
+      "TWorldSvr": {
+        "passed": 164,
+        "failed": 0
+      }
+    },
+    "total_passed": 1838,
+    "total_failed": 5,
+    "database_suite_mode": "Live database variables were unset for the general suites; the separate deployed-loader probe is read-only.",
+    "known_control_failures": [
+      "TControl.Server.Tests.ProcessAndMonitorTests.StartsConfiguredChild_RejectsDuplicate_AndFlushesOnGracefulStop",
+      "TControl.Server.Tests.ProcessAndMonitorTests.DisposingController_DetachesAndReplacementRecoversSameChild",
+      "TControl.Server.Tests.ProcessPersistenceTests.AuthenticatedProbeDisconnect_DoesNotStopTheGame",
+      "TControl.Server.Tests.ProcessPersistenceTests.ManuallyStoppedService_RemainsStoppedAfterSupervisorRestart",
+      "TControl.Server.Tests.ProcessPersistenceTests.SupervisorRestartDuringAcceptedStop_PreservesStopIntent"
+    ],
+    "same_failures_as": ".runtime/docker-rebuild/20261028_095748/isolated-tests/TControlSvr.Net",
+    "control_source_unchanged_since": "e2c69c2a66d7f9e03a99715397c21c6224583820",
+    "control_note": "Five existing Linux local-process lifecycle tests fail; this is not an all-green server-suite result. Docker-peer monitoring registers successfully. One Control data test is explicitly skipped without a database connection."
+  },
+  "local_evidence_directory": ".runtime/release-20261028-baseline/",
+  "remaining_verification": [
+    "Original-client gameplay journeys and real logout/restart persistence of the new gameplay flows remain pending.",
+    "Official reference-data and whole-game parity gaps remain in Gameforge/baseline-readiness.json.",
+    "The current deployment hosts logical channel 1 only; multi-channel client verification requires additional advertised/hosted channels.",
+    "Four legacy Control endpoints lack PeerTls configuration and are rejected; configured World/Map peers register."
+  ]
+}

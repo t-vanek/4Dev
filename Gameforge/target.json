@@ -20,5 +20,9 @@
   "official_pvp_modes": "Part of the 5.x feature audit; custom boosted starts and private-server rate changes are not the reference.",
   "older_patch_notes": "Historical comparisons only; superseded rules do not define the 5.x baseline.",
   "private_server_wikis": "Not authoritative Gameforge balance data",
+  "development_phase": "restore_official_baseline",
+  "custom_gameplay_changes_allowed": false,
+  "baseline_readiness": "Gameforge/baseline-readiness.json",
+  "completion_policy": "Complete and verify the official game foundations before custom gameplay changes. Require implementation, database persistence, real-client player journeys and reference evidence; passing unit tests alone is insufficient. Do not claim zero defects or full Gameforge parity while required verification or reference data is missing.",
   "status": "target_selected_implementation_incomplete"
 }

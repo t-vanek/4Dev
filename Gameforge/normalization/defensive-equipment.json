@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "scope": "Functional port of defensive equipment wear and the World return of lifedrain/reflection; not certification of Gameforge balance or full server parity.",
+  "reference_manifest": "Gameforge/reference.json",
+  "pinned_skill_catalogue": {
+    "path": "Tcd/TSkill.tcd",
+    "sha256": "c2e4ad449b4c120994d36f871b3122050398387d3f65072581c6fa103c8f448a",
+    "records": 813,
+    "limitation": "The pinned catalogue does not establish server-side equipment wear probability or which item options should trigger skills."
+  },
+  "implementation_references": [
+    {"path": "Servers/TMapSvr/TObjBase.cpp", "function": "CTObjBase::Defend", "rule": "After CalcDamage and before OnDamage: block wears selector 4, otherwise positive HP damage wears selector 3. CanFight gates the rolled reaction. Damage modifier uses incoming level and sequential DAMAGE/HP deltas; mirror forwards HP damage through MW_GETBLOOD; remaining reaction is sent as wBackSkill."},
+    {"path": "Servers/TMapSvr/TPlayer.cpp", "function": "CTPlayer::DurationDec", "rule": "Selector 3 chooses head/body/pants/hand/foot/back; selector 4 selects the secondary shield."},
+    {"path": "Servers/TMapSvr/TItem.cpp", "function": "CTItem::DurationDec / GetAutoSkill", "rule": "Inherited 0..2 durability roll and option-ID order with raw stored value as the proc threshold. These probabilities need independent publisher verification."},
+    {"path": "Client/TClient/CSHandler.cpp", "function": "OnCS_DEFEND_ACK", "rule": "The defender's client launches the announced item counter-skill at level 1 against the attacker."},
+    {"path": "Servers/TMapSvr/SSHandler.cpp", "function": "OnMW_GETBLOOD_REQ", "rule": "Authenticate main char/key, resolve player/monster/own summon, reject dead objects, cap HP/MP gain, reflected damage leaves at least 1 HP."},
+    {"path": "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Pet.cs", "function": "OnMW_GETBLOOD_ACK", "rule": "Route to the PC attacker's main or to the non-PC attacker's host main."}
+  ],
+  "live_sql_inspection": {
+    "read_only": true,
+    "query": "SELECT bMagic,wAutoSkill FROM TITEMMAGICCHART WHERE wAutoSkill <> 0 ORDER BY bMagic",
+    "configured_automatic_skill_links": 0,
+    "data_modified": false,
+    "limitation": "No option-to-skill assignments were inferred or invented. Reactive branches are exercised with isolated test templates; whether Gameforge requires different content assignments remains unverified."
+  },
+  "validation": {
+    "platform": "Isolated Linux .NET 10 SDK container; source and host NuGet cache mounted read-only",
+    "map_solution_tests_passed": 1438,
+    "new_defensive_equipment_cases": 32,
+    "new_blood_return_cases": 39,
+    "test_sources": ["Servers/TMapSvr.Net/TMap.Server.Tests/DefensiveEquipmentTests.cs", "Servers/TMapSvr.Net/TMap.Server.Tests/BloodTests.cs"],
+    "deployed": false,
+    "real_client_verified": false,
+    "real_logout_restart_persistence_verified": false
+  }
+}

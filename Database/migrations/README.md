@@ -161,6 +161,20 @@ dialogue. The deployment report records both the original failure and the repair
 wrong-map/prerequisite guards. The server also resolves the dialogue response's NPC ID from its NPC
 trigger, so the client can match it to the selected NPC. Saved player quests and inventory are unchanged.
 
+### Skill target-active prerequisite (040)
+
+`040_gameforge_skill_target_active.sql` restores skill 201's `wTargetActiveID` from 0 to 200, matching
+the pinned original CZ client's `TSkill.tcd`. The comparison checked previous-active, target-active and
+durability-selector fields for all 765 shared skill IDs; this was the only difference. The source hash,
+layout and frozen before-state are in `Gameforge/normalization/skill-active-wear.json`. The migration
+requires effect 200 and accepts only the expected before-value or the already-correct value; unexpected
+or missing rows abort. Five connection-local temporary-table scenarios passed, including reruns and
+conflicting/missing-row rejection. It was applied with the rebuilt Map service on 2026-10-28. A read-only
+probe using the deployed library confirms prerequisite 200 and all loaded fields on 765 skills,
+27 magic options and 142 ammunition-consuming weapons. See the
+[deployment record](../../Gameforge/deployments/2026-10-28-baseline.json); the actual skill chain still
+requires verification in the client.
+
 `025_login_email_two_factor.sql` is required by the Login email-OTP implementation. It creates durable
 per-account challenge/rate-limit state and the administrator-only `TLoginTwoFactorConfigure` procedure.
 It does not enroll users automatically or modify the baseline `TLogin` procedure. Configure SMTP and

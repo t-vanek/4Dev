@@ -3,6 +3,17 @@
 A self-hosted **4Story** reconstruction targeting the user's original **Gameforge CZ** installation,
 with a modernized game client and servers rewritten in .NET.
 
+**Current priority: restore the complete official game foundations before custom gameplay changes.**
+Progress is tracked in [`Gameforge/baseline-readiness.json`](Gameforge/baseline-readiness.json).
+Implementation tests, database persistence, real-client playthroughs and reference parity are separate
+completion gates. A passing test suite does not certify a complete or defect-free Gameforge equivalent.
+
+The [2026-10-28 build and deployment](Gameforge/deployments/2026-10-28-baseline.json) records the latest
+gameplay port, Release client build, all five rebuilt Docker services and applied migration 040. Map
+passes 1,492 tests; the full server run has 1,838 passes and five existing Control Linux process-test
+failures. The deployed Map library also passes read-only live SQL field checks. Real-client gameplay
+and complete official parity remain pending.
+
 The explicit content target is **Gameforge 5.0 and newer**, with the publisher's **5.0.1** notes as the
 documented baseline. See the [target profile](Gameforge/target.json) and [version audit](Gameforge/version-target/report.html).
 Later features retain their own version evidence; older 3.x/4.x notes are historical inputs. This is a

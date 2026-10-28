@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "reference_manifest": "Gameforge/reference.json",
+  "reference_path": "Tcd/TSkill.tcd",
+  "sha256": "c2e4ad449b4c120994d36f871b3122050398387d3f65072581c6fa103c8f448a",
+  "client_records": 813,
+  "live_sql_records": 765,
+  "matched_ids": 765,
+  "checked_fields": ["wPrevActiveID", "wTargetActiveID", "bDuraSlot"],
+  "layout": "Original 144-byte tail after ID/CString: previous active ID ushort at offset 0, target active ID ushort at offset 4, durability selector byte at offset 19; classic InitTSKILLTEMP in Lib/Own/TChart/TChart/TChart.cpp.",
+  "differences_before_migration": [
+    {"skill_id": 201, "client_name": "Nemilosrdný úder", "field": "wTargetActiveID", "sql_before": 0, "client_value": 200}
+  ],
+  "migration": "Database/migrations/040_gameforge_skill_target_active.sql",
+  "migration_applied_to_live_database": false,
+  "scope": "Exact agreement of these three chart fields on the 765 shared IDs, except the one targeted correction. This does not certify full skill behaviour, the client's exact release, inherited server wear/proc probabilities, or the 48 client-only skill IDs."
+}
