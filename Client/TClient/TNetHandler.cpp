@@ -29,6 +29,10 @@ int CTClientWnd::OnCS_LOGIN_ACK( CTachyonSession *pSession, CPacket *pPacket)
 		>> iDuration
 		>> bEternal;
 
+	m_strLoginResumeToken.Empty();
+	if( bResult == LR_SUCCESS || bResult == LR_NEEDAGREEMENT )
+		(*pPacket) >> m_strLoginResumeToken;
+
 	// Get IP.
 	SOCKADDR_IN _name;
 	TSOCKLEN _namelen = sizeof( SOCKADDR_IN );

@@ -49,6 +49,7 @@ public:
 	DWORD m_dwUserID;
 	DWORD m_dwKickID;
 	DWORD m_dwKEY;
+	CString m_strLoginResumeToken;
 
 	CTEvent m_vResetEvent;
 	BYTE m_bCreateCardCnt;

@@ -1,5 +1,12 @@
 # TLoginSvr.Net
 
+New characters follow the neutral level-one progression. The client creates directly without the
+private-server veteran dialog. The server consumes legacy level/faction selections but passes neutral
+country `4` and level option `0` to `TCreateChar`, then acknowledges level `1` on success. Legacy
+`CS_VETERAN_REQ` receives an ordinary-start-only response. Existing characters are unaffected.
+This removes boosted creation; the remaining legacy database gifts, quest and gameplay data are not
+claimed to match Gameforge until independently verified against the selected reference.
+
 A C# (.NET 10) reimplementation of the C++/ATL `Servers/TLoginSvr` login server, **protocol- and
 DB-compatible with this repo's (Araz-4ever) client and SQL baselines**. It compiles to a console `.exe`
 and runs in Docker — no Windows-only dependencies, no ATL/registry, no ODBC DSNs.
@@ -15,6 +22,14 @@ without creating a game session, reserves a challenge, delivers the code through
 close the socket on that response. After a correct code, `CS_SECURITYRESULT_ACK(CODE_CORRECT)` makes the
 client repeat `CS_LOGIN_REQ`; a one-use grant bound to that connection, account and password permits the
 normal `TLogin` flow. Agreement results and duplicate-login recovery retain their normal checks.
+
+Returning from the map to character selection uses a one-use 256-bit continuation token instead of
+another email code. The updated client keeps it in memory and sends it in the reserved `Zombie3` login
+field only during its automatic return. The server binds it to the account, password and client IP,
+checks credentials and restrictions again, then rotates it on a successful return. Normal logins still
+require the email code. Tokens expire after 24 hours, are replaced by the next successful verification,
+and are lost when Login restarts; an expired/invalid token or an older client requires a new code.
+`CS_LOGIN_ACK` carries the optional token after the legacy ban fields. Deploy both client and Login.
 
 Apply **`Database/migrations/025_login_email_two_factor.sql` before starting the new Login binary**.
 The migration adds `TLOGIN2FA` and administrative `TLoginTwoFactorConfigure`; it does not change `TLogin`

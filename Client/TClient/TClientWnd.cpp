@@ -438,6 +438,7 @@ void CTClientWnd::OnClose( CTachyonSession *pSession, int nErrorCode)
 
 		if (!bRelogin)
 		{
+			m_strLoginResumeToken.Empty();
 			if (!nErrorCode)
 				OnGM_CLOSE_MSGBOX();
 

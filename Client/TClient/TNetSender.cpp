@@ -27,7 +27,8 @@ void CTClientWnd::SendCS_LOGIN_REQ(CString fixedUserID, CString fixedPassword, D
 	CPacket vMSG;
 
 	WORD wVersion = TVERSION;
-	CString Zombie3 = 0;
+	// Only the automatic return from the map carries the previous login's one-use proof.
+	CString Zombie3 = m_bRelogin ? m_strLoginResumeToken : CString();
 	CString Zombie2 = 0;
 	CString Zombie1 = 0;
 

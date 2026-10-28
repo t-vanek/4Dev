@@ -19,11 +19,12 @@ public sealed class LoginService
     private readonly IReadOnlyDictionary<byte, (GroupConfig Cfg, GameDatabase Db)> _groups;
     private readonly Nation _nation;
     private readonly IHwidValidator _hwid;
-    private readonly IReadOnlyList<VeteranRow> _veteran;
+    private readonly ICharacterCreationStore? _characterCreation;
     private readonly bool _validateChecksum;
     private readonly ILogger<LoginService> _log;
     private readonly SemaphoreSlim _loginGate;
     private readonly EmailTwoFactorService? _twoFactor;
+    private readonly LoginResumeTokens _loginResumes = new();
 
     // Distinct registered-user count per world, used only to mark a group FULL for new players
     // (mirrors CTLoginSvrModule::m_mapCurrentUser).
@@ -33,21 +34,21 @@ public sealed class LoginService
         GlobalDatabase global,
         IReadOnlyDictionary<byte, (GroupConfig, GameDatabase)> groups,
         Nation nation,
-        IReadOnlyList<VeteranRow> veteran,
         IReadOnlyDictionary<byte, uint> currentUser,
         IHwidValidator hwid,
         bool validateChecksum,
         ILogger<LoginService> log,
         int maxConcurrentLogins = 100,
         ILoginAuthenticationStore? authentication = null,
-        EmailTwoFactorService? twoFactor = null)
+        EmailTwoFactorService? twoFactor = null,
+        ICharacterCreationStore? characterCreation = null)
     {
         _global = global;
         _authentication = authentication ?? global;
         _twoFactor = twoFactor;
         _groups = groups;
         _nation = nation;
-        _veteran = veteran;
+        _characterCreation = characterCreation;
         _currentUser = new ConcurrentDictionary<byte, uint>(currentUser);
         _hwid = hwid;
         _validateChecksum = validateChecksum;
@@ -122,7 +123,7 @@ public sealed class LoginService
             return;
         }
 
-        _ = r.ReadString();                    // Zombie3
+        string resumeToken = r.ReadString();   // Zombie3: optional proof for return from the map
         string password = r.ReadString();
         _ = r.ReadString();                    // Zombie1
         _ = r.ReadString();                    // Zombie2
@@ -182,6 +183,8 @@ public sealed class LoginService
                 && priorVerification.Matches(firstFactorUser, st.ConnectionId, password)
                 && await _twoFactor!.ConsumeAsync(priorVerification.Challenge, token);
             if (!secondFactorCompleted)
+                secondFactorCompleted = _loginResumes.TryConsume(firstFactorUser, password, ip, resumeToken);
+            if (!secondFactorCompleted)
             {
                 await BeginEmailChallengeAsync(conn, st, firstFactorUser, password, token);
                 return;
@@ -223,7 +226,9 @@ public sealed class LoginService
             return;
         }
 
-        SendLoginAck(conn, st, result, login);
+        string nextResumeToken = secondFactorCompleted && result is LoginResult.Success or LoginResult.NeedAgreement
+            ? _loginResumes.Issue(login.UserId, password, ip) : "";
+        SendLoginAck(conn, st, result, login, nextResumeToken);
 
         switch (result)
         {
@@ -247,7 +252,8 @@ public sealed class LoginService
         st.CreateCount = login.CreateCnt;
     }
 
-    private void SendLoginAck(PacketConnection conn, LoginSessionState st, LoginResult result, LoginRow? login)
+    private void SendLoginAck(PacketConnection conn, LoginSessionState st, LoginResult result, LoginRow? login,
+        string resumeToken = "")
     {
         // Failed/2FA-pending logins must never disclose a usable map-login key or character address.
         if (result is not (LoginResult.Success or LoginResult.NeedAgreement)) login = null;
@@ -263,6 +269,11 @@ public sealed class LoginService
         w.WriteUInt32(login?.Premium ?? 0);
         w.WriteInt64(DateTimeOffset.UtcNow.ToUnixTimeSeconds()); // dCurTime (__time64_t)
         w.WriteInt64(st.CheckKey);                               // m_dlCheckKey
+        // Preserve the legacy ban fields before the optional continuation extension.
+        w.WriteString("");                                      // reason
+        w.WriteInt64(0);                                        // duration
+        w.WriteByte(0);                                         // permanent
+        w.WriteString(login is null ? "" : resumeToken);
         conn.Send(w);
     }
 
@@ -417,7 +428,8 @@ public sealed class LoginService
         byte slot = r.ReadByte();
         byte cls = r.ReadByte();
         byte race = r.ReadByte();
-        byte country = r.ReadByte();
+        _ = r.ReadByte(); // Legacy clients may request an already chosen faction.
+        const byte country = 4; // Neutral starting country; faction selection happens during progression.
         byte sex = r.ReadByte();
         byte hair = r.ReadByte();
         byte face = r.ReadByte();
@@ -425,7 +437,7 @@ public sealed class LoginService
         byte pants = r.ReadByte();
         byte hand = r.ReadByte();
         byte foot = r.ReadByte();
-        byte levelOption = r.ReadByte();
+        _ = r.ReadByte(); // Consume the private-server veteran option without granting a boosted start.
 
         if (groupId != st.GroupId) return; // C++ returns EC_SESSION_INVALIDCHAR silently
 
@@ -451,15 +463,11 @@ public sealed class LoginService
             return;
         }
 
-        byte level = 0;
-        foreach (var v in _veteran)
-            if (v.Option == levelOption) level = v.Level;
-
         CreateCharRow row;
         try
         {
-            row = await g.Db.CreateCharAsync(new CreateCharArgs(name, st.UserId, groupId, slot, cls, race,
-                country, sex, hair, face, body, pants, hand, foot, levelOption));
+            row = await (_characterCreation ?? g.Db).CreateCharAsync(new CreateCharArgs(name, st.UserId, groupId, slot, cls, race,
+                country, sex, hair, face, body, pants, hand, foot, 0), conn.StoppingToken);
         }
         catch (Exception ex)
         {
@@ -476,7 +484,7 @@ public sealed class LoginService
                 _currentUser.AddOrUpdate(groupId, 1, (_, v) => v + 1);
         }
 
-        Ack((CreateResult)row.Ret, row.CharId, row.CreateCnt, level);
+        Ack((CreateResult)row.Ret, row.CharId, row.CreateCnt, row.Ret == 0 ? (byte)1 : (byte)0);
         _log.LogInformation("CreateChar '{Name}' by user {User} => ret={Ret} charId={Char}", name, st.UserId, row.Ret, row.CharId);
     }
 
@@ -618,14 +626,14 @@ public sealed class LoginService
         conn.Send(w);
     }
 
-    private void OnVeteran(PacketConnection conn)
+    private static void OnVeteran(PacketConnection conn)
     {
-        byte L(int i) => i < _veteran.Count ? _veteran[i].Level : (byte)0;
+        // Compatibility reply for older clients: only the ordinary level-one start is available.
         var w = new PacketWriter(Msg.CS_VETERAN_ACK);
-        w.WriteByte(3);          // option = 3 (all tiers available)
-        w.WriteByte(L(0));
-        w.WriteByte(L(1));
-        w.WriteByte(L(2));
+        w.WriteByte(0);
+        w.WriteByte(1);
+        w.WriteByte(0);
+        w.WriteByte(0);
         conn.Send(w);
     }
 

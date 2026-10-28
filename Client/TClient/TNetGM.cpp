@@ -306,10 +306,8 @@ int CTClientWnd::OnGM_CHANGE_NEWCHAR()
 
 	InitUI();
 
-	if( !m_vTCHARINFO.empty() && m_vTCHARINFO[0] )
-		m_vNEWTCHAR.m_bContry = m_vTCHARINFO[0]->m_bContry;
-	else
-        m_vNEWTCHAR.m_bContry = TCONTRY_PEACE;
+	// New characters follow the neutral level-one progression, including on veteran accounts.
+	m_vNEWTCHAR.m_bContry = TCONTRY_PEACE;
 
 	m_vNEWTCHAR.m_strNAME.Empty();
 	m_vNEWTCHAR.m_bLevel = 0;
@@ -827,28 +825,24 @@ int CTClientWnd::OnGM_NEW_CHAR()
 
 		if(bEMPTY)
 		{
-			/*if(m_vNEWTCHAR.m_bContry == TCONTRY_PEACE)
-			{
-				SendCS_CREATECHAR_REQ(
-					m_pTGROUP->m_bGroupID,
-					strNAME, i,
-					m_vNEWTCHAR.m_bClass,
-					m_vNEWTCHAR.m_bRace,
-					m_vNEWTCHAR.m_bContry,
-					m_vNEWTCHAR.m_bSex,
-					m_vNEWTCHAR.m_bHair,
-					m_vNEWTCHAR.m_bFace,
-					m_vNEWTCHAR.m_bBody,
-					m_vNEWTCHAR.m_bPants,
-					m_vNEWTCHAR.m_bHand,
-					m_vNEWTCHAR.m_bFoot,
-					0);
+			m_vNEWTCHAR.m_bContry = TCONTRY_PEACE;
+			SendCS_CREATECHAR_REQ(
+				m_pTGROUP->m_bGroupID,
+				strNAME, i,
+				m_vNEWTCHAR.m_bClass,
+				m_vNEWTCHAR.m_bRace,
+				m_vNEWTCHAR.m_bContry,
+				m_vNEWTCHAR.m_bSex,
+				m_vNEWTCHAR.m_bHair,
+				m_vNEWTCHAR.m_bFace,
+				m_vNEWTCHAR.m_bBody,
+				m_vNEWTCHAR.m_bPants,
+				m_vNEWTCHAR.m_bHand,
+				m_vNEWTCHAR.m_bFoot,
+				0);
 
-				m_TNet.EnableComponent(FALSE);
-				break;
-			}
-			else*/
-				SendCS_VETERAN_REQ();
+			m_TNet.EnableComponent(FALSE);
+			break;
 		}
 	}
 

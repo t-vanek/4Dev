@@ -49,16 +49,15 @@ public sealed class LoginWorker : BackgroundService
             _log.LogInformation("Group {Id} '{Name}' -> DSN {Dsn}", g.GroupId, g.Name, g.Dsn);
         }
 
-        var veteran = await global.LoadVeteranChartAsync(stoppingToken);
         var userCounts = await global.LoadUserCountsAsync(stoppingToken);
         await global.ClearLoginUsersAsync(stoppingToken);
 
         var nation = _opt.Nation ?? (Nation)await global.GetNationAsync(stoppingToken);
-        _log.LogInformation("Nation = {Nation}, {GroupCount} group(s), {VetCount} veteran tier(s)",
-            nation, groups.Count, veteran.Count);
+        _log.LogInformation("Nation = {Nation}, {GroupCount} group(s); new characters start at level 1",
+            nation, groups.Count);
 
         var service = new LoginService(
-            global, groups, nation, veteran, userCounts,
+            global, groups, nation, userCounts,
             new AutoPassHwidValidator(),
             _opt.ValidateClientChecksum,
             _loggerFactory.CreateLogger<LoginService>(), _opt.MaxConcurrentLogins, twoFactor: twoFactor);

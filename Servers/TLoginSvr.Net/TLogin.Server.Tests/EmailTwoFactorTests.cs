@@ -6,6 +6,132 @@ namespace TLogin.Server.Tests;
 
 public sealed class EmailTwoFactorTests
 {
+    private static async Task<(TcpTestClient Client, string Token)> AuthenticateAsync(EmailTwoFactorHarness host)
+    {
+        var (client, _) = await host.ConnectAsync();
+        client.Send(LoginPacket());
+        Assert.Equal(Msg.CS_SECURITYCONFIRM_REQ, Read(client).Id);
+        client.Send(Confirm(host.Email.Code));
+        Assert.Equal((byte)SecurityCode.Correct, Read(client).ReadByte());
+        client.Send(LoginPacket());
+        return (client, ReadResumeToken(Read(client)));
+    }
+
+    [Fact]
+    public async Task ReturnToCharacterSelectAcrossNewConnectionsRotatesTokenWithoutAnotherEmail()
+    {
+        await using var host = new EmailTwoFactorHarness();
+        var (first, token) = await AuthenticateAsync(host);
+        first.Dispose(); // The real client closes its login connection before entering the map.
+        host.Store.DenyIssue = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            var (returning, state) = await host.ConnectAsync();
+            returning.Send(LoginPacket(resumeToken: token));
+            string nextToken = ReadResumeToken(Read(returning));
+            Assert.NotEqual(token, nextToken);
+            Assert.True(state.LoggedIn);
+            Assert.True(state.Agreement);
+            Assert.Null(state.TwoFactor);
+            token = nextToken;
+            returning.Dispose();
+        }
+
+        Assert.Equal(1, host.Email.Calls);
+        Assert.Equal(1, host.Store.Consumes);
+        Assert.Equal(4, host.Authentication.Logins);
+    }
+
+    [Fact]
+    public async Task OrdinaryLoginStillRequiresCodeAfterAnAuthenticatedGameSession()
+    {
+        await using var host = new EmailTwoFactorHarness();
+        await AuthenticateAsync(host);
+        var (fresh, state) = await host.ConnectAsync();
+        fresh.Send(LoginPacket());
+        Assert.Equal(Msg.CS_SECURITYCONFIRM_REQ, Read(fresh).Id);
+        Assert.False(state.LoggedIn);
+        Assert.Equal(2, host.Email.Calls);
+        Assert.Equal(1, host.Authentication.Logins);
+    }
+
+    [Theory]
+    [InlineData("other", "password")]
+    [InlineData("tester", "new-password")]
+    public async Task ReturnTokenCannotAuthenticateAnotherAccountOrChangedPassword(string user, string password)
+    {
+        await using var host = new EmailTwoFactorHarness();
+        var (_, token) = await AuthenticateAsync(host);
+        host.Authentication.CurrentPassword = password;
+        var (returning, state) = await host.ConnectAsync();
+        returning.Send(LoginPacket(user, password, token));
+        Assert.Equal(Msg.CS_SECURITYCONFIRM_REQ, Read(returning).Id);
+        Assert.False(state.LoggedIn);
+        Assert.Equal(1, host.Authentication.Logins);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task UsedOrForgedReturnTokenCannotSkipCode(bool replay)
+    {
+        await using var host = new EmailTwoFactorHarness();
+        var (_, token) = await AuthenticateAsync(host);
+        if (replay)
+        {
+            var (returning, _) = await host.ConnectAsync();
+            returning.Send(LoginPacket(resumeToken: token));
+            ReadResumeToken(Read(returning));
+        }
+        else token = new string('0', 64);
+
+        var (invalid, state) = await host.ConnectAsync();
+        invalid.Send(LoginPacket(resumeToken: token));
+        Assert.Equal(Msg.CS_SECURITYCONFIRM_REQ, Read(invalid).Id);
+        Assert.False(state.LoggedIn);
+        Assert.Equal(replay ? 2 : 1, host.Authentication.Logins);
+    }
+
+    [Fact]
+    public async Task ReturnToCharacterSelectRetainsDuplicateRecoveryAndAgreementChecks()
+    {
+        await using var host = new EmailTwoFactorHarness();
+        var (_, token) = await AuthenticateAsync(host);
+        host.Authentication.DuplicateOnce = true;
+        host.Authentication.Logins = 0;
+        host.Authentication.Result = LoginResult.NeedAgreement;
+        var (returning, state) = await host.ConnectAsync();
+        returning.Send(LoginPacket(resumeToken: token));
+        ReadResumeToken(Read(returning), LoginResult.NeedAgreement);
+        Assert.True(state.LoggedIn);
+        Assert.False(state.Agreement);
+        Assert.Equal(1, host.Authentication.Releases);
+        Assert.Equal(1, host.Email.Calls);
+    }
+
+    [Fact]
+    public async Task ReturnTokenDoesNotBypassAccountRestrictionsOrSurviveFailedLogin()
+    {
+        await using var host = new EmailTwoFactorHarness();
+        var (_, token) = await AuthenticateAsync(host);
+        host.Authentication.Result = LoginResult.Block;
+        var (returning, state) = await host.ConnectAsync();
+        returning.Send(LoginPacket(resumeToken: token));
+        var blocked = Read(returning);
+        Assert.Equal(Msg.CS_LOGIN_ACK, blocked.Id);
+        Assert.Equal((byte)LoginResult.Block, blocked.ReadByte());
+        Assert.Equal(0u, blocked.ReadUInt32());
+        Assert.Equal(0u, blocked.ReadUInt32());
+        Assert.Equal(0u, blocked.ReadUInt32());
+        Assert.False(state.LoggedIn);
+
+        host.Authentication.Result = LoginResult.Success;
+        returning.Send(LoginPacket(resumeToken: token));
+        Assert.Equal(Msg.CS_SECURITYCONFIRM_REQ, Read(returning).Id);
+        Assert.False(state.LoggedIn);
+    }
+
     [Fact]
     public async Task ExistingEncryptedClientCompletesEmailChallengeThenReloginWithoutLeakingMapKey()
     {

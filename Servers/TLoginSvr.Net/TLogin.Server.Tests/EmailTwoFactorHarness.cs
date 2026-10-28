@@ -7,6 +7,7 @@ using TLogin.Protocol;
 using TLogin.Server.Login;
 using TLogin.Server.Net;
 using TLogin.Server.Security;
+using Xunit;
 
 namespace TLogin.Server.Tests;
 
@@ -27,7 +28,7 @@ internal sealed class EmailTwoFactorHarness : IAsyncDisposable
     {
         var twoFactor = new EmailTwoFactorService(Store, Email, new(), NullLogger<EmailTwoFactorService>.Instance);
         Service = new LoginService(new GlobalDatabase("unused"), new Dictionary<byte, (GroupConfig, GameDatabase)>(),
-            Nation.Us, Array.Empty<VeteranRow>(), new Dictionary<byte, uint>(), new AutoPassHwidValidator(), false,
+            Nation.Us, new Dictionary<byte, uint>(), new AutoPassHwidValidator(), false,
             NullLogger<LoginService>.Instance, authentication: Authentication, twoFactor: twoFactor);
         var probe = new TcpListener(IPAddress.Loopback, 0); probe.Start(); Port = ((IPEndPoint)probe.LocalEndpoint).Port; probe.Stop();
         _listen = new PacketServer(NullLogger.Instance).ListenAsync(Port, Service.DispatchAsync,
@@ -40,11 +41,34 @@ internal sealed class EmailTwoFactorHarness : IAsyncDisposable
         return (client, await _connected.Reader.ReadAsync(_cts.Token));
     }
 
-    public static PacketWriter LoginPacket(string user = "tester", string password = "password") =>
-        new PacketWriter(Msg.CS_LOGIN_REQ).WriteUInt16(Proto.ClientVersion).WriteString("").WriteString(password)
+    public static PacketWriter LoginPacket(string user = "tester", string password = "password", string resumeToken = "") =>
+        new PacketWriter(Msg.CS_LOGIN_REQ).WriteUInt16(Proto.ClientVersion).WriteString(resumeToken).WriteString(password)
             .WriteString("").WriteString("").WriteString(user).WriteInt64(0).WriteInt64(0);
     public static PacketWriter Confirm(string code) => new PacketWriter(Msg.CS_SECURITYCONFIRM_ACK).WriteString(code);
     public static PacketReader Read(TcpTestClient client) => client.Receive(TimeSpan.FromSeconds(5));
+
+    public static string ReadResumeToken(PacketReader login, LoginResult expected = LoginResult.Success)
+    {
+        Assert.Equal(Msg.CS_LOGIN_ACK, login.Id);
+        Assert.Equal((byte)expected, login.ReadByte());
+        login.ReadUInt32(); // user
+        login.ReadUInt32(); // character
+        login.ReadUInt32(); // map key
+        login.ReadUInt32(); // map IP
+        login.ReadUInt16(); // map port
+        login.ReadByte(); // create count
+        login.ReadByte(); // PC bang
+        login.ReadUInt32(); // premium
+        login.ReadInt64(); // server time
+        login.ReadInt64(); // checksum key
+        Assert.Empty(login.ReadString()); // ban reason
+        Assert.Equal(0, login.ReadInt64()); // ban duration
+        Assert.Equal(0, login.ReadByte()); // permanent ban
+        string resumeToken = login.ReadString();
+        Assert.Matches("^[0-9A-F]{64}$", resumeToken);
+        Assert.Equal(0, login.Remaining);
+        return resumeToken;
+    }
 
     public async ValueTask DisposeAsync()
     {

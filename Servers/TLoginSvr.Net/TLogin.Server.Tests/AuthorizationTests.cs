@@ -87,7 +87,7 @@ public sealed class AuthorizationTests
         AuthenticationStore? authentication = null)
     {
         var service = new LoginService(new GlobalDatabase("unused"), new Dictionary<byte, (GroupConfig, GameDatabase)>(),
-            Nation.Us, Array.Empty<VeteranRow>(), new Dictionary<byte, uint>(), new AutoPassHwidValidator(),
+            Nation.Us, new Dictionary<byte, uint>(), new AutoPassHwidValidator(),
             false, NullLogger<LoginService>.Instance,
             authentication: authentication ?? new AuthenticationStore(results));
         var probe = new TcpListener(IPAddress.Loopback, 0);

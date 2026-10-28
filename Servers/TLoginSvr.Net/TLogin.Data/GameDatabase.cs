@@ -10,7 +10,7 @@ namespace TLogin.Data;
 /// group connection string. Transcribed from <c>Servers/TLoginSvr/DBAccess.h</c>. Equipped-item storage
 /// constants come from THIS repo's protocol headers (INVEN_EQUIP is 0xFE here, not 0).
 /// </summary>
-public sealed class GameDatabase
+public sealed class GameDatabase : ICharacterCreationStore
 {
     private readonly string _cs;
     public GameDatabase(string connectionString) => _cs = connectionString;
