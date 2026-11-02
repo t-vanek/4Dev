@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_pending_live_verification",
+  "previous_state": "Gameforge/quest-engine.json",
+  "implemented": [
+    "Single corpse pickup, take-all and lottery delivery share the successful transfer/acquisition hook. GETITEM objectives refresh from the resulting inventory, and TT_GETITEM fires for the actual recipient, after capacity/ownership checks. Native local/lottery target IDs and pre-transfer item/count snapshots are retained.",
+    "Take-all skips items already being drawn for and starts the existing party lottery for eligible items. It cannot immediately grant those items or their quest progress. Party pickup notices use the existing path.",
+    "Corpse money/items and lottery participants/winners must be on a current main in-game session. A leaving winner retains the item on the corpse rather than changing inventory or quest state.",
+    "Destroying a quest item refreshes its fetch objective via PlayerCheckQuest, matching the native move/drop hook. It does not fire an acquisition event; normal slot moves are unchanged.",
+    "The server expires running main-session quest timers on its tick, even without CS_QUESTENDTIMER_REQ. Early notifications cannot disable a deadline; repeated notifications do not duplicate failure updates. Strict greater-than expiry remains unchanged.",
+    "An explicit failed-timer state prevents an expiry notification from making the quest completable. Drop/reacceptance resets the timer state. Zero remaining time reloads already failed, including at map tick zero.",
+    "Every running timer is included in save snapshots even after the dirty flag clears. Shared remaining-time calculation handles unsigned clock wrap; login packets carry current remaining time instead of reissuing the original duration."
+  ],
+  "references": [
+    "Servers/TMapSvr/TMapSvr.cpp: MonItemTake GETITEM hook, near line 9296",
+    "Servers/TMapSvr/SSHandler.cpp: OnMW_ADDITEM_REQ GETITEM hook, near line 10051",
+    "Servers/TMapSvr/CSHandler.cpp: move/drop objective refresh, near line 1900",
+    "Servers/TMapSvr/CSHandler.cpp: OnCS_QUESTENDTIMER_REQ, near line 3626",
+    "Servers/TMapSvr/TPlayer.cpp: SendQuestTimer, near line 3951"
+  ],
+  "history_review": {
+    "reviewed": [
+      "949d26c: corpse keeper/map/channel/trade checks and shared party money split",
+      "93ba2b1: lottery invitation/answer ownership and the winner-grant path",
+      "8053b4b: take-all, client timer-end handler and their original regressions",
+      "34a9afe: move/drop objective refresh gap, timer snapshots, quest status and timer login packets",
+      "Previous uncommitted quest timer-zero, mail-counter, level-cap and reward-validation fixes"
+    ],
+    "preserved": "Existing ownership, capacity, split/merge, party money, lottery answer-deduplication, mail issuance, reward validation, quest retry and strict timer-boundary behavior remain covered by the full Map suite.",
+    "integrity_fixes_beyond_native": "The native timer-end notification clears BeginTick and can disable term validation. Its login send also reissues the stored duration. C# now enforces server deadlines and current remaining time; this repairs reproducible expiry/persistence defects without changing chart durations or rewards."
+  },
+  "validation": {
+    "map_solution_tests_passed": 1662,
+    "new_regression_cases": 36,
+    "world_source_changed": false,
+    "world_last_full_suite_passed": 207,
+    "isolated_sql_scenarios_passed": 13,
+    "sql_database": "4DevQuestTest_20261030Events",
+    "sql_runtime_case": "Successive runtime snapshots save 700 then 300 ms without another objective change; zero remaining reloads expired into a fresh MapService instance.",
+    "integration_tool": "Tools/QuestEngineCheck",
+    "local_evidence": ".runtime/quest-events-20261030/validation.json",
+    "sql_evidence": ".runtime/quest-events-20261030/sql-validation.json",
+    "platform": "Isolated Linux .NET 10 SDK build; general SQL smoke cases gated without credentials. SQL writes use synthetic fixtures in a new isolated database.",
+    "game_player_data_modified": false,
+    "deployed": true,
+    "real_client_verified": false,
+    "actual_game_server_restart_verified": false
+  },
+  "remaining": [
+    "RT_SOUL and TT_WARREGION reference gaps remain as listed in Gameforge/quest-engine.json; no reward formula, spawn or event rule was invented.",
+    "Whole-character/item snapshot retry is implemented; full native recovery and cross-Map owner fencing remain to verify/complete. Post-reservation child-quest crash recovery is still open. See Gameforge/quest-save-recovery.json.",
+    "Real-client collect/loot/lottery/timed-failure playthroughs, logout/restart and real distributed topology remain acceptance gates."
+  ],
+  "latest_save_recovery_port": "Gameforge/quest-save-recovery.json",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

@@ -144,6 +144,20 @@ the supported layouts explicitly; unsupported companion and other feature tables
 | `Lib/` | Engine, UI and network libraries, plus bundled third-party code |
 | `Tools/` | Launcher, UI editor, asset import tools and the [Happy Rust operator console](Tools/Happy.Rust/README.md) |
 
+## .NET server build and tests
+
+`Servers/Servers.Net.slnx` includes all 31 projects for Login, World, Map, Patch, Control and shared mail.
+Build and test the complete current .NET source set from the repository root:
+
+```powershell
+dotnet build Servers/Servers.Net.slnx -c Release
+dotnet test Servers/Servers.Net.slnx -c Release
+```
+
+SQL-backed checks require the connection settings documented in each server's README. The
+[port inventory](Gameforge/dotnet-port.json) tracks missing match runtimes, distributed recovery and
+client verification. This solution does not include a .NET BoW/BR match runtime or legacy UDP log sink.
+
 ## Quick start
 
 ```powershell

@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_pending_real_client_verification",
+  "scope": "Required quest-state load and consistent header/term reads before character admission. Functional integrity repair; no quest reward, balance or chart changes.",
+  "implemented": [
+    "Quest progression is loaded through IQuestProgressStore before publishing ClientSession.Char. SQL/IO/format/cancellation failures propagate instead of creating a playable empty log; a valid empty result is still accepted for a new character.",
+    "Client CS_CONNECT_REQ and world MW_ENTERSVR_REQ share load-failure handling: clear main/validated state, remove the registry entry, return the existing Internal result and close the session. Queued handshake packets cannot promote the rejected session.",
+    "Successful login reconstructs saved completions, running terms and failed timers before world/client character packets. The world follow-up reuses the already loaded character rather than loading quests twice.",
+    "LoadQuestsAsync reads headers and terms under one serializable SQL transaction. Existing SaveQuestsAsync header/term transactions and journal barriers are retained. An incomplete query/cancellation returns no partial log; disposing the transaction releases its locks."
+  ],
+  "history_review": {
+    "reviewed": [
+      "34a9afe: original EnsureChar/TryLoadInventory best-effort quest read and two-autocommit LoadQuestsAsync; log, diff and blame inspected",
+      "949d26c: quest reward validation, magic/skill corrections and cap protections retained",
+      "84018c5: NPC/crafting checks and correct quest turn-in flow retained",
+      "Previous uncommitted quest-post issuance, timer authority, required save recovery and admission/security-code tests"
+    ],
+    "reason": "The old catch logged quest-progress load failure and continued with an empty log. A positive-control regression demonstrates that losing the saved completion makes the same valid accept/turn-in packets pay the reward again. Independent autocommit SELECTs could read a header before a concurrent save and terms after it.",
+    "preserved": "Existing entry validation, security-code handling, main/DB-loaded save gates, valid empty-character entry, quest CountMax, reward validation, timer semantics, journal FIFO and native packet sequence."
+  },
+  "post_child_audit": {
+    "source": "Existing TGame_gsp TQUESTCHART, read-only query; inherited implementation data, not publisher parity evidence",
+    "send_post_type": 17,
+    "send_post_templates": 35,
+    "level_trigger_12_countmax_1": 19,
+    "war_trigger_13_countmax_0": 16,
+    "with_execquest_trigger_1_children": 0
+  },
+  "post_child_recovery": "The current 35 SendPost charts have no TT_EXECQUEST children, so no new gameplay rule or generic event replay was introduced. Recovery of arbitrary future/other child graphs remains an implementation gap; uncapped original events still lack durable identity.",
+  "validation": {
+    "date": "2026-10-30",
+    "map_total_passed": 1684,
+    "new_map_regression_cases": 8,
+    "map_tests": [
+      {
+        "trx": ".runtime/quest-admission-20261030/linux-tests/_6d6d0f2fd9b1_2026-10-30_13_01_25_net10.0.trx",
+        "passed": 9,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/quest-admission-20261030/linux-tests/_6d6d0f2fd9b1_2026-10-30_13_01_28_net10.0.trx",
+        "passed": 14,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/quest-admission-20261030/linux-tests/_6d6d0f2fd9b1_2026-10-30_13_01_35_net10.0.trx",
+        "passed": 1661,
+        "failed": 0
+      }
+    ],
+    "sql_quest_scenarios": 17,
+    "new_sql_read_scenarios": 4,
+    "sql_save_recovery_scenarios": 7,
+    "sql_database": "4DevQuestTest_20261030Admission",
+    "sql_evidence": ".runtime/quest-admission-20261030/sql-validation.json",
+    "save_recovery_evidence": ".runtime/quest-admission-20261030/save-recovery.json",
+    "world_source_changed": false,
+    "world_last_full_suite_passed": 207,
+    "deployed": true,
+    "real_client_verified": false,
+    "full_game_server_restart_verified": false
+  },
+  "remaining": [
+    "Real-client login failure/retry, logout/relog, quest rewards and full game-server restart remain acceptance requirements. These tests do not certify Gameforge data or the selected client release.",
+    "Full native character/global/pet/companion save recovery and cross-Map character ownership fencing remain as listed in Gameforge/quest-save-recovery.json.",
+    "Required auxiliary state (companions/medals, mounts, recalls, hotkeys, allegiance and owned timed items) now also denies admission on read failure. See Gameforge/character-admission.json; complete native save/restart and distributed persistence acceptance remains open.",
+    "RT_SOUL and TT_WARREGION reference gaps and generic post-reservation child-event recovery remain open. No chart counters, rewards, probabilities or trigger rules were changed."
+  ],
+  "latest_character_admission_port": "Gameforge/character-admission.json",
+  "latest_full_save_integrity_port": "Gameforge/full-save-integrity.json",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

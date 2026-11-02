@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "scope": "Ordinary-map chat routing through Map and World, not certification of official whole-game parity.",
+  "baseline_commit": "4eb9a1454ce068f282d5c8c574acefddce711d66",
+  "history": [
+    {
+      "commit": "c67807b",
+      "finding": "World chat has broadcast the original ACK since the first port. Replaced only that handler body."
+    },
+    {
+      "commit": "32ac5e6",
+      "finding": "Preserve protected lists and existing party/corps/social state. SendChat still checks ProtectedChat."
+    },
+    {
+      "commit": "64320c2",
+      "finding": "Preserve Map chat bans and sender-name rejection; World also checks current name/key/main route and both stored ban forms."
+    },
+    {
+      "commit": "b7c7fe4",
+      "finding": "Peer TLS and authorization before World dispatch unchanged."
+    }
+  ],
+  "implementation_references": [
+    {
+      "path": "Servers/TMapSvr/CSHandler.cpp",
+      "function": "OnCS_CHAT_REQ",
+      "line": 5206
+    },
+    {
+      "path": "Servers/TMapSvr/TPlayer.cpp",
+      "function": "CanTalk",
+      "line": 6294
+    },
+    {
+      "path": "Servers/TMapSvr/SSHandler.cpp",
+      "function": "OnMW_CHAT_REQ",
+      "line": 9618
+    },
+    {
+      "path": "Servers/TWorldSvr/SSHandler.cpp",
+      "function": "OnMW_CHAT_ACK",
+      "line": 5248
+    },
+    {
+      "path": "Servers/TWorldSvr/SSSender.cpp",
+      "function": "SendMW_CHAT_REQ",
+      "line": 1641
+    }
+  ],
+  "implemented": [
+    "Near chat applies faction/aid, meeting-lobby/room and Broa unit-3 exceptions. Existing local grids preserve distance/map/channel scope.",
+    "Local whispers resolve ID then name, with faction eligibility, protected lists, and recipient-name echo.",
+    "World translates player ACK to recipient REQ packets; party, guild, tactics and corps recipients come from authoritative membership, never a client-supplied foreign group. Duplicate tactics recipients are suppressed.",
+    "Remote whispers resolve target ID or case-insensitive name, check effective factions/peace countries and echo the recipient name on the sender main route. Missing recipients remain silent, matching ordinary native whisper behaviour.",
+    "Show/map chat fans out to Map peers with faction/block filtering at recipients; Show requires the sender name and matching text length. World announcements continue through the existing event producer.",
+    "Operator display derives from TOPERATORTABLE. Whisper to the localized operator alias reaches same-base-country online operators; no available operator returns the native framed offline message.",
+    "Sender key/name/main server, current identity, bans, allowed groups and 1024-character bounds are enforced. Clients cannot originate reserved World/operator groups."
+  ],
+  "intentional_integrity_extensions": [
+    "Validate all World sender keys/main routes and derive group membership, including guild/tactics, rather than trusting the native target ID.",
+    "Derive operator display from the loaded roster and validate actual current recipient objects.",
+    "Exclude loading/secondary Map sessions from chat delivery."
+  ],
+  "validation": {
+    "map_solution_passed": 1537,
+    "world_solution_passed": 188,
+    "total_passed": 1725,
+    "new_cases_since_deployed_baseline": 69,
+    "live_read_only_operator_ids_verified": 2,
+    "local_evidence": ".runtime/chat-complete/validation.json",
+    "database_or_character_writes": false,
+    "deployed": true,
+    "real_client_verified": false,
+    "platform": "Isolated Linux .NET 10 SDK; source read-only. General Map DB tests remain gated; World operator loader was checked separately against live SQL."
+  },
+  "legacy_test_change": "EndToEndCharEnterTests now expects MW_CHAT_REQ rather than the old no-op ACK echo. Its legacy CHARDATA fixture lacks a name, so it explicitly seeds the canonical name before authenticated chat; production ENTERSVR_ACK provides it.",
+  "remaining_verification": [
+    "Real-client multi-player chat journeys and reconnect/channel-transfer cases remain pending.",
+    "Separate native BR_COMPILE_MODE and BOW_COMPILE_MODE match-server chat restrictions require those gameplay servers, which this ordinary-map port does not implement.",
+    "Existing wire string encoding was preserved. Locale/diacritic behaviour still needs real-client verification.",
+    "No deployment or Git commit was performed for this source slice."
+  ],
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

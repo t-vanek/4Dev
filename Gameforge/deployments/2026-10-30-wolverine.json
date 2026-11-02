@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+  "branch": "codex/complete-map-server",
+  "source_base_commit": "4eb9a1454ce068f282d5c8c574acefddce711d66",
+  "deployed_from_dirty_worktree": true,
+  "source_manifest": ".runtime/release-20261030-wolverine/source-manifest.json",
+  "source_manifest_sha256": "f0ef6c56e573b872cf17983b5054dc37bc1d76450cf0f8a9af18e0572462f1f8",
+  "build": {
+    "succeeded": true,
+    "services": [
+      "loginsvr",
+      "worldsvr",
+      "mapsvr",
+      "patchsvr",
+      "controlsvr"
+    ],
+    "log": ".runtime/release-20261030-wolverine/build.log"
+  },
+  "runtime": {
+    "services": [
+      {
+        "service": "loginsvr",
+        "container_id": "25dccea24defa9ee63be050a626638323ba87adde4dd6b04128752f5f4559adc",
+        "image_config": "sha256:54945e4d65272106ccce0d5ce6a11b104ea9495ca6c2feb4a84a0d837457eacb",
+        "image_manifest": "sha256:54945e4d65272106ccce0d5ce6a11b104ea9495ca6c2feb4a84a0d837457eacb",
+        "created_utc": "2026-10-30T18:23:55.763760392Z",
+        "started_utc": "2026-10-30T18:23:55.905445354Z",
+        "running": true,
+        "restarts": 0
+      },
+      {
+        "service": "worldsvr",
+        "container_id": "7f06964638f00bf8980c770d4f3e2e30a3f68ec77b39b240d7794069a8e83c6e",
+        "image_config": "sha256:2aae9024448685920c4e522e4e0a9a805d1b592bf442110b707bae9e217d9ed5",
+        "image_manifest": "sha256:2aae9024448685920c4e522e4e0a9a805d1b592bf442110b707bae9e217d9ed5",
+        "created_utc": "2026-10-30T18:23:47.447340499Z",
+        "started_utc": "2026-10-30T18:23:47.556633664Z",
+        "running": true,
+        "restarts": 0
+      },
+      {
+        "service": "mapsvr",
+        "container_id": "4086420f8989f8bbba55e83d54a1d79150a17ed34211f297bd531b1deb0d8425",
+        "image_config": "sha256:0e7afdb9e3b40679542173864c2037b54de714ee4d1122de3f99cf8e900b62c2",
+        "image_manifest": "sha256:0e7afdb9e3b40679542173864c2037b54de714ee4d1122de3f99cf8e900b62c2",
+        "created_utc": "2026-10-30T18:23:55.764188127Z",
+        "started_utc": "2026-10-30T18:23:56.042777808Z",
+        "running": true,
+        "restarts": 0
+      },
+      {
+        "service": "patchsvr",
+        "container_id": "3185de68295d97fbe0a6797c0f09b7e71eeeddee3867c9d4c3699fd57c8ba970",
+        "image_config": "sha256:83e11bb1812cf951328897f18c62edcb8ce384c9e9fb6f99f19aec9641b66ee7",
+        "image_manifest": "sha256:83e11bb1812cf951328897f18c62edcb8ce384c9e9fb6f99f19aec9641b66ee7",
+        "created_utc": "2026-10-30T18:23:55.731769171Z",
+        "started_utc": "2026-10-30T18:23:56.19356785Z",
+        "running": true,
+        "restarts": 0
+      },
+      {
+        "service": "controlsvr",
+        "container_id": "e435288ddfcf32d73ef8d576b0fce692f7c02028ac295197c958d6c7f9f9ba08",
+        "image_config": "sha256:6d9d7ef4d697e56502fc1e74090a3ad37c7c2e514e90ff58ff1a7eaaf9d892bc",
+        "image_manifest": "sha256:6d9d7ef4d697e56502fc1e74090a3ad37c7c2e514e90ff58ff1a7eaaf9d892bc",
+        "created_utc": "2026-10-30T18:23:58.048100146Z",
+        "started_utc": "2026-10-30T18:23:58.161286652Z",
+        "running": true,
+        "restarts": 0
+      }
+    ],
+    "ports": [
+      {
+        "host": "127.0.0.1",
+        "port": 3615,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 3716,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 4816,
+        "connected": true
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 5816,
+        "connected": true
+      }
+    ],
+    "map_channels": [
+      1
+    ],
+    "peer_registration_verified": true,
+    "wolverine_world_notification_consumer_only": true,
+    "startup_errors_detected": false,
+    "database_and_mailpit_containers_preserved": true,
+    "database_volumes_preserved": true
+  },
+  "database": {
+    "backups": [
+      {
+        "file": ".runtime/release-20261030-wolverine/database-backups/TGame_gsp.bak",
+        "size": 6905856,
+        "sha256": "bb367fa84b045d132959b7bc973f05a4aaf91a426b74253d53ebf467f0281f89",
+        "restore_verifyonly_checksum_passed": true
+      },
+      {
+        "file": ".runtime/release-20261030-wolverine/database-backups/TGlobal_gsp.bak",
+        "size": 9924608,
+        "sha256": "5bbec8a1096bc063aa437b362038e5c45e046049e4de3168434d54746a4000d4",
+        "restore_verifyonly_checksum_passed": true
+      }
+    ],
+    "backups_taken_after_game_services_stopped": true,
+    "migrations_applied": [
+      "041_character_save_integrity.sql",
+      "042_quest_post_operations.sql",
+      "043_character_save_queue.sql",
+      "044_territory_occupation_targets.sql",
+      "045_operator_post_receipts.sql",
+      "046_wolverine_mail.sql"
+    ],
+    "local_topology_reapplied": true,
+    "read_only_verification": {
+      "migrations_041_046_applied": 6,
+      "wolverine_nodes": 2,
+      "character_save_owners": 1,
+      "pending_character_saves": 0,
+      "pending_quest_continuations": 0,
+      "dead_letters": 0,
+      "queued_mail_deliveries": 0,
+      "queued_notifications": 0,
+      "outgoing_envelopes": 0,
+      "character_save_lease_locks": 1,
+      "read_only_probe": true
+    },
+    "deployed_library_probe": [
+      {
+        "deployed_assembly": true,
+        "read_only": true,
+        "skills": 765,
+        "options": 27,
+        "ammo": 142,
+        "skill_201_target_active": 200
+      },
+      {
+        "deployed_mail_schema_read_verified": true,
+        "zero_character_continuation_read": true
+      }
+    ]
+  },
+  "tests": {
+    "source_evidence": "Gameforge/wolverine-mail.json",
+    "map_passed": 1775,
+    "world_passed": 220,
+    "distinct_native_and_framework_sql_scenarios": 72,
+    "published_runtime_framework_scenarios_repeated": 14,
+    "unchanged_login_patch_control_suites_rerun": false,
+    "previous_all_server_test_evidence": "Gameforge/deployments/2026-10-28-baseline.json"
+  },
+  "local_evidence_directory": ".runtime/release-20261030-wolverine",
+  "previous_runtime_binary_backups": ".runtime/release-20261030-wolverine/previous-runtime.json",
+  "remaining_verification": [
+    "Real-client player journeys, player logout/restart and actual gameplay recovery across full worker restarts remain unverified.",
+    "Atomic player exchange/claim versus inventory snapshots, whole war settlements, active-war restoration and distributed ownership remain incomplete.",
+    "BoW has no configured settings row; separate BoW/BR gameplay ports are incomplete.",
+    "Four legacy Control endpoints still lack PeerTls configuration and are rejected; current Map/World peers register successfully.",
+    "Five previously recorded Control Linux process-lifecycle test failures have not been resolved or reclassified as passing.",
+    "Source worktree remains uncommitted; this deployment did not create a Git commit, push or release tag."
+  ]
+}

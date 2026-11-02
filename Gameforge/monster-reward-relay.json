@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "scope": "Finish the Map sender/receiver of routed secondary-party monster EXP/hunt rewards and load native monster hunt grouping. Inherited C++ and SQL are implementation references, not independent certification of Gameforge balance.",
+  "history_review": [
+    {
+      "commit": "34a9afe",
+      "finding": "Party rewards originally mutate every local copy; remote branch and monster wKind were omitted."
+    },
+    {
+      "commit": "32ac5e6",
+      "finding": "Preserve local WithExpBonus, soulmate distribution and level-up World notification."
+    },
+    {
+      "commit": "070673a",
+      "finding": "Preserve level 140, EXP saturation and soul-bar overflow guards; GainExp is unchanged."
+    },
+    {
+      "commit": "949d26c",
+      "finding": "Retain shared party money/access checks and existing gameplay integrity fixes."
+    },
+    {
+      "commit": "02ad633",
+      "finding": "Append hunt kind without shifting prior monster columns, skill slots, recall/tame fields or constructor defaults."
+    }
+  ],
+  "references": [
+    {
+      "path": "Servers/TMapSvr/TMonster.cpp",
+      "function": "CTMonster::OnDie",
+      "line": 615,
+      "rule": "Split nearby party shares by level, award bonuses/soulmate locally only for main copies; secondary copies relay base EXP and the wKind hunt event with monster position."
+    },
+    {
+      "path": "Servers/TMapSvr/SSSender.cpp",
+      "function": "SendMW_MONSTERDIE_ACK",
+      "line": 3382
+    },
+    {
+      "path": "Servers/TMapSvr/SSHandler.cpp",
+      "function": "OnMW_MONSTERDIE_REQ",
+      "line": 9770,
+      "rule": "Validate current main character/key, apply EXP then CheckQuest with the carried term/position/count."
+    },
+    {
+      "path": "Servers/TMapSvr/TPlayer.cpp",
+      "function": "GainExp",
+      "line": 1094,
+      "rule": "Native GainExp suppresses monster experience for a dead character."
+    },
+    {
+      "path": "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Combat.cs",
+      "function": "ForwardToMain",
+      "rule": "Existing receiver-key route and verbatim body reframing are unchanged."
+    }
+  ],
+  "implemented": [
+    "Secondary nearby party copies relay their computed share and hunt event to World; they do not mutate their local EXP or quest state. Nearby party count/share arithmetic remains unchanged.",
+    "Map receives the existing World route on a current main InGame session/key; player-port injection and stale/loading/secondary routes cannot grant rewards.",
+    "Receiver uses already-scaled EXP without applying local premium/buff/soulmate distribution again. Existing level cap, saturation, level-up heal and soul-bar logic are reused; dead recipients do not gain EXP or revive.",
+    "TMONSTERCHART.wKind now supplies hunt objective IDs for local and routed kills. Real zero values are preserved; synthetic templates with no kind retain chart-ID fallback. Local hunt triggers use the monster kill position."
+  ],
+  "validation": {
+    "map_solution_passed": 1568,
+    "world_solution_passed": 204,
+    "total_passed": 1772,
+    "new_cases": 19,
+    "additional_live_read_only_sql_test_passed": 1,
+    "monster_rows_verified": 3707,
+    "different_hunt_kind_rows": 920,
+    "preserved_code_checks": 6,
+    "local_evidence": ".runtime/monster-reward-relay/validation.json",
+    "platform": "Isolated Linux .NET 10 SDK, source read-only. General DB suites gated; only the named hunt-kind test ran against live SQL.",
+    "database_modified": false,
+    "deployed": true,
+    "real_client_verified": false
+  },
+  "remaining": [
+    "Real-client multi-Map topology, party rewards, quest persistence and logout/restart require verification. This does not enable an otherwise missing distributed topology.",
+    "Native wKind values come from inherited SQL and still require independent reference-content verification. No probabilities or balance values were invented.",
+    "The separate native party-quest-once flag and QTT_SPAWNID_DEL proximity branch remain outside this slice. Existing local party quest policy was retained.",
+    "World reward messages have no native event nonce; this port does not invent deduplication that could drop legitimate respawn kills."
+  ],
+  "follow_up": "Gameforge/quest-engine.json ports the local party-once Regen flag, type-21 proximity and routed Regen death coordinates; the remaining list above describes this earlier slice.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

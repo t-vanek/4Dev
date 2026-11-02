@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "scope": "Map receiver of World chat, including existing event announcements. Player-chat routing in World remains incomplete.",
+  "history_review": [
+    {
+      "commit": "34a9afe",
+      "finding": "MW_CHAT_REQ has been an empty handler since the first .NET port."
+    },
+    {
+      "commit": "32ac5e6",
+      "finding": "Preserve protected-list SendChat helper."
+    },
+    {
+      "commit": "64320c2",
+      "finding": "Preserve client chat bans and sender spoof rejection."
+    }
+  ],
+  "references": [
+    {
+      "path": "Servers/TMapSvr/SSHandler.cpp",
+      "function": "OnMW_CHAT_REQ",
+      "line": 9618
+    },
+    {
+      "path": "Servers/TMapSvr/TPlayer.cpp",
+      "function": "CanTalk",
+      "line": 6294
+    },
+    {
+      "path": "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Event.cs",
+      "function": "EventQuarterNotify"
+    }
+  ],
+  "rules": [
+    "Show/map/world deliveries broadcast to main in-game sessions; native channel/target context does not narrow recipients locally.",
+    "Party/guild/force/tactics/whisper delivery requires a current character key and main in-game route. Sender echo uses group; recipients use display type.",
+    "Peace recipient, peace sender and neutral sender bypass faction checks; social groups allow different factions; other supported groups compare effective aid/base country.",
+    "All deliveries use the existing protected-list helper. No client-port injection. Existing Latin1 wire encoding is unchanged."
+  ],
+  "validation": {
+    "map_solution_tests_passed": 1520,
+    "new_cases": 28,
+    "unchanged_existing_chat_methods": 5,
+    "test_source": "Servers/TMapSvr.Net/TMap.Server.Tests/WorldChatTests.cs",
+    "local_evidence": ".runtime/world-chat/validation.json",
+    "platform": "Isolated Linux .NET 10 source build",
+    "database_modified": false,
+    "deployed": true,
+    "real_client_verified": false
+  },
+  "remaining": [
+    "See Gameforge/chat-routing.json for implemented routing and current remaining verification."
+  ],
+  "superseded_by": "Gameforge/chat-routing.json",
+  "snapshot_stage": "Historical receiver-only validation before the World routing follow-up.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

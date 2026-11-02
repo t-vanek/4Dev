@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "scope": "Complete and repair TMS conversation reopening, native invitation set semantics and protocol-safe rosters. This is not certification of official whole-game parity.",
+  "history_review": [
+    {
+      "commit": "8a11109",
+      "finding": "Initial TMS handlers used a list for targets and did not correlate reconnect answers or bind their source map."
+    },
+    {
+      "commit": "32ac5e6",
+      "finding": "Preserve the corrected per-recipient roster/key/inviter and logout notifications, protected-invite checks, friend/group fixes and localized NoReceiver text. Five focused preservation checks pass."
+    }
+  ],
+  "references": [
+    {
+      "path": "Servers/TWorldSvr/SSHandler.cpp",
+      "function": "OnMW_TMSSEND_ACK / OnMW_TMSINVITEASK_ACK / OnMW_TMSINVITE_ACK",
+      "lines": [
+        7431,
+        7501,
+        7576
+      ],
+      "rule": "Reopen a one-member conversation by asking the last peer main map, check invite blocking there, then announce the roster and replay the original message. Invitation target IDs form a set before 1:1 merge selection."
+    },
+    {
+      "path": "Servers/TMapSvr/SSHandler.cpp",
+      "function": "OnMW_TMSINVITEASK_REQ",
+      "line": 11983,
+      "rule": "Return the sender/target routes, protected-invite result, conversation ID and original message."
+    }
+  ],
+  "implemented": [
+    "Distinct ordered invitation targets preserve native set semantics and allow duplicate IDs to reopen the same conversation.",
+    "World accepts each reopening answer only against a pending server-owned message and the current target main/key/object. Unsolicited, stale, changed-text, wrong-map and repeated answers do not grant membership. Multiple real messages with identical text remain distinct pending actions.",
+    "Absent main routes return the localized NoReceiver net string; disconnecting a prompted peer also notifies the waiting sender even when that peer has no TMS memberships yet. Leaving/logging out clears pending requests.",
+    "Current membership, sender main/key, and faction eligibility are rechecked. Map loading/secondary sessions cannot send, invite, leave or approve a reopening.",
+    "Roster limits follow the existing one-byte wire count: 255 is accepted; larger new or expanded rosters are refused before mutation. This is a protocol integrity bound, not a new gameplay balance rule."
+  ],
+  "validation": {
+    "map_solution_passed": 1550,
+    "world_solution_passed": 203,
+    "total_passed": 1753,
+    "new_tms_cases": 28,
+    "preservation_checks": 5,
+    "local_evidence": ".runtime/tms-recovery/validation.json",
+    "platform": "Isolated Linux .NET 10 SDK; source read-only. Database smoke tests are gated without live connection settings.",
+    "database_modified": false,
+    "deployed": true,
+    "real_client_verified": false
+  },
+  "test_fixture_update": "SocialAuditTests now sends TMSSEND and receives the invite-check request before its ACK. All prior roster assertions remain; the old fixture injected an unsolicited ACK directly.",
+  "remaining": [
+    "Real-client conversation leave/reopen, blocking, relog and multi-map handoff need verification.",
+    "Sender/target answer correlation, disconnect failure notification, current-state checks and one-byte roster bound are integrity corrections to the inherited implementation; they do not establish official Gameforge parity.",
+    "Existing ordinary chat, separate BoW/BR match-server gaps and locale verification remain as recorded in Gameforge/chat-routing.json."
+  ],
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

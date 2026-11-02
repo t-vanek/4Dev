@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_pending_full_native_and_client_verification",
+  "scope": "Recover full character snapshots and incremental item writes on the existing single-Map deployment. Functional persistence repair, not a publisher gameplay/balance rule.",
+  "implemented": [
+    "Snapshot character/quest/inventory/hotkey/pet/companion/skill state on the batch thread. Append a checksummed versioned record with flushed temporary-file publication before clearing dirty flags or removing a logout session.",
+    "Journal incremental inventory and cabinet item upserts/deletes too. Clone item extension arrays. Flush pending direct changes before the full character snapshot so a prior item mutation cannot overtake its replacement.",
+    "Retain failed and ambiguously committed records, retry on timer, and acknowledge only after every save stage succeeds. Preserve the existing single-reader SQL lane and capture each operation boundary at enqueue time; never replay a future snapshot before an older queued non-journaled operation.",
+    "Recover before auction state/world registration/client listeners, and before reloading a logged-out character. Failed recovery denies admission; pending records forbid DB-free startup. A leased per-group/server directory prevents simultaneous writers and binds records to database identities without storing credentials.",
+    "Native hotkey verb 2 inserts are made replay-safe by transactional delete/insert of the absolute page, for both inserts and updates. Missing update rows are recreated. Failure on a later page rolls the transaction back.",
+    "Journaled SaveChar/SaveQuest/SaveInventory/SaveHotkey/SaveItemDirect calls require their procedures; absent procedures cannot silently acknowledge a durable record. Existing non-journaled callers keep their previous optional-procedure behavior.",
+    "Periodic, disconnect, shutdown, pre-companion-evolution, battle-queue, timed-bag and tournament snapshot calls share the same path. Shutdown now also excludes a temporary TournamentBackup character, matching the existing ordinary-save and incremental-save gate."
+  ],
+  "history_review": {
+    "reviewed": [
+      "87e3126: single DB lane, item ordering and native staging deadlock fix",
+      "1019c82: hotkey lifecycle/verbs, snapshot flags and original SQL writer",
+      "34a9afe: character/quest save lifecycle and load path",
+      "7f65607: temporary tournament character save exclusion",
+      "683e693/a4f34cc/f852188: meeting/arena exit placement and premium snapshots",
+      "d8f3a91/87e3126: pet and companion native upsert/save paths",
+      "Existing PersistTests, HotkeyTests, QuestContinuationTests and active timer regressions; git log/diffs/blame of changed existing methods"
+    ],
+    "preserved": "Single-reader SQL ordering, native staging promotion, ID seed gating, main/DB-loaded gates, meeting/arena exit snapshots, recall/premium/skill fields, timer countdown snapshots and earlier quest reward/issuance protections.",
+    "reason_for_change": "The previous SaveCharData/SaveAllCharData paths cleared dirty quest/hotkey flags before SQL; FlushSaveAsync swallowed failures and discarded the only snapshot. Native hotkey insert verbs are not idempotent after ambiguous commit. Logout/SQL failure, durable replay, tuple/array fidelity and hotkey SQL rollback are reproduced in regression checks."
+  },
+  "configuration": {
+    "storage": "SQL only",
+    "option": "Map:SaveQueueName",
+    "default": "<group>-<server>",
+    "tables": [
+      "TCharacterSaveOwner",
+      "TCharacterSaveQueue"
+    ],
+    "filesystem_fallback": false,
+    "deployed": false,
+    "evidence": "Gameforge/sql-save-queue.json"
+  },
+  "validation": {
+    "date": "2026-10-30",
+    "map_tests": [
+      {
+        "trx": ".runtime/quest-save-20261030/linux-tests/_b3d7c476f1e8_2026-10-30_12_49_25_net10.0.trx",
+        "total": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/quest-save-20261030/linux-tests/_b3d7c476f1e8_2026-10-30_12_49_28_net10.0.trx",
+        "total": 14,
+        "passed": 14,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/quest-save-20261030/linux-tests/_b3d7c476f1e8_2026-10-30_12_49_35_net10.0.trx",
+        "total": 1653,
+        "passed": 1653,
+        "failed": 0
+      }
+    ],
+    "map_total_passed": 1676,
+    "new_regression_cases": 14,
+    "sql_existing_scenarios": 13,
+    "sql_recovery_scenarios": 7,
+    "sql_database": "4DevQuestTest_20261030Save2",
+    "sql_evidence": ".runtime/quest-save-20261030/sql-validation.json",
+    "recovery_evidence": ".runtime/quest-save-20261030/save-recovery.json",
+    "deployed": true,
+    "real_client_verified": false,
+    "actual_game_server_restart_verified": false,
+    "journal_process_restart_verified": true,
+    "full_native_character_save_roundtrip_verified": false
+  },
+  "remaining": [
+    "Real full MapService snapshot replay across native character/inventory/global timed items/pet/companion stages is now SQL-verified in a separate disposable instance, including killed-writer and late-failure recovery. See Gameforge/full-save-integrity.json. Full MapWorker/client logout/restart and distributed ownership acceptance remain open.",
+    "A journal is local to one Map/database ownership domain. Cross-Map main-owner fencing/coordination must be implemented and fault-tested before deploying recovery across independently writing Map servers; the current port already lacks complete cross-Map routing. Local file leases are not distributed character ownership.",
+    "This is a write-ahead retry mechanism for existing snapshot triggers, not one SQL transaction across the entire character or every gameplay event. Changes made before a snapshot/direct flush can still be lost on an abrupt crash. Other queued database actions keep their existing failure semantics; active-session gameplay during a DB outage is not certified.",
+    "SendPost character/mail child recovery now uses a SQL outbox, journaled issuance IDs and receipts; see Gameforge/quest-mail-recovery.json for SQL/process/file-fault evidence. External world-action continuations remain pending/blocked and distributed ownership is still open; no universal exactly-once gameplay claim.",
+    "RT_SOUL/TT_WARREGION compatibility evidence remains missing; no soul formula, conquest trigger or publisher balance value was invented.",
+    "Not deployed. Full game-server restart, real-client logout/relog, quest progression/rewards, timers, inventory and distributed playthroughs remain acceptance gates."
+  ],
+  "latest_admission_port": "Gameforge/quest-admission.json",
+  "latest_character_admission_port": "Gameforge/character-admission.json",
+  "latest_full_save_integrity_port": "Gameforge/full-save-integrity.json",
+  "latest_quest_event_checkpoint_port": "Gameforge/quest-checkpoints.json",
+  "latest_mail_recovery_port": "Gameforge/quest-mail-recovery.json",
+  "current_storage_implementation": "Gameforge/sql-save-queue.json",
+  "historical_storage_note": "The earlier filesystem journal described in this validation record was replaced at the user request by SQL-only TCharacterSaveQueue. Preserve these earlier test results as history; current storage configuration and validation are in Gameforge/sql-save-queue.json.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

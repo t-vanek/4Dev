@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_sql_process_verified_deployed_pending_client",
+  "request": "User explicitly requires SQL-only recovery, without a filesystem journal.",
+  "scope": "Map character/item persistence and QuestEngine/mail continuation recovery. Native gameplay tables remain the persistent game state.",
+  "implemented": [
+    "Removed the filesystem SaveJournal implementation. SqlSaveQueue commits immutable save entries into dbo.TCharacterSaveQueue before dirty flags or pending item operations are cleared. No file writes, directory identity, file lease or filesystem fallback exists in this path.",
+    "Migration 043 creates TCharacterSaveOwner and TCharacterSaveQueue. Owner/database identity and a session-owned SQL application lock protect each queue domain. The default owner is group-server; SaveQueueName is an optional SQL scope, not a path. Owner keys use binary collation and trimmed input to keep SQL identity and lock naming consistent.",
+    "Queue payloads are checksummed JSON text INSIDE SQL, preserving tuple fields, full item attributes, native character/auxiliary snapshots and version-2 quest-mail intents/receipts. Native SQL fields remain in their original game tables. Successful application deletes the queued SQL row; failed or interrupted work remains in SQL for ordered replay.",
+    "Normal quest acceptance/turn-in and mail checkpoints combine pending item operations and the full snapshot in ONE SQL queue commit. Direct operations apply before the full inventory state in the existing single DB lane. A rejected queue insertion cannot persist only a starter/reward item; failure quarantines the session and prevents item/logout/map-leave leakage.",
+    "Startup and login drain SQL work before exposing a character. SendPost still atomically reserves attachments/progress/outbox events in TQuestPostOperation; nested and sibling mail have stable issuance IDs and receipts. Character/mail continuations run at CS_CONREADY and acknowledge only after replayable SQL stages succeed.",
+    "The SQL lease disables pooling and automatic reconnect. A missing queue schema, wrong database identity, corrupt record, competing owner or lost lease fails closed. SQL outages have no local persistence fallback. Previously confirmed SQL rows survive a worker crash; an unconfirmed action cannot be promised durable when SQL cannot accept it.",
+    "Removed Map:SaveJournalDirectory, the compose Map__SaveJournalDirectory override and the map-state save volume/mount. Existing SQL data volumes remain. This changes configuration only; no Docker volume or production player data was deleted."
+  ],
+  "history_review": {
+    "reviewed": [
+      "87e3126 log/diff/blame: single-reader DB lane and direct-before-full inventory ordering retained",
+      "34a9afe: original character snapshot, quest progress and entry lifecycle retained",
+      "949d26c: reward/skill/class prevalidation retained",
+      "7f65607: temporary tournament profile save exclusions retained",
+      "Current uncommitted SaveJournal/quest checkpoint/mail outbox implementation and existing save, item, quest, admission and continuation regressions reviewed before replacement"
+    ],
+    "reason": "The user chose SQL-only recovery. Durable queue acceptance now uses a synchronous SQL commit at the actor's existing durability boundary; applying native gameplay table changes remains asynchronous on the preserved DB lane. This avoids changing every synchronous quest/item entry point while keeping acknowledgements after durable acceptance. No Gameforge content, balance or quest rules were added."
+  },
+  "validation": {
+    "map_solution_tests_passed": 1732,
+    "protocol_tests_passed": 9,
+    "data_tests_passed": 14,
+    "server_tests_passed": 1709,
+    "new_unit_cases": 1,
+    "existing_file_tests_reworked_for_sql_storage": true,
+    "unit_evidence": ".runtime/quest-sql-only-20261030/validation.json",
+    "sql_evidence": ".runtime/quest-sql-only-20261030/sql-validation.json",
+    "full_fixture_sql_scenarios": 33,
+    "new_sql_queue_and_normal_quest_failure_scenarios": 6,
+    "previous_full_snapshot_quest_mail_scenarios_repeated_with_sql_only_storage": 27,
+    "fixture": "Fresh disposable SQL Server with 27 exported native table shapes, 21 native procedures and synthetic data; migrations 041/042/043 applied only there. Actual MapService snapshot callbacks, separate exit/recovery processes and the CS_CONREADY admission hook are exercised.",
+    "sql_queue_checks": [
+      "queue survives close/reopen, excludes a competing SQL owner and releases its session lease",
+      "identity mismatch/corrupt later payload reject all recovery while retaining both SQL rows",
+      "same pending enqueue ID deduplicates and changed payload rolls back without losing the lease",
+      "killed lease connection prevents append/reconnect and a new owner recovers its pending SQL row",
+      "missing required SQL table fails startup and migration 043 applies twice",
+      "ordinary quest starter/progress commit together; rejected SQL enqueue closes/removes the session with neither persisted"
+    ],
+    "deployed": true,
+    "migration_043_applied_to_live_database": true,
+    "live_player_data_modified": false,
+    "real_client_verified": false,
+    "full_mapworker_restart_verified": false,
+    "sdk_container_root_read_only": true,
+    "game_state_file_volume_mounted": false
+  },
+  "remaining": [
+    "Native character/global/item/pet/companion application still comprises multiple SQL transactions. The SQL queue makes ordered replay durable; it does not turn all stages into one atomic gameplay transaction.",
+    "External world-effect mail children (teleport, switches, spawns, monster death/regen/corpse drops) remain explicitly pending/blocked until a durable world-effect protocol exists. Cross-Map character-owner fencing/routing remains incomplete; the queue lease is not universal distributed character ownership.",
+    "RT_SOUL and TT_WARREGION reference contracts remain unresolved. Full real-client journeys and actual MapWorker shutdown/restart with this build remain acceptance gates.",
+    "Migrations 041 through 046 and current Map/World source are deployed (Gameforge/deployments/2026-10-30-wolverine.json). The earlier filesystem implementation was never deployed; no production file queue was imported or discarded. Old ignored test artifacts are historical evidence, not runtime state.",
+    "Back up queued rows and TQuestPostOperation with the matching game/global databases. SQL lease loss requires a fresh worker ownership session; the old owner does not reconnect and resume writes automatically."
+  ],
+  "operator_post_version_3_extension": "Gameforge/operator-post-recovery.json",
+  "wolverine_mail_delivery_extension": "Gameforge/wolverine-mail.json",
+  "current_mail_delivery_note": "Character/quest persistence keeps the existing SQL queue. New operator letters use Wolverine SQL transport; pending version-3 letters forward their permanent operation IDs before the old SQL row is acknowledged.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

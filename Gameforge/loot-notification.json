@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "status": "implemented_tested_deployed_client_symptom_confirmed",
+  "reported_symptom": "Loot chat announces an item that cannot be found in the inventory; screenshot shows Soathova pečeť (+67).",
+  "root_cause": "CS_GETITEM_ACK included a leading item-slot byte, but OnCS_GETITEM_ACK reads SetItemData and SetItemMagic directly. The extra byte shifted the item identity and every following field. Inventory ADD/UPDATE packets already have the correct separate layout.",
+  "screenshot_reproduction": {
+    "actual_template": 17211,
+    "actual_item": "Zvadlé modré byliny",
+    "corpse_slot": 0,
+    "incorrect_bytes_hex": "00 3B 43",
+    "incorrect_client_template": 15104,
+    "incorrect_client_item": "Soathova pečeť",
+    "incorrect_client_grade": 67,
+    "live_persisted_herb_count": 4,
+    "explanation": "The blue herb merges into the existing bag stack; the broken announcement describes a different item. No seal was granted or lost in this reproduction."
+  },
+  "history_review": {
+    "inspected": [
+      "git log and 34a9afe original GETITEM sender diff/blame",
+      "93ba2b1 party/lottery sender and receiver diff",
+      "Current uncommitted quest-acquisition hook diff and QuestLootEventTests",
+      "ItemLootTests, InventoryCapacityTests and existing item packet serializer"
+    ],
+    "reason_for_change": "All six regression scenarios independently decoded the old announcement as template 15104 instead of 17211. This reproduces the screenshot exactly and agrees with the actual client reader; the C++ sender also explicitly omits the slot.",
+    "preserved": "Quest acquisition hooks, pickup permissions, inventory persistence, chart capacity, ADD/UPDATE slot prefixes, response order and existing party-lottery fixes. No balance, loot-rate or SQL-content changes."
+  },
+  "implementation": {
+    "file": "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Loot.cs",
+    "change": "SendCS_GETITEM_ACK calls WrapPacketClient with addItemId:false.",
+    "entry_points": ["individual corpse pickup", "take all", "party lottery award"]
+  },
+  "protocol_evidence": [
+    "Client/TClient/CSHandler.cpp: OnCS_GETITEM_ACK versus OnCS_ADDITEM_ACK and OnCS_MONITEMTAKE_ACK",
+    "Client/TClient/TClientItem.cpp: SetItemData, SetItemMagic and CheckValid",
+    "Servers/TMapSvr/CSSender.cpp: SendCS_GETITEM_ACK uses WrapPacketClient(..., FALSE)"
+  ],
+  "validation": {
+    "tests": "Servers/TMapSvr.Net/TMap.Server.Tests/LootNotificationTests.cs",
+    "new_cases_failed_before_fix": 6,
+    "new_cases_passed_after_fix": 6,
+    "cases": "Individual pickup, take all and asynchronous two-player lottery; each into an empty slot and an existing stack. Decode the complete native item-data block, assert packet exhaustion and verify ADD/UPDATE still contain bag and slot bytes.",
+    "map_server_tests_passed": 1874,
+    "map_data_tests_passed": 14,
+    "map_protocol_tests_passed": 9,
+    "all_map_tests_passed": 1897,
+    "deployed_library_cases_passed": 6,
+    "deployed_library_method": "Copy the five production assemblies from the recreated running container into an isolated copy of the built test output, then execute LootNotificationTests with dotnet vstest.",
+    "evidence_directory": ".runtime/loot-notification-20261101"
+  },
+  "deployment": {
+    "started_utc": "2026-11-01T11:19:29.016305983Z",
+    "source_base_commit": "4eb9a1454ce068f282d5c8c574acefddce711d66",
+    "deployed_from_dirty_worktree": true,
+    "rebuilt_and_recreated": ["mapsvr"],
+    "runtime_image_id": "sha256:4caa393c048bc587804be45107beacd2193b268e2e2746d13d473206056489ed",
+    "server_assembly_sha256": "2d19939c0766014fb91aa92967086707b60f4086c895189c08fc6dc8c4d1afe9",
+    "previous_assemblies_retained": ".runtime/loot-notification-20261101/rollback",
+    "sql_migrations_applied": [],
+    "database_connected": true,
+    "world_link_connected": true,
+    "control_authenticated": true,
+    "restarts_after_recreation": 0,
+    "inventory_snapshot_after_graceful_stop_matches_after_restart": true,
+    "inventory_item_rows": 105,
+    "inventory_container_rows": 11,
+    "item_rows_sha256": "15f7d566a577ab8d36e75a22aa2a29de09c7b058f2e6c3d556057ef243f065df",
+    "inventory_rows_sha256": "5c9e264833bb33ab879a52fed418ecad933442ec7bcf202099b7e1cd80d83d30",
+    "pending_character_saves": 0,
+    "invisible_inventory_items": 0,
+    "duplicate_inventory_coordinates": 0
+  },
+  "client_confirmation": {
+    "date": "2026-11-01",
+    "source": "User follow-up in this chat",
+    "statement": "ano už je to v pořádku",
+    "reported_symptom_resolved": true,
+    "scope": "User confirms the reported inventory/loot problem is resolved in the actual game. Specific pickup modes and a logout/relog journey were not stated.",
+    "relog_verified": false
+  },
+  "remaining": [
+    "Explicit post-fix logout/relog verification and real-client coverage of each pickup mode remain unconfirmed; the user has confirmed resolution of the reported symptom.",
+    "The selected original client's exact release and broader Gameforge baseline remain unverified."
+  ]
+}

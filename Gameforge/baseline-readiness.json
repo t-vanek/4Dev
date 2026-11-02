@@ -2,9 +2,70 @@
   "schema": 1,
   "overall_status": "incomplete",
   "development_phase": "restore_official_baseline",
+  "current_focus": "All 244 scoped Gor quest definitions audited, including inherited active missions and recipes. 80 giver/turn-in markers across 40 more missions repaired. 261 server regressions, five data checks and four read-only SQL probes pass. Remaining client/SQL conflicts, zero objective markers, 20 absent reference roots, zero-position Darni and full real-client/persistence verification keep baseline incomplete.",
+  "current_focus_evidence": "Gameforge/gor-full-audit.json",
   "custom_gameplay_changes_allowed": false,
+  "explicit_user_requested_exceptions": [
+    {
+      "feature": "New-character welcome letter with gift",
+      "evidence": "Gameforge/welcome-mail.json",
+      "scope": "Only characters created after activation, once at first playable entry; user delegated gift selection.",
+      "implemented": true,
+      "sql_verified": true,
+      "deployed_and_activated": true,
+      "publisher_baseline_evidence": false,
+      "real_client_verified": false
+    },
+    {
+      "feature": "Five remaining Gor missions: approved functional reconstruction",
+      "evidence": "Gameforge/gor-remaining-quests/reconstruction-proposal.json",
+      "scope": "Six stationary monster populations at pinned quest targets, one per kind, 60000ms delay, 100% spawn; opt-in 3/5 arenas, two PvP round wins, exact 100/150 points, no PvE waves. Existing caps retained. New Year event excluded.",
+      "approval": "Ano, použít tuto rekonstrukci pro těchto pět úkolů",
+      "implemented": true,
+      "sql_verified": true,
+      "deployed_and_activated": true,
+      "publisher_baseline_evidence": false,
+      "real_client_verified": false
+    },
+    {
+      "feature": "Initial Gor training: approved functional substitutes",
+      "evidence": "Gameforge/gor-training/approval.json",
+      "scope": "14 missions once per character, guaranteed missing active-quest drops, one fixed captured-position Moray with 60s respawn; original rules not certified.",
+      "implemented": true,
+      "sql_verified": true,
+      "deployed_and_activated": true,
+      "publisher_baseline_evidence": false,
+      "real_client_verified": false
+    },
+    {
+      "feature": "Training Moray defense levels",
+      "evidence": "Gameforge/gor-training/moray-defense-proposal.json",
+      "scope": "Only monster 801 attribute 30050 level 10: wDL/wMDL 124 -> 11. Functional substitute; original Gameforge values unverified.",
+      "approval": "Ano, použít obranné úrovně 11",
+      "implemented": true,
+      "sql_verified": true,
+      "deployed_and_activated": true,
+      "publisher_baseline_evidence": false,
+      "real_client_verified": false
+    }
+  ],
   "target_profile": "Gameforge/target.json",
   "reference_manifest": "Gameforge/reference.json",
+  "reconstruction_collector_evidence": {
+    "evidence": "Gameforge/reconstruction-collector.json",
+    "status": "implemented_tested_running_in_separate_sql_database",
+    "baseline_complete": false,
+    "deferred_training_missions_activated": true,
+    "activation_evidence": "Gameforge/gor-training.json",
+    "new_capture_cycles": "Blocked by preexisting stream 3/c2s framing error; last successful cycle 2026-11-01T11:30:20Z. Archived Moray packets verified independently."
+  },
+  "official_live_capture_evidence": {
+    "evidence": "Gameforge/official-live-capture.json",
+    "status": "official_server_capture_decrypted_scoped_semantics",
+    "local_server_playthrough_verified": false,
+    "local_gameplay_changed_by_capture_work": false,
+    "remaining": "Official wire compatibility, independent soul rules, exact probability/cap formulas and full persistence/client acceptance remain incomplete. Fourteen initial training missions are now active using captured definitions and explicitly approved substitutes; see Gameforge/gor-training.json."
+  },
   "reference_release_exact": null,
   "acceptance_gates": [
     "Required player journeys work end to end in the real client.",
@@ -14,8 +75,47 @@
     "Required features and reference-data gaps are resolved; deployed builds are verified separately from source builds."
   ],
   "latest_source_validation": {
-    "map_solution_tests_passed": 1492,
-    "platform": "Linux .NET 10, isolated source build",
+    "loot_notification_fix": {
+      "evidence": "Gameforge/loot-notification.json",
+      "new_regressions_failed_before_and_passed_after": 6,
+      "all_map_tests_passed": 1897,
+      "deployed_library_regressions_passed": 6,
+      "real_client_after_fix_verified": true,
+      "real_client_verification_scope": "User confirmed the reported inventory/loot symptom is resolved on 2026-11-01; specific pickup modes and logout/relog were not stated.",
+      "real_client_relog_verified": false
+    },
+    "gor_quest_evidence": "Gameforge/gor-quests.json",
+    "gor_quest_roots_audited": 139,
+    "gor_scope_cases_passed": 6,
+    "new_gor_actor_cases_passed": 3,
+    "gor_sql_migration_cases_passed": 7,
+    "migration_051_applied_to_live_database": true,
+    "quest_completion_npc_evidence": "Gameforge/quest-turn-in-npcs.json",
+    "completion_actions_audited": 1497,
+    "new_completion_npc_repairs": 30,
+    "completion_npc_classifier_cases_passed": 12,
+    "completion_npc_sql_migration_cases_passed": 8,
+    "migration_050_applied_to_live_database": true,
+    "dianna_turn_in_evidence": "Gameforge/dianna-quest-turn-in.json",
+    "dianna_new_actor_cases_passed": 4,
+    "dianna_focused_quest_cases_passed": 45,
+    "dianna_isolated_sql_migration_cases_passed": 5,
+    "migration_049_applied_to_live_database": true,
+    "map_solution_validation_note": "Current full Map solution passes 1868 Server, 9 Protocol and 14 Data cases. Optional DataSmoke tests need their environment; native SQL/process fixtures and a separate live read-only template/spawn probe provide actual DB verification.",
+    "map_solution_tests_passed": 1891,
+    "welcome_mail_evidence": "Gameforge/welcome-mail.json",
+    "migration_048_applied_to_live_database": true,
+    "new_welcome_mail_unit_cases": 14,
+    "new_welcome_mail_sql_process_cases": 9,
+    "dotnet_stack_validation_note": "The 2256-test whole-stack aggregate predates welcome mail. Current Map source separately passes 1852 tests, adding 14 cases; other stack projects retain their earlier evidence.",
+    "platform": "Windows x64 .NET 10 plus isolated Linux .NET 10 Map/SQL verification; Login and Control SQL-gated cases exercised separately",
+    "dotnet_stack_evidence": "Gameforge/dotnet-port.json",
+    "dotnet_stack_tests_passed": 2256,
+    "dotnet_stack_tests_skipped": 0,
+    "new_player_exchange_and_availability_cases": 25,
+    "isolated_native_and_framework_sql_scenarios": 87,
+    "new_player_exchange_sql_scenarios": 6,
+    "new_doppelganger_cases": 28,
     "history_audit": "Gameforge/port-history-audit.json",
     "retained_code_checks": 22,
     "new_loot_entry_point_regressions": 19,
@@ -23,7 +123,158 @@
     "new_monster_recovery_and_color_regressions": 35,
     "focused_monster_history_checks": 7,
     "deployed": true,
-    "deployment_evidence": "Gameforge/deployments/2026-10-28-baseline.json"
+    "world_chat_evidence": "Gameforge/world-chat-receiver.json",
+    "new_world_chat_cases": 28,
+    "world_solution_tests_passed": 220,
+    "chat_routing_evidence": "Gameforge/chat-routing.json",
+    "new_chat_cases_since_deployed_baseline": 69,
+    "tms_evidence": "Gameforge/tms-recovery.json",
+    "new_tms_cases": 28,
+    "monster_reward_relay_evidence": "Gameforge/monster-reward-relay.json",
+    "new_monster_reward_cases": 19,
+    "quest_engine_evidence": "Gameforge/quest-engine.json",
+    "new_quest_engine_cases": 97,
+    "isolated_quest_sql_scenarios": 17,
+    "quest_events_evidence": "Gameforge/quest-events.json",
+    "quest_save_recovery_evidence": "Gameforge/quest-save-recovery.json",
+    "new_save_recovery_cases": 14,
+    "isolated_save_recovery_sql_scenarios": 7,
+    "quest_admission_evidence": "Gameforge/quest-admission.json",
+    "new_quest_admission_cases": 8,
+    "new_quest_admission_sql_cases": 4,
+    "character_admission_evidence": "Gameforge/character-admission.json",
+    "new_character_admission_cases": 17,
+    "isolated_character_sql_scenarios": 12,
+    "isolated_total_sql_scenarios": 36,
+    "full_save_integrity_evidence": "Gameforge/full-save-integrity.json",
+    "new_full_save_sql_scenarios": 10,
+    "new_cash_dispatch_cases": 2,
+    "full_snapshot_callback_sql_verified": true,
+    "migration_041_applied_to_live_database": true,
+    "quest_checkpoint_evidence": "Gameforge/quest-checkpoints.json",
+    "new_quest_checkpoint_and_selection_cases": 22,
+    "new_quest_lifecycle_sql_scenarios": 6,
+    "quest_mail_recovery_evidence": "Gameforge/quest-mail-recovery.json",
+    "new_quest_mail_recovery_unit_cases": 6,
+    "new_quest_mail_recovery_sql_scenarios": 11,
+    "migration_042_applied_to_live_database": true,
+    "latest_full_sql_fixture_scenarios_passed": 73,
+    "sql_only_recovery_evidence": "Gameforge/sql-save-queue.json",
+    "migration_043_applied_to_live_database": true,
+    "territory_wars_evidence": "Gameforge/territory-wars.json",
+    "new_territory_map_cases": 20,
+    "new_castle_applicant_world_cases": 12,
+    "new_territory_sql_scenarios": 11,
+    "migration_044_applied_to_live_database": true,
+    "operator_post_recovery_evidence": "Gameforge/operator-post-recovery.json",
+    "new_operator_post_cases": 15,
+    "new_operator_post_sql_scenarios": 14,
+    "migration_045_applied_to_live_database": true,
+    "wolverine_mail_evidence": "Gameforge/wolverine-mail.json",
+    "new_wolverine_mail_map_cases": 8,
+    "new_wolverine_mail_world_cases": 1,
+    "wolverine_mail_sql_scenarios": 14,
+    "latest_combined_native_and_wolverine_sql_scenarios_passed": 87,
+    "published_wolverine_runtime_without_sdk_verified": true,
+    "migration_046_applied_to_live_database": true,
+    "deployment_evidence": "Gameforge/deployments/2026-10-30-inventory.json",
+    "inventory_capacity_evidence": "Gameforge/inventory-visible-slots.json",
+    "new_inventory_capacity_cases": 10,
+    "new_inventory_repair_sql_cases": 7,
+    "migration_047_applied_to_live_database": true,
+    "gor_activation_evidence": "Gameforge/gor-quest-activation.json",
+    "new_gor_event_actor_cases_passed": 6,
+    "focused_gor_event_paper_dianna_actor_cases_passed": 13,
+    "gor_event_sql_migration_cases_passed": 9,
+    "migration_052_applied_to_live_database": true,
+    "gor_event_real_client_verified": false,
+    "gor_publisher_evidence": "Gameforge/gor-publisher-quests.json",
+    "gor_publisher_details_captured": 140,
+    "gor_publisher_parser_cases_passed": 6,
+    "gor_remaining_evidence": "Gameforge/gor-remaining-quests.json",
+    "default_soul_reward_implemented": true,
+    "new_soul_pact_arena_guard_actor_cases_passed": 11,
+    "map_server_cases_passed": 1868,
+    "pact_sql_migration_cases_passed": 10,
+    "pact_native_quest_store_lifecycle_cases_passed": 4,
+    "migration_053_applied_to_live_database": true,
+    "gor_reconstruction_validation": {
+      "new_point_and_arena_actor_cases_passed": 15,
+      "map_server_cases_passed": 1868,
+      "map_protocol_cases_passed": 9,
+      "data_suite_cases_passed": 14,
+      "data_suite_note": "Optional live DataSmoke cases require their environment; separate SQL fixtures and read-only live probe provide actual DB evidence.",
+      "isolated_sql_migration_scenarios_passed": 16,
+      "native_quest_inventory_lifecycle_scenarios_passed": 5,
+      "full_native_save_process_scenarios_passed": 75,
+      "wolverine_mail_scenarios_passed": 14,
+      "python_audit_cases_passed": 28,
+      "static_sql_and_all_character_hash_preservation_verified": true,
+      "disposable_fixtures_cleaned": true,
+      "player_rows_copied": 0,
+      "actual_ragoen_gold_exp_native_character_table_round_trip_verified": false,
+      "full_new_quest_mapworker_client_journey_verified": false,
+      "readonly_live_population_initialization_verified": true,
+      "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\map-final",
+      "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\reconstruction-sql-final.txt",
+      "process_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\sql-process-v7",
+      "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\verification.json",
+      "rerun_after_new_saved_progress_preserved": true
+    },
+    "migration_054_applied_to_live_database": true,
+    "default_point_reward_implemented": true,
+    "gor_content_repairs": {
+      "content_import_scenarios_passed": 15,
+      "content_sql_loaded_execution_cases_passed": 44,
+      "wakeup_import_scenarios_passed": 13,
+      "wakeup_sql_loaded_execution_cases_passed": 2,
+      "real_sql_quest_inventory_reload_verified": true,
+      "corneus_repeat_after_reload_verified": true,
+      "wakeup_acceptance_destination_map_and_completion_reload_verified": true,
+      "relocated_legacy_switch_event_verified": true,
+      "live_template_definitions_verified": 49,
+      "all_player_char_inventory_quest_term_hashes_preserved": true,
+      "unrelated_static_tables_preserved": true,
+      "python_audit_cases_passed": 28,
+      "production_dotnet_source_changed": false,
+      "last_full_map_server_source_tests": 1868,
+      "full_source_suite_rerun_for_data_only_changes": false,
+      "real_client_playthrough_verified": false,
+      "fixture_player_rows_copied": 0,
+      "fixtures_removed": true,
+      "sql_results": [
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\content-sql-final3.txt",
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\wakeup-sql.txt"
+      ],
+      "live_results": [
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification.json",
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification-wakeup.json"
+      ]
+    },
+    "gor_training": {
+      "sequential_sql_loaded_missions_passed": 14,
+      "sql_import_and_integrity_scenarios_passed": 10,
+      "focused_existing_regressions_passed": 64,
+      "working_local_client_objectives_rewards_matched": 14,
+      "live_native_template_loader_verified": 36,
+      "native_quest_inventory_sql_reload_verified": true,
+      "acceptance_and_completion_replay_verified": true,
+      "player_state_hashes_preserved": true,
+      "source_database_modified_by_fixture": false,
+      "fixture_player_rows_copied": 0,
+      "fixtures_removed": true,
+      "full_character_balance_restart_test_added": false,
+      "real_client_local_playthrough_verified": false,
+      "logs": [
+        ".runtime/reconstruction/training-sql.log",
+        ".runtime/reconstruction/training-regressions.log"
+      ],
+      "client_routing_alias_definitions_verified": 3,
+      "npc_click_item_list_path_verified": true,
+      "portal_navigation_fix": "Gameforge/gor-training/portal-navigation-repair.json",
+      "portal_destination_repair": "Gameforge/gor-training/portal-destinations.json"
+    },
+    "gor_training_evidence": "Gameforge/gor-training.json"
   },
   "work_order": [
     {
@@ -33,7 +284,9 @@
       "journey": "Login, create a neutral level-one character, enter the world, move, use an NPC, accept a quest, fight, receive loot and EXP, equip an item, die, revive, return to character selection and relog.",
       "evidence": [
         "Servers/TLoginSvr.Net/README.md",
-        "Servers/TMapSvr.Net/PORT_STATUS.md"
+        "Servers/TMapSvr.Net/PORT_STATUS.md",
+        "Gameforge/character-admission.json",
+        "Gameforge/full-save-integrity.json"
       ],
       "remaining_verification": "Repeat the whole journey with the deployed client and SQL-backed servers, then verify the saved state after restart."
     },
@@ -54,16 +307,25 @@
       "evidence": [
         "Gameforge/progression-140/report.html",
         "Gameforge/server-completion/remaining.json",
-        "Gameforge/content-gaps/report.html"
+        "Gameforge/content-gaps/report.html",
+        "Gameforge/quest-engine.json",
+        "Gameforge/quest-checkpoints.json",
+        "Gameforge/quest-mail-recovery.json",
+        "Gameforge/sql-save-queue.json",
+        "Gameforge/wolverine-mail.json"
       ],
-      "remaining_verification": "Resolve missing quest graphs, NPCs, monster populations, portal links, drop rules and uncertified non-EXP progression fields. Refresh inventories before using their historical counts as current measurements."
+      "remaining_verification": "Quest dispatch, event checkpoints, reward choices and synthetic SQL/process-exit recovery, including character/mail continuations with sibling/nested issuance IDs and receipts, are covered. External world-effect continuations remain explicitly pending/blocked; finish their replay contract and cross-Map owner fencing. Resolve 12 RT_SOUL mission rewards and 16 TT_WARREGION mail templates with compatible evidence, then verify full MapWorker/client quest journeys, logout/restart, content graphs and official balance. Current source and migrations 041 through 046 are deployed; real-client acceptance remains pending."
     },
     {
       "priority": 4,
       "area": "Economy and persistence",
       "status": "partial",
       "evidence": [
-        "Servers/TMapSvr.Net/PORT_STATUS.md"
+        "Servers/TMapSvr.Net/PORT_STATUS.md",
+        "Gameforge/character-admission.json",
+        "Gameforge/full-save-integrity.json",
+        "Gameforge/sql-save-queue.json",
+        "Gameforge/wolverine-mail.json"
       ],
       "remaining_verification": "Verify shops, repairs, crafting, warehouse, trade, personal stores, mail and auctions with durable item/currency ownership and interruption/restart cases."
     },
@@ -73,12 +335,57 @@
       "status": "partial",
       "evidence": [
         "Servers/TWorldSvr.Net/README.md",
-        "Gameforge/version-target/report.html"
+        "Gameforge/version-target/report.html",
+        "Gameforge/territory-wars.json",
+        "Gameforge/operator-post-recovery.json",
+        "Gameforge/wolverine-mail.json"
       ],
       "remaining_verification": "Verify parties and loot modes, guilds, companions, travel between channels and maps, PvP and the required official event modes in multi-client sessions."
     }
   ],
   "known_implementation_gaps": [
+    {
+      "area": "All Gor quests including Tebekut",
+      "status": "documented_repairs_and_approved_training_deployed_reference_gaps_open",
+      "evidence": [
+        "Gameforge/gor-quests.json",
+        "Gameforge/gor-quests/audit.json",
+        "Gameforge/gor-quest-activation.json",
+        "Gameforge/gor-publisher-quests.json",
+        "Gameforge/gor-remaining-quests.json",
+        "Gameforge/gor-content-repairs.json"
+      ],
+      "detail": "139 roots audited. Migration 057 activates 14 captured training missions and 36 actions, with explicitly approved once/drop/fixed-Moray substitutes. Their ordered native SQL quest/inventory lifecycle passes. New Year 291 stays excluded. Remaining differences include three root NPC/objective/reward conflicts and 20 missing missions (15 higher-level and five other events). Original probability/population rules, event metadata and local real-client parity remain open. See Gameforge/gor-training.json."
+    },
+    {
+      "area": "Quest completion NPC audit coverage",
+      "status": "30_assignments_repaired_deployed_699_npc_actions_unverified",
+      "evidence": [
+        "Gameforge/quest-turn-in-npcs.json",
+        "Gameforge/quest-turn-in-npcs/audit-after.json"
+      ],
+      "detail": "All 1497 completion actions are classified: 797 align with compatible pinned NPC navigation after 30 repairs, 699 NPC actions have graph/identity/objective conflicts or missing markers, and one action is not NPC-triggered. No full-quest/client parity is claimed. Braise 22273 also has a retained SQL position mismatch. Gor/Tebekut is the user's next audit priority."
+    },
+    {
+      "area": "Diannina přeměna completion NPC and reward reconciliation",
+      "status": "completion_npc_repaired_sql_verified_deployed_pending_client",
+      "evidence": [
+        "Gameforge/dianna-quest-turn-in.json",
+        "Database/migrations/049_dianna_quest_turn_in.sql"
+      ],
+      "detail": "Pinned original completion navigation points to Karl 20012; inherited completion 8007 wrongly used NPC 20004. Migration changes only that trigger. Four new actor cases, 45 focused quest cases and five isolated migration scenarios pass. Saved kill credit and crystal survive the Map restart. Actual client turn-in/relog is pending. The reference mission's RT_SOUL and six selected magic rewards remain absent from inherited SQL and are not reconciled by this NPC repair. No full-quest parity claim."
+    },
+    {
+      "area": "Complete .NET stack port and doppelganger presentation",
+      "status": "partial_sql_exchange_deployed_pending_client",
+      "evidence": [
+        "Gameforge/dotnet-port.json",
+        "Servers/Servers.Net.slnx",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/OtherSelfTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/DoppelgangerSkillTests.cs"
+      ],
+      "detail": "All 31 current .NET server/shared/test projects share one solution. Doppelganger appearance/skill eligibility and SQL-only player trade checkpoints are deployed. One version-4 TCharacterSaveQueue record contains both participants and direct item operations before success; native table writes replay sequentially behind the admission barrier. Stable session identity, partner availability and disconnect teardown are covered. 2256 tests and 78 native/framework SQL scenarios pass, including six new exchange failure/process-exit checks. Docker is running, Map is registered and its queue is empty. The client launch attempt timed out with no returned game window. Complete BoW/BR matches, UDP logging, distributed handoff/fencing, other interrupted exchange types and reference-content gaps remain incomplete; synthetic SQL callbacks do not establish a full MapWorker/client journey."
+    },
     {
       "area": "Channel changes",
       "status": "implemented_pending_live_verification",
@@ -147,6 +454,146 @@
         "Servers/TMapSvr/TMonster.cpp"
       ],
       "detail": "Natural HP recovery now scales personal/party and guild damage credit by the healed share of the previous deficit, erases zero buckets and releases the keeper at the inherited integer 90% threshold. A new attacker can claim EXP and loot. MP-only, blocked, dead and premature HP passes do not change credit; aggro, host, loot locks and scheduled AI identity remain. Monster appearance and claim/release, mode and fort-capture notifications use each viewer's faction and party/private keeper colour. History was inspected before editing; transition-only recovery anchors, O(1) cancellation and the next-war fort fix remain. All 35 new cases and 1492 map-solution tests pass. Source is deployed and migration 040 is applied in the same release. Pinned-client playthrough and independent publisher-rule parity remain pending."
+    },
+    {
+      "area": "World chat receiver and player routing",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Gameforge/chat-routing.json",
+        "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Chat.cs",
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Chat.cs"
+      ],
+      "detail": "Ordinary-map near, whisper, party, guild, tactics, corps, show/map, operator alias and World announcement flows are implemented across Map and World. Authoritative routes/membership and existing ban/block protections apply. Map passes 1537 tests and World 188; 69 new cases versus the deployed baseline. Operator IDs match live SQL read-only. Source is deployed; real-client/locale checks and separate BoW/BR match-server restrictions remain pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "TMS reopening and invitation lifecycle",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Gameforge/tms-recovery.json",
+        "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Tms.cs",
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Social.cs",
+        "Servers/TWorldSvr.Net/TWorld.Server.Tests/TmsRecoveryTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/TmsSessionTests.cs"
+      ],
+      "detail": "Invitation targets now preserve native set semantics; pending reopen messages require the current prompted main/key/object and can complete once per pending message. Missing/disconnected peers return the native localized notice. Current membership/faction and in-game Map gates apply; byte-sized roster boundaries are covered. Prior C# roster/logout fixes are preserved. 28 new cases pass, with 1550 Map + 203 World tests. Source is deployed; real-client verification remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Secondary party monster rewards and hunt groups",
+      "status": "implemented_pending_live_verification",
+      "evidence": [
+        "Gameforge/monster-reward-relay.json",
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.MonsterRewards.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/MonsterRewardRelayTests.cs"
+      ],
+      "detail": "Secondary nearby party copies now relay base EXP and hunt events through World to the current main; only main copies mutate EXP/quests. Native monster wKind is loaded and used for local/routed hunt objectives with kill position; 3707 rows and 920 non-identity mappings match live SQL read-only. All 19 new cases and 1568 Map + 204 World tests pass. Local bonuses, soulmate distribution and level-cap/overflow fixes remain. Source is deployed; real distributed topology, real-client journeys, party-quest-once flag and spawn-deletion nuances remain to verify/implement.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Quest engine, reserved rewards and progress",
+      "status": "partial_pending_reference_and_live_verification",
+      "evidence": [
+        "Gameforge/quest-engine.json",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/QuestEngineCompletionTests.cs",
+        "Servers/TWorldSvr.Net/TWorld.Server.Tests/ReservedPostTests.cs",
+        "Tools/QuestEngineCheck",
+        "Gameforge/quest-events.json",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/QuestLootEventTests.cs",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/QuestTimerAuthorityTests.cs",
+        "Gameforge/quest-save-recovery.json",
+        "Gameforge/quest-admission.json"
+      ],
+      "detail": "Quest dispatch/mail, reserved issuance, objectives, timers and current single-Map snapshot recovery have regression coverage. Required quest-state loading now denies entry on failure; transactional header/term reads prevent mixed snapshots. Latest Map suite passes 1684 cases, including 8 new admission regressions; 17 quest SQL and 7 save-recovery scenarios pass, including 4 new read/failure checks. Existing 35 SendPost charts have no exec-quest children. Generic child-event recovery, undocumented soul methods and TT_WARREGION reference gaps, full native character/global/pet/companion recovery, cross-Map ownership fencing and real-client/restart acceptance remain. Deployed; real-client acceptance remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Auxiliary character admission and persistence failure handling",
+      "status": "implemented_pending_complete_character_and_live_verification",
+      "evidence": [
+        "Gameforge/character-admission.json",
+        "Servers/TMapSvr.Net/TMap.Server.Tests/CharacterLoadTests.cs",
+        "Tools/QuestEngineCheck/CharacterStateCheck.cs"
+      ],
+      "detail": "Companion/medal, mount/saddle, recall/buff, hotkey, allegiance and owned premium/EXP load errors now deny entry before a partial character can be published or saved. Valid empty state and prior .NET behavior are retained. Map passes 1701 tests, with 17 new cases. Twelve new SQL scenarios plus the existing 24 pass; native pet/companion insert/update and fresh-connection reloads preserve ownership, selection, stats and equipment. Complete character/global SQL recovery, coordinated snapshot/ownership, full server restart and real-client journeys remain. Deployed; real-client acceptance remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Native character save and full snapshot replay",
+      "status": "implemented_sql_verified_pending_deployment_and_live_verification",
+      "evidence": [
+        "Gameforge/full-save-integrity.json",
+        "Database/migrations/041_character_save_integrity.sql",
+        "Tools/QuestEngineCheck/FullSaveCheck.cs"
+      ],
+      "detail": "Migration 041 repairs discarded stat fields and removes a private name-specific save reward. Journaled native save rejection now propagates; cash item dispatch waits after consumption. Map passes 1703 tests, including 2 held-store regressions. Ten new full-save SQL scenarios pass in a disposable instance with both native database names, including the real MapService callback, killed writer, fresh recovery, late failure and replay without duplicate rows. These are synthetic callback/SQL checks, not full MapWorker/client acceptance. Migration is applied to live SQL and source is deployed; real-client acceptance remains pending. Cross-Map ownership, original child events and atomic/idempotent cash exchange remain open.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Classic conquest and wars",
+      "status": "partial_sql_verified_deployed_pending_client",
+      "evidence": [
+        "Gameforge/territory-wars.json",
+        "Database/migrations/044_territory_occupation_targets.sql",
+        "Servers/TMapSvr.Net/TMap.Server/Map/MapService.TerritoryPersistence.cs",
+        "Servers/TWorldSvr.Net/TWorld.Server/World/WorldService.Castle.cs",
+        "Tools/QuestEngineCheck/TerritoryOccupationCheck.cs",
+        "Gameforge/operator-post-recovery.json"
+      ],
+      "detail": "Occupation SQL confirmation, target integrity, stat/PvP checkpoints, guild-house rechecks, operator entry and applicant SQL-before-success are implemented. Newly accepted server reward mail now has SQL queue/receipt recovery with atomic header/coins/attachments; repeat after commit or collection cannot reissue the same operation. Map 1767 tests and 58 disposable SQL scenarios pass; World source is unchanged from its 219-test run. Source and migrations are deployed; real-client acceptance remains pending. Full war-result/recipient/point/World settlement, active-war restart/distributed ownership, mercenary contract/slot recovery, separate BoW/BR matches and real-client/reference acceptance remain incomplete.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "SQL recovery of accepted war/server reward letters",
+      "status": "implemented_sql_verified_deployed_pending_client",
+      "evidence": [
+        "Gameforge/operator-post-recovery.json",
+        "Database/migrations/045_operator_post_receipts.sql",
+        "Servers/TMapSvr.Net/TMap.Data/OperatorPostStore.cs",
+        "Tools/QuestEngineCheck/OperatorPostRecoveryCheck.cs",
+        "Gameforge/wolverine-mail.json",
+        "Database/migrations/046_wolverine_mail.sql"
+      ],
+      "detail": "New MailOperator intents are durably accepted by Wolverine SQL transport before the returned Task completes; old version-3 SQL queue letters forward with the same permanent IDs. Native letter/money/items/receipt and World notification outbox commit together. Original operator recovery scenarios plus 14 shared-host SQL checks cover retry, deleted/claimed rewards, rollback and separate-process crashes. This per-letter boundary does not protect a whole war result, every recipient, points, existing-item refunds or active-war restart. Source/images and migrations are deployed; real-client acceptance remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Shared Wolverine mail adoption and remaining gameplay transactions",
+      "status": "implemented_sql_verified_deployed_pending_client",
+      "evidence": [
+        "Gameforge/wolverine-mail.json",
+        "Servers/FourDev.Mail",
+        "Database/migrations/046_wolverine_mail.sql"
+      ],
+      "detail": "All production mail-store contracts in Map/World route through awaited typed handlers; newly created operator rewards use durable SQL transport and a transactional notification outbox. 1775 Map tests, 220 World tests and 72 distinct native/framework SQL scenarios pass; the 14 framework scenarios also pass from published output without an SDK. Player send/claim versus character inventory/currency snapshots, cash/auction/contract transfers and full war settlements still have independent persistence boundaries. Actual worker/client restart, distributed ownership and publisher parity are not verified; source and server images are deployed; real-client acceptance remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-wolverine.json"
+    },
+    {
+      "area": "Client-visible inventory capacity and legacy overflow",
+      "status": "implemented_sql_verified_deployed_pending_client",
+      "evidence": [
+        "Gameforge/inventory-visible-slots.json",
+        "Database/migrations/047_inventory_visible_slots.sql"
+      ],
+      "detail": "Loaded/added/tournament inventories now use chart capacity instead of the DB-free 100-slot fallback. Explicit destination entry points are checked. Ten new cases and seven isolated SQL checks pass. Five invisible live items were rehomed; all 83 item rows and non-coordinate fields, character state and quests were retained. Deployed read-only verification compares capacity for all 8150 item templates and proves a full 16-slot bag cannot allocate slot 16. Actual client pickup/rendering/relog remains pending.",
+      "current_deployment_evidence": "Gameforge/deployments/2026-10-30-inventory.json"
+    },
+    {
+      "area": "Loot announcement identity matches the actual inventory item",
+      "status": "implemented_tested_deployed_client_symptom_confirmed",
+      "evidence": [
+        "Gameforge/loot-notification.json"
+      ],
+      "detail": "CS_GETITEM_ACK now omits the slot byte that its client reader never consumes. The screenshot's Soath seal (+67) is reproduced exactly by misreading blue-herb template 17211 as template 15104. Six new cases fail before and pass after the fix for individual pickup, take all and asynchronous lottery, each with fresh-slot and stack-merge placement. All 1897 Map tests pass, and the six cases also pass against assemblies copied from the deployed container. After graceful Map shutdown and recreation, all 105 item rows and 11 container rows retain identical hashes; the persisted herb stack is four, with no hidden or duplicate inventory positions and no pending saves. On 2026-11-01 the user confirmed the reported problem is resolved in the actual game. Explicit logout/relog verification and real-client coverage of each pickup mode remain unconfirmed.",
+      "current_deployment_evidence": "Gameforge/loot-notification.json"
+    },
+    {
+      "area": "Intermittent Wolverine SQL scheduled-mail isolation failure",
+      "status": "observed_runtime_fault_pending_reproduction",
+      "evidence": [
+        "Gameforge/deployments/2026-10-30-inventory.json"
+      ],
+      "detail": "Initial inspection of Map logs showed SQL650 at 2026-10-30T18:32:06Z in SqlServerQueueListener.MoveScheduledToReadyQueueAsync: READPAST was used under an unsupported isolation level. It appeared alongside character entry. Root cause and effect on actual scheduled mail have not been established; this inventory-capacity repair does not fix or certify that path. Current post-inventory startup checks pass."
     }
   ],
   "reference_limitations": [
@@ -155,20 +602,125 @@
     "Inherited private-server data and implemented C++ behaviour require independent parity evidence."
   ],
   "latest_deployment": {
-    "evidence": "Gameforge/deployments/2026-10-28-baseline.json",
-    "tag": "baseline-port-2026-10-28",
-    "client_build": "Release / msvc-x86",
-    "docker_services_rebuilt_and_running": [
-      "loginsvr",
-      "worldsvr",
-      "mapsvr",
-      "patchsvr",
-      "controlsvr"
+    "evidence": "Gameforge/gor-content-repairs.json",
+    "verified_utc": "2026-10-31T16:49:53.2564872Z",
+    "deployed_from_dirty_worktree": true,
+    "docker_services_restarted": [
+      "mapsvr"
     ],
-    "migration_040_applied": true,
-    "deployed_loader_read_only_verified": true,
-    "all_server_suite_tests_passed": 1838,
-    "known_unchanged_control_tests_failed": 5,
+    "image_rebuilt": false,
+    "new_database_migrations_applied": [
+      "055_gor_content_repairs.sql",
+      "056_gor_wakeup_quest.sql"
+    ],
+    "pending_sql_save_records": 0,
+    "peer_registration_verified": true,
+    "last_full_map_server_source_tests": 1868,
+    "new_material_sql_execution_cases": 46,
+    "new_import_scenarios": 28,
     "real_client_gameplay_verified": false
+  },
+  "moray_combat_repair": {
+    "evidence": "Gameforge/gor-training/moray-combat.json",
+    "migration": "Database/migrations/059_gor_moray_combat.sql",
+    "deployed": true,
+    "sql_loaded_native_hits_verified": true,
+    "real_client_verified": false
+  },
+  "moray_defense_repair": {
+    "evidence": "Gameforge/gor-training/moray-defense-proposal.json",
+    "migration": "Database/migrations/060_gor_moray_defense.sql",
+    "status": "approved_functional_substitute_deployed_sql_verified",
+    "deployed": true,
+    "reference_value_verified": false,
+    "sql_loaded_native_accuracy_verified": true,
+    "real_client_verified": false
+  },
+  "marka_spawn_repair": {
+    "evidence": "Gameforge/gor-training/marka-spawn.json",
+    "migration": "Database/migrations/061_gor_marka_spawn.sql",
+    "implemented": true,
+    "isolated_sql_and_native_verified": true,
+    "deployed": true,
+    "real_client_verified": false,
+    "scope": "Only three coordinates of existing spawn 5024; population, probabilities, delay, stats and player progress preserved.",
+    "verification": {
+      "packet_observations": 2,
+      "sql_scenarios_passed": 12,
+      "focused_existing_map_tests_passed": 26,
+      "native_spawn_quest_credit_respawn_verified": true,
+      "fresh_process_sql_reload_verified": true,
+      "player_state_hashes_preserved": true,
+      "deployed_assemblies_native_probe_verified": true
+    },
+    "remaining": "Verify local real-client kill, Gallau turn-in and logout/restart. Captured HP 711 differs from inherited local HP 1186; full combat stats and original radius/respawn/probability rules remain unaudited by this placement repair."
+  },
+  "gor_portal_intro_repair": {
+    "evidence": "Gameforge/gor-training/portal-intro-repair.json",
+    "implemented": true,
+    "native_regression_verified": true,
+    "client_executable_deployed": true,
+    "restart_required": false,
+    "real_client_camera_verified": true,
+    "user_confirmation": "už to funguje",
+    "verified_utc": "2026-11-01T13:26:35.224569+00:00"
+  },
+  "ostrich_egg_navigation": {
+    "evidence": "Gameforge/gor-training/ostrich-eggs-navigation.json",
+    "quest_id": 7906,
+    "client_data_deployed": true,
+    "native_path_selection_verified": true,
+    "sql_loaded_pickups_verified": true,
+    "gameplay_sql_changed": false,
+    "restart_required": true,
+    "real_client_navigation_verified": false,
+    "publisher_mission_parity_verified": false,
+    "separate_known_gap": "Neighboring mission 7913 navigation repaired in the seven-title batch; real-client navigation verification remains pending."
+  },
+  "gor_additional_quest_navigation": {
+    "evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+    "quest_ids": [
+      7774,
+      7775,
+      7837,
+      7860,
+      7913,
+      7915,
+      7917,
+      7971,
+      7973,
+      7976
+    ],
+    "client_data_deployed": true,
+    "native_path_selection_verified": true,
+    "sql_loaded_active_mission_lifecycle_verified": true,
+    "existing_server_regressions_passed": 90,
+    "gameplay_sql_changed": false,
+    "production_dotnet_changed": false,
+    "client_restart_required": true,
+    "real_client_navigation_verified": false,
+    "publisher_mission_parity_verified": false,
+    "scope": "Navigation for already-active inherited missions. No objectives, rewards, spawn rules or player progress changed.",
+    "remaining": [
+      "Fully restart the client from the repaired Game folder and play through arrow/map navigation.",
+      "Inherited active missions differ from the pinned modern client; current publisher quest parity is not certified.",
+      "For monsters 797/798 the navigation uses existing enabled SQL anchors; exact publisher positions are not verified.",
+      "Full acceptance/prerequisite and logout/restart playthroughs are outside this synthetic already-active mission check."
+    ]
+  },
+  "gor_full_quest_audit": {
+    "evidence": "Gameforge/gor-full-audit.json",
+    "roots_audited": 244,
+    "active_missions": 108,
+    "active_recipes": 113,
+    "npc_navigation_missions_repaired": 40,
+    "client_contract_conflict_roots": 57,
+    "remaining_missions_with_zero_nodes": 48,
+    "reference_roots_missing": 20,
+    "server_regressions_passed": 261,
+    "native_navigation_regression_blocked": true,
+    "gameplay_sql_changed": false,
+    "real_client_playthrough_verified": false,
+    "baseline_complete": false
   }
 }

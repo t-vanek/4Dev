@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_sql_verified_deployed_pending_client",
+  "framework": {
+    "packages": {
+      "WolverineFx.SqlServer": "6.59.1",
+      "WolverineFx.RuntimeCompilation": "6.59.1"
+    },
+    "verified_nuget_repository_commit": "e9110b753f3383054442ab5e656e26395b80e667",
+    "primary_references": [
+      "https://wolverinefx.net/guide/durability/sqlserver",
+      "https://wolverinefx.io/guide/messaging/transports/local",
+      "https://wolverinefx.io/tutorials/idempotency",
+      "https://api.nuget.org/v3-flatcontainer/wolverinefx.sqlserver/6.59.1/wolverinefx.sqlserver.6.59.1.nupkg"
+    ]
+  },
+  "history_review": {
+    "inspected": [
+      "Program/worker/post/receipt git log, diffs and blame before changing existing C#",
+      "1019c82 player-mail gates, postage-on-success, new attachment row IDs and DB-before-player claim ordering",
+      "69d2a48 native system-mail net-string fixes",
+      "93ba2b1 multi-attachment/money server rewards and f6cf628 plain tournament mail type",
+      "Existing SQL queue, quest issuance/continuation and operator receipt implementation with all mail/regression fixtures"
+    ],
+    "preserved": "Gameforge target, existing rates/reward selection/amounts/charts, client packet bodies, actor state ownership, quest checkpoints and permanent receipt identities.",
+    "specific_defects_fixed": [
+      "Claim swallowed a failed SQL release and still granted items/money. It now preserves the open letter and returns the native internal error until release succeeds.",
+      "Native release cleared mail money before a failing TItemDelete; the adapter now brackets both in one transaction.",
+      "Native TPostDelete tested attachment ROWCOUNT=1, permitting deletion with multiple attachments. A transactional any-content guard preserves native rejection codes."
+    ]
+  },
+  "coverage": {
+    "shared_project": "Servers/FourDev.Mail",
+    "production_hosts": [
+      "TMap.Server",
+      "TWorld.Server"
+    ],
+    "store_contracts": [
+      "IPostStore",
+      "IQuestPostOperationStore",
+      "IOperatorPostStore",
+      "IReservedPostStore"
+    ],
+    "interactive_paths": [
+      "recipient validation and player send header/attachment operations",
+      "mailbox counts/pages, view, attachments, claim and deletion",
+      "bill/payment/return and pending bill queries",
+      "quest reservations, stable issuance, pending continuations and acknowledgements",
+      "World reserved-mail worker with its existing 30-per-minute contract",
+      "GM, guild-payment, cash/auction-refund and lottery fallback paths using PostStore"
+    ],
+    "durable_reward_paths": [
+      "fort/castle/mission/Sky Garden",
+      "arena",
+      "RPS",
+      "tournament invitation/bets",
+      "cash bonus replacement"
+    ],
+    "interactive_execution": "Awaited typed Wolverine handlers; player/quest state and client responses remain on the existing game actor. These are not blindly replayed background player commands.",
+    "durable_execution": "DeliverServerMail uses SQL transport. Native mail/coins/items/permanent receipt and the MailDelivered outbox envelope commit in the same SQL transaction through DatabaseEnvelopeTransaction; World consumes notification through its actor inbox.",
+    "storage": {
+      "message_schema": "fourdev_mail",
+      "transport_schema": "fourdev_mail_transport",
+      "queues": [
+        "mail_delivery",
+        "mail_notifications"
+      ],
+      "sql_only": true,
+      "external_broker_required": false
+    },
+    "migration": "Database/migrations/046_wolverine_mail.sql",
+    "production_auto_create": "None",
+    "production_auto_purge": false,
+    "legacy_transition": "Version-3 SQL queue letters transfer their original permanent operation ID only after Wolverine durable acceptance. Existing quest/character queue records and receipt rows stay readable; new operator letters have one Wolverine delivery path."
+  },
+  "validation": {
+    "final_validation_status": "passed",
+    "map_solution_tests_passed": 1775,
+    "world_solution_tests_passed": 220,
+    "new_map_cases": 8,
+    "new_world_cases": 1,
+    "native_sql_fixture_scenarios": 58,
+    "wolverine_sql_scenarios": 14,
+    "fixture": "Separate SQL Server; 42 metadata-only native table shapes, 37 native procedures, synthetic data; no live game rows exported or modified.",
+    "evidence_directory": ".runtime/wolverine-mail",
+    "framework_checks": [
+      "SQL-backed shared host/required native storage",
+      "Durable reward delivery and transactional notification",
+      "Permanent reward deduplication across different Wolverine envelope IDs",
+      "Failed native release rolls mail coins/items back",
+      "Counts/list/view/items/claim/delete handlers",
+      "Any-content guard for multi-attachment deletion",
+      "Recipient validation and missing-recipient return",
+      "Player header/attachment, bill query and native return handlers",
+      "Both quest reservation APIs and continuation read/ack handlers",
+      "World reserved-mail native delivery through Wolverine",
+      "Failed Wolverine outbox insert rolls native reward and receipt back",
+      "Legacy SQL queue bridge preserves permanent identity",
+      "Migration applies twice without queue purge",
+      "Forced producer and post-commit consumer exits recover on a new host without another reward"
+    ],
+    "images": [
+      "4dev-mapsvr-wolverine-check:20261030",
+      "4dev-worldsvr-wolverine-check:20261030"
+    ],
+    "deployed": true,
+    "migration_046_applied_to_live_database": true,
+    "live_player_data_modified": false,
+    "full_worker_client_restart_verified": false,
+    "publisher_gameplay_parity_verified": false,
+    "evidence_file": ".runtime/wolverine-mail/validation.json",
+    "unit_trx_prefix": "_51e3f3efa280",
+    "distinct_sql_scenarios_passed": 72,
+    "published_runtime_without_sdk_verified": true,
+    "published_runtime_framework_scenarios_repeated": 14,
+    "image_ids": {
+      "4dev-mapsvr-wolverine-check:20261030": "sha256:ca97114455fa30fac69c2547c2ef4d690104fc19277db5de82450b6d2978f57c",
+      "4dev-worldsvr-wolverine-check:20261030": "sha256:d648dfc0fe1b4c3b310468e99a9764641e0ada0e1171adea58fcac9137fbbfaf"
+    }
+  },
+  "remaining": [
+    "Wolverine adoption is not a complete gameplay transaction redesign: player send/claim versus inventory/currency snapshots, existing-item/cash/auction/contract transfers still have independent persistence boundaries.",
+    "Full war result, every recipient, points/stats and World publication still need a durable common result identity. A new event with new reward IDs is not deduplicated by inbox retention or per-letter receipts.",
+    "Quest world-effect continuations, active-war restart and distributed character/war ownership remain incomplete. The current deployment has one World per game catalog; full distributed topology and multi-client acceptance are not verified.",
+    "Source, migration and rebuilt server images are deployed; startup, SQL ownership and read-only deployed-library checks pass (Gameforge/deployments/2026-10-30-wolverine.json). Retain matching native databases, character/quest queues and permanent receipt tables. Actual player-state shutdown/restart and native-client play remain acceptance gates."
+  ],
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

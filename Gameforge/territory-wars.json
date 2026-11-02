@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "partial_sql_verified_deployed_pending_client",
+  "requested_goal": "Complete conquest and wars before custom gameplay changes",
+  "scope_of_this_change": [
+    "Classic fort conquest",
+    "Castle wars",
+    "Mission areas",
+    "Sky Garden",
+    "World castle applications"
+  ],
+  "target": "Gameforge/target.json",
+  "reference_manifest": "Gameforge/reference.json",
+  "publisher_evidence": {
+    "url": "https://en.4story.gameforge.com/game/guide/3",
+    "supports": "High-level area conquest, guild qualification, castle wars and winning guild-house access.",
+    "limits": "Does not certify inherited numeric rewards, schedules, spawn positions or the pinned executable's exact release. No numeric rules were imported from community guides."
+  },
+  "history_review": {
+    "inspected": [
+      "364cb14 castle wars and later guild-stat persistence",
+      "6a08080 fort wars and deliberate occupied reset fix",
+      "b563a6e Sky Garden and deliberate next-war occupied reset fix",
+      "949d26c monster ownership/integrity corrections",
+      "87e3126 single-reader DB lane and inventory save ordering",
+      "683e693 and 706a8ad teleport/last-destination history",
+      "69d2a48 guild fixes and existing guild-info/stat response",
+      "91dd412 World castle handlers and 8a11109 applicant SQL addition",
+      "Relevant git log, diffs, blame and existing territory/guild/socket regressions"
+    ],
+    "preserved": [
+      "Fort and Sky Garden occupied flags reset at the next war",
+      "Entering-player castle in visibility packets, existing damage-credit/color fixes and valid packet layouts",
+      "LastDestination source/destination packing and existing teleport lifecycle",
+      "Single DB lane and SQL-only character recovery; tournament save exclusions",
+      "Existing war formulas, point amounts, reward templates, applicant cap, schedules and god-ball timing"
+    ],
+    "reason": "Reproduced SQL/result-publication defects and missing entry/refresh paths justify these specific changes; inherited C++ is implementation evidence, not publisher balance certification."
+  },
+  "implemented": [
+    "All four territory result writes run through the shared Map DB lane and apply their confirmed result on the actor before another event changes the participants.",
+    "Mission and Sky Garden adapters bind the SQL return value; rejected/throwing saves produce no successful ownership acknowledgement. Mission reward/state publication waits for SQL success.",
+    "Fort/castle result callbacks no longer run from independent Task.Run writes or wait for a later timer tick. The existing guild-board callback queue is retained for its separate consumers.",
+    "Castle reward dispatch and player stat experience wait for a successful occupation result. End-of-fight client notification still precedes SQL; the entire settlement is not atomic.",
+    "War stat rewards request the existing World guild-info response, which includes the character's stat fields. Stat/PvP rewards schedule the existing SQL character checkpoint.",
+    "Saved PCT_GUILD destinations are rechecked on admission and after castle capture. Former owners leave the guild house; mercenary allegiance does not grant house ownership. Missing return data denies entry without inventing coordinates.",
+    "Registered operator IDs receive the native castle-entry exception.",
+    "World waits for applicant SQL before changing a member/mercenary's slot or publishing assignment, withdrawal, movement and counts. A thrown SQL error leaves the old slot and actor remains usable.",
+    "Migration 044 scopes Sky Garden writes to wID and rejects missing mission/garden targets. Unknown existing procedure repairs are refused; both procedure alterations roll back together."
+  ],
+  "validation": {
+    "platform": "Linux .NET 10, disposable SDK containers with read-only source mounts",
+    "map_solution_tests_passed": 1752,
+    "map_breakdown": {
+      "protocol": 9,
+      "data": 14,
+      "server": 1729
+    },
+    "world_solution_tests_passed": 219,
+    "world_breakdown": {
+      "protocol": 3,
+      "data": 3,
+      "server": 213
+    },
+    "new_map_cases": 20,
+    "new_world_cases": 12,
+    "new_territory_sql_scenarios": 11,
+    "full_sql_fixture_scenarios_passed": 44,
+    "fixture": "Fresh disposable SQL Server; 38 native table shapes and 26 native procedures exported read-only; synthetic rows only; migrations 041/042/043/044 applied only to this instance.",
+    "map_trx_prefix": ".runtime/territory-wars-20261030/linux-tests/_ab1a5b78ba6a",
+    "world_trx_prefix": ".runtime/territory-wars-20261030/world-tests/_c4b2dbf06bf9",
+    "sql_output": ".runtime/territory-wars-20261030/war-sql.txt",
+    "runner": "Tools/QuestEngineCheck/TerritoryOccupationCheck.cs",
+    "sql_checks": [
+      "Reproduce inherited Sky Garden procedure changing two synthetic gardens regardless of ID",
+      "Reject an unknown SQL repair and roll back both migration alterations",
+      "Apply migration twice and change only the requested garden",
+      "Propagate missing mission/garden failure returns through real C# adapters",
+      "Mission country/target roundtrip on a fresh connection",
+      "Applicant insert/update without duplicates and fresh-connection castle/camp reload",
+      "Injected applicant SQL failure preserves the previous confirmed slot",
+      "Idempotent applicant deletion with fresh-connection reload",
+      "Native fort owner/country outputs and occupation history",
+      "Native castle owner/country, fort-week/applicant reset and guildless rejection",
+      "Injected mission SQL failure retains its confirmed owner"
+    ],
+    "deployed": true,
+    "migration_044_applied_to_live_database": true,
+    "live_player_data_modified": false,
+    "real_client_verified": false,
+    "full_war_restart_verified": false
+  },
+  "remaining": [
+    {
+      "priority": 1,
+      "area": "Durable SQL war settlement and reward delivery",
+      "detail": "Accepted server reward letters now use Wolverine SQL transport and permanent native receipts, with atomic header/coins/items/receipt and World notification outbox (Gameforge/wolverine-mail.json). Still freeze the whole war result and every recipient under one durable operation identity, then recover occupation, player/guild points/stats and World publication with receipts. A crash before a letter is enqueued can still lose it; repeating an event creates new letter IDs and is not deduplicated by per-letter receipts."
+    },
+    {
+      "priority": 2,
+      "area": "Active-war restart and distributed ownership",
+      "detail": "Persist/reconstruct phase and remaining duration, castle power/balls/carriers/towers, Sky Garden points and participant records; fence the owning Map. Current reconnect snapshots are not proof of active-war restoration. Test real MapWorker/WorldWorker restarts and cross-Map transitions."
+    },
+    {
+      "priority": 3,
+      "area": "Remaining application lifecycle persistence",
+      "detail": "Mercenary-contract cleanup in GuildTacticsAdd still fires its separate applicant deletion without a durable contract/slot transaction. Review both entry points together when introducing settlement/contract recovery. Successful interactive assignment/withdrawal now waits for SQL; this is not a claim that the entire contract lifecycle is atomic."
+    },
+    {
+      "priority": 4,
+      "area": "Publisher/client/data acceptance",
+      "detail": "Verify qualification, signup/caps, entry, gatekeepers, relic handling, power/time victory, rewards, buffs, heroes, guild house, a second event, logout and restart with multiple real clients. Establish compatible official schedules, reward/chart/spawn data; do not invent missing TPVPOINTCHART or TT_WARREGION behavior."
+    },
+    {
+      "priority": 5,
+      "area": "Separate BoW/BR match servers",
+      "detail": "World queues and normal-map relays already exist. The BOW_COMPILE_MODE/BR_COMPILE_MODE match-server gameplay is a separate incomplete port; the four classic territory modes above do not establish completion of every official war/PvP mode."
+    }
+  ],
+  "operator_post_recovery_extension": "Gameforge/operator-post-recovery.json",
+  "wolverine_mail_delivery_extension": "Gameforge/wolverine-mail.json",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

@@ -18,6 +18,90 @@ tracked in `TGlobal_gsp.dbo._SchemaMigrations`. Each file is applied once, in fi
 
 ## Running
 
+`055_gor_content_repairs.sql` aligns 32 existing recipes and nine aligned mission reward lists
+with the pinned client, adds recipe 10634 at Beshil, and restores Corneus missions 5917/5919 with
+their canonical completion actions. Existing recipe NPCs, class restrictions, caps and aligned
+mission progress remain intact. Source type-0 ingredient slots remain inactive. Conflicting identities,
+missing dependencies, legacy Corneus progress and pending character snapshots reject atomically.
+Fifteen import scenarios and 44 SQL-loaded execution/inventory/quest reload cases pass, including
+repeatable Corneus exchanges. No runtime code changes or invented drop rates are involved.
+
+`056_gor_wakeup_quest.sql` restores mission 7307 (Parakelius 25223 on map 2010 to Biseira 26003
+on map 0), completion 9720 and prerequisite 7243. The inherited switch action occupying ID 7307
+is preserved under internal ID 40007307, with its trigger 7125, condition and switch 363 unchanged.
+It rejects saved legacy progress, occupied identities and external references. Thirteen import
+scenarios and two SQL-loaded execution cases verify persistence, destination-map gating and the
+old switch action. This does not certify the whole trial/portal chain or alter its balance.
+Both migrations are data-only; restart Map to reload. Evidence:
+[`gor-content-repairs.json`](../../Gameforge/gor-content-repairs.json).
+
+`054_gor_reconstructed_missions.sql` applies the user's approved exception for the five remaining
+missions (1082/1084/1203/1208/3209). It restores pinned NPCs, conditions, objectives and rewards,
+adds their canonical completion actions and repeatable seal producer 3210, and quarantines six
+incompatible legacy helpers. It adds one stationary population for each required monster kind
+at the pinned navigation target, with 60-second delay and 100% spawn chance. These population
+parameters and the two-round PvP-only match are reconstruction choices, not publisher certification.
+Arena rows 1/2 explicitly opt in through `bQuestMatch`; sizes become 3/5, existing fees stay intact.
+Deploy the new Map image alongside this migration (type-28 results and default RT_POINT support).
+Sixteen isolated import scenarios and five SQL-loaded lifecycle scenarios cover native quest and
+inventory reload, repeatable seals, consumed ingredients and replay refusal. Legacy progress or
+identity conflicts reject atomically. New Year mission 291 remains disabled. See
+[`gor-remaining-quests.json`](../../Gameforge/gor-remaining-quests.json).
+
+`053_gor_tripartite_pact.sql` restores level-90 mission 547 at Bílý sokol (26200), completing at
+Randaygaron (26436) through action 548. Its exact rewards are 1,782 money units, 855 EXP and 167
+Soul Power; deploy the RT_SOUL-capable Map image with the data. Existing repeat cap 1 is retained.
+Inherited mission 3200 has a stale prerequisite on 547 but is a different completion action in the
+pinned client; it is quarantined before that dependency could expose obsolete content. The import
+rejects any saved target progress, unexpected active dependencies, missing NPCs or changed semantic
+baselines, including unused reward metadata. Ten isolated migration scenarios and four native
+quest-store lifecycle scenarios pass. Migration 054 later resolves the other five regular missions
+under an explicit reconstruction exception; the New Year event stays disabled. See
+[`gor-remaining-quests.json`](../../Gameforge/gor-remaining-quests.json).
+
+`052_gor_event_missions.sql` restores six of the thirteen requested disabled Gor missions: 233–237
+at Elyssa and 2398 at Pivař, together with their six completion actions. NPC labels, item objectives
+and rewards come from the pinned client; existing repeat caps are retained. The import checks an
+exact semantic baseline, NPC/item dependencies, running legacy quests and unexpected child actions.
+Nine isolated SQL scenarios and six new actor cases pass. It changes static SQL charts only, with no
+invented event drops or calendar rules. Seven missions still need missing reward/objective/chain
+contracts; see [`gor-quest-activation.json`](../../Gameforge/gor-quest-activation.json). Restart Map to reload.
+
+`051_gor_paper_quest_givers.sql` completes the scoped Gor repair by assigning missions 8883/8885/8887
+to Houba (22919), matching both original start and completion markers. Their completion actions were
+already repaired by 050. Mission identities, objectives, rewards, conditions and NPC identity are
+guarded; only the three acceptance trigger IDs change. Repeat caps and player progress are retained.
+Seven isolated SQL checks and three actor acceptance/turn-in cases pass. See [`gor-quests.json`](../../Gameforge/gor-quests.json)
+for the full Gor/Tebekut audit and its incomplete quest-chain/reward coverage. Restart Map to reload.
+
+`050_quest_completion_npcs.sql` corrects 30 further completion NPC assignments from pinned original
+quest/navigation records. It validates mission/completion identities, exact objectives, completion
+conditions and NPC map/country before one atomic update; reruns retain already corrected values.
+Only completion trigger IDs change. All 1,497 existing completion actions were audited; 699 NPC
+actions still need compatible reference/graph evidence. See [`quest-turn-in-npcs.json`](../../Gameforge/quest-turn-in-npcs.json)
+and its complete before/after reports. Restart Map after applying the migration.
+
+`049_dianna_quest_turn_in.sql` corrects only quest 8007's completion NPC from 20004 to Karl (20012).
+The pinned `TQNode.qpd` explicitly assigns mission 8006's completion marker to Karl; existing SQL
+already has both objectives satisfied on the reported character. The migration guards quest identity,
+completion term and NPC/map, preserves progress and rewards, and accepts reruns. Restart Map to reload
+the quest trigger index. Evidence and remaining reward/client gaps: [`dianna-quest-turn-in.json`](../../Gameforge/dianna-quest-turn-in.json).
+
+`048_character_welcome_mail.sql` adds the explicitly requested custom welcome gift. It starts disabled
+and never enrolls existing characters. A trigger registers characters born while SQL settings are
+enabled; the Map actor freezes their letter at the first authenticated, playable main-session entry.
+Deploy the matching Map image before running [`enable-welcome-mail.sql`](../enable-welcome-mail.sql).
+That activation selects 5 small life potions (8001) and 5 small mana potions (8101), after checking the
+native item chart. Settings and item counts live in `TWelcomeMailSettings` / `TWelcomeMailItem`.
+
+`TCharacterWelcomeMail` stores the immutable first-entry intent and dispatch acknowledgement in SQL.
+Wolverine SQL transport and the permanent native operator-mail receipt recover accepted delivery
+without another gift after replay, collection or deletion. There is no filesystem game-state journal.
+Setting `Enabled=0` stops enrollment and preparation; previously prepared letters still recover.
+An eligible character entering while disabled consumes eligibility without postponing a gift to a
+later login. Configuration changes affect unprepared letters only. Migration reruns preserve settings
+and receipts; there is no existing-character backfill. See [`welcome-mail.json`](../../Gameforge/welcome-mail.json).
+
 `026_gameforge_monster_levels_hp.sql` restores the 213 exact level/HP pairs documented in
 [`Gameforge/monster-restoration.json`](../../Gameforge/monster-restoration.json), using the official CZ
 web database and names from the pinned local client. It retains every original attribute row and stores
@@ -192,3 +276,48 @@ To re-apply a specific migration during development, delete its row first:
 ```sql
 DELETE FROM TGlobal_gsp.dbo._SchemaMigrations WHERE Id = N'001_example.sql';
 ```
+
+`057_gor_training.sql` activates the 14 captured initial Gor training missions and their
+completion/pickup actions. The once-per-character cap, guaranteed missing quest items and fixed
+60-second Moray population are explicitly approved substitutes. Existing legacy routing and player
+state are preserved. The frozen plan, approval, SQL tests and deployment evidence are in
+`Gameforge/gor-training.json` and `Gameforge/gor-training/`.
+
+The working native client also needs the three routing alias definitions. Run
+`python Tools/GameforgeReference/repair_training_client.py --apply` from the repository root,
+then fully restart the game. Without these client records the sword objects ignore the
+advertised quest IDs and cannot open their collection dialogs. The tool preserves existing
+records, saves a backup and can be rerun without adding duplicates.
+
+`058_gor_portal_destinations.sql` aligns the second guard post and Marka's hideout with
+captured portal acknowledgements and removes the duplicate portal binding on NPC 26176.
+It reuses the existing second-post spawn, adds one captured hideout spawn and preserves player
+state. Run the isolated migration and full request/World/verdict checks with
+`FOURDEV_TRAINING_SQL_TEST=1 python Tools/GameforgeReference/test_gor_training_sql.py --portals`.
+Evidence and deployment: `Gameforge/gor-training/portal-destinations.json`.
+
+`059_gor_moray_combat.sql` corrects the uniquely owned level-10 Moray attribute row:
+physical power 72–75, magic power 74–77, physical attack level 23 and MP 485 match
+the original server capture. The internal base/weapon split uses the existing level-10
+base and is explicitly recorded as an inference. Other monster attributes, quest rules
+and combat formulas are preserved. Run the captured-packet and isolated SQL/native hit
+checks with `FOURDEV_MORAY_SQL_TEST=1 python -m unittest discover -s Tools/GameforgeReference -p test_moray_combat.py -v`.
+Evidence and remaining unknowns: `Gameforge/gor-training/moray-combat.json`.
+
+`060_gor_moray_defense.sql` applies the explicitly approved functional substitute for
+Moray 801: physical and magic defense levels 124 -> 11. It depends on 059 and leaves
+damage-reduction power, other attributes and player progress intact. The value 11 is
+the inherited standard level-10 reference, not a verified Gameforge value. The reviewed
+SQL body is the same as `Gameforge/gor-training/moray-defense-proposal.sql`.
+Validate both repairs in an isolated SQL fixture with `FOURDEV_MORAY_SQL_TEST=1
+FOURDEV_MORAY_DEFENSE_TEST=1 python -m unittest discover -s Tools/GameforgeReference -p test_moray_combat.py -v`.
+Approval, checks and deployment: `Gameforge/gor-training/moray-defense-proposal.json`.
+
+`061_gor_marka_spawn.sql` corrects only the three coordinates of existing Marka spawn
+5024. Two captured full-HP appearances with that same spawn ID match the pinned
+quest 11027 hunt marker; inherited SQL placed the boss about 90 units away and
+10 units higher. Existing count, radius, probability, delay, attributes and saved
+progress are retained. Run the isolated migration, rejection and SQL-loaded native
+appearance/kill-credit/respawn checks with `FOURDEV_MARKA_SQL_TEST=1 python -m
+unittest discover -s Tools/GameforgeReference -p test_marka_spawn.py -v`.
+Evidence and remaining limits: `Gameforge/gor-training/marka-spawn.json`.

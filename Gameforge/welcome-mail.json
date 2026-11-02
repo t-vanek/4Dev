@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "feature": "First-entry welcome letter for newly created characters",
+  "classification": "explicit_user_requested_custom_reward",
+  "authorization": {
+    "scope": "Only new characters, once at their first entry into the game.",
+    "gift_selection": "User delegated the choice of gift.",
+    "baseline_policy_changed": false,
+    "publisher_parity_claimed": false
+  },
+  "implemented": true,
+  "real_client_verified": false,
+  "configuration": {
+    "title": "Vitej ve 4Story!",
+    "message": "Vitej ve svete 4Story! Pro prvni dobrodruzstvi dostavas 5x Maly napoj zivota a 5x Maly napoj many. Prejeme prijemnou hru!",
+    "text_encoding": "ASCII Czech text through the existing native NetString framing",
+    "gifts": [
+      { "item_id": 8001, "name": "Malý nápoj života", "count": 5, "level": 1, "native_kind": 26 },
+      { "item_id": 8101, "name": "Malý nápoj many", "count": 5, "level": 1, "native_kind": 27 }
+    ],
+    "item_evidence": "Read-only live TITEMCHART lookup confirmed level 1, stack 30 and use value 600 for both templates. This verifies local item identity, not official reward balance.",
+    "eligibility": "Character inserted while SQL settings are enabled, then first authenticated main-session entry with DB-loaded character, live registration and world grid. No existing-character backfill; no enrollment by login.",
+    "sql_tables": ["TWelcomeMailSettings", "TWelcomeMailItem", "TCharacterWelcomeMail"],
+    "birth_trigger": "TR_TCharacterWelcomeMail_Register",
+    "activation_script": "Database/enable-welcome-mail.sql",
+    "disabled_behavior": "No new enrollment or preparation. Eligible characters first entering while disabled consume eligibility without a deferred gift. Already prepared letters continue recovery.",
+    "configuration_changes": "Only affect letters not yet prepared. Pending payloads and operation IDs remain frozen."
+  },
+  "durability": {
+    "gameplay_storage": "SQL Server only",
+    "filesystem_journal_or_fallback": false,
+    "preparation": "UPDLOCK/HOLDLOCK serializes concurrent first-entry preparation; immutable full native item snapshots and one operation ID commit before delivery acceptance.",
+    "delivery": "Existing Wolverine SQL transport accepts the frozen intent before welcome dispatch acknowledgement. Native header, both attachments and permanent TOperatorPostOperation receipt share the existing delivery transaction.",
+    "recovery": "Startup and actor timer recover unacknowledged SQL intents with the same ID. Repeated ready packets, relog, ambiguous acknowledgement, collection and deletion cannot allocate a second reward.",
+    "entry_failure": "SQL/transport failures leave the intent or eligibility available for retry without disconnecting a successfully admitted player.",
+    "native_creation_procedure_changed": false,
+    "native_character_deletion_blocked_by_foreign_key": false
+  },
+  "sources": [
+    "Database/migrations/048_character_welcome_mail.sql",
+    "Database/enable-welcome-mail.sql",
+    "Servers/TMapSvr.Net/TMap.Data/WelcomeMailStore.cs",
+    "Servers/TMapSvr.Net/TMap.Server/Map/MapService.WelcomeMail.cs",
+    "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Enter.cs",
+    "Servers/TMapSvr.Net/TMap.Server/MapWorker.cs",
+    "Servers/TMapSvr.Net/TMap.Server.Tests/WelcomeMailTests.cs",
+    "Tools/QuestEngineCheck/WelcomeMailCheck.cs"
+  ],
+  "history_review": [
+    { "commit": "b7c7fe4", "result": "Preserve authenticated character entry and main/secondary session admission. Welcome processing runs after successful playable entry, never from character-list/login requests." },
+    { "commit": "949d26c", "result": "Preserve teleport, pending transition, cast and state guards; welcome processing cannot turn an incomplete/secondary transition into an eligible entry." },
+    { "commit": "7f65607", "result": "Preserve tournament backup/admission handling; temporary tournament characters cannot issue the gift." },
+    { "scope": "Existing uncommitted quest/guild admission and SQL mail work", "result": "Keep quest recovery and guild-destination rejection before grid entry. Reuse durable operator-mail transport and receipts without changing existing reward IDs, item attributes or delivery contracts." }
+  ],
+  "validation": {
+    "map_server_tests_passed": 1829,
+    "map_solution_tests_passed": 1852,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "new_unit_cases_passed": 14,
+    "new_sql_process_scenarios_passed": 9,
+    "native_sql_scenarios_passed": 73,
+    "wolverine_sql_scenarios_passed": 14,
+    "combined_sql_scenarios_passed": 87,
+    "coverage": [
+      "Real CONREADY actor entry, gift contents/native framing, duplicated ready and relog",
+      "Existing, DB-free, secondary, incomplete, unregistered and tournament characters excluded",
+      "Preparation/transport/acknowledgement failures retain one stable reward identity",
+      "Frozen pending payload ignores later configuration changes; stack splitting and invalid item charts",
+      "New-character trigger and concurrent SQL preparation; disabled-at-entry and deleted-character behavior",
+      "Native attachment transaction rollback, collection/deletion replay and permanent receipts",
+      "Immediate process exit after first entry without logout; repeated fresh-process recovery creates one letter with both gifts",
+      "Migration reruns preserve settings, identities and receipts"
+    ],
+    "sqlcmd_regression": "Initial live migration attempt rolled back because sqlcmd defaults QUOTED_IDENTIFIER to OFF. Migration now explicitly sets required index options; the isolated runner repeats both migration passes with QUOTED_IDENTIFIER OFF.",
+    "sqlcmd_regression_passed": true,
+    "windows_results": ".runtime/welcome-mail-20261031/final/windows-tests-approved",
+    "sql_results": ".runtime/welcome-mail-20261031/release",
+    "limitations": [
+      "No actual client mail rendering/claim/relog playthrough has been verified.",
+      "Process tests instantiate the real Map actor and SQL adapters; they are not a full MapWorker/WorldWorker restart journey.",
+      "This custom gift is not evidence that the incomplete Gameforge baseline or entire .NET port is complete."
+    ]
+  },
+  "deployment": {
+    "deployed": true,
+    "activated": true,
+    "service": "mapsvr",
+    "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+    "started_utc": "2026-10-31T10:13:35.736044518Z",
+    "verified_utc": "2026-10-31T10:21:04Z",
+    "activated_utc": "2026-10-31T10:17:47.2498279Z",
+    "migration": "048_character_welcome_mail.sql",
+    "migration_applied_utc": "2026-10-31T10:13:33.0237939Z",
+    "source_worktree_dirty": true,
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "restarts": 0,
+    "new_entry_and_data_methods_present_in_running_assemblies": true,
+    "sql_settings_enabled": true,
+    "existing_characters_before_and_after_migration": 2,
+    "enrolled_characters_after_activation": 0,
+    "pending_save_records_after_activation": 0,
+    "tcreatechar_definition_hash_before_and_after": "F5E35A973C6BA6955D68BA1314767033FB4E8454423BAFCC7A0A191A2448B2D4",
+    "live_evidence": [
+      ".runtime/welcome-mail-20261031/final/live-migration.txt",
+      ".runtime/welcome-mail-20261031/final/live-activation.txt",
+      ".runtime/welcome-mail-20261031/final/live-runtime.txt"
+    ],
+    "disposable_sql_fixtures_and_credentials_cleaned": true,
+    "real_client_verified": false
+  }
+}

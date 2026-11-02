@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "verified_utc": "2026-10-30T19:03:42.565307+00:00",
+  "source_base_commit": "4eb9a1454ce068f282d5c8c574acefddce711d66",
+  "deployed_from_dirty_worktree": true,
+  "implementation_evidence": "Gameforge/inventory-visible-slots.json",
+  "rebuilt_and_recreated": [
+    "mapsvr",
+    "worldsvr"
+  ],
+  "stopped_and_resumed": [
+    "loginsvr",
+    "controlsvr"
+  ],
+  "patch_service_preserved": true,
+  "runtime": [
+    {
+      "service": "loginsvr",
+      "image_config": "sha256:54945e4d65272106ccce0d5ce6a11b104ea9495ca6c2feb4a84a0d837457eacb",
+      "created_utc": "2026-10-30T18:23:55.763760392Z",
+      "started_utc": "2026-10-30T18:59:05.426741309Z",
+      "running": true,
+      "restarts": 0
+    },
+    {
+      "service": "worldsvr",
+      "image_config": "sha256:bef0d4d55a7e9739ff5560b917a4d9ec38e137f2bf744c7bd5de134f640b6444",
+      "created_utc": "2026-10-30T18:58:59.678998828Z",
+      "started_utc": "2026-10-30T18:58:59.780973388Z",
+      "running": true,
+      "restarts": 0
+    },
+    {
+      "service": "mapsvr",
+      "image_config": "sha256:5a7cc025ee5bd0ef4bd9479d446090c83626e23075f067dc01218eaed95321a9",
+      "created_utc": "2026-10-30T18:59:01.757779864Z",
+      "started_utc": "2026-10-30T18:59:01.945500142Z",
+      "running": true,
+      "restarts": 0
+    },
+    {
+      "service": "patchsvr",
+      "image_config": "sha256:83e11bb1812cf951328897f18c62edcb8ce384c9e9fb6f99f19aec9641b66ee7",
+      "created_utc": "2026-10-30T18:23:55.731769171Z",
+      "started_utc": "2026-10-30T18:23:56.19356785Z",
+      "running": true,
+      "restarts": 0
+    },
+    {
+      "service": "controlsvr",
+      "image_config": "sha256:6d9d7ef4d697e56502fc1e74090a3ad37c7c2e514e90ff58ff1a7eaaf9d892bc",
+      "created_utc": "2026-10-30T18:23:58.048100146Z",
+      "started_utc": "2026-10-30T18:59:06.436058833Z",
+      "running": true,
+      "restarts": 0
+    }
+  ],
+  "tcp_ports_verified": [
+    3615,
+    3716,
+    4816,
+    5816
+  ],
+  "peer_registration_verified": true,
+  "database_and_mailpit_containers_preserved": true,
+  "database_volumes_preserved": true,
+  "migration": "047_inventory_visible_slots.sql",
+  "backups": [
+    {
+      "file": ".runtime/quest-herb-inventory-20261030/database-backups/TGame_gsp.bak",
+      "sha256": "4a4c0ad71d0b69d79db88239c00b001bffc9fc4f93e48ad62eccd0bd55f1a2ec",
+      "checksum_verifyonly_passed": true
+    },
+    {
+      "file": ".runtime/quest-herb-inventory-20261030/database-backups/TGlobal_gsp.bak",
+      "sha256": "58e2fa55fdb7374ecc82c3674f273591688c7d35d3a06213a1fac52521e3669c",
+      "checksum_verifyonly_passed": true
+    }
+  ],
+  "item_repair": {
+    "recovered_items": 5,
+    "all_83_rows_retained": true,
+    "only_item_inventory_coordinates_changed": true,
+    "quest_and_character_rows_unchanged": true
+  },
+  "deployed_library_probe": {
+    "deployed_assembly": true,
+    "read_only": true,
+    "sql_item_capacities_verified": 8150,
+    "default_slots": 16,
+    "extra_bag_slots": 16,
+    "full_bag_rejects_hidden_slot": true
+  },
+  "database_verification": {
+    "invisible_items": 0,
+    "pending_saves": 0,
+    "dead_letters": 0,
+    "save_lease_locks": 1
+  },
+  "tests": {
+    "map": 1785,
+    "world": 220,
+    "new_inventory_cases": 10,
+    "new_isolated_sql_cases": 7
+  },
+  "source_manifest": ".runtime/quest-herb-inventory-20261030/source-manifest.json",
+  "local_evidence_directory": ".runtime/quest-herb-inventory-20261030",
+  "previous_deployment": "Gameforge/deployments/2026-10-30-wolverine.json",
+  "remaining": [
+    "Actual client rendering/pickup/relog after this fix is not yet verified.",
+    "Unchanged Control endpoints without PeerTls remain rejected.",
+    "A separate intermittent SQL650 READPAST/isolation error in the Wolverine scheduled-mail listener was observed before this fix; inventory changes do not claim to repair it.",
+    "No Git commit or push was requested or performed."
+  ]
+}

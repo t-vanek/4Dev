@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_for_character_and_mail_actions_sql_process_verified_deployed_pending_client",
+  "scope": "Crash recovery of SendPost continuations in the existing single-Map ownership domain. No publisher quest rules or rewards are invented.",
+  "implemented": [
+    "Migration 042 adds dbo.TQuestPostOperation. Reservation attachments, completed quest counter and a pending continuation commit in the same SQL transaction. Each issuance has a GUID frozen with its rolled attachments in the local journal before SQL. Replaying that same identity, even for uncapped mail or after an ambiguous commit, does not reserve more attachments. Reusing it with a different payload fails.",
+    "Sibling mail requests already queued for the character are captured together. Completed character state, pending nested mail requests and continuation receipts share a version-2 journal record. Incremental item operations are included in that SAME record and applied before the full inventory snapshot; no separate item-publication gap remains for these mail checkpoints. Cabinet/direct operation order is preserved.",
+    "The real snapshot callback applies every character/pet/companion stage, reserves nested mail by its frozen identity, then acknowledges the parent continuation as its last stage. On restart, pending journal records finish before character loading. SQL pending continuations then execute at the main's CS_CONREADY admission boundary, before world placement.",
+    "Child mission, item, skill and repeatable craft results recover without another parent/sibling/nested mail or another payout in the tested graph. Child replies are buffered. SQL/file failures close the session, suppress those replies and prevent unpublished in-memory state from leaking through direct, logout or map-leave quest execution. Unrelated characters' pending item work is retained.",
+    "An intent pins the quest-chart hash, event target/position/map/channel and ancestor path. A changed chart, malformed/unknown intent, unavailable required outbox or unseeded allocator denies recovery. Cyclic asynchronous mail ancestors cannot recurse indefinitely. Previously written version-1 records remain readable; new version-2 records are deliberately rejected by an older version-1-only executable."
+  ],
+  "history_review": {
+    "reviewed": [
+      "949d26c reward prevalidation, magic prototypes, class filtering and one-random-reward correction; git log/diff/blame and current regressions inspected",
+      "34a9afe original quest child execution, progress persistence and character-entry flow",
+      "87e3126 single-reader SQL lane, direct item ordering and native inventory staging retained",
+      "Existing uncommitted QuestPostStore/QuestPost/QuestCheckpoint/SaveJournal implementation and QuestContinuationTests/QuestEngineCompletionTests/SaveJournalTests reviewed",
+      "Existing admission, tournament save exclusion and seeded inventory protections retained"
+    ],
+    "reason": "Reservation/progress previously committed before in-memory children, leaving no durable record when a process died between them. A plain outbox acknowledgement before saving the child result would also lose actions; acknowledgement after an independent item flush could pay them twice. The new WAL record joins the child result, direct operations, nested intents and receipt; the acknowledgement is last after replayable native SQL stages. Initial/sibling intents are also frozen before the first reservation.",
+    "retained": "Native chart CountMax, byte rollover, item/text encoding, class/skill/reward prevalidation, local main ownership and official-baseline priorities. No content, balance, mail caps or Gameforge conquest/soul rules were changed."
+  },
+  "validation": {
+    "map_solution_tests_passed": 1731,
+    "protocol_tests_passed": 9,
+    "data_tests_passed": 14,
+    "server_tests_passed": 1708,
+    "new_unit_cases": 6,
+    "unit_evidence": ".runtime/quest-mail-recovery-20261030/validation.json",
+    "sql_evidence": ".runtime/quest-mail-recovery-20261030/sql-validation.json",
+    "new_mail_sql_scenarios": 11,
+    "repeated_full_save_and_quest_sql_scenarios": 16,
+    "tool": "Tools/QuestEngineCheck/QuestMailRecoveryCheck.cs via FullSaveCheck",
+    "faults": [
+      "immediate process exit after reservation commit, before child execution and before request WAL acknowledgement",
+      "immediate exit after child item mutation, before publishing the child result",
+      "immediate exit after applying the child snapshot/nested reservation, before parent acknowledgement",
+      "immediate exit after SQL acknowledgement, before deleting its WAL record",
+      "injected SQL acknowledgement failure followed by disconnect and a fresh process",
+      "child-result journal publication failure followed by disconnect and a fresh process",
+      "initial checkpoint publication failure with starter items, sibling mail and subsequent fresh retry",
+      "unsupported world action after earlier child mutations, verifying retained pending work and no item leak",
+      "concurrent same-ID uncapped reservation and mismatched-payload rejection",
+      "outbox-insert constraint failure rolls back attachments and quest counter",
+      "missing required outbox table throws; migration 042 applies twice"
+    ],
+    "fixture": "Separate disposable SQL instance, 27 exported native table shapes, 21 procedures, synthetic rows/quest graph only. Source metadata export is read-only. Real MapService dispatch, native save callback, separate killed/recovery processes and CS_CONREADY admission hook are exercised; this is not a full MapWorker or pinned-client playthrough.",
+    "live_player_data_modified": false,
+    "deployed": true,
+    "migration_041_applied_to_live_database": true,
+    "migration_042_applied_to_live_database": true,
+    "real_client_verified": false,
+    "full_mapworker_restart_verified": false
+  },
+  "storage": {
+    "character_snapshots": "SQL TCharacterSaveQueue, checksummed payloads and receipts; no local files",
+    "mail_operations": "SQL TQuestPostOperation, stable issuance identity and pending continuations",
+    "compatibility": "Migration 043 is required in addition to 041/042; previous local storage was not deployed",
+    "evidence": "Gameforge/sql-save-queue.json"
+  },
+  "remaining": [
+    "Continuations that invoke Teleport, Switch, SpawnMon, DieMon, DropItem or Regen have external/world effects without a durable replay contract. They are explicitly blocked and left pending, rather than acknowledged or blindly replayed. Supporting these graphs needs a separate world-effect protocol; the audited 35 inherited SendPost templates currently have no TT_EXECQUEST children.",
+    "Cross-Map owner fencing/routing is still incomplete. This implementation does not claim coordination or exactly-once gameplay across independently writing Map servers.",
+    "Real-client startup/admission, mailed-reward collection, complete logout/restart and pinned Gameforge compatibility remain acceptance gates. The actual MapWorker process has not been restarted with this build.",
+    "RT_SOUL mission rewards and TT_WARREGION event rules still lack compatible reference evidence. No EXP/soul substitute or conquest trigger was guessed.",
+    "Initial incoming gameplay events have no general durable identity before their checkpoint is published. Storage durability still depends on the configured filesystem honoring Flush/WriteThrough; loss of the journal volume or power failure is not certified."
+  ],
+  "current_storage_implementation": "Gameforge/sql-save-queue.json",
+  "historical_storage_note": "The earlier filesystem journal described in this validation record was replaced at the user request by SQL-only TCharacterSaveQueue. Preserve these earlier test results as history; current storage configuration and validation are in Gameforge/sql-save-queue.json.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

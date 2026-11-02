@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_pending_complete_character_and_real_client_verification",
+  "scope": "Required saved auxiliary character state before admission: companions/medals, account mounts/saddle, recalls/buffs, hotkey pages, allegiance and owned premium/EXP items. Functional persistence repair; no publisher balance/content claims.",
+  "implemented": [
+    "ICharacterAuxiliaryStore routes recalls, hotkeys, aid country and timed items through a required-load path. Production defaults to GameDatabase; missing auxiliary override still falls back to the configured game DB. Required failures propagate to the existing client/world admission gate before ClientSession.Char is published.",
+    "Pet/saddle and companion loaders no longer catch errors and continue with empty state. Empty successful results still permit a new character. Read failures remove the session, return the existing Internal result and close it; queued handshake packets cannot promote it.",
+    "Read the pet list successfully before applying the saddle/pet state. Reject incomplete companion arrays and incomplete hotkey pages. A character with only some rows loaded never becomes playable or eligible for a full save.",
+    "Hotkey SQL reads reject missing positional fields instead of silently skipping pages, while preserving the existing handling of additional trailing columns. Loaded pages retain their existing save flags.",
+    "Preserve the DB-backed current-HP/MP clamp after premium and companion state loads; keep recall reconstruction, skill/buff loading, chart filtering and premium durations unchanged. Quest admission barriers and FIFO journal recovery remain.",
+    "Keep the existing optional PC-bang-procedure fallback only after owned premium and EXP rows load. Failure of either owned-item query propagates; missing optional PC-bang support does not discard successfully loaded owned items."
+  ],
+  "history_review": {
+    "reviewed": [
+      "d8f3a91: companion load/save, slot compaction, deletion and stamina save fixes; relevant log/diff/blame inspected",
+      "87e3126/d8f3a91: pet ownership/load and save paths and existing PetTests/CompanionTests",
+      "34a9afe/1019c82: hotkey load and save flags; missing-schema tolerance reviewed against destructive reload behavior",
+      "f852188 and DuringItem/RecallSave source histories: premium and recall load/save payloads inspected",
+      "949d26c/070673a: gameplay integrity and companion progression fixes preserved",
+      "Existing HotkeyTests, RecallSaveTests, UseItemTests, QuestAdmissionTests and SaveJournalTests retained"
+    ],
+    "reason": "The old companion catch allowed entry after a failed load with CompanionSlot=255 and Medals=0; full saves then call SaveLastCompanion/SaveMedals unconditionally. Other catches allowed empty owned or saved state into gameplay and subsequent snapshots. Required reads now deny admission instead. Malformed hotkey SQL schemas previously returned an empty/partial log.",
+    "preserved": "Existing .NET companion deletion/compaction/stamina corrections, player/companion caps, mount/recall chart filtering, timed-item interpretation, hotkey flags, DB-free fixtures, valid entry packets and earlier quest/journal safeguards."
+  },
+  "validation": {
+    "date": "2026-10-30",
+    "map_solution_tests_passed": 1701,
+    "new_character_load_cases": 17,
+    "map_tests": [
+      {
+        "trx": ".runtime/character-load-20261030/linux-tests/_f23522a7fad7_2026-10-30_13_14_54_net10.0.trx",
+        "passed": 9,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/character-load-20261030/linux-tests/_f23522a7fad7_2026-10-30_13_14_57_net10.0.trx",
+        "passed": 14,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/character-load-20261030/linux-tests/_f23522a7fad7_2026-10-30_13_15_04_net10.0.trx",
+        "passed": 1678,
+        "failed": 0
+      }
+    ],
+    "sql_main_scenarios": 29,
+    "new_character_sql_scenarios": 12,
+    "previous_quest_sql_scenarios": 17,
+    "sql_save_recovery_scenarios": 7,
+    "sql_total_scenarios": 36,
+    "sql_database": "4DevQuestTest_20261030Character",
+    "sql_evidence": ".runtime/character-load-20261030/sql-validation.json",
+    "save_recovery_evidence": ".runtime/character-load-20261030/save-recovery.json",
+    "world_source_changed": false,
+    "world_last_full_suite_passed": 207,
+    "deployed": true,
+    "real_client_verified": false,
+    "full_game_server_restart_verified": false,
+    "full_character_save_roundtrip_verified": false
+  },
+  "sql_fixture": {
+    "preparation": "Tools/QuestEngineCheck/prepare.sql",
+    "native_procedures": 15,
+    "player_data_copied": false,
+    "live_player_data_written": false,
+    "notes": "Copies empty table shapes only. Premium-view shape becomes a LOCAL test table, without cross-database links. Synthetic character owns account 9. Correct only the copied TGetMountSaddle CREATE header whose inherited sp_rename left its former _copy name; native procedure body is unchanged. No deployment or production migration."
+  },
+  "remaining": [
+    "Full MapService snapshot callback replay is now verified through native SQL/global-account stages with process-failure recovery (Gameforge/full-save-integrity.json). Migration 041 and source are not deployed. Actual MapWorker restart, real-client logout/relog and authoritative capture/load journeys remain acceptance gates.",
+    "Auxiliary subqueries do not form one database-wide character snapshot; cross-Map ownership fencing and coordinated multi-server persistence remain open.",
+    "Optional PC-bang fallback and existing unknown-chart filtering are preserved. This does not certify publisher premium/mount/companion balance or the pinned client exact release.",
+    "Quest RT_SOUL/TT_WARREGION reference gaps and generic child-event crash recovery remain as listed in Gameforge/quest-engine.json."
+  ],
+  "latest_full_save_integrity_port": "Gameforge/full-save-integrity.json",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

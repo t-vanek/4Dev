@@ -1,0 +1,302 @@
+{
+  "schema": 1,
+  "reviewed_date": "2026-10-31",
+  "status": "incomplete",
+  "target": "Gameforge/target.json",
+  "reference": "Gameforge/reference.json",
+  "solution": "Servers/Servers.Net.slnx",
+  "scope": "Complete playable .NET server stack; executable builds and packet coverage alone do not establish completion.",
+  "services": [
+    {
+      "name": "Login",
+      "source": "Servers/TLoginSvr.Net",
+      "status": "implemented_pending_complete_client_and_sql_acceptance"
+    },
+    {
+      "name": "World",
+      "source": "Servers/TWorldSvr.Net",
+      "status": "partial"
+    },
+    {
+      "name": "Map",
+      "source": "Servers/TMapSvr.Net",
+      "status": "partial"
+    },
+    {
+      "name": "Patch",
+      "source": "Servers/TPatchSvr.Net",
+      "status": "implemented_pending_complete_client_and_sql_acceptance"
+    },
+    {
+      "name": "Control",
+      "source": "Servers/TControlSvr.Net",
+      "status": "implemented_pending_complete_runtime_acceptance"
+    },
+    {
+      "name": "BoW matches",
+      "native_source": "Servers/TMapSvr (BOW_COMPILE_MODE), Servers/TBoWSvr",
+      "status": "not_ported_separate_match_runtime",
+      "existing_scope": "Map and World implement queues and coordination only."
+    },
+    {
+      "name": "BR matches",
+      "native_source": "Servers/TMapSvr (BR_COMPILE_MODE), Servers/TBRSvr",
+      "status": "not_ported_separate_match_runtime",
+      "existing_scope": "Map and World implement queues and coordination only."
+    },
+    {
+      "name": "Native UDP log sink",
+      "native_source": "Servers/TLogSvr",
+      "status": "not_ported",
+      "existing_scope": "Existing .NET application logging does not implement the legacy UDP/SQL log protocol."
+    }
+  ],
+  "current_change": {
+    "area": "Doppelganger appearance and copied basic skills",
+    "implemented": true,
+    "deployed": true,
+    "real_client_verified": false,
+    "database_writes_changed": false,
+    "sources": [
+      "Servers/TMapSvr.Net/TMap.Server/Map/MapService.OtherSelf.cs",
+      "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Summon.cs",
+      "Servers/TMapSvr.Net/TMap.Server.Tests/OtherSelfTests.cs",
+      "Servers/TMapSvr.Net/TMap.Server.Tests/DoppelgangerSkillTests.cs"
+    ],
+    "implementation_evidence": [
+      "Lib/Own/TProtocol/include/CSProtocol.h:2304-2307 defines OTHERSELF IDs.",
+      "Client/TClient/CSHandler.cpp:7524 requests owner appearance for a visible template-zero summon without a visible owner; OnCS_OTHERSELF_ACK consumes the reply at 7848.",
+      "Servers/TMapSvr/CSHandler.cpp:12112 and CSSender.cpp:528 define request/reply and the following companion-slot update.",
+      "Servers/TMapSvr/TObjBase.cpp:3307 selects basic skills 31 through 34 with IsEquipSkillItem. This is implementation evidence, not certified publisher balance."
+    ],
+    "history_review": [
+      {
+        "commit": "0069951",
+        "result": "Original summon implementation omitted the equipment eligibility check and OTHERSELF reply. Existing creation and World ID allocation are retained."
+      },
+      {
+        "commit": "02ad633",
+        "result": "Preserve the learned-versus-innate level-zero distinction; do not copy unlearned basic-skill placeholders. Preserve the explicitly different tame/evocate policy pending reference evidence."
+      },
+      {
+        "commit": "3983fc6",
+        "result": "Recall-save arrival callback and existing lifetime/restoration behavior are unchanged."
+      },
+      {
+        "commit": "949d26c",
+        "result": "Preserve paid cast authorization, authoritative power and equipment/ammunition checks. The new copied-skill filter reuses existing eligibility helpers."
+      }
+    ],
+    "integrity": "Reply only for an active visible template-zero recall registered to the supplied owner. Reject guessed IDs, foreign ownership, other object types, stale/replaced/deleted/expired recalls, loading and secondary recipients. A locally present secondary owner copy may supply appearance. Only equipped items are serialized, sorted by slot, with the owner's item registration identity."
+  },
+  "sql_player_exchanges": {
+    "implemented": true,
+    "deployed": true,
+    "gameplay_storage": "SQL Server only",
+    "recovery_queue": "dbo.TCharacterSaveQueue, version 4",
+    "filesystem_journal_or_fallback": false,
+    "native_tables": [
+      "TCHARTABLE",
+      "TITEMTABLE",
+      "TINVENTABLE",
+      "TSKILLTABLE",
+      "TQUESTTABLE",
+      "TQUESTTERMTABLE"
+    ],
+    "acceptance": "The two complete post-exchange snapshots and pending direct item writes/deletes share one synchronously committed SQL queue record before either player's deferred success packets are published. Failed publication quarantines both sessions and excludes partial state from logout/item saves.",
+    "recovery": "The existing single DB lane applies both native snapshots in queue order. A late failure or process death retains the entire record; startup/character admission waits for recovery. The native game-table writes themselves are sequential, not one cross-player SQL transaction.",
+    "session_lifecycle": "Trade acceptance binds the original character ID/session key. Ask, accept, offer and confirm reject unavailable partners. Socket disconnect and teleport/map exit share teardown without transferring the old trade to a relogged player.",
+    "new_unit_cases": 25,
+    "new_sql_process_cases": 6,
+    "sources": [
+      "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Deal.cs",
+      "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Persist.cs",
+      "Servers/TMapSvr.Net/TMap.Server/Map/SaveQueue.cs",
+      "Servers/TMapSvr.Net/TMap.Server.Tests/DealPersistenceTests.cs",
+      "Servers/TMapSvr.Net/TMap.Server.Tests/DealAdmissionTests.cs",
+      "Servers/TMapSvr.Net/TMap.Server.Tests/SqlSaveQueueTests.cs",
+      "Tools/QuestEngineCheck/ExchangeRecoveryCheck.cs"
+    ],
+    "history_review": [
+      {
+        "commit": "34a9afe",
+        "result": "The original same-map staged-offer/capacity/confirmation logic did not checkpoint both character currencies/inventories together. Preserve snapshot copies, offer revalidation and both capacity guards; add SQL durability before success."
+      },
+      {
+        "commit": "32ac5e6",
+        "result": "Keep the existing recipient block-list guard."
+      },
+      {
+        "commit": "7f65607",
+        "result": "Keep tournament character restrictions, including rechecks on continuation."
+      },
+      {
+        "commit": "949d26c",
+        "result": "Shared trade teardown preserves native teleport result/name ordering and existing pending-teleport/cast/state gates. The added entry point is socket disconnect."
+      },
+      {
+        "scope": "Existing uncommitted SQL recovery and quest checkpoints",
+        "result": "Retain version 1/2/3 decoding, queue lease/identity, FIFO DB lane, direct-before-full writes, receipts and all full character save stages. Extract common capture/completion helpers; all earlier native SQL cases and Map regressions pass."
+      }
+    ],
+    "remaining": "Cross-Map fencing and readers outside the current Map admission barrier; other mail/cash/auction/store exchanges; original external quest effects; actual two-client and full MapWorker restart acceptance; remaining native trade faction/action gates. No publisher balance values changed."
+  },
+  "current_deployment": {
+    "service": "mapsvr",
+    "evidence": "Gameforge/gor-content-repairs.json",
+    "started_utc": "2026-10-31T16:49:43.179459933Z",
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "verified_utc": "2026-10-31T16:49:53.2564872Z",
+    "world_registration_verified": true,
+    "new_database_migration_applied": "056_gor_wakeup_quest.sql",
+    "welcome_mail_activated": true,
+    "source_worktree_dirty": true,
+    "real_client_verified": false,
+    "newly_restored_gor_missions": 12,
+    "remaining_requested_disabled_missions": 1,
+    "remaining_regular_missions": 0,
+    "image_rebuilt_for_quest_reward_code": false
+  },
+  "previous_deployment": {
+    "service": "mapsvr",
+    "started_utc": "2026-10-31T09:20:19.958327253Z",
+    "image": "sha256:8c84b284a9fa5b017a812644cf57a97b816d27646229ebf354efddeb06f031b4",
+    "world_registration_verified": true,
+    "new_exchange_method_present_in_deployed_assembly": true,
+    "pending_save_records": 0,
+    "exclusive_sql_save_lease_verified": true,
+    "verified_utc": "2026-10-31T09:25:26Z",
+    "new_database_migration_required": false,
+    "source_worktree_dirty": true,
+    "real_client_verified": false,
+    "client_attempt": "Computer Use launch_app for the repository Game/TClient.exe timed out; a subsequent window inventory returned no game window. No client journey was marked verified."
+  },
+  "validation": {
+    "scope_date": "Before the 14 welcome-mail regressions; current Map and SQL validation is in Gameforge/welcome-mail.json.",
+    "status": "source_regressions_passed_live_acceptance_incomplete",
+    "platform": "Windows x64 .NET 10; final Map suite and native/framework SQL process checks in isolated Linux .NET 10",
+    "new_regression_cases": 53,
+    "projects_built": 31,
+    "test_projects_executed": 14,
+    "tests_passed": 2256,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "map_server_tests_passed": 1815,
+    "map_solution_tests_passed": 1838,
+    "world_solution_tests_passed": 220,
+    "control_solution_tests_passed": 104,
+    "login_solution_tests_passed": 80,
+    "patch_solution_tests_passed": 14,
+    "run_detail": "Latest project results combine the stack run, final Linux Map solution after fixing two newly exposed partner-availability cases, and separate Login/Map/Control data runs with SQL settings. 2256 cases pass with zero framework skips. Some old smoke cases still have documented DB-free returns; do not count every passing test as a SQL round trip.",
+    "results": ".runtime/dotnet-exchange-20261031",
+    "summary": ".runtime/dotnet-exchange-20261031/current-tests.json",
+    "database_round_trips": "64 native plus 14 Wolverine framework scenarios passed in a disposable SQL instance, including 6 new trade/process cases. Ten Login 2FA cases and Map security/cloak cases passed in their own synthetic databases; Control topology read passed on live SQL.",
+    "client_playthrough": "not_run",
+    "limitation": "Synthetic dispatch/callback process-exit checks do not replace actual full MapWorker/client restart acceptance. A passing DB-free smoke fallback is not a SQL round trip."
+  },
+  "remaining_work": [
+    {
+      "priority": 1,
+      "area": "Player journey",
+      "required": "Real-client account/character lifecycle, NPC quest, combat, loot/EXP, equipment, death/revival, logout/relog and process restart with saved-state comparison.",
+      "evidence": "Gameforge/baseline-readiness.json"
+    },
+    {
+      "priority": 2,
+      "area": "Persistence and distributed ownership",
+      "required": "Single-Map trades now have shared SQL acceptance/recovery with synthetic process checks. Cross-Map save ownership/fencing, other interrupted mail/auction/cash/store exchanges, original external quest-effect continuation, complete war settlement/restart and real-client trade acceptance remain open.",
+      "evidence": "Gameforge/sql-save-queue.json, Gameforge/wolverine-mail.json, Gameforge/territory-wars.json, Gameforge/dotnet-port.json"
+    },
+    {
+      "priority": 3,
+      "area": "Core world and content",
+      "required": "Resolve unsupported quest graphs, undocumented soul methods and TT_WARREGION rewards, combat/content references, missing populations, spawn/loot rules and compatible skill behavior without inventing values.",
+      "evidence": "Gameforge/reference.json, Gameforge/quest-engine.json, Gameforge/content-gaps/report.html"
+    },
+    {
+      "priority": 4,
+      "area": "Multiple Map servers",
+      "required": "Complete route/neighbor handoff, summon state, loot/item/money relays, current-main ownership and recovery under actual distributed topology.",
+      "evidence": "Servers/TMapSvr.Net/PORT_STATUS.md"
+    },
+    {
+      "priority": 5,
+      "area": "Official modes",
+      "required": "Implement separate BoW and BR match runtimes and verify queues, admission, matches, results, rewards and recovery with multiple clients.",
+      "evidence": "Servers/TBoWSvr/TBoWSvr.vcxproj, Servers/TBRSvr/TBRSvr.vcxproj"
+    },
+    {
+      "priority": 6,
+      "area": "Remaining integrations",
+      "required": "Audit remaining Map/World message implementations, SMS backend dependency and UDP log protocol. CS_RESETHOST_REQ is a no-op in the inherited native handler; accepting a message does not by itself add gameplay.",
+      "evidence": "Servers/TMapSvr/CSHandler.cpp, Servers/TMapSvr/SSHandler.cpp, Servers/TLogSvr"
+    }
+  ],
+  "latest_gor_reconstruction_validation": {
+    "new_point_and_arena_actor_cases_passed": 15,
+    "map_server_cases_passed": 1868,
+    "map_protocol_cases_passed": 9,
+    "data_suite_cases_passed": 14,
+    "data_suite_note": "Optional live DataSmoke cases require their environment; separate SQL fixtures and read-only live probe provide actual DB evidence.",
+    "isolated_sql_migration_scenarios_passed": 16,
+    "native_quest_inventory_lifecycle_scenarios_passed": 5,
+    "full_native_save_process_scenarios_passed": 75,
+    "wolverine_mail_scenarios_passed": 14,
+    "python_audit_cases_passed": 28,
+    "static_sql_and_all_character_hash_preservation_verified": true,
+    "disposable_fixtures_cleaned": true,
+    "player_rows_copied": 0,
+    "actual_ragoen_gold_exp_native_character_table_round_trip_verified": false,
+    "full_new_quest_mapworker_client_journey_verified": false,
+    "readonly_live_population_initialization_verified": true,
+    "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\map-final",
+    "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\reconstruction-sql-final.txt",
+    "process_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\sql-process-v7",
+    "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\verification.json",
+    "rerun_after_new_saved_progress_preserved": true
+  },
+  "deployment_before_content_repairs": {
+    "service": "mapsvr",
+    "evidence": "Gameforge/gor-content-repairs.json",
+    "started_utc": "2026-10-31T16:49:43.179459933Z",
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "verified_utc": "2026-10-31T16:49:53.2564872Z",
+    "world_registration_verified": true,
+    "new_database_migration_applied": "056_gor_wakeup_quest.sql",
+    "welcome_mail_activated": true,
+    "source_worktree_dirty": true,
+    "real_client_verified": false,
+    "newly_restored_gor_missions": 12,
+    "remaining_requested_disabled_missions": 1,
+    "remaining_regular_missions": 0,
+    "image_rebuilt_for_quest_reward_code": false
+  },
+  "latest_gor_content_validation": {
+    "content_import_scenarios_passed": 15,
+    "content_sql_loaded_execution_cases_passed": 44,
+    "wakeup_import_scenarios_passed": 13,
+    "wakeup_sql_loaded_execution_cases_passed": 2,
+    "real_sql_quest_inventory_reload_verified": true,
+    "corneus_repeat_after_reload_verified": true,
+    "wakeup_acceptance_destination_map_and_completion_reload_verified": true,
+    "relocated_legacy_switch_event_verified": true,
+    "live_template_definitions_verified": 49,
+    "all_player_char_inventory_quest_term_hashes_preserved": true,
+    "unrelated_static_tables_preserved": true,
+    "python_audit_cases_passed": 28,
+    "production_dotnet_source_changed": false,
+    "last_full_map_server_source_tests": 1868,
+    "full_source_suite_rerun_for_data_only_changes": false,
+    "real_client_playthrough_verified": false,
+    "fixture_player_rows_copied": 0,
+    "fixtures_removed": true,
+    "sql_results": [
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\content-sql-final3.txt",
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\wakeup-sql.txt"
+    ],
+    "live_results": [
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification.json",
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification-wakeup.json"
+    ]
+  }
+}

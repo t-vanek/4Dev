@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_sql_verified_deployed_pending_client",
+  "scope": "Permanent native server-reward receipts and legacy version-3 SQL queue recovery; current production delivery uses the Wolverine extension, not a complete war settlement",
+  "history_review": {
+    "inspected": [
+      "MailOperator/PostStore/Persist git log, diffs and blame, plus existing mail, arena, castle, mission, Sky Garden, tournament, cash and SQL queue tests",
+      "93ba2b1 generalized the helper to multiple new attachments and money",
+      "69d2a48 deliberately fixed native net-string title framing",
+      "f6cf628 retained plain tournament notices through an explicit mail type",
+      "Current single DB lane, SQL queue ownership/recovery, quest-post receipts and territory SQL confirmation changes"
+    ],
+    "preserved": "Recipient selection, reward amounts/templates/counts, item attribute linking, coins, mail type, net-string framing, native DB item allocation and the existing SQL queue order. No custom rewards or publisher balance changes.",
+    "reason": "The previous helper committed the header independently, swallowed attachment errors and could leave an empty paid reward or lose an unawaited write on process exit. This is a persistence/integrity repair."
+  },
+  "implementation": [
+    "MailOperator is a synchronous producer of an immutable version-3 TCharacterSaveQueue record. Its complete intent commits to SQL before even an ignored Task returns; a failed enqueue cannot silently fall back to the old partial write.",
+    "The intent freezes operation GUID, recipient ID/name, mail type/text/time/coins and all new-item attributes. Version-1/2 character and quest queue records remain readable. Invalid, duplicate-ID or mixed records reject before enqueue.",
+    "Migration 045 adds TOperatorPostOperation. One SQL transaction covers native TSavePost, native DB item-ID allocation, all native TSaveItemDirect attachments, row verification, containment and the receipt.",
+    "Replaying the same GUID and payload returns its receipt without issuing again, including after the letter was collected/deleted. Changed content under an issued GUID is rejected. Receipt rows must be retained with the matching game database and queue.",
+    "A transaction lock serializes .NET mail writers; the native item allocator's persisted domain is separate from the Map counter. An already-owned generated item ID is rejected before the native delete/insert can overwrite it.",
+    "The recipient's current SQL name is resolved by ID. A deleted recipient produces a durable rejection instead of orphan mail or an endlessly blocked FIFO queue.",
+    "Startup requires the receipt schema before recovery/client acceptance. Pending delivery is replayed through the existing SQL DB lane/startup/login barriers. Online notifications run through the actor callback queue only for a newly committed letter.",
+    "Shared callers audited: fort/castle/mission/Sky Garden rewards, arena fee rewards, RPS rewards, tournament invitations/bets and cash-bonus error replacement. DB-free fixtures retain their fake-store path; configured SQL always uses the durable path. Existing-item MailItemBack and ordinary player mail are separate transfer paths."
+  ],
+  "validation": {
+    "platform": "Linux .NET 10, isolated SDK builds and disposable SQL Server",
+    "map_solution_tests_passed": 1767,
+    "map_breakdown": {
+      "protocol": 9,
+      "data": 14,
+      "server": 1744
+    },
+    "new_map_cases": 15,
+    "world_last_unchanged_solution_tests_passed": 219,
+    "full_sql_fixture_scenarios_passed": 58,
+    "new_operator_post_sql_scenarios": 14,
+    "fixture": "41 exported native table shapes, 29 native procedures, synthetic data only; migrations 041 through 045 applied only in the disposable instance.",
+    "unit_trx_prefix": ".runtime/war-mail-20261030/map-tests/_12e899232dd5",
+    "sql_output": ".runtime/war-mail-20261030/post-sql.txt",
+    "driver": "Tools/QuestEngineCheck/OperatorPostRecoveryCheck.cs",
+    "checks": [
+      "Migration applies twice and missing required schema fails startup storage verification",
+      "Native header, money, all attachment fields and canonical recipient name roundtrip",
+      "Plain and money-only letters preserve type/containment without allocating item IDs",
+      "Concurrent SQL writers deduplicate one accepted operation",
+      "Changed payload rejects; claimed/deleted mail cannot be recreated by receipt replay",
+      "Second attachment failure rolls back header, prior attachment, money, ID allocation and receipt",
+      "Silent native item insertion failure is detected and rolls the reward back",
+      "Receipt-write failure rolls native writes back; retry can complete once",
+      "Corrupted allocator cannot overwrite an existing inventory item",
+      "Missing recipient creates only a durable rejection receipt",
+      "Real Sky Garden reward dispatcher commits intent before forced child-process exit; fresh MapService recovery delivers once",
+      "Forced process exit after SQL commit/before queue acknowledgement replays the receipt without another letter",
+      "Real reward SQL rejection retains its queued intent; a new process completes delivery after fault removal"
+    ],
+    "deployed": true,
+    "migration_045_applied_to_live_database": true,
+    "live_player_data_modified": false,
+    "full_mapworker_restart_verified": false,
+    "real_client_verified": false
+  },
+  "remaining": [
+    "This protects each accepted letter from the SQL enqueue boundary. Occupation, selecting/enqueuing every recipient, player/guild points and World publication still do not share one durable war-result identity/transaction. A crash before a letter is enqueued can still lose it; re-running the whole event creates new letter IDs and is not deduplicated by these receipts.",
+    "Active-war phase/power/god-ball/point/participant reconstruction, World result receipts and cross-Map war ownership remain incomplete. See Gameforge/territory-wars.json.",
+    "World notifications now use the Wolverine transactional outbox and World actor inbox (Gameforge/wolverine-mail.json). The native client popup remains best effort across disconnects; durable mailbox contents remain available on reload.",
+    "Existing-item refund transfers and ordinary player mail are not converted here; the full cash exchange/contract lifecycle is not made atomic by protecting newly created replacement letters.",
+    "Source and migrations are deployed; startup and SQL schema checks pass. Full player-state worker shutdown/restart, multi-client war playthrough and compatible publisher/client data acceptance remain required."
+  ],
+  "current_delivery_implementation": "Gameforge/wolverine-mail.json",
+  "implementation_history_note": "The implementation and validation list below records the version-3 queue layer. Current production MailOperator uses Wolverine SQL transport; legacy rows forward the same operation IDs only after durable acceptance. Native transaction/receipt guarantees are reused, and the World notification outbox now shares the native SQL commit.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_sql_verified_deployed_pending_client",
+  "reported_symptom": "Herbs for Karl advances and completes, but the picked herb is invisible in inventory.",
+  "root_cause": "The inherited .NET container model kept its DB-free 100-slot capacity after SQL loading and bag creation; SQL and local client item 3/30118 have 16 slots. Items at slot 16 or above could be counted and consumed by quests but were never drawn by the client.",
+  "history_review": {
+    "inspected": [
+      "34a9afe original inventory load and 100-slot model (git blame)",
+      "84018c5 routing quest pickup repair (log/diff/blame and QuestPickupTests)",
+      "1019c82 item persistence/clone changes",
+      "69d2a48 guild fixes and later direct-transfer handlers",
+      "Existing bag, cabinet, cash, tournament, loot and quest regressions"
+    ],
+    "preserved": "Existing quest eligibility/reward/consumption rules, packet layouts, item identities and attributes, direct-item SQL persistence and tournament profile exclusions. No client UI, bag size data, rates or rewards changed."
+  },
+  "implementation": [
+    "Load TITEMCHART.bSlotCount into item templates.",
+    "Resolve capacity for SQL-loaded inventories, added bags and tournament inventories; retain the DB-free fallback only without loaded charts.",
+    "Validate explicit destinations in item movement, bag removal, personal/guild cabinet and cash retrieval; normal added/moved bags require one of the five native sub-bag IDs.",
+    "Migration 047 rehomes legacy overflow/orphan/duplicate items into actual empty visible bag slots, in one transaction. It refuses pending save queues or insufficient room without deleting or merging items. Equipment, battle storage and non-inventory storage are excluded."
+  ],
+  "reference_evidence": {
+    "client_table": "Game/Tcd/TItem.tcd",
+    "identity": {
+      "file": "Game/Tcd/TItem.tcd",
+      "sha256": "5e29e14b6db17d5e6a33e9b3a517188936403cf1d7d627e456a1a8a876d27369"
+    },
+    "decoded_capacities": ".runtime/quest-herb-inventory-20261030/client-capacities.json",
+    "native_client_renderer": "Client/TClient/TClientGame.cpp: ResetInvenUI iterates the template slot count",
+    "capacity": {
+      "default_item_3": 16,
+      "bag_item_30118": 16
+    },
+    "publisher_balance_claim": false
+  },
+  "validation": {
+    "map_tests_passed": 1785,
+    "world_tests_passed": 220,
+    "new_capacity_cases": 10,
+    "isolated_sql_repair_checks_passed": 7,
+    "suite_evidence": [
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/map-tests/_98bd6a2b1282_2026-10-30_18_54_39_net10.0.trx",
+        "passed": 9
+      },
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/map-tests/_98bd6a2b1282_2026-10-30_18_54_46_net10.0.trx",
+        "passed": 14
+      },
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/map-tests/_98bd6a2b1282_2026-10-30_18_55_03_net10.0.trx",
+        "passed": 1762
+      },
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/world-tests/_98bd6a2b1282_2026-10-30_18_55_33_net10.0.trx",
+        "passed": 3
+      },
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/world-tests/_98bd6a2b1282_2026-10-30_18_55_35_net10.0.trx",
+        "passed": 3
+      },
+      {
+        "file": ".runtime/quest-herb-inventory-20261030/world-tests/_98bd6a2b1282_2026-10-30_18_55_49_net10.0.trx",
+        "passed": 214
+      }
+    ],
+    "sql_driver": "Tools/QuestEngineCheck/check-inventory-slot-repair.py",
+    "live_deployed_library_read_only_probe": {
+      "deployed_assembly": true,
+      "read_only": true,
+      "sql_item_capacities_verified": 8150,
+      "default_slots": 16,
+      "extra_bag_slots": 16,
+      "full_bag_rejects_hidden_slot": true
+    },
+    "live_database_verification": {
+      "invisible_items": 0,
+      "pending_saves": 0,
+      "dead_letters": 0,
+      "save_lease_locks": 1
+    },
+    "live_recovered_items": 5,
+    "live_item_rows_before": 83,
+    "live_item_rows_after": 83,
+    "all_non_coordinate_item_fields_unchanged": true,
+    "quest_and_character_rows_unchanged_by_repair": true,
+    "evidence_directory": ".runtime/quest-herb-inventory-20261030",
+    "migration_047_applied": true,
+    "deployed": true,
+    "real_client_after_fix_verified": false
+  },
+  "current_deployment": "Gameforge/deployments/2026-10-30-inventory.json",
+  "remaining": [
+    "Reconnect and verify inventory rendering, pickup with full default bag, all-bags-full rejection and relog persistence in the actual client.",
+    "This is a bounded inventory-capacity repair, not a complete economy, distributed ownership or Gameforge parity certification."
+  ]
+}

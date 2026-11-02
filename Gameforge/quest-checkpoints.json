@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_unit_and_sql_process_verified_pending_reference_and_client",
+  "scope": "Quest event persistence and turn-in choice integrity in the current single-Map ownership domain. No new quest content, rates or reward formulas.",
+  "implemented": [
+    "Accepted missions, objective updates, completion, abandonment and timer failure schedule a complete character snapshot at the end of the dispatched client/World/timer event, after reserved mail and child execution. GiveItem/DeleteItem/GiveSkill/DefendSkill and repeatable crafting also checkpoint their mutations without needing a stored mission row.",
+    "The snapshot contains quest counters/timers, consumed and granted inventory, currency, skills and child missions. Journal publication precedes clearing dirty flags; SQL failure retains the record for ordered replay. This removes the previous wait for periodic/logout saves for these quest changes.",
+    "Direct CS_QUESTEXEC_REQ and CS_QUESTDROP_REQ responses retain their original packet order but are buffered until the event checkpoint is durably published. Publication failure discards those responses, closes the session and retains dirty state. World/timer notifications are not response-buffered.",
+    "Persistent quest actions require a seeded item-ID allocator and the current main session. Replicas cannot execute quest actions or advance objectives. Existing DB-free tests, tournament save exclusions, main/DB-loaded snapshot gates and inventory prevalidation remain intact.",
+    "Missing, unknown, mismatched or foreign-class selected rewards are rejected before ingredients, currency or mission completion change. Normal items, magic prototypes and skills are covered. The original client's zero-selection sequence remains accepted when no class-applicable item/skill choice exists, including gold/EXP-only selected rows. Default/probability/random reward handling is preserved."
+  ],
+  "history_review": {
+    "reviewed": [
+      "34a9afe: quest state, dispatch, original character saves; relevant log/diffs/blame and regression tests inspected before changes",
+      "949d26c: reward prevalidation, magic prototype integrity, class and level-zero skill corrections retained",
+      "84018c5: NPC and crafting checks retained",
+      "87e3126: FIFO database lane and inventory staging retained",
+      "7f65607: temporary tournament character save exclusion retained",
+      "Existing QuestContinuationTests, QuestEngineCompletionTests, QuestTimerAuthorityTests, SaveJournalTests and current uncommitted quest/admission repairs reviewed",
+      "Client/TClient/TQuestNewDlg.cpp reward widgets/default class selection and TClientGM.cpp OnGM_QUEST_ACCEPT packet inspected"
+    ],
+    "reason": "Quest dirty state previously waited for periodic/logout capture while item mutations could flush earlier. An abrupt process exit could leave inventory and quest eligibility inconsistent. Selected reward validation previously allowed a missing/spoofed selection to consume a quest without its selectable reward. Regression cases reproduce both behaviors; neither repair changes publisher balance values.",
+    "entry_points": "PlayerCheckQuest, DropQuest, ExecMission, OnQuestComplete, direct item/skill actions, timer expiry and CS_QUESTPOSEXEC. LoadQuestProgress does not schedule writes during admission. Client/World/timer/disconnect boundaries flush scheduled captures."
+  },
+  "validation": {
+    "map_solution_tests_passed": 1725,
+    "protocol_tests": 9,
+    "data_tests": 14,
+    "server_tests": 1702,
+    "new_regression_cases": 22,
+    "new_checkpoint_cases": 14,
+    "new_reward_choice_cases": 8,
+    "platform": "Linux .NET 10 SDK; source mounted read-only, no live SQL credentials in general smoke suites",
+    "unit_evidence": ".runtime/quest-checkpoint-20261030/validation.json",
+    "sql_evidence": ".runtime/quest-checkpoint-20261030/sql-validation.json",
+    "new_quest_lifecycle_sql_scenarios": 6,
+    "repeated_full_snapshot_sql_scenarios": 10,
+    "tool": "Tools/QuestEngineCheck/QuestLifecycleCheck.cs via FullSaveCheck",
+    "sql_scope": "Synthetic quest graph through actual MapService client/World/timer dispatch and native SQL procedures in a separate disposable SQL instance. Each mutating child exits immediately without logout/SaveAll. A fresh process replays the event journal, reloads SQL state and performs the next step. Acceptance/starter items, hunt, turn-in/selected item/money/skill/next mission, repeat rejection, drop/reacceptance and timer failure pass.",
+    "not_a_single_sql_transaction": true,
+    "game_player_data_modified": false,
+    "deployed": true,
+    "migration_041_applied_to_live_database": true,
+    "real_client_verified": false,
+    "full_mapworker_restart_verified": false
+  },
+  "remaining": [
+    "RT_SOUL reward type 9 in 12 mission templates still fails closed pending a compatible award/packet/persistence contract. TT_WARREGION type 13 has 16 mail templates but no established event producer. Do not substitute EXP/soul-bar points or guess conquest rules.",
+    "SendPost character/mail child recovery is now implemented and SQL/process verified, including sibling/nested requests and stable uncapped issuance identity; see Gameforge/quest-mail-recovery.json. External world effects, cross-Map ownership and general pre-checkpoint incoming-event identity remain open. The audited 35 inherited SendPost templates have no TT_EXECQUEST children.",
+    "Checkpoints guarantee capture at the completed event boundary, not every intermediate instruction or a transaction across all character tables. World/timer packets are sent before that boundary; interruption during an event, ambiguous external effects and full server shutdown/restart still need acceptance testing.",
+    "Cross-Map owner fencing and routing remain incomplete. A local journal lease does not coordinate independently writing Map instances.",
+    "The actual MapWorker/client admission/logout/restart lifecycle, real-client quest journeys and pinned Gameforge content/balance compatibility remain unverified. Migration 041 and current source have not been deployed."
+  ],
+  "latest_mail_recovery_port": "Gameforge/quest-mail-recovery.json",
+  "current_storage_implementation": "Gameforge/sql-save-queue.json",
+  "historical_storage_note": "The earlier filesystem journal described in this validation record was replaced at the user request by SQL-only TCharacterSaveQueue. Preserve these earlier test results as history; current storage configuration and validation are in Gameforge/sql-save-queue.json.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}

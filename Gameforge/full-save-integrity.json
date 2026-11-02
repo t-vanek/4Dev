@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "status": "implemented_sql_verified_deployed_pending_real_client",
+  "scope": "Native character save contract, complete MapService snapshot replay and awaited cash bonus item dispatch. Functional persistence repairs, no new gameplay rewards/formulas.",
+  "implemented": [
+    "Migration 041 persists native @StatLevel/@StatPoint/@StatExp into bStatLevel/bStatPoint/dwStatExp. The C# DTO already passed these values; the inherited procedure discarded them. The disposable SQL test first reproduces the unchanged old columns, applies the repair, then reloads the intended values through a fresh connection.",
+    "The same migration removes the inherited name-specific TEventItemGive branch and its TGROUP credential reads from TSaveChar. Ordinary saving no longer issues a special item to one named character. Known procedure anchors are checked, changes are transactional, unexpected contracts fail, and applying twice leaves the same definition.",
+    "Journaled SaveCharAsync now checks the native TSaveChar return value as well as missing-procedure failures. A rejected/missing character cannot acknowledge its snapshot or proceed to create orphan auxiliary rows. Non-strict existing callers retain their earlier behavior.",
+    "Cash bonus item use now records consumption before starting the cash procedure and awaits it on the serialized batch dispatch. Earlier fire-and-forget work could outlive dispatch/logout and flush pre-consumption item state. Normal item acknowledgements, cooldowns, quest hooks and existing cash failure handling remain."
+  ],
+  "history_review": {
+    "reviewed": [
+      "34a9afe: original SaveChar binding, native return ignored and stat roundtrip contract; log/diff/blame inspected",
+      "f852188: during-item and recall persistence corrections; global premium writes and transactions retained",
+      "87e3126: single DB lane and staging inventory write ordering retained",
+      "90301c2: original cash bonus fire-and-forget, cash shop error/compensation behavior and regression tests",
+      "949d26c/7f65607: item-use gameplay gates and tournament exclusions preserved",
+      "Current live TSaveChar metadata and dependencies were read only; no live SQL procedure was altered"
+    ],
+    "reason": "A real schema/procedure fixture reproduced the ignored stat fields and private gift branch. Strict native rejection was tested for a missing character. A regression run exposed the cash test race; two deterministic held-store cases now verify the dispatch waits after consuming exactly one item (single item and stack).",
+    "preserved": "Earlier .NET skill/maintain/recall/timed-item fixes, native staging promotion, snapshot FIFO, item attributes, ownership, quest/timer counters, hotkey replay safety, pet/companion upserts and valid item-use packet order."
+  },
+  "validation": {
+    "date": "2026-10-30",
+    "map_solution_tests_passed": 1703,
+    "new_cash_dispatch_regression_cases": 2,
+    "map_tests": [
+      {
+        "trx": ".runtime/full-save-20261030/linux-tests/_6ec38b915d1d_2026-10-30_13_40_03_net10.0.trx",
+        "passed": 9,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/full-save-20261030/linux-tests/_6ec38b915d1d_2026-10-30_13_40_06_net10.0.trx",
+        "passed": 14,
+        "failed": 0
+      },
+      {
+        "trx": ".runtime/full-save-20261030/linux-tests/_6ec38b915d1d_2026-10-30_13_40_13_net10.0.trx",
+        "passed": 1680,
+        "failed": 0
+      }
+    ],
+    "new_full_save_sql_scenarios": 10,
+    "previous_component_sql_scenarios": 36,
+    "full_snapshot_callback_sql_verified": true,
+    "journal_process_crash_recovery_verified": true,
+    "native_stat_failure_reproduced": true,
+    "migration_041_idempotence_verified": true,
+    "scope": "Real MapService journal replay callback with synthetic snapshots and native SQL procedures, including cross-database premium writes. This is not a full MapWorker/client playthrough.",
+    "sql_evidence": ".runtime/full-save-20261030/sql-validation.json",
+    "world_source_changed": false,
+    "world_last_full_suite_passed": 207,
+    "deployed": true,
+    "migration_041_applied_to_live_database": true,
+    "real_client_verified": false,
+    "full_game_server_restart_verified": false,
+    "disposable_sql_container_stopped": true
+  },
+  "isolated_fixture": {
+    "exporter": "Tools/QuestEngineCheck/export-full-schema.sql",
+    "test": "Tools/QuestEngineCheck/FullSaveCheck.cs",
+    "server_prefix": "4dev-full-save-sql-",
+    "game_database": "TGame_gsp",
+    "global_database": "TGlobal_gsp",
+    "tables": 25,
+    "procedures": 21,
+    "rows_copied_from_live": 0,
+    "constraints": "Native columns/defaults/computed definitions and primary keys. Foreign keys, triggers and non-primary indexes are not cloned; this is a focused native-schema fixture, not a full production backup.",
+    "safety": "Metadata-only export; a fresh disposable SQL instance is required before creating the native hardcoded database names. Full test modes require the disposable hostname prefix and an extended-property marker before any writes. No published host port. Container stopped and its generated credential file removed after verification.",
+    "tested": "The actual MapService.OpenSaveJournal/RecoverPendingSavesAsync callback is invoked by separate writer/recovery processes. The writer is killed while its quest SQL trigger waits, after prior SQL stages committed. A fresh process replays all stages. A later companion-item constraint fails after inventory and other state commit; recovery in another process repeats the full snapshot without duplicate rows. The acknowledged journal stays empty.",
+    "families_verified": [
+      "character header and stat values",
+      "skills and maintained player buffs",
+      "quest headers/terms",
+      "inventory items with magic/value/ext/gem/appearance",
+      "hotkeys",
+      "titles",
+      "recalls and recall buffs",
+      "account pets",
+      "companion equipment/selection/medals",
+      "global premium and character EXP items",
+      "PvP/month PvP row presence"
+    ]
+  },
+  "remaining": [
+    "Migration 041 is prepared and tested but is NOT applied to the running game database. Source has not been deployed; the old Docker binaries/procedure remain until a deployment applies the migration and rebuilds the affected server.",
+    "Full MapWorker restart, actual logout/login snapshot capture, persistence through the real client and compatibility with the pinned Gameforge release remain acceptance gates. Synthetic snapshot replay is not a real-client playthrough.",
+    "Cross-Map character-owner fencing, coordinated multi-server snapshots and generic child-event recovery remain open. No general exactly-once gameplay claim.",
+    "Cash card consumption and cash balance credit remain separate database operations. Ambiguous SQL failures/process crashes spanning both still require a durable operation identity/transaction design; waiting for dispatch completion does not make that whole exchange atomic.",
+    "RT_SOUL/TT_WARREGION content/event evidence and other baseline gaps remain listed in Gameforge/quest-engine.json. No rates, caps, random rewards or publisher balance rules were invented."
+  ],
+  "current_storage_implementation": "Gameforge/sql-save-queue.json",
+  "historical_storage_note": "The earlier filesystem journal described in this validation record was replaced at the user request by SQL-only TCharacterSaveQueue. Preserve these earlier test results as history; current storage configuration and validation are in Gameforge/sql-save-queue.json.",
+  "current_deployment": {
+    "evidence": "Gameforge/deployments/2026-10-30-wolverine.json",
+    "deployed": true,
+    "verified_utc": "2026-10-30T18:28:17.882956+00:00",
+    "startup_and_sql_schema_verified": true,
+    "real_client_verified": false,
+    "note": "Earlier implementation/validation notes retain their historical scope. Current cumulative source is deployed; deployment does not certify whole-game or full gameplay restart parity."
+  }
+}
