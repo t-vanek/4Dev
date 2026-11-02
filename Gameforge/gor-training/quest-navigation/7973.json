@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "quest_id": 7973,
+  "title": "Hlášení pro Gallau",
+  "before_nodes": [
+    {
+      "quest_id": 7973,
+      "ordinal": 0,
+      "offset": 138434,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7973,
+      "ordinal": 1,
+      "offset": 138463,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7973,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26042,
+      "map_id": 0,
+      "x": 3604.110107421875,
+      "y": 105.02999877929688,
+      "z": 929.6199951171875,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7973,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26039,
+      "map_id": 0,
+      "x": 3614.6201171875,
+      "y": 105.01000213623047,
+      "z": 932.2999877929688,
+      "ordinal": 1,
+      "length": 29
+    }
+  ],
+  "objectives": [],
+  "quest": {
+    "dwQuestID": 7973,
+    "dwParentID": 7971,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26042,
+    "bCountMax": 1,
+    "bLevel": 10,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "completion": {
+    "dwQuestID": 7974,
+    "dwParentID": 7973,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26039,
+    "bCountMax": 0,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7973,
+      "dwParentID": 7971,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26042,
+      "bCountMax": 1,
+      "bLevel": 10,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7974,
+      "dwParentID": 7973,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26039,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14804,
+      "dwQuestID": 7973,
+      "bTermType": 1,
+      "dwTermID": 7973,
+      "bCount": 0
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 8745,
+      "dwQuestID": 7974,
+      "bConditionType": 3,
+      "dwConditionID": 7973,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26042": {
+      "wID": 26042,
+      "template_id": 1259,
+      "name": "Belnandi",
+      "title": "Vedoucí výcviku",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3604.110107421875,
+      "fPosY": 105.02999877929688,
+      "fPosZ": 929.6199951171875,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    },
+    "26039": {
+      "wID": 26039,
+      "template_id": 1256,
+      "name": "Gallau",
+      "title": "Trenér",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3614.6201171875,
+      "fPosY": 105.01000213623047,
+      "fPosZ": 932.2999877929688,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

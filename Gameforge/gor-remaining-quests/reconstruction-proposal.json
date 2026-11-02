@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "status": "approved_implemented_sql_tested_deployed",
+  "regular_missions": [
+    1082,
+    1084,
+    1203,
+    1208,
+    3209
+  ],
+  "excluded_seasonal_mission": 291,
+  "ragoen": {
+    "mission": 3209,
+    "producer": 3210,
+    "source_objectives_and_rewards_preserved": true,
+    "producer_repeatable_as_its_pinned_dialogue_states": true,
+    "proposed_spawns": [
+      {
+        "monster_template_id": 3504,
+        "hunt_kind": 3504,
+        "quest_count": 5,
+        "map_id": 0,
+        "x": 5822.60009765625,
+        "y": 31.739999771118164,
+        "z": 6700.2001953125,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      },
+      {
+        "monster_template_id": 3502,
+        "hunt_kind": 3502,
+        "quest_count": 10,
+        "map_id": 0,
+        "x": 5819.7900390625,
+        "y": 31.790000915527344,
+        "z": 6695.60009765625,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      },
+      {
+        "monster_template_id": 3512,
+        "hunt_kind": 3512,
+        "quest_count": 5,
+        "map_id": 0,
+        "x": 5937.18994140625,
+        "y": 59.9900016784668,
+        "z": 6508.81982421875,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      },
+      {
+        "monster_template_id": 3510,
+        "hunt_kind": 3510,
+        "quest_count": 10,
+        "map_id": 0,
+        "x": 5941.06982421875,
+        "y": 59.88999938964844,
+        "z": 6515.77978515625,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      },
+      {
+        "monster_template_id": 3521,
+        "hunt_kind": 3521,
+        "quest_count": 5,
+        "map_id": 0,
+        "x": 5975.89990234375,
+        "y": 98.20999908447266,
+        "z": 6901.9599609375,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      },
+      {
+        "monster_template_id": 3519,
+        "hunt_kind": 3519,
+        "quest_count": 10,
+        "map_id": 0,
+        "x": 5974.10009765625,
+        "y": 98.26000213623047,
+        "z": 6904.18017578125,
+        "position_source": "Pinned TQNode quest target; not a certified population export",
+        "proposed_spawn_count": 1,
+        "proposed_respawn_ms": 60000,
+        "proposed_wander_radius": 0,
+        "proposed_spawn_probability_percent": 100
+      }
+    ]
+  },
+  "arena": {
+    "proposed_scope": "Functional reconstructed PvP path; not certified Gameforge Battle Arena",
+    "party_sizes": [
+      3,
+      5
+    ],
+    "fees": [
+      50000,
+      100000
+    ],
+    "ready_seconds": 60,
+    "battle_seconds": 240,
+    "proposed_match": "Best of three PvP rounds; first team with two round wins wins the match.",
+    "round_result": "Elimination or existing timeout standing-player rule; existing draw replay is retained.",
+    "quest_credit": "Only an actually completed match awards its winning participants type-28 credit, once for that result.",
+    "achievement_rewards": {
+      "three_against_three": 100,
+      "five_against_five": 150
+    },
+    "existing_repeat_caps_preserved": true,
+    "pve_monster_wave_mode_included": false
+  },
+  "policy_file": "AGENTS.md",
+  "policy_quote": "Do not invent missing spawn positions, probabilities, formulas or quest rules.",
+  "gameplay_sql_modified": true,
+  "approval_text": "Ano, použít tuto rekonstrukci pro těchto pět úkolů",
+  "approval_scope": "Only missions 1082/1084/1203/1208/3209 and their necessary producer/completion dependencies; baseline policy remains in force elsewhere.",
+  "original_confirmation_reason": "No official server population/arena export is available. Count, respawn and match rules above are explicit reconstruction choices that require a user exception to the baseline policy.",
+  "deployment_evidence": "Gameforge/gor-remaining-quests.json"
+}

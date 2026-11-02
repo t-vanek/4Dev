@@ -1,0 +1,3141 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-11-01T10:04:44.514637+00:00",
+  "scope": "Same 139 roots as the frozen prior Gor audit; refreshed after migration 057.",
+  "prior_audit": "Gameforge/gor-quests/audit.json",
+  "counts": {
+    "root_quests": 139,
+    "reference_missions": 83,
+    "reference_recipes": 56,
+    "gor_npcs": 306,
+    "sql_npc_actions": 499,
+    "missing_server_roots": 20,
+    "disabled_server_roots": 1,
+    "issue_counts": {
+      "completion_mapping_needs_more_evidence": 10,
+      "start_npc_not_proven_by_navigation": 66,
+      "server_quest_disabled": 1,
+      "completion_action_missing_or_wrong_type": 20,
+      "objectives_differ": 3,
+      "parent_link_differs": 2,
+      "quest_type_differs": 2,
+      "reward_rows_differ": 3,
+      "start_npc_differs": 3,
+      "reward_template_missing": 1,
+      "server_quest_missing": 20
+    }
+  },
+  "rows": [
+    {
+      "id": 233,
+      "name": "Leyina jiskra - dárkový košík",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        238
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/233/leyina_jiskra_drkov_kok",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 234,
+      "name": "Na lovu pro \"4\"",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        239
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/234/na_lovu_pro_4",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 235,
+      "name": "Na lovu pro \"St\"",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        240
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/235/na_lovu_pro_st",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 236,
+      "name": "Na lovu pro 'or'",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        241
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/236/na_lovu_pro_or",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 237,
+      "name": "Na lovu pro unikátní \"y\"",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        242
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/237/na_lovu_pro_uniktn_y",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 291,
+      "name": "Šťastný nový rok!",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 0,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        292
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "server_quest_disabled",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/291/astn_nov_rok",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 547,
+      "name": "Trojstranný pakt",
+      "type": 8,
+      "level": 90,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26200
+      ],
+      "completion_npcs": [
+        26436
+      ],
+      "reference_completion_actions": [
+        548
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/547/trojstrann_pakt",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 1082,
+      "name": "Bitevní aréna (3 proti 3)",
+      "type": 8,
+      "level": 80,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26424
+      ],
+      "completion_npcs": [
+        26427
+      ],
+      "reference_completion_actions": [
+        10552
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/1082/bitevn_arna_3_proti_3",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 1084,
+      "name": "Bitevní aréna (5 proti 5)",
+      "type": 8,
+      "level": 90,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26424
+      ],
+      "completion_npcs": [
+        26427
+      ],
+      "reference_completion_actions": [
+        10553
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/1084/bitevn_arna_5_proti_5",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 1203,
+      "name": "Bitevní aréna (3 proti 3)",
+      "type": 8,
+      "level": 80,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26425
+      ],
+      "completion_npcs": [
+        26428
+      ],
+      "reference_completion_actions": [
+        10596
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/1203/bitevn_arna_3_proti_3",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 1208,
+      "name": "Bitevní aréna (5 proti 5)",
+      "type": 8,
+      "level": 90,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26425
+      ],
+      "completion_npcs": [
+        26428
+      ],
+      "reference_completion_actions": [
+        10597
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/1208/bitevn_arna_5_proti_5",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 2398,
+      "name": "Čas na první objednávky!",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        2458
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/2398/as_na_prvn_objednvky",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 3199,
+      "name": "Bronova mise",
+      "type": 8,
+      "level": 92,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 4,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        3200
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "objectives_differ",
+        "parent_link_differs",
+        "quest_type_differs",
+        "reward_rows_differ",
+        "start_npc_differs"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/3199/bronova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 3209,
+      "name": "Ragoenova mise",
+      "type": 8,
+      "level": 95,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        9716
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/3209/ragoenova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5873,
+      "name": "Meč statečnosti",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5873/me_statenosti",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5874,
+      "name": "Krátký meč šílenství",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5874/krtk_me_lenstv",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5875,
+      "name": "Meč zkázy",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5875/me_zkzy",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5876,
+      "name": "Čepel chaosu",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5876/epel_chaosu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5877,
+      "name": "Čepel zloby",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5877/epel_zloby",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5878,
+      "name": "Sekera zkázy",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5878/sekera_zkzy",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5879,
+      "name": "Luk ticha",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5879/luk_ticha",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5880,
+      "name": "Kuše ticha",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5880/kue_ticha",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5881,
+      "name": "Magická hůlka blahobytu",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5881/magick_hlka_blahobytu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5882,
+      "name": "Magický prut hojnosti",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5882/magick_prut_hojnosti",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5883,
+      "name": "Magická kniha hojnosti",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5883/magick_kniha_hojnosti",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5884,
+      "name": "Štít vykonavatele",
+      "type": 18,
+      "level": 10,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5884/tt_vykonavatele",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5917,
+      "name": "Alchymista Corneus",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26416
+      ],
+      "completion_npcs": [
+        26416
+      ],
+      "reference_completion_actions": [
+        5918
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5917/alchymista_corneus",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 5919,
+      "name": "Zlatá horečka",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26416
+      ],
+      "completion_npcs": [
+        26416
+      ],
+      "reference_completion_actions": [
+        5920
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/5919/zlat_horeka",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 6533,
+      "name": "Bílý papír a lucerny",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        6538
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/6533/bl_papr_a_lucerny",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 6534,
+      "name": "Žlutý papír a hvězdný šperk",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        6539
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/6534/lut_papr_a_hvzdn_perk",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 6535,
+      "name": "Červený papír a síťované šperky",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        6540
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/6535/erven_papr_a_sovan_perky",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 7307,
+      "name": "Čas se probudit",
+      "type": 8,
+      "level": 80,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation"
+      ],
+      "server_type": 8,
+      "parent": 7243,
+      "start_npcs": [
+        25223
+      ],
+      "completion_npcs": [
+        26003
+      ],
+      "reference_completion_actions": [
+        9720
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/7307/as_se_probudit",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8550,
+      "name": "Arkaneovo činidlo",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8550/arkaneovo_inidlo",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8552,
+      "name": "Malý obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8552/mal_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8553,
+      "name": "Střední obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8553/stedn_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8554,
+      "name": "Velký obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8554/velk_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8555,
+      "name": "Mocný obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8555/mocn_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8556,
+      "name": "Malý elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8556/mal_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8557,
+      "name": "Střední elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8557/stedn_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8558,
+      "name": "Velký elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8558/velk_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8559,
+      "name": "Mocný elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8559/mocn_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8560,
+      "name": "Zapečetěný vzorec alchymisty",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8560/zapeetn_vzorec_alchymisty",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8561,
+      "name": "Zapečetěný svitek uvědomění",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8561/zapeetn_svitek_uvdomn",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8562,
+      "name": "Zapečetěná čistící formule",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8562/zapeetn_istc_formule",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8563,
+      "name": "Povolení přesunu",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8563/povolen_pesunu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8564,
+      "name": "Malý elixír života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8564/mal_elixr_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8565,
+      "name": "Velký elixír života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8565/velk_elixr_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8566,
+      "name": "Mocný elixír života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8566/mocn_elixr_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8567,
+      "name": "Mocný elixír života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8567/mocn_elixr_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8568,
+      "name": "Malý manaelixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8568/mal_manaelixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8569,
+      "name": "Velký manaelixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8569/velk_manaelixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8570,
+      "name": "Mocný manaelixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8570/mocn_manaelixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8571,
+      "name": "Mocný manaelixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8571/mocn_manaelixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8838,
+      "name": "Krocan s kukuřičným klasem",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22756
+      ],
+      "completion_npcs": [
+        22756
+      ],
+      "reference_completion_actions": [
+        8840
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8838/krocan_s_kukuinm_klasem",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8854,
+      "name": "Kouzelná čokoláda",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26295
+      ],
+      "completion_npcs": [
+        26295
+      ],
+      "reference_completion_actions": [
+        8855
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8854/kouzeln_okolda",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8856,
+      "name": "Veniina žádost",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26296
+      ],
+      "completion_npcs": [
+        26296
+      ],
+      "reference_completion_actions": [
+        8857
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8856/veniina_dost",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8858,
+      "name": "Stydlivé vyznání",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 8856,
+      "start_npcs": [
+        26296
+      ],
+      "completion_npcs": [
+        26297
+      ],
+      "reference_completion_actions": [
+        8859
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8858/stydliv_vyznn",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8860,
+      "name": "Brutovy pravé city",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 8858,
+      "start_npcs": [
+        26297
+      ],
+      "completion_npcs": [
+        26297
+      ],
+      "reference_completion_actions": [
+        8861
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8860/brutovy_prav_city",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8864,
+      "name": "Báječné sladké třešně!",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26298
+      ],
+      "completion_npcs": [
+        26298
+      ],
+      "reference_completion_actions": [
+        8865
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8864/bjen_sladk_ten",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8866,
+      "name": "Osvěžující sladké borůvky!",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26298
+      ],
+      "completion_npcs": [
+        26298
+      ],
+      "reference_completion_actions": [
+        8867
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8866/osvujc_sladk_borvky",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8868,
+      "name": "Předání sladkého košíku",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26298
+      ],
+      "completion_npcs": [
+        26297
+      ],
+      "reference_completion_actions": [
+        8869
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8868/pedn_sladkho_koku",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8871,
+      "name": "Doruč sladký košík",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 8868,
+      "start_npcs": [
+        26297
+      ],
+      "completion_npcs": [
+        26296
+      ],
+      "reference_completion_actions": [
+        8872
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8871/doru_sladk_kok",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8874,
+      "name": "Štastný zlatý lístek",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26299
+      ],
+      "completion_npcs": [
+        26299
+      ],
+      "reference_completion_actions": [
+        8875
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8874/tastn_zlat_lstek",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8876,
+      "name": "Unikát",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26298
+      ],
+      "completion_npcs": [
+        26298
+      ],
+      "reference_completion_actions": [
+        8877
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8876/unikt",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8883,
+      "name": "Bílý papír a lucerny",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        8884
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8883/bl_papr_a_lucerny",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8885,
+      "name": "Žlutý papír a hvězdný šperk",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        8886
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8885/lut_papr_a_hvzdn_perk",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8887,
+      "name": "Červený papír a Čisté šperky",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        22919
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        8888
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8887/erven_papr_a_ist_perky",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8889,
+      "name": "Hedvábná vlákna pro Tkadlenu",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26303
+      ],
+      "completion_npcs": [
+        26303
+      ],
+      "reference_completion_actions": [
+        8890
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8889/hedvbn_vlkna_pro_tkadlenu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8891,
+      "name": "Bílé drahokamy pro Kyuna",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26304
+      ],
+      "completion_npcs": [
+        26304
+      ],
+      "reference_completion_actions": [
+        8892
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8891/bl_drahokamy_pro_kyuna",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8893,
+      "name": "Dar od nebeského syna",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26302
+      ],
+      "completion_npcs": [
+        22919
+      ],
+      "reference_completion_actions": [
+        8894
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8893/dar_od_nebeskho_syna",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8896,
+      "name": "Virtuóz rýžových koláčů",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26305
+      ],
+      "completion_npcs": [
+        26305
+      ],
+      "reference_completion_actions": [
+        8897
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8896/virtuz_rovch_kol",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8899,
+      "name": "Jack a továrna na cukroví",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26307
+      ],
+      "completion_npcs": [
+        26307
+      ],
+      "reference_completion_actions": [
+        8900
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8899/jack_a_tovrna_na_cukrov",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8901,
+      "name": "Hoř dýně, hoř!",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26307
+      ],
+      "completion_npcs": [
+        26307
+      ],
+      "reference_completion_actions": [
+        8902
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8901/ho_dn_ho",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8906,
+      "name": "Vočkova školka stromků",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26491
+      ],
+      "completion_npcs": [
+        26491
+      ],
+      "reference_completion_actions": [
+        10823
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "objectives_differ",
+        "reward_rows_differ",
+        "reward_template_missing",
+        "start_npc_differs"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8906/vokova_kolka_stromk",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8907,
+      "name": "Vánoční stromek pro milovníky jídla",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 7,
+      "parent": 0,
+      "start_npcs": [
+        26491
+      ],
+      "completion_npcs": [
+        26491
+      ],
+      "reference_completion_actions": [
+        10824
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "objectives_differ",
+        "parent_link_differs",
+        "quest_type_differs",
+        "reward_rows_differ",
+        "start_npc_differs"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8907/vnon_stromek_pro_milovnky_jdla",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8914,
+      "name": "Relikvie lehkého dechu",
+      "type": 8,
+      "level": 82,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        8915
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8914/relikvie_lehkho_dechu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8916,
+      "name": "Relikvie zdeformovaného zrcadla",
+      "type": 8,
+      "level": 85,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        8917
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8916/relikvie_zdeformovanho_zrcadla",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8918,
+      "name": "Relikvie zapadajícího slunce",
+      "type": 8,
+      "level": 88,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        8919
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8918/relikvie_zapadajcho_slunce",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8934,
+      "name": "Vynikající polévka z rýžové buchty",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26315
+      ],
+      "completion_npcs": [
+        26315
+      ],
+      "reference_completion_actions": [
+        8935
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8934/vynikajc_polvka_z_rov_buchty",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8937,
+      "name": "Čas rozhodnutí",
+      "type": 8,
+      "level": 9,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26003
+      ],
+      "completion_npcs": [
+        26003
+      ],
+      "reference_completion_actions": [
+        8938
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8937/as_rozhodnut",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 8992,
+      "name": "Legrační dárek",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26300
+      ],
+      "completion_npcs": [
+        26300
+      ],
+      "reference_completion_actions": [
+        8993
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/8992/legran_drek",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 9247,
+      "name": "Ztracené duše",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26359
+      ],
+      "completion_npcs": [
+        26359
+      ],
+      "reference_completion_actions": [
+        9248
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/9247/ztracen_due",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10629,
+      "name": "Arkaneovo činidlo",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10629/arkaneovo_inidlo",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10630,
+      "name": "Zapečetěný malý obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10630/zapeetn_mal_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10631,
+      "name": "Zapečetěný střední obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10631/zapeetn_stedn_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10632,
+      "name": "Zapečetěný velký obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10632/zapeetn_velk_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10633,
+      "name": "Zapečetěný mocný obranný elixír",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10633/zapeetn_mocn_obrann_elixr",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10634,
+      "name": "Zapečetěný malý elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10634/zapeetn_mal_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10635,
+      "name": "Zapečetěný střední elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10635/zapeetn_stedn_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10637,
+      "name": "Zapečetěný velký elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10637/zapeetn_velk_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10638,
+      "name": "Zapečetěný mocný elixír obrany proti magii",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10638/zapeetn_mocn_elixr_obrany_proti_magii",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10639,
+      "name": "Zapečetěný malý nápoj života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10639/zapeetn_mal_npoj_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10640,
+      "name": "Zapečetěný střední nápoj života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10640/zapeetn_stedn_npoj_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10641,
+      "name": "Zapečetěný velký nápoj života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10641/zapeetn_velk_npoj_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10642,
+      "name": "Zapečetěný mocný nápoj života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10642/zapeetn_mocn_npoj_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10643,
+      "name": "Zapečetěný malý nápoj many",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10643/zapeetn_mal_npoj_many",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10644,
+      "name": "Zapečetěný střední nápoj many",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10644/zapeetn_stedn_npoj_many",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10645,
+      "name": "Zapečetěný velký nápoj many",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10645/zapeetn_velk_npoj_many",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 10646,
+      "name": "Zapečetěný mocný nápoj many",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/10646/zapeetn_mocn_npoj_many",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11012,
+      "name": "Výcvik žoldáka",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26022
+      ],
+      "completion_npcs": [
+        26025
+      ],
+      "reference_completion_actions": [
+        10519
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11012/vcvik_oldka",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11013,
+      "name": "Výcvik s Daekamsonem",
+      "type": 8,
+      "level": 2,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11012,
+      "start_npcs": [
+        26025
+      ],
+      "completion_npcs": [
+        26025
+      ],
+      "reference_completion_actions": [
+        10528
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11013/vcvik_s_daekamsonem",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11014,
+      "name": "Paní Buane a jídlo",
+      "type": 8,
+      "level": 3,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11013,
+      "start_npcs": [
+        26025
+      ],
+      "completion_npcs": [
+        26026
+      ],
+      "reference_completion_actions": [
+        10529
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11014/pan_buane_a_jdlo",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11015,
+      "name": "Zrádné oko",
+      "type": 8,
+      "level": 4,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11014,
+      "start_npcs": [
+        26026
+      ],
+      "completion_npcs": [
+        26026
+      ],
+      "reference_completion_actions": [
+        10567
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11015/zrdn_oko",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11016,
+      "name": "Sbírání otupených tréninkových mečů",
+      "type": 8,
+      "level": 5,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11015,
+      "start_npcs": [
+        26026
+      ],
+      "completion_npcs": [
+        26025
+      ],
+      "reference_completion_actions": [
+        10598
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11016/sbrn_otupench_trninkovch_me",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11017,
+      "name": "Dokončení výcviku v Prvním hlídkovém stanovišti",
+      "type": 8,
+      "level": 6,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11016,
+      "start_npcs": [
+        26025
+      ],
+      "completion_npcs": [
+        26022
+      ],
+      "reference_completion_actions": [
+        10616
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11017/dokonen_vcviku_v_prvnm_hldkovm_stanoviti",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11018,
+      "name": "Do Druhého hlídkového stanoviště",
+      "type": 8,
+      "level": 6,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11017,
+      "start_npcs": [
+        26022
+      ],
+      "completion_npcs": [
+        26039
+      ],
+      "reference_completion_actions": [
+        10617
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11018/do_druhho_hldkovho_stanovit",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11019,
+      "name": "Veteránský výcvik",
+      "type": 8,
+      "level": 7,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11018,
+      "start_npcs": [
+        26039
+      ],
+      "completion_npcs": [
+        26042
+      ],
+      "reference_completion_actions": [
+        11020
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11019/veternsk_vcvik",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11021,
+      "name": "Hora písečných bouří",
+      "type": 8,
+      "level": 7,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11019,
+      "start_npcs": [
+        26042
+      ],
+      "completion_npcs": [
+        26042
+      ],
+      "reference_completion_actions": [
+        11022
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11021/hora_psench_bou",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11025,
+      "name": "Truchlící duchové v misijních oblastech",
+      "type": 8,
+      "level": 7,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11083,
+      "start_npcs": [
+        26041
+      ],
+      "completion_npcs": [
+        26041
+      ],
+      "reference_completion_actions": [
+        11026
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11025/truchlc_duchov_v_misijnch_oblastech",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11027,
+      "name": "Skrýš Marka",
+      "type": 8,
+      "level": 8,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11085,
+      "start_npcs": [
+        26039
+      ],
+      "completion_npcs": [
+        26039
+      ],
+      "reference_completion_actions": [
+        11028
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11027/skr_marka",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11037,
+      "name": "Dokončení výcviku v Druhém hlídkovém stanovišti",
+      "type": 8,
+      "level": 9,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11027,
+      "start_npcs": [
+        26039
+      ],
+      "completion_npcs": [
+        26003
+      ],
+      "reference_completion_actions": [
+        11038
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11037/dokonen_vcviku_v_druhm_hldkovm_stanoviti",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11080,
+      "name": "Sběratel",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 8871,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        11082
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "server_quest_missing",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11080/sbratel",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11083,
+      "name": "Vedoucí výcviku Ennahi",
+      "type": 8,
+      "level": 7,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11021,
+      "start_npcs": [
+        26042
+      ],
+      "completion_npcs": [
+        26041
+      ],
+      "reference_completion_actions": [
+        11084
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11083/vedouc_vcviku_ennahi",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11085,
+      "name": "Dokončení veteránského výcviku",
+      "type": 8,
+      "level": 7,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 11025,
+      "start_npcs": [
+        26041
+      ],
+      "completion_npcs": [
+        26039
+      ],
+      "reference_completion_actions": [
+        11086
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11085/dokonen_veternskho_vcviku",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11163,
+      "name": "Malá esence života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11163/mal_esence_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11164,
+      "name": "Velká esence života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11164/velk_esence_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11165,
+      "name": "Silná esence života",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11165/siln_esence_ivota",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11166,
+      "name": "Malá manaesence",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11166/mal_manaesence",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11167,
+      "name": "Velká manaesence",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11167/velk_manaesence",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11168,
+      "name": "Silná manaesence",
+      "type": 18,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 18,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [],
+      "issues": [
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11168/siln_manaesence",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11384,
+      "name": "Magotova mise",
+      "type": 8,
+      "level": 98,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11387
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11384/magotova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11393,
+      "name": "Handonina mise",
+      "type": 8,
+      "level": 102,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11417
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11393/handonina_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11397,
+      "name": "Cendrinova mise",
+      "type": 8,
+      "level": 105,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11421
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11397/cendrinova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11401,
+      "name": "Matanova mise",
+      "type": 8,
+      "level": 108,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11425
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11401/matanova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11405,
+      "name": "Hodova mise",
+      "type": 8,
+      "level": 113,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11429
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11405/hodova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11409,
+      "name": "Tarrantova mise",
+      "type": 8,
+      "level": 116,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11433
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11409/tarrantova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11413,
+      "name": "Garrenova mise",
+      "type": 8,
+      "level": 119,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11437
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11413/garrenova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11441,
+      "name": "Gatsina mise",
+      "type": 8,
+      "level": 110,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11622
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11441/gatsina_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11557,
+      "name": "Jannina mise",
+      "type": 8,
+      "level": 122,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11585
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11557/jannina_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11561,
+      "name": "Midmerova mise",
+      "type": 8,
+      "level": 125,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11589
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11561/midmerova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11565,
+      "name": "Mirrelova mise",
+      "type": 8,
+      "level": 128,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11593
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11565/mirrelova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11569,
+      "name": "Trissova mise",
+      "type": 8,
+      "level": 130,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11597
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11569/trissova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11573,
+      "name": "Gordonova mise",
+      "type": 8,
+      "level": 133,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11601
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11573/gordonova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11577,
+      "name": "Pigginsova mise",
+      "type": 8,
+      "level": 136,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11605
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11577/pigginsova_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11581,
+      "name": "Nuannina mise",
+      "type": 8,
+      "level": 139,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [
+        26081
+      ],
+      "completion_npcs": [
+        26081
+      ],
+      "reference_completion_actions": [
+        11609
+      ],
+      "issues": [
+        "completion_action_missing_or_wrong_type",
+        "server_quest_missing"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11581/nuannina_mise",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11614,
+      "name": "Podpora expediční skupiny",
+      "type": 8,
+      "level": 100,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26021
+      ],
+      "completion_npcs": [
+        26653
+      ],
+      "reference_completion_actions": [
+        11625
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11614/podpora_expedin_skupiny",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 11617,
+      "name": "Průzkum podzemního města",
+      "type": 8,
+      "level": 120,
+      "scope_evidence": [
+        "pinned_gor_npc_or_navigation",
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": 8,
+      "parent": 0,
+      "start_npcs": [
+        26013
+      ],
+      "completion_npcs": [
+        26666
+      ],
+      "reference_completion_actions": [
+        11619
+      ],
+      "issues": [],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/11617/przkum_podzemnho_msta",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 22000,
+      "name": "Návštěvník z Mosalienu",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        22001
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "server_quest_missing",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/22000/nvtvnk_z_mosalienu",
+      "client_playthrough_verified": false
+    },
+    {
+      "id": 22002,
+      "name": "Tajemství komety",
+      "type": 8,
+      "level": 1,
+      "scope_evidence": [
+        "publisher_tebekut_catalogue"
+      ],
+      "server_type": null,
+      "parent": 0,
+      "start_npcs": [],
+      "completion_npcs": [],
+      "reference_completion_actions": [
+        22003
+      ],
+      "issues": [
+        "completion_mapping_needs_more_evidence",
+        "server_quest_missing",
+        "start_npc_not_proven_by_navigation"
+      ],
+      "publisher_url": "https://cz.4story.gameforge.com/quest/details/22002/tajemstv_komety",
+      "client_playthrough_verified": false
+    }
+  ],
+  "limitations": [
+    "Dependencies use preserved item/magic/skill and hunt definitions from the frozen prior snapshot.",
+    "Original repeat/drop/Moray rules remain an approved reconstruction exception.",
+    "Static alignment is not a local real-client playthrough."
+  ]
+}

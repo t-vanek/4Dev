@@ -1,0 +1,27 @@
+{
+  "status": "native_client_chart_repaired_restart_required",
+  "recorded_utc": "2026-11-01T10:41:48.039033+00:00",
+  "cause": "Migration 057 advertised routing aliases 40007930..40007932 absent from the native client quest chart. OnCS_QUESTLIST_POSSIBLE_ACK skips unknown IDs before setting THASQUEST_ROUTING, so clicking never reaches the item-list action.",
+  "prior_test_gap": "The original lifecycle invoked routing quest execution directly and bypassed client-side advertised-ID lookup.",
+  "client_source_evidence": "Client/TClient/CSHandler.cpp:6044",
+  "repair_tool": "Tools/GameforgeReference/repair_training_client.py",
+  "repair": {
+    "path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TQuest.mpq",
+    "aliases_added": 3,
+    "before_sha256": "8c728b7e4203bb927bc2da048f3beab3fa849be7d4ef3617c8ef86cb91fd4f05",
+    "after_sha256": "c11319aac65bab05f3e22a0671fcbf037e80d03519a3305830b7b5b5d60763c0",
+    "existing_records_preserved": true,
+    "client_restart_required": true
+  },
+  "validation": {
+    "client_regression_cases_passed": 2,
+    "sequential_sql_missions_passed": 14,
+    "sql_import_cases_passed": 10,
+    "all_three_advertised_actions_npc_click_and_item_dialog_packets_verified": true,
+    "production_dotnet_changed": false,
+    "production_gameplay_sql_changed": false,
+    "existing_client_records_preserved": true,
+    "local_real_client_ui_verified": false
+  },
+  "user_action": "Fully close and restart the game client using the repaired Game folder. Logout alone does not reload TQuest.mpq."
+}

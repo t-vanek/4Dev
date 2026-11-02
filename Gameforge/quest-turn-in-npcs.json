@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "scope": "All 1497 existing SQL QT_COMPLETE actions; exact NPC assignment audit, not whole-quest or real-client certification.",
+  "reference_manifest": "Gameforge/reference.json",
+  "reference_hashes_verified": true,
+  "before_counts": {
+    "completion_graph_differs": 156,
+    "mission_identity_differs": 518,
+    "npc_aligned": 767,
+    "verified_npc_mismatch": 30,
+    "mission_objectives_differ": 22,
+    "no_reference_npc_marker": 3,
+    "not_npc_trigger": 1
+  },
+  "after_counts": {
+    "completion_graph_differs": 156,
+    "mission_identity_differs": 518,
+    "npc_aligned": 797,
+    "mission_objectives_differ": 22,
+    "no_reference_npc_marker": 3,
+    "not_npc_trigger": 1
+  },
+  "npc_completion_actions": 1496,
+  "non_npc_completion_actions": 1,
+  "new_npc_assignments_repaired": 30,
+  "affected_missions": 30,
+  "target_npcs": 19,
+  "unverified_npc_actions": 699,
+  "classification_policy": "Repair only a compatible single mission/completion graph with matching objectives, one NPC/map completion marker, matching NPC reference country, and the expected HAVEQUEST condition. Do not reactivate disabled reference quests or remap changed identities.",
+  "changes": [
+    {
+      "mission_id": 580,
+      "completion_id": 2060,
+      "title": "Hesed, země smrti",
+      "old_npc": 21079,
+      "old_name": "Prime",
+      "new_npc": 20339,
+      "new_name": "Haid"
+    },
+    {
+      "mission_id": 582,
+      "completion_id": 2082,
+      "title": "Zmizení Teiona II.",
+      "old_npc": 20339,
+      "old_name": "Haid",
+      "new_npc": 22294,
+      "new_name": "Kayabel"
+    },
+    {
+      "mission_id": 3419,
+      "completion_id": 3420,
+      "title": "Vyřešení záhady",
+      "old_npc": 22274,
+      "old_name": "Rukia",
+      "new_npc": 22273,
+      "new_name": "Braise"
+    },
+    {
+      "mission_id": 3421,
+      "completion_id": 3422,
+      "title": "Najdi starou kouzelnou věž!",
+      "old_npc": 22274,
+      "old_name": "Rukia",
+      "new_npc": 22273,
+      "new_name": "Braise"
+    },
+    {
+      "mission_id": 3426,
+      "completion_id": 3427,
+      "title": "Pronásledování Kergese",
+      "old_npc": 20004,
+      "old_name": "Olivier",
+      "new_npc": 20313,
+      "new_name": "Spelban"
+    },
+    {
+      "mission_id": 3506,
+      "completion_id": 3507,
+      "title": "Neúspěšná mise",
+      "old_npc": 20182,
+      "old_name": "Blenhaim",
+      "new_npc": 22277,
+      "new_name": "Shudka"
+    },
+    {
+      "mission_id": 3565,
+      "completion_id": 3566,
+      "title": "Alice, mistryně výzkumu dějin",
+      "old_npc": 20154,
+      "old_name": "Lucien",
+      "new_npc": 20195,
+      "new_name": "Alice"
+    },
+    {
+      "mission_id": 3697,
+      "completion_id": 3698,
+      "title": "Metody kaoského náboženství",
+      "old_npc": 21079,
+      "old_name": "Prime",
+      "new_npc": 20339,
+      "new_name": "Haid"
+    },
+    {
+      "mission_id": 3959,
+      "completion_id": 3960,
+      "title": "Vetřelec v Lese Baily",
+      "old_npc": 21130,
+      "old_name": "Ruos",
+      "new_npc": 21157,
+      "new_name": "Lelly"
+    },
+    {
+      "mission_id": 3961,
+      "completion_id": 3962,
+      "title": "Odporný zápach",
+      "old_npc": 21130,
+      "old_name": "Ruos",
+      "new_npc": 21157,
+      "new_name": "Lelly"
+    },
+    {
+      "mission_id": 3963,
+      "completion_id": 3964,
+      "title": "Domů, domů!",
+      "old_npc": 21130,
+      "old_name": "Ruos",
+      "new_npc": 21157,
+      "new_name": "Lelly"
+    },
+    {
+      "mission_id": 3965,
+      "completion_id": 3966,
+      "title": "Kouzlo Elixie",
+      "old_npc": 20863,
+      "old_name": "Armin",
+      "new_npc": 21130,
+      "new_name": "Ruos"
+    },
+    {
+      "mission_id": 812,
+      "completion_id": 3976,
+      "title": "Poslední naděje",
+      "old_npc": 20863,
+      "old_name": "Armin",
+      "new_npc": 21130,
+      "new_name": "Ruos"
+    },
+    {
+      "mission_id": 4026,
+      "completion_id": 4027,
+      "title": "Střední pole",
+      "old_npc": 21094,
+      "old_name": "Brahms",
+      "new_npc": 21115,
+      "new_name": "Pibins"
+    },
+    {
+      "mission_id": 4272,
+      "completion_id": 4273,
+      "title": "Zapomenutá truhla",
+      "old_npc": 22101,
+      "old_name": "Tamertus",
+      "new_npc": 22097,
+      "new_name": "Patesia"
+    },
+    {
+      "mission_id": 5445,
+      "completion_id": 5446,
+      "title": "Zpátky k Patesiovi",
+      "old_npc": 22101,
+      "old_name": "Tamertus",
+      "new_npc": 22097,
+      "new_name": "Patesia"
+    },
+    {
+      "mission_id": 7125,
+      "completion_id": 7143,
+      "title": "Parakelius",
+      "old_npc": 25208,
+      "old_name": "Lapiris",
+      "new_npc": 25209,
+      "new_name": "Endendros"
+    },
+    {
+      "mission_id": 7193,
+      "completion_id": 7194,
+      "title": "Cesta k Oltáři noci",
+      "old_npc": 25209,
+      "old_name": "Endendros",
+      "new_npc": 25212,
+      "new_name": "Pendatron"
+    },
+    {
+      "mission_id": 7209,
+      "completion_id": 7210,
+      "title": "Cesta k oltáři světla",
+      "old_npc": 25212,
+      "old_name": "Pendatron",
+      "new_npc": 25216,
+      "new_name": "Falkenhain"
+    },
+    {
+      "mission_id": 7305,
+      "completion_id": 7306,
+      "title": "Kde máš své střelivo?",
+      "old_npc": 25208,
+      "old_name": "Lapiris",
+      "new_npc": 25209,
+      "new_name": "Endendros"
+    },
+    {
+      "mission_id": 8010,
+      "completion_id": 8011,
+      "title": "Dopis z Polní lovecké základny",
+      "old_npc": 20301,
+      "old_name": "Mopin",
+      "new_npc": 20014,
+      "new_name": "Jacklyn"
+    },
+    {
+      "mission_id": 8012,
+      "completion_id": 8013,
+      "title": "Mrtvý divočák",
+      "old_npc": 20301,
+      "old_name": "Mopin",
+      "new_npc": 20014,
+      "new_name": "Jacklyn"
+    },
+    {
+      "mission_id": 8091,
+      "completion_id": 8092,
+      "title": "Hledání Kapaka",
+      "old_npc": 22260,
+      "old_name": "Zerakan",
+      "new_npc": 20004,
+      "new_name": "Olivier"
+    },
+    {
+      "mission_id": 8185,
+      "completion_id": 8186,
+      "title": "Události v Neznámém hrobě",
+      "old_npc": 20121,
+      "old_name": "Rupeh",
+      "new_npc": 20861,
+      "new_name": "Jameson"
+    },
+    {
+      "mission_id": 8244,
+      "completion_id": 8245,
+      "title": "Oféliina výzva",
+      "old_npc": 20861,
+      "old_name": "Jameson",
+      "new_npc": 20101,
+      "new_name": "Ofélie"
+    },
+    {
+      "mission_id": 8252,
+      "completion_id": 8255,
+      "title": "Pravda vyšla najevo",
+      "old_npc": 20101,
+      "old_name": "Ofélie",
+      "new_npc": 20109,
+      "new_name": "Morabia"
+    },
+    {
+      "mission_id": 8883,
+      "completion_id": 8884,
+      "title": "Bílý papír a lucerny",
+      "old_npc": 26306,
+      "old_name": "Oltář původu",
+      "new_npc": 22919,
+      "new_name": "Houba"
+    },
+    {
+      "mission_id": 8885,
+      "completion_id": 8886,
+      "title": "Žlutý papír a hvězdný šperk",
+      "old_npc": 26306,
+      "old_name": "Oltář původu",
+      "new_npc": 22919,
+      "new_name": "Houba"
+    },
+    {
+      "mission_id": 8887,
+      "completion_id": 8888,
+      "title": "Červený papír a Čisté šperky",
+      "old_npc": 26306,
+      "old_name": "Oltář původu",
+      "new_npc": 22919,
+      "new_name": "Houba"
+    },
+    {
+      "mission_id": 8893,
+      "completion_id": 8894,
+      "title": "Dar od nebeského syna",
+      "old_npc": 26302,
+      "old_name": "Houba",
+      "new_npc": 22919,
+      "new_name": "Houba"
+    }
+  ],
+  "artifacts": {
+    "before": "Gameforge/quest-turn-in-npcs/audit-before.json",
+    "after": "Gameforge/quest-turn-in-npcs/audit-after.json",
+    "report": "Gameforge/quest-turn-in-npcs/audit.html"
+  },
+  "validation": {
+    "classifier_cases_passed": 12,
+    "sql_migration_scenarios_passed": 8,
+    "all_30_changed_fields_verified": true,
+    "all_other_quest_fields_conditions_terms_and_npc_records_unchanged": true,
+    "reward_chart_sha256_before_and_after": "B5F9627BF00A36E51C5CBAABBC9F6B5B2AF22BAFFE3F802A5AE48E7E9A66FEBF",
+    "reported_character_quest_and_term_hashes_unchanged_after_restart": true,
+    "results": ".runtime\\quest-turn-in-audit-20261031",
+    "no_player_rows_copied_to_fixture": true,
+    "disposable_fixture_cleaned": true
+  },
+  "deployment": {
+    "migration": "050_quest_completion_npcs.sql",
+    "applied_utc": "2026-10-31T11:03:19.8235929Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+    "latest_observed_map_start_utc": "2026-10-31T11:05:14.79959163Z",
+    "verified_utc": "2026-10-31T11:07:27Z",
+    "world_registration_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "remaining": [
+    "699 NPC completion actions cannot be certified against compatible reference graphs/identities/objectives or lack a completion marker. The exact reason for every row is retained in both audit artifacts.",
+    "NPC Braise (22273), used by completions 3420/3422, has a different SQL position than the pinned original. This repair changes only quest NPC IDs; the placement requires a separate guarded repair.",
+    "Reward, condition, spawn and full quest-chain parity, and real-client acceptance remain separate requirements.",
+    "Current user priority is all Gor quests, including Tebekut; continue their focused audit rather than broadening unrelated gameplay."
+  ]
+}

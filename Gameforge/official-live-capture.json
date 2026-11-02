@@ -1,0 +1,386 @@
+{
+  "schema": 1,
+  "status": "reference_capture_decrypted_scoped_semantics",
+  "recorded_utc": "2026-11-01T08:37:28.851416+00:00",
+  "scope": "Passive user-owned character journey on the official Czech Gameforge service, 2026-11-01",
+  "exact_release_confirmed": false,
+  "baseline": "Gameforge/target.json",
+  "original_client_sha256": "320c557910c890b4c17b5311ab5c343fd4ee6d8fed3b5490db278fc5221111e1",
+  "analysis_client_sha256": "edd5e5c7abd6597c07c36d73429d551fe242ae1add981f20cc969dac80f1d243",
+  "capture_sha256": "2302ae0e331d02685806e729f7e6a6acf793aecef17edb46279778e4bc5ab32c",
+  "evidence_report": ".runtime/official-captures/20261101-071443/decode-20261101-082151/decoded/report.html",
+  "events": ".runtime/official-captures/20261101-071443/decode-20261101-082151/decoded/events.json",
+  "transactions": ".runtime/official-captures/20261101-071443/decode-20261101-082151/decoded/quest-transactions.json",
+  "client_code_evidence": ".runtime/official-captures/20261101-071443/decode-20261101-082151/decoded/client-code-evidence.c",
+  "client_code_evidence_sha256": "09bd2ef98019ad002b542b6b5e578c054f467aa76a033d62cd021076ba46f801",
+  "decoder": "Tools/GameforgeReference/decode_capture.py",
+  "decoder_sha256": "8a86545e0449db0e2c5d97d6bfe7671eee21ed5119306710163312f0f65b2c8b",
+  "tests": {
+    "path": "Tools/GameforgeReference/test_decode_capture.py",
+    "passed": 14,
+    "live_capture_integrity": "all 19960 complete messages in four directions across two new TCP connections passed application checksums and contiguous per-direction sequence numbers; no TCP gaps or conflicting overlap; partial login connection explicitly skipped"
+  },
+  "decrypted_packets": 19960,
+  "interpreted_events": 322,
+  "event_counts": {
+    "soul": 20,
+    "npc_quest_offers": 59,
+    "quest_execute": 16,
+    "quest_added": 7,
+    "quest_progress": 29,
+    "money": 18,
+    "experience": 144,
+    "quest_complete": 6,
+    "item_added": 12,
+    "item_updated": 1,
+    "item_removed": 5,
+    "npc_item_request": 3,
+    "teleport_request": 1,
+    "teleport": 1
+  },
+  "streams": [
+    {
+      "stream": 0,
+      "direction": "c2s",
+      "server_port": 4817,
+      "status": "skipped_mid_connection",
+      "reason": "No captured SYN; starting application sequence unknown"
+    },
+    {
+      "stream": 0,
+      "direction": "s2c",
+      "server_port": 4817,
+      "status": "skipped_mid_connection",
+      "reason": "No captured SYN; starting application sequence unknown"
+    },
+    {
+      "stream": 1,
+      "direction": "c2s",
+      "server_port": 4501,
+      "status": "checksum_and_sequence_verified",
+      "bytes": 595307,
+      "packets": 11312,
+      "trailing_bytes": 0,
+      "duplicate_bytes": 0
+    },
+    {
+      "stream": 1,
+      "direction": "s2c",
+      "server_port": 4501,
+      "status": "checksum_and_sequence_verified",
+      "bytes": 358655,
+      "packets": 8590,
+      "trailing_bytes": 0,
+      "duplicate_bytes": 0
+    },
+    {
+      "stream": 2,
+      "direction": "c2s",
+      "server_port": 8501,
+      "status": "checksum_and_sequence_verified",
+      "bytes": 737,
+      "packets": 45,
+      "trailing_bytes": 0,
+      "duplicate_bytes": 0
+    },
+    {
+      "stream": 2,
+      "direction": "s2c",
+      "server_port": 8501,
+      "status": "checksum_and_sequence_verified",
+      "bytes": 289,
+      "packets": 13,
+      "trailing_bytes": 0,
+      "duplicate_bytes": 0
+    }
+  ],
+  "quest_evidence": [
+    {
+      "quest_id": 11012,
+      "giver_npc_ids": [
+        26022
+      ],
+      "completion_action_id": 10519,
+      "completion_npc_ids": [
+        26025
+      ],
+      "completion_frame": 428,
+      "time_prague": "2026-11-01T08:31:43.108888+01:00",
+      "money_deltas": [
+        null
+      ],
+      "exp_deltas": [
+        null
+      ],
+      "soul_deltas": [
+        2
+      ],
+      "removed_items": [],
+      "added_items": []
+    },
+    {
+      "quest_id": 11013,
+      "giver_npc_ids": [
+        26025
+      ],
+      "completion_action_id": 10528,
+      "completion_npc_ids": [
+        26025
+      ],
+      "completion_frame": 11209,
+      "time_prague": "2026-11-01T08:42:02.755879+01:00",
+      "money_deltas": [
+        143
+      ],
+      "exp_deltas": [
+        363
+      ],
+      "soul_deltas": [
+        12
+      ],
+      "removed_items": [],
+      "added_items": [
+        {
+          "template_id": 8010,
+          "count": 5,
+          "sequence": 3920,
+          "frame": 11209
+        },
+        {
+          "template_id": 8110,
+          "count": 5,
+          "sequence": 3921,
+          "frame": 11209
+        }
+      ]
+    },
+    {
+      "quest_id": 11014,
+      "giver_npc_ids": [
+        26025
+      ],
+      "completion_action_id": 10529,
+      "completion_npc_ids": [
+        26026
+      ],
+      "completion_frame": 11979,
+      "time_prague": "2026-11-01T08:44:13.633797+01:00",
+      "money_deltas": [
+        60
+      ],
+      "exp_deltas": [
+        132
+      ],
+      "soul_deltas": [
+        5
+      ],
+      "removed_items": [
+        {
+          "removed_template_id": 9589,
+          "removed_count": 1,
+          "sequence": 4332,
+          "frame": 11979
+        }
+      ],
+      "added_items": []
+    },
+    {
+      "quest_id": 11015,
+      "giver_npc_ids": [
+        26026
+      ],
+      "completion_action_id": 10567,
+      "completion_npc_ids": [
+        26026
+      ],
+      "completion_frame": 15152,
+      "time_prague": "2026-11-01T08:46:29.688804+01:00",
+      "money_deltas": [
+        164
+      ],
+      "exp_deltas": [
+        328
+      ],
+      "soul_deltas": [
+        14
+      ],
+      "removed_items": [
+        {
+          "removed_template_id": 9586,
+          "removed_count": 1,
+          "sequence": 5490,
+          "frame": 15152
+        }
+      ],
+      "added_items": []
+    },
+    {
+      "quest_id": 11016,
+      "giver_npc_ids": [
+        26026
+      ],
+      "completion_action_id": 10598,
+      "completion_npc_ids": [
+        26025
+      ],
+      "completion_frame": 21041,
+      "time_prague": "2026-11-01T08:51:17.538186+01:00",
+      "money_deltas": [
+        274
+      ],
+      "exp_deltas": [
+        498
+      ],
+      "soul_deltas": [
+        24
+      ],
+      "removed_items": [
+        {
+          "removed_template_id": 9629,
+          "removed_count": 1,
+          "sequence": 7372,
+          "frame": 21041
+        },
+        {
+          "removed_template_id": 9630,
+          "removed_count": 1,
+          "sequence": 7374,
+          "frame": 21041
+        },
+        {
+          "removed_template_id": 9631,
+          "removed_count": 1,
+          "sequence": 7376,
+          "frame": 21041
+        }
+      ],
+      "added_items": []
+    },
+    {
+      "quest_id": 11017,
+      "giver_npc_ids": [
+        26025
+      ],
+      "completion_action_id": 10616,
+      "completion_npc_ids": [
+        26022
+      ],
+      "completion_frame": 21220,
+      "time_prague": "2026-11-01T08:54:08.971226+01:00",
+      "money_deltas": [
+        800
+      ],
+      "exp_deltas": [
+        1340
+      ],
+      "soul_deltas": [
+        15
+      ],
+      "removed_items": [],
+      "added_items": [
+        {
+          "template_id": 1596,
+          "count": 1,
+          "sequence": 7419,
+          "frame": 21220
+        }
+      ]
+    }
+  ],
+  "pending_quest_completion": 11018,
+  "routing_sources": [
+    {
+      "npc_id": 26055,
+      "quest_id": 7930,
+      "item_id": 9629,
+      "count": 1,
+      "frame": 19755,
+      "time_utc": "2026-11-01T07:50:04.889457+00:00"
+    },
+    {
+      "npc_id": 26056,
+      "quest_id": 7931,
+      "item_id": 9630,
+      "count": 1,
+      "frame": 20272,
+      "time_utc": "2026-11-01T07:50:27.190835+00:00"
+    },
+    {
+      "npc_id": 26057,
+      "quest_id": 7932,
+      "item_id": 9631,
+      "count": 1,
+      "frame": 20534,
+      "time_utc": "2026-11-01T07:50:38.505247+00:00"
+    }
+  ],
+  "portal": [
+    {
+      "kind": "teleport_request",
+      "npc_id": 26174,
+      "portal_id": 4506,
+      "stream": 1,
+      "direction": "c2s",
+      "sequence": 9338,
+      "id_hex": "0x21a0",
+      "frame": 21456,
+      "time_utc": "2026-11-01T07:56:57.795093+00:00",
+      "time_prague": "2026-11-01T08:56:57.795093+01:00"
+    },
+    {
+      "kind": "teleport",
+      "result": 0,
+      "actor_id": 5648,
+      "actor_type": 1,
+      "range": 0,
+      "map_id": 0,
+      "x": 3618.10009765625,
+      "y": 105.25,
+      "z": 915.27001953125,
+      "stream": 1,
+      "direction": "s2c",
+      "sequence": 7529,
+      "id_hex": "0x21a1",
+      "frame": 21460,
+      "time_utc": "2026-11-01T07:56:57.835624+00:00",
+      "time_prague": "2026-11-01T08:56:57.835624+01:00"
+    }
+  ],
+  "supported_findings": [
+    "Official packet IDs directly confirm seven accepted roots 11012..11018 and six successful completions 11012..11017; giver and completion-action NPC offers identify the intended NPC mappings.",
+    "Soup item 9589 is added following acceptance of 11014 and removed from the same inventory slot in its successful completion interval.",
+    "Eye item 9586 is added to inventory and then removed during successful 11015 completion; the missing turn-in screenshot gap is resolved by captured messages.",
+    "Sword routing helpers 7930/7931/7932 use NPC objects 26055/26056/26057 and items 9629/9630/9631; all three items are removed when 11016 completes.",
+    "The 11013 completion interval contains exactly +363 EXP, +143 copper, +12 soul and two stacks of five items 8010/8110. The next independent EXP update is +23, outside that completion interval.",
+    "11017 adds staff item 1596, +800 copper and +1340 EXP. Soul rises from 109 to its then-capacity 124 (+15 actual, capped), although the offered reward is 72. This is one capped result, not a complete cap or reward formula.",
+    "Portal request identifies NPC 26174 and destination 4506; successful destination is map 0 at (3618.10009765625,105.25,915.27001953125). Screenshots show zero fare and unchanged balance."
+  ],
+  "local_protocol_profile_differences": [
+    {
+      "area": "wire crypto",
+      "official": "nine body/header key pairs, WORD header transform, separate sequence offset for server direction; no RC4 outer layer",
+      "local": "existing Araz/native profile has seven keys, byte header transform and inbound RC4; leave working local client sequences intact"
+    },
+    {
+      "area": "EXP / soul",
+      "official": "EXP message has three DWORDs; independent 0x2355 carries capacity/current/source for soul. Capacity remains 124 through this captured initial fill, then changes to 989 after reset at level 8.",
+      "local": "current native-compatible EXP sender emits a fourth soul field and uses EXP-driven FillSoulBar; official parity and profile adaptation remain open"
+    },
+    {
+      "area": "item and collect request",
+      "official": "normal item block differs; collect request is WORD NPC, DWORD quest, DWORD item, BYTE count/destination inventory/destination slot",
+      "local": "existing native-compatible schemas differ and must not be silently replaced"
+    }
+  ],
+  "remaining": [
+    "Unknown application payload meanings remain opaque even though outer wire decryption succeeds",
+    "The exact cause of periodic extra EXP and the complete soul mini-game sequence have not been established",
+    "Drop probabilities, completion caps/repeatability, eligibility at untested levels/classes, object respawn and persistence across logout/restart remain unverified",
+    "Official-server observations do not verify the local .NET server journey; all 14 previously deferred training missions remain inactive"
+  ],
+  "game_server_modified": false,
+  "sql_migrations_applied": false,
+  "client_files_modified": false,
+  "local_gameplay_deployed": false,
+  "capture_continues_independently": true
+}

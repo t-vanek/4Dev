@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "quest_id": 7774,
+  "title": "Tajemství Markova úkrytu",
+  "before_nodes": [
+    {
+      "quest_id": 7774,
+      "ordinal": 0,
+      "offset": 134014,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7774,
+      "ordinal": 1,
+      "offset": 134043,
+      "length": 29,
+      "type": 16,
+      "term_id": 20669,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7774,
+      "ordinal": 2,
+      "offset": 134072,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7774,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26045,
+      "map_id": 0,
+      "x": 3600.419921875,
+      "y": 105.0199966430664,
+      "z": 923.010009765625,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7774,
+      "type": 3,
+      "term_id": 800,
+      "monster_kind": 800,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 3230.110107421875,
+      "y": 124.27999877929688,
+      "z": 837.5800170898438,
+      "ordinal": 1,
+      "length": 29
+    },
+    {
+      "quest_id": 7774,
+      "type": 2,
+      "term_id": 9651,
+      "monster_kind": 800,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 3230.110107421875,
+      "y": 124.27999877929688,
+      "z": 837.5800170898438,
+      "ordinal": 2,
+      "length": 29
+    },
+    {
+      "quest_id": 7774,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26041,
+      "map_id": 0,
+      "x": 3601.2099609375,
+      "y": 105.04000091552734,
+      "z": 926.6400146484375,
+      "ordinal": 3,
+      "length": 29
+    }
+  ],
+  "objectives": [
+    {
+      "type": 3,
+      "id": 800,
+      "count": 1
+    },
+    {
+      "type": 2,
+      "id": 9651,
+      "count": 1
+    }
+  ],
+  "quest": {
+    "dwQuestID": 7774,
+    "dwParentID": 0,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26045,
+    "bCountMax": 1,
+    "bLevel": 10,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "completion": {
+    "dwQuestID": 7922,
+    "dwParentID": 7774,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26041,
+    "bCountMax": 0,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7774,
+      "dwParentID": 0,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26045,
+      "bCountMax": 1,
+      "bLevel": 10,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7922,
+      "dwParentID": 7774,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26041,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7923,
+      "dwParentID": 7774,
+      "bType": 4,
+      "bForceRun": 0,
+      "bTriggerType": 5,
+      "dwTriggerID": 800,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14733,
+      "dwQuestID": 7774,
+      "bTermType": 3,
+      "dwTermID": 800,
+      "bCount": 1
+    },
+    {
+      "dwID": 14843,
+      "dwQuestID": 7774,
+      "bTermType": 2,
+      "dwTermID": 9651,
+      "bCount": 1
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 8664,
+      "dwQuestID": 7774,
+      "bConditionType": 15,
+      "dwConditionID": 7913,
+      "bCount": 0
+    },
+    {
+      "dwID": 8666,
+      "dwQuestID": 7922,
+      "bConditionType": 3,
+      "dwConditionID": 7774,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26041": {
+      "wID": 26041,
+      "template_id": 1258,
+      "name": "Ennahi",
+      "title": "Vedoucí výcviku",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3601.2099609375,
+      "fPosY": 105.04000091552734,
+      "fPosZ": 926.6400146484375,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    },
+    "26045": {
+      "wID": 26045,
+      "template_id": 1262,
+      "name": "Redali",
+      "title": "Rekrut",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3600.419921875,
+      "fPosY": 105.0199966430664,
+      "fPosZ": 923.010009765625,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

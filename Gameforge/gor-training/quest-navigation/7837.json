@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "quest_id": 7837,
+  "title": "K prvnímu strážnímu stanovišti",
+  "before_nodes": [
+    {
+      "quest_id": 7837,
+      "ordinal": 0,
+      "offset": 134848,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7837,
+      "ordinal": 1,
+      "offset": 134877,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7837,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26003,
+      "map_id": 0,
+      "x": 3777.139892578125,
+      "y": 86.20999908447266,
+      "z": 405.95001220703125,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7837,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26023,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "ordinal": 1,
+      "length": 29
+    }
+  ],
+  "objectives": [],
+  "quest": {
+    "dwQuestID": 7837,
+    "dwParentID": 0,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26003,
+    "bCountMax": 1,
+    "bLevel": 3,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "completion": {
+    "dwQuestID": 7838,
+    "dwParentID": 7837,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26023,
+    "bCountMax": 1,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7837,
+      "dwParentID": 0,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26003,
+      "bCountMax": 1,
+      "bLevel": 3,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7838,
+      "dwParentID": 7837,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26023,
+      "bCountMax": 1,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7839,
+      "dwParentID": 7837,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26023,
+      "bCountMax": 1,
+      "bLevel": 3,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14629,
+      "dwQuestID": 7837,
+      "bTermType": 1,
+      "dwTermID": 7837,
+      "bCount": 0
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 8573,
+      "dwQuestID": 7838,
+      "bConditionType": 3,
+      "dwConditionID": 7837,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26003": {
+      "wID": 26003,
+      "template_id": 1202,
+      "name": "Biseira",
+      "title": "Červený vlk",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3777.139892578125,
+      "fPosY": 86.20999908447266,
+      "fPosZ": 405.95001220703125,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    },
+    "26023": {
+      "wID": 26023,
+      "template_id": 1241,
+      "name": "Darni",
+      "title": "Mistr zvířat",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 0.0,
+      "fPosY": 0.0,
+      "fPosZ": 0.0,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000000.tcd",
+      "source_sha256": "77afda0d2c4a1f06c18f4e30e8305e5af57d3515197a711ba0afe0f3f8f9604f"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

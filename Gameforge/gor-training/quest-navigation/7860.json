@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "quest_id": 7860,
+  "title": "Ke druhému strážnímu stanovišti",
+  "before_nodes": [
+    {
+      "quest_id": 7860,
+      "ordinal": 0,
+      "offset": 135455,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7860,
+      "ordinal": 1,
+      "offset": 135484,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7860,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26003,
+      "map_id": 0,
+      "x": 3777.139892578125,
+      "y": 86.20999908447266,
+      "z": 405.95001220703125,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7860,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26031,
+      "map_id": 0,
+      "x": 3858.8798828125,
+      "y": 86.02999877929688,
+      "z": 835.9600219726562,
+      "ordinal": 1,
+      "length": 29
+    }
+  ],
+  "objectives": [],
+  "quest": {
+    "dwQuestID": 7860,
+    "dwParentID": 0,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26003,
+    "bCountMax": 1,
+    "bLevel": 4,
+    "bMain": 0,
+    "bConditionCheck": 1
+  },
+  "completion": {
+    "dwQuestID": 7861,
+    "dwParentID": 7860,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26031,
+    "bCountMax": 0,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7860,
+      "dwParentID": 0,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26003,
+      "bCountMax": 1,
+      "bLevel": 4,
+      "bMain": 0,
+      "bConditionCheck": 1
+    },
+    {
+      "dwQuestID": 7861,
+      "dwParentID": 7860,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26031,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14661,
+      "dwQuestID": 7860,
+      "bTermType": 1,
+      "dwTermID": 7860,
+      "bCount": 0
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 8681,
+      "dwQuestID": 7860,
+      "bConditionType": 15,
+      "dwConditionID": 7858,
+      "bCount": 0
+    },
+    {
+      "dwID": 9355,
+      "dwQuestID": 7860,
+      "bConditionType": 1,
+      "dwConditionID": 4,
+      "bCount": 0
+    },
+    {
+      "dwID": 8601,
+      "dwQuestID": 7861,
+      "bConditionType": 3,
+      "dwConditionID": 7860,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26003": {
+      "wID": 26003,
+      "template_id": 1202,
+      "name": "Biseira",
+      "title": "Červený vlk",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3777.139892578125,
+      "fPosY": 86.20999908447266,
+      "fPosZ": 405.95001220703125,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    },
+    "26031": {
+      "wID": 26031,
+      "template_id": 1248,
+      "name": "Saujel",
+      "title": "Trenér",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3858.8798828125,
+      "fPosY": 86.02999877929688,
+      "fPosZ": 835.9600219726562,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

@@ -1,0 +1,648 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-11-01T09:34:43.879790+00:00",
+  "status": "implemented_tested_running_evidence_collector",
+  "target_profile": "Gameforge/target.json",
+  "reference_manifest": "Gameforge/reference.json",
+  "baseline_complete": false,
+  "gameplay_server_modified_by_this_work": false,
+  "deferred_training_missions_activated": true,
+  "tool_files": [
+    {
+      "path": "Tools/GameforgeReference/collect_reconstruction.py",
+      "sha256": "7101cadfb5e35a7ff30918f6ce49e5113105d4970f72302bbd31badfbdd9fc04"
+    },
+    {
+      "path": "Tools/GameforgeReference/decode_capture.py",
+      "sha256": "daffb48d89fef2f0592eb4ce2a92c842251763c6530812170a45bff9b707070d"
+    },
+    {
+      "path": "Tools/GameforgeReference/reconstruction_store.py",
+      "sha256": "4be09a0dd8508086bd5758bcc2fa5d88da66cbbc792988f12669a854c55873f9"
+    },
+    {
+      "path": "Tools/GameforgeReference/reconstruction_client.py",
+      "sha256": "df772598f8cda52eb563fff5916ea5c8053c97a9cec93ae05ce533c1bfc44b1f"
+    },
+    {
+      "path": "Tools/GameforgeReference/reconstruction_protocol.py",
+      "sha256": "c58899337c2fdbad45719780e5dadce17bce0ad4a019acc5f1685c066236d370"
+    },
+    {
+      "path": "Tools/GameforgeReference/reconstruction_publisher.py",
+      "sha256": "d429778c4c380f4c0855003327d542ebc29baf7a10ffd283ffaafa30730664c0"
+    },
+    {
+      "path": "Tools/GameforgeReference/reconstruction.ps1",
+      "sha256": "ce0696078b628a8f702b3c472eb8129a7da293c377011236a87370462f5c85f1"
+    }
+  ],
+  "storage": {
+    "backend": "SQL Server",
+    "container": "araz-mssql",
+    "database": "FourDevReference",
+    "table": "dbo.Evidence",
+    "isolated_from_gameplay_databases": true,
+    "authoritative_records_and_source_bytes_in_sql": true,
+    "immutable_content_addressed_records": true,
+    "large_binary_sources_chunked_and_hash_verified": true,
+    "raw_wireshark_capture_remains_separate_on_disk": true
+  },
+  "operation": {
+    "watcher_pid": 278048,
+    "interval_seconds": 30,
+    "last_success": {
+      "inserted": 329,
+      "session_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "packets": 38220,
+      "events": 12510,
+      "snapshot_sha256": "49a6eec1e434ddaa58d9a202c18f591c4f93b207642e41a676f1393cb9f666e9",
+      "time_utc": "2026-11-01T09:35:29.191737+00:00"
+    },
+    "report": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\reconstruction\\export\\report.html",
+    "stop_command": "python -c \"from pathlib import Path; Path('.runtime/reconstruction/STOP').write_text('stop')\"",
+    "launcher": "Tools/GameforgeReference/reconstruction.ps1",
+    "sql_commands": [
+      "python Tools/GameforgeReference/collect_reconstruction.py status",
+      "python Tools/GameforgeReference/collect_reconstruction.py import-client",
+      "python Tools/GameforgeReference/collect_reconstruction.py import-publisher",
+      "python Tools/GameforgeReference/collect_reconstruction.py capture-once",
+      "python Tools/GameforgeReference/collect_reconstruction.py entity --kind client.quest --entity 11025",
+      "python Tools/GameforgeReference/collect_reconstruction.py export"
+    ],
+    "powershell_launcher_note": "On machines with script execution disabled, use a process-local powershell -NoProfile -ExecutionPolicy Bypass -File invocation or run the Python CLI directly. Stop/Start controls the evidence collector; Wireshark capture is independent."
+  },
+  "static_scope": {
+    "distinct_client_input_files": 242,
+    "pinned_inventory_entries": 2009,
+    "client_records": {
+      "client.quest": 8918,
+      "client.item": 7766,
+      "client.monster": 3622,
+      "client.npc": 2817,
+      "client.skill": 813,
+      "client.portal": 560,
+      "client.region": 893,
+      "client.resource": 71295
+    },
+    "unparsed_client_sources_raw_preserved": 46,
+    "publisher_sources": 9,
+    "publisher_records": {
+      "publisher.catalogue.item": 3520,
+      "publisher.catalogue.monster": 1451,
+      "publisher.catalogue.npc": 1299,
+      "publisher.catalogue.quest": 1820,
+      "publisher.detail.item": 3520,
+      "publisher.detail.monster": 2443,
+      "publisher.detail.npc": 1299,
+      "publisher.detail.quest": 1820
+    },
+    "completed_client_sources": 242,
+    "completed_publisher_sources": 9
+  },
+  "live_scope": {
+    "current_semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+    "raw_packets": 38235,
+    "screenshots": 64,
+    "quest_completions_current_semantics": 15,
+    "packet_schema_coverage_report": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\reconstruction\\export\\coverage.json",
+    "boundaries": "Only complete decryptable game/relay TCP streams are interpreted. Mid-connection login traffic is not reconstructed. Known message prefixes are explicitly partial; all accepted packets retain original wire and decrypted payloads. Full asset packs are indexed but not all are imported or semantically decoded."
+  },
+  "tests": {
+    "decoder_cases_passed": 14,
+    "collector_cases_passed": 18,
+    "real_sql_roundtrip_cases_passed": 3,
+    "total_cases_passed": 35,
+    "real_sql_roundtrips": [
+      "Unicode and long JSON across new SQL connection",
+      "Chunked binary restoration with complete hash and idempotent retry",
+      "Immutable identity conflict rolls back entire batch"
+    ],
+    "collector_integrity": [
+      "Interrupted source import resumes until an explicit completion marker",
+      "PCAPNG live snapshots trim only incomplete final blocks",
+      "Corrupt checksums/TCP gaps/conflicting retransmits rejected",
+      "Collector work-directory concurrency guard",
+      "Unknown fields and unmatched pinned sources stay visible"
+    ]
+  },
+  "source_policy": {
+    "pinned_executable_sha256": "320c557910c890b4c17b5311ab5c343fd4ee6d8fed3b5490db278fc5221111e1",
+    "exact_executable_release_unknown": true,
+    "changed_quest_archive_not_repinned": true,
+    "publisher_cached_page_urls_and_hashes_preserved": true,
+    "publisher_cache_not_proof_of_current_patch": true,
+    "semantic_versions_coexist_without_overwriting_raw_evidence": true,
+    "source_completion_marker_required_before_skipping_retry": true
+  },
+  "latest_journeys": {
+    "moray_certificate": {
+      "root_quest": 11025,
+      "item": 9587,
+      "monster_template": 801,
+      "removed_on_turnin": true,
+      "rewards": {
+        "experience": 1147,
+        "copper": 713,
+        "soul": 63
+      },
+      "observed_before_quest_acceptance": true,
+      "rare_spawn_probability_verified": false
+    },
+    "veteran_completion": {
+      "root_quest": 11085,
+      "completion_observed": true,
+      "rewards": {
+        "experience": 3182,
+        "copper": 1978,
+        "soul": 168
+      }
+    },
+    "marka_hideout": {
+      "root_quest": 11027,
+      "screenshots_show_victory_and_reward_bag": true,
+      "free_outbound_and_return_portal_observed": true
+    },
+    "next_journey": {
+      "root_quest": 11037,
+      "giver": "Gallau",
+      "turn_in": "Biseira",
+      "offered_rewards": {
+        "experience": 255,
+        "copper": 177,
+        "soul": 16
+      },
+      "completion_observed": true
+    },
+    "country_choice": {
+      "quest_id": 8937,
+      "title": "Čas rozhodnutí",
+      "acceptance_observed": true,
+      "ready_observed": true,
+      "choice_sequence_verified": false
+    }
+  },
+  "missing_evidence": [
+    "Exact probabilities, rare-spawn triggers and respawn schedules",
+    "Server-only formulas and unvisited content",
+    "Quest repeat/reset/class and level rules not exercised",
+    "Soul minigame formula and compatibility with the local protocol profile",
+    "Persistence and logout/restart verification of reconstructed gameplay",
+    "Local server real-client journeys and deployment verification"
+  ],
+  "verification": {
+    "publisher_reimport_inserted": 0,
+    "sql_blob_chunks_corrupt": 0,
+    "all_publisher_archive_record_counts_matched": true
+  },
+  "training_readiness": {
+    "mission_ids": [
+      11012,
+      11013,
+      11014,
+      11015,
+      11016,
+      11017,
+      11018,
+      11019,
+      11021,
+      11025,
+      11027,
+      11037,
+      11083,
+      11085
+    ],
+    "mission_count": 14,
+    "completed_mission_ids": [
+      11012,
+      11013,
+      11014,
+      11015,
+      11016,
+      11017,
+      11018,
+      11019,
+      11021,
+      11025,
+      11027,
+      11037,
+      11083,
+      11085
+    ],
+    "observed_normal_path_complete": true,
+    "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+    "local_server_activated": true,
+    "unverified_rules": [
+      "Completion caps and repeat eligibility",
+      "Rare appearance and respawn probabilities",
+      "Quest item drop probabilities",
+      "Local server persistence and real-client playthrough"
+    ],
+    "transactions": [
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 428,
+        "completion_sequence": 157,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          null
+        ],
+        "money_deltas": [
+          null
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11012,
+        "removed_items": [],
+        "request_frame": 425,
+        "request_quest_id": 10519,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          2
+        ],
+        "time_prague": "2026-11-01T08:31:43.108888+01:00"
+      },
+      {
+        "added_items": [
+          {
+            "count": 5,
+            "frame": 11209,
+            "sequence": 3920,
+            "template_id": 8010
+          },
+          {
+            "count": 5,
+            "frame": 11209,
+            "sequence": 3921,
+            "template_id": 8110
+          }
+        ],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 11209,
+        "completion_sequence": 3925,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          363
+        ],
+        "money_deltas": [
+          143
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11013,
+        "removed_items": [],
+        "request_frame": 11206,
+        "request_quest_id": 10528,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          12
+        ],
+        "time_prague": "2026-11-01T08:42:02.755879+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 11979,
+        "completion_sequence": 4334,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          132
+        ],
+        "money_deltas": [
+          60
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11014,
+        "removed_items": [
+          {
+            "frame": 11979,
+            "removed_count": 1,
+            "removed_template_id": 9589,
+            "sequence": 4332
+          }
+        ],
+        "request_frame": 11976,
+        "request_quest_id": 10529,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          5
+        ],
+        "time_prague": "2026-11-01T08:44:13.633797+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 15152,
+        "completion_sequence": 5492,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          328
+        ],
+        "money_deltas": [
+          164
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11015,
+        "removed_items": [
+          {
+            "frame": 15152,
+            "removed_count": 1,
+            "removed_template_id": 9586,
+            "sequence": 5490
+          }
+        ],
+        "request_frame": 15148,
+        "request_quest_id": 10567,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          14
+        ],
+        "time_prague": "2026-11-01T08:46:29.688804+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 21041,
+        "completion_sequence": 7378,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          498
+        ],
+        "money_deltas": [
+          274
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11016,
+        "removed_items": [
+          {
+            "frame": 21041,
+            "removed_count": 1,
+            "removed_template_id": 9629,
+            "sequence": 7372
+          },
+          {
+            "frame": 21041,
+            "removed_count": 1,
+            "removed_template_id": 9630,
+            "sequence": 7374
+          },
+          {
+            "frame": 21041,
+            "removed_count": 1,
+            "removed_template_id": 9631,
+            "sequence": 7376
+          }
+        ],
+        "request_frame": 21038,
+        "request_quest_id": 10598,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          24
+        ],
+        "time_prague": "2026-11-01T08:51:17.538186+01:00"
+      },
+      {
+        "added_items": [
+          {
+            "count": 1,
+            "frame": 21220,
+            "sequence": 7419,
+            "template_id": 1596
+          }
+        ],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 21220,
+        "completion_sequence": 7427,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          1340
+        ],
+        "money_deltas": [
+          800
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11017,
+        "removed_items": [],
+        "request_frame": 21217,
+        "request_quest_id": 10616,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          15
+        ],
+        "time_prague": "2026-11-01T08:54:08.971226+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 31366,
+        "completion_sequence": 9536,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          536
+        ],
+        "money_deltas": [
+          320
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11018,
+        "removed_items": [],
+        "request_frame": 31363,
+        "request_quest_id": 10617,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          29
+        ],
+        "time_prague": "2026-11-01T09:49:00.073552+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 31680,
+        "completion_sequence": 9597,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          222
+        ],
+        "money_deltas": [
+          138
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11019,
+        "removed_items": [],
+        "request_frame": 31677,
+        "request_quest_id": 11020,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          13
+        ],
+        "time_prague": "2026-11-01T09:49:56.974461+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 43144,
+        "completion_sequence": 13429,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          1147
+        ],
+        "money_deltas": [
+          713
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11021,
+        "removed_items": [],
+        "request_frame": 43141,
+        "request_quest_id": 11022,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          63
+        ],
+        "time_prague": "2026-11-01T10:08:50.080863+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 46948,
+        "completion_sequence": 14697,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          1147
+        ],
+        "money_deltas": [
+          713
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11025,
+        "removed_items": [
+          {
+            "frame": 46948,
+            "removed_count": 1,
+            "removed_template_id": 9587,
+            "sequence": 14695
+          }
+        ],
+        "request_frame": 46945,
+        "request_quest_id": 11026,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          63
+        ],
+        "time_prague": "2026-11-01T10:18:27.022812+01:00"
+      },
+      {
+        "added_items": [
+          {
+            "count": 1,
+            "frame": 50752,
+            "sequence": 16159,
+            "template_id": 14
+          }
+        ],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 50752,
+        "completion_sequence": 16167,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          4819
+        ],
+        "money_deltas": [
+          3233
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11027,
+        "removed_items": [],
+        "request_frame": 50749,
+        "request_quest_id": 11028,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          288
+        ],
+        "time_prague": "2026-11-01T10:31:30.296997+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 51841,
+        "completion_sequence": 16510,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          255
+        ],
+        "money_deltas": [
+          177
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11037,
+        "removed_items": [],
+        "request_frame": 51838,
+        "request_quest_id": 11038,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          16
+        ],
+        "time_prague": "2026-11-01T10:37:30.636022+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 44700,
+        "completion_sequence": 13778,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          222
+        ],
+        "money_deltas": [
+          138
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11083,
+        "removed_items": [],
+        "request_frame": 44697,
+        "request_quest_id": 11084,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          13
+        ],
+        "time_prague": "2026-11-01T10:14:41.964621+01:00"
+      },
+      {
+        "added_items": [],
+        "attribution": "Captured request-to-success interval; no server transaction ID is transmitted",
+        "completion_frame": 47258,
+        "completion_sequence": 14774,
+        "evidence_class": "observed_request_success_interval",
+        "exp_deltas": [
+          3182
+        ],
+        "money_deltas": [
+          1978
+        ],
+        "publisher_formula_verified": false,
+        "quest_id": 11085,
+        "removed_items": [],
+        "request_frame": 47255,
+        "request_quest_id": 11086,
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "soul_deltas": [
+          168
+        ],
+        "time_prague": "2026-11-01T10:19:04.306949+01:00"
+      }
+    ]
+  },
+  "training_activation_evidence": "Gameforge/gor-training.json",
+  "moray_combat_decoder": {
+    "handler": "004158a0",
+    "evidence": "Gameforge/gor-training/moray-combat.json",
+    "captured_distinct_layouts_validated": 505,
+    "regression_tests_passed": 20
+  },
+  "current_capture_issue": {
+    "status": "preexisting_stream_framing_error",
+    "message": "Invalid frame size at 3/c2s/0",
+    "last_successful_capture_utc": "2026-11-01T11:30:20.712957+00:00",
+    "observed_before_decoder_reload": true,
+    "existing_sql_evidence_preserved": true,
+    "scope": "New collection cycles fail atomically; previously archived Moray evidence and the deployed repair are verified independently."
+  }
+}

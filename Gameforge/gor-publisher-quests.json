@@ -1,0 +1,323 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "status": "publisher_research_complete_runtime_activation_still_partial",
+  "source": "https://cz.4story.gameforge.com/quest",
+  "catalogue_filter": "https://cz.4story.gameforge.com/quest/browse/1?level_min=0&level_max=140&map_id=3&type=0&query=",
+  "captured_utc": "2026-10-31T12:03:28.965138+00:00",
+  "counts": {
+    "current_tebekut_catalogue": 134,
+    "requested_details": 140,
+    "captured_details": 140,
+    "errors": 0,
+    "reward_amount_difference_rows": 1,
+    "giver_navigation_difference_rows": 1,
+    "completion_candidate_navigation_difference_rows": 0
+  },
+  "audit": "Gameforge/gor-quests/publisher/audit.json",
+  "report": "Gameforge/gor-quests/publisher/audit.html",
+  "requested_seven": [
+    {
+      "id": 291,
+      "title": "Šťastný nový rok!",
+      "url": "https://cz.4story.gameforge.com/quest/details/291/astn_nov_rok",
+      "sha256": "3fb0d3ebd72313cd5e580f90c79da1aaf1eca67a4844aa2c9d39c4a61ce8235c",
+      "level": "1",
+      "giver": {
+        "id": 26405,
+        "name": "Vulkán"
+      },
+      "completion": {
+        "id": 26405,
+        "name": "Vulkán",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": null,
+      "published_experience": null,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [],
+      "source_differences": []
+    },
+    {
+      "id": 547,
+      "title": "Trojstranný pakt",
+      "url": "https://cz.4story.gameforge.com/quest/details/547/trojstrann_pakt",
+      "sha256": "d3be9bf3739916dc65fcdf046ea50513e3d820e7dd36e423b06604a622829da6",
+      "level": "90",
+      "giver": {
+        "id": 26200,
+        "name": "Bílý sokol"
+      },
+      "completion": {
+        "id": 26436,
+        "name": "Randaygaron",
+        "evidence": "Explicit single talk-objective NPC link."
+      },
+      "published_money": 1782,
+      "published_experience": 855,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [],
+      "source_differences": []
+    },
+    {
+      "id": 1082,
+      "title": "Bitevní aréna (3 proti 3)",
+      "url": "https://cz.4story.gameforge.com/quest/details/1082/bitevn_arna_3_proti_3",
+      "sha256": "bcd444bf5f8b77b2624fb1be81073cdcbfe8822fd04359712c3f8ca1f1521f0b",
+      "level": "80",
+      "giver": {
+        "id": 26424,
+        "name": "Nástěnka (Keter)"
+      },
+      "completion": {
+        "id": 26427,
+        "name": "Neved",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": null,
+      "published_experience": null,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [
+        100
+      ],
+      "source_differences": []
+    },
+    {
+      "id": 1084,
+      "title": "Bitevní aréna (5 proti 5)",
+      "url": "https://cz.4story.gameforge.com/quest/details/1084/bitevn_arna_5_proti_5",
+      "sha256": "ef2da815e14e3a18bb12d446188a9704d747fa9ff34109ab9e609022b81eab82",
+      "level": "90",
+      "giver": {
+        "id": 26424,
+        "name": "Nástěnka (Keter)"
+      },
+      "completion": {
+        "id": 26427,
+        "name": "Neved",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": null,
+      "published_experience": null,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [
+        150
+      ],
+      "source_differences": []
+    },
+    {
+      "id": 1203,
+      "title": "Bitevní aréna (3 proti 3)",
+      "url": "https://cz.4story.gameforge.com/quest/details/1203/bitevn_arna_3_proti_3",
+      "sha256": "d45f155bb0a81f6e2a57ce13e3ee3d8f5ad1610d0ef1e9cfc3b08fd2577a9b91",
+      "level": "80",
+      "giver": {
+        "id": 26425,
+        "name": "Nástěnka (Markut)"
+      },
+      "completion": {
+        "id": 26428,
+        "name": "Ribbon",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": null,
+      "published_experience": null,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [
+        100
+      ],
+      "source_differences": []
+    },
+    {
+      "id": 1208,
+      "title": "Bitevní aréna (5 proti 5)",
+      "url": "https://cz.4story.gameforge.com/quest/details/1208/bitevn_arna_5_proti_5",
+      "sha256": "84f488735b0c54454f54a6c257ea69e3767325c55155d353cb0a12e3be88025b",
+      "level": "90",
+      "giver": {
+        "id": 26425,
+        "name": "Nástěnka (Markut)"
+      },
+      "completion": {
+        "id": 26428,
+        "name": "Ribbon",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": null,
+      "published_experience": null,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [
+        100
+      ],
+      "source_differences": [
+        {
+          "field": "achievement_points",
+          "publisher_completion_text": [
+            100
+          ],
+          "pinned_amounts": [
+            150
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3209,
+      "title": "Ragoenova mise",
+      "url": "https://cz.4story.gameforge.com/quest/details/3209/ragoenova_mise",
+      "sha256": "a72f007b114ae54209a2a9abf56af8ef8c52912cbf34f2bbbab9c41ffb8aabac",
+      "level": "95",
+      "giver": {
+        "id": 26081,
+        "name": "Temisus"
+      },
+      "completion": {
+        "id": 26081,
+        "name": "Temisus",
+        "evidence": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger."
+      },
+      "published_money": 279329,
+      "published_experience": 132759,
+      "published_reward_items": [],
+      "published_achievement_points_in_completion_text": [],
+      "source_differences": []
+    }
+  ],
+  "seal_producer": {
+    "id": 3210,
+    "title": "Nebezpečná cesta průzkumné jednotky",
+    "url": "https://cz.4story.gameforge.com/quest/details/3210/nebezpen_cesta_przkumn_jednotky",
+    "sha256": "a81bfb9c22e712c44078f6bee2f6fb10e34bcba3e7348d06bbc1ef87b7472f03",
+    "listed_in_current_tebekut_catalogue": false,
+    "publisher": {
+      "heading": "NEBEZPEČNÁ CESTA PRŮZKUMNÉ JEDNOTKY",
+      "level_label": "95",
+      "giver_id": 26474,
+      "experience": 44253,
+      "money": 93110,
+      "objectives": "Zlikvidovat Dábelský vlk × 5 Zlikvidovat Zlomyslný vlk × 10 Zlikvidovat Casoprostorový vetrelec × 5 Zlikvidovat Sluha vetrelce × 10 Zlikvidovat Casoprostorový nicitel × 5 Zlikvidovat Sluha nicitele × 10",
+      "reward_items": [
+        {
+          "id": 9737,
+          "count": 1,
+          "text": "Dostaneš tyto předměty: Ragoenova pečeť"
+        }
+      ],
+      "dialogue_speaker_ids": [
+        26474
+      ],
+      "objective_npc_ids": [],
+      "inferred_completion_npc_id": 26474,
+      "completion_npc_inference": "Last NPC speaker in the publisher description; compare with pinned navigation before using as a trigger.",
+      "achievement_points_in_completion_text": [],
+      "chain_nodes": [
+        3210
+      ],
+      "chain_edges": []
+    },
+    "pinned_start_npc_ids": [
+      26474
+    ],
+    "pinned_completion_npc_ids": [
+      26474
+    ],
+    "publisher_giver_matches_pinned_navigation": true,
+    "inferred_completion_matches_pinned_navigation": true,
+    "source_differences": [],
+    "pinned_reward_types": [
+      1,
+      2,
+      6,
+      9
+    ]
+  },
+  "conflicts": [
+    {
+      "id": 1208,
+      "field": "achievement_points",
+      "publisher_completion_text": 100,
+      "pinned_reward": 150,
+      "resolution": "Canonical pinned 150 is corroborated by the publisher EN detail. CZ dialogue remains discrepant; arena runtime is still unimplemented.",
+      "additional_source": "https://en.4story.gameforge.com/quest/details/1208/battle_arena_5_against_5"
+    },
+    {
+      "id": 8893,
+      "field": "giver_npc",
+      "publisher": 22919,
+      "pinned_start_navigation": 26302,
+      "pinned_completion_navigation": 22919,
+      "resolution": "Retain migration 051 choice of pinned start NPC 26302 and completion NPC 22919. Website patch identity unknown; do not change only the trigger."
+    }
+  ],
+  "historical_context": {
+    "url": "https://cz.4story.gameforge.com/news/display/334/patch-40-41-dra-tok",
+    "sha256": "d960e8c357cc09976b635bf487b11ae7991b95dd0cf12ad7063521ced5e0130c",
+    "explicit_version": "4.0 + 4.1",
+    "publication_label": "2013-02-27",
+    "findings": [
+      "Publisher states that 4.1 introduced Soul Power rewards for quests. This supports the existence of RT_SOUL; it does not establish exact numeric scaling for the selected client.",
+      "Publisher describes a 3-player/5-player Battle Arena with seven stages in historical patch notes. Quest narrative mentions ten rounds; retain these as separate historical evidence.",
+      "Historical Soul Power description resets it on logout. Selected-client reward and snapshot/packet behavior still need implementation evidence."
+    ],
+    "used_as_current_balance_override": false
+  },
+  "activated_six_publisher_givers_confirmed": [
+    {
+      "id": 233,
+      "npc_id": 26567,
+      "url": "https://cz.4story.gameforge.com/quest/details/233/leyina_jiskra_drkov_kok",
+      "sha256": "a457363fdd3e51d04b54f6df6bfe450db0739f73336feeeb4f3b218cc8791c26"
+    },
+    {
+      "id": 234,
+      "npc_id": 26567,
+      "url": "https://cz.4story.gameforge.com/quest/details/234/na_lovu_pro_4",
+      "sha256": "3cac5fd3f38862c57452b00636d8ba9dd2cd41d8fc845b6b646209ff92a156a0"
+    },
+    {
+      "id": 235,
+      "npc_id": 26567,
+      "url": "https://cz.4story.gameforge.com/quest/details/235/na_lovu_pro_st",
+      "sha256": "39fe78746a5681255fea0f971bc045b11a3c8b722701b85c68db631bf5728704"
+    },
+    {
+      "id": 236,
+      "npc_id": 26567,
+      "url": "https://cz.4story.gameforge.com/quest/details/236/na_lovu_pro_or",
+      "sha256": "d537edbaa5e898f98e093b56f9ae15c96ce1232f22df2c21ca3386712300c6d6"
+    },
+    {
+      "id": 237,
+      "npc_id": 26567,
+      "url": "https://cz.4story.gameforge.com/quest/details/237/na_lovu_pro_uniktn_y",
+      "sha256": "b68515eb614a65db77b8df39c9c63678b6d464c2f62e49d8337d47a6dbdaa297"
+    },
+    {
+      "id": 2398,
+      "npc_id": 20040,
+      "url": "https://cz.4story.gameforge.com/quest/details/2398/as_na_prvn_objednvky",
+      "sha256": "53a4946e4c266d1940b437766dab9405ed0753f34a78fef964730cc40c0ced51"
+    }
+  ],
+  "validation": {
+    "parser_regression_cases_passed": 6,
+    "captured_detail_errors": 0,
+    "live_sql_changed": false,
+    "server_restarted": false,
+    "original_client_playthrough_verified": false
+  },
+  "next_implementation_requirements": [
+    "291: no concrete reward is published and the pinned reward list is empty.",
+    "547 and seal producer 3210: implement a verified RT_SOUL contract while preserving completion guards and checkpoint behavior.",
+    "1082/1084/1203/1208: implement compatible type-28 objective production, Battle Arena lifecycle and achievement-point rewards; resolve the 1208 source conflict.",
+    "3209: restore the canonical 3210 seal-producing mission/completion chain and handle its reward contracts before enabling the dependent mission."
+  ],
+  "limitations": [
+    "Read-only evidence capture; no live SQL or gameplay-state changes.",
+    "Website patch identity is unknown. Historical patch notes do not override the selected client.",
+    "Completion candidates use a unique linked talk objective when present, otherwise the last dialogue speaker. The latter is an inference, not an automatically approved completion trigger.",
+    "An omitted reward on the website does not establish a zero reward or justify deleting pinned RT_SOUL/RT_POINT rows.",
+    "Spawn probabilities, calendar rules, repeat caps and playable runtime contracts are not established by catalogue presence."
+  ],
+  "followup": "Gameforge/gor-remaining-quests.json"
+}

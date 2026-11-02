@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "status": "native_client_rebuilt_and_deployed",
+  "recorded_utc": "2026-11-01T10:55:35.297377+00:00",
+  "mission_id": 11018,
+  "mission_title": "Do Druhého hlídkového stanoviště",
+  "cause": "CTChart::InitTDESTINATION bound navigation links to wPortalID (entrance), rather than wDestID (exit). Same-unit routing then checked a walking path from the destination NPC to the wrong portal endpoint.",
+  "source_fix": "Lib/Own/TChart/TChart/TChart.cpp:1977",
+  "original_client_evidence": {
+    "analysis_executable_sha256": "edd5e5c7abd6597c07c36d73429d551fe242ae1add981f20cc969dac80f1d243",
+    "handler": "006ffb80",
+    "interpretation": "First WORD read into local_30, second WORD into uVar2; portal dictionary lookup compares uVar2, i.e. destination ID."
+  },
+  "unchanged_quest_navigation_sha256": "d95510c95549d7303d75876e672abee799d8e635e189d981799760d67ac1f5d0",
+  "route": {
+    "entrance_portal_id": 4505,
+    "exit_portal_id": 4506,
+    "entrance_npc": 26174,
+    "exit_map": 0,
+    "exit_x": 3618.10009765625,
+    "exit_z": 915.27001953125,
+    "final_npc": 26039
+  },
+  "validation": {
+    "actual_cpp_loader_compiled": true,
+    "before_patch_regression_failed": true,
+    "after_patch_regression_passed": true,
+    "local_portal_rows": 1278,
+    "official_portal_rows": 1267,
+    "country_flags_and_source_npcs_verified": true,
+    "release_x86_build_passed": true,
+    "gameplay_server_modified": false,
+    "quest_target_modified": false,
+    "local_real_client_playthrough_verified": false,
+    "user_confirmed_arrow_guides_correctly": true,
+    "user_report": "Správně mě vede šipka"
+  },
+  "deployment": {
+    "path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TClient.exe",
+    "before_sha256": "f29ad597c6f58a1e7ba2640629c02d9e841c85f75aa43258b0d0663d2372d921",
+    "after_sha256": "f338d18e54c1e5a48b0d5d8f007fa58293d3631c5f0136a41d054a14ae733d6f",
+    "backup": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-portal-navigation-20261101\\TClient.before.exe",
+    "build_log": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-portal-navigation-20261101\\build.log",
+    "client_restart_required": true
+  },
+  "separate_server_teleport_defect": "4506 was bound to the old spawn 4506; repair is tracked in portal-destinations.json."
+}

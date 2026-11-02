@@ -1,0 +1,461 @@
+{
+  "schema": 1,
+  "remaining_regular_missions": [
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    3209
+  ],
+  "excluded_seasonal_mission": {
+    "id": 291,
+    "reason": "User explicitly chose to keep this New Year event disabled."
+  },
+  "ragoen": {
+    "required_monster_populations": [
+      {
+        "wKind": 3502,
+        "templates": 2,
+        "spawn_rows": 0
+      },
+      {
+        "wKind": 3504,
+        "templates": 1,
+        "spawn_rows": 0
+      },
+      {
+        "wKind": 3510,
+        "templates": 2,
+        "spawn_rows": 0
+      },
+      {
+        "wKind": 3512,
+        "templates": 1,
+        "spawn_rows": 0
+      },
+      {
+        "wKind": 3519,
+        "templates": 2,
+        "spawn_rows": 0
+      },
+      {
+        "wKind": 3521,
+        "templates": 1,
+        "spawn_rows": 0
+      }
+    ],
+    "pinned_source_records": [
+      {
+        "id": 3209,
+        "reference": {
+          "dwQuestID": 3209,
+          "bType": 8,
+          "class_id": 393,
+          "bMain": 0,
+          "bLevel": 95,
+          "min_level": 94,
+          "max_level": 98,
+          "title": "Ragoenova mise",
+          "terms": [
+            {
+              "bTermType": 2,
+              "dwTermID": 9737,
+              "bCount": 5
+            }
+          ],
+          "rewards": [
+            {
+              "bRewardType": 1,
+              "dwRewardID": 279329,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            },
+            {
+              "bRewardType": 6,
+              "dwRewardID": 132759,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            },
+            {
+              "bRewardType": 9,
+              "dwRewardID": 0,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            }
+          ],
+          "unknown_prefix": 0,
+          "unknown_flag": 0
+        },
+        "quest_texts": [
+          "Ragoenova mise",
+          "Z Pohoří Colossus jsme obdrželi volání o pomoc: oblast ničí Beriti zkázy. Je zhola nemožné je porazit, dokonce ani Trojstranný pakt proti nim nic nezmůže.\n\nVydej se na cestu a pomoz Ragoenovi. Jistě tě královsky odmění.",
+          "To bylo významné vítězství! Jsem ohromena.\n\nDoufám, že i nadále mohu počítat s tvou pomocí?",
+          "Buď opatrný! Pohoří Colossus je nebezpečnější, než se na první pohled zdá. Nikdy nevíš, jaké nebezpečí na tebe číhá za další skálou.",
+          "",
+          "Pomoz Ragoenovi v Základně pouštního větru v Pohoří Colossus a posbírej 5 jeho pečetí. Vezmi je pak k Temisus do Tábora pouštní manévrovací skupiny v Tebekutu.",
+          "Temisus",
+          "Ihned se vydám na cestu."
+        ],
+        "navigation": [
+          {
+            "type": 19,
+            "term_id": 0,
+            "monster_kind": 0,
+            "npc_id": 26081,
+            "map_id": 0,
+            "x": 3490.010009765625,
+            "y": 139.6300048828125,
+            "z": 469.9599914550781
+          },
+          {
+            "type": 2,
+            "term_id": 9737,
+            "monster_kind": 0,
+            "npc_id": 26474,
+            "map_id": 0,
+            "x": 5641.2900390625,
+            "y": 6.389999866485596,
+            "z": 6641.35986328125
+          },
+          {
+            "type": 20,
+            "term_id": 0,
+            "monster_kind": 0,
+            "npc_id": 26081,
+            "map_id": 0,
+            "x": 3490.010009765625,
+            "y": 139.6300048828125,
+            "z": 469.9599914550781
+          }
+        ]
+      },
+      {
+        "id": 3210,
+        "reference": {
+          "dwQuestID": 3210,
+          "bType": 8,
+          "class_id": 393,
+          "bMain": 0,
+          "bLevel": 95,
+          "min_level": 94,
+          "max_level": 98,
+          "title": "Nebezpečná cesta průzkumné jednotky",
+          "terms": [
+            {
+              "bTermType": 3,
+              "dwTermID": 3504,
+              "bCount": 5
+            },
+            {
+              "bTermType": 3,
+              "dwTermID": 3502,
+              "bCount": 10
+            },
+            {
+              "bTermType": 3,
+              "dwTermID": 3512,
+              "bCount": 5
+            },
+            {
+              "bTermType": 3,
+              "dwTermID": 3510,
+              "bCount": 10
+            },
+            {
+              "bTermType": 3,
+              "dwTermID": 3521,
+              "bCount": 5
+            },
+            {
+              "bTermType": 3,
+              "dwTermID": 3519,
+              "bCount": 10
+            }
+          ],
+          "rewards": [
+            {
+              "bRewardType": 1,
+              "dwRewardID": 93110,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            },
+            {
+              "bRewardType": 6,
+              "dwRewardID": 44253,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            },
+            {
+              "bRewardType": 9,
+              "dwRewardID": 3956,
+              "bCount": 0,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            },
+            {
+              "bRewardType": 2,
+              "dwRewardID": 9737,
+              "bCount": 1,
+              "bTakeMethod": 1,
+              "bTakeData": 0
+            }
+          ],
+          "unknown_prefix": 0,
+          "unknown_flag": 0
+        },
+        "quest_texts": [
+          "Nebezpečná cesta průzkumné jednotky",
+          "Geriton byl povolán do jednoho z našich táborů a poslal nám z něj zprávu. V severovýchodní části Pohoří Colossus objevil pozůstatky neznámé energie. Naše průzkumná jednotka je připravená vyrazit tu hmotu důkladněji prozkoumat. Jsem si jistý, že víš, %s, jak nebezpečná je severovýchodní stezka. Hemží se to tam vlkodlaky, nágy a možná ještě nebezpečnějšími tvory. Proto bych byl rád, abys vyrazil na cestu s průzkumnou jednotkou a zajistil jim bezpečí bojem proti dotěrným nestvůrám.",
+          "Skvělé! Nikdy na tvou tvrdou práci nezapomeneme, %s. Vezmi si tuto pečeť na znamení mého vděku. Jakmile budeš připraven na misi, můžeš se kdykoli vrátit.",
+          "Ďábelští vlci jsou v Krajině nočních můr, nágové, kterým říkáme Časoprostoroví vetřelci, se vyskytují blízko Tábora Geriton a Časoprostoroví ničitelé se potulují na severovýchodě Pohoří Colossus. Podpoř prosím naši průzkumnou jednotku, všichni by měli dorazit na místo určení bez jediného škrábnutí.",
+          "Tvá taška je plná. Musíš si ji nejdřív vyprázdni, abych ti mohl dát tu pečeť.",
+          "Zlikviduj 5 Ďábelských vlků a 10 Zlomyslných vlků nebo vlkodlaků, které najdeš v Krajině nočních můr. Také by ses měl zbavit 5 Časoprostorových vetřelců a 10 Sluhů vetřelců poblíž Tábora Geriton. Pak zlikviduj 5 Časoprostorových ničitelů a 10 Sluhů ničitelů, kteří se nacházejí v severovýchodní části Pohoří Colossus. Pak si v Základně pouštního větru promluv s Ragoenem.",
+          "Ragoen",
+          "Zajistím pro vás tu oblast."
+        ],
+        "navigation": [
+          {
+            "type": 19,
+            "term_id": 0,
+            "monster_kind": 0,
+            "npc_id": 26474,
+            "map_id": 0,
+            "x": 5641.2900390625,
+            "y": 6.389999866485596,
+            "z": 6641.35986328125
+          },
+          {
+            "type": 3,
+            "term_id": 3504,
+            "monster_kind": 3504,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5822.60009765625,
+            "y": 31.739999771118164,
+            "z": 6700.2001953125
+          },
+          {
+            "type": 3,
+            "term_id": 3502,
+            "monster_kind": 3502,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5819.7900390625,
+            "y": 31.790000915527344,
+            "z": 6695.60009765625
+          },
+          {
+            "type": 3,
+            "term_id": 3512,
+            "monster_kind": 3512,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5937.18994140625,
+            "y": 59.9900016784668,
+            "z": 6508.81982421875
+          },
+          {
+            "type": 3,
+            "term_id": 3510,
+            "monster_kind": 3510,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5941.06982421875,
+            "y": 59.88999938964844,
+            "z": 6515.77978515625
+          },
+          {
+            "type": 3,
+            "term_id": 3521,
+            "monster_kind": 3521,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5975.89990234375,
+            "y": 98.20999908447266,
+            "z": 6901.9599609375
+          },
+          {
+            "type": 3,
+            "term_id": 3519,
+            "monster_kind": 3519,
+            "npc_id": 0,
+            "map_id": 0,
+            "x": 5974.10009765625,
+            "y": 98.26000213623047,
+            "z": 6904.18017578125
+          },
+          {
+            "type": 20,
+            "term_id": 0,
+            "monster_kind": 0,
+            "npc_id": 26474,
+            "map_id": 0,
+            "x": 5641.2900390625,
+            "y": 6.389999866485596,
+            "z": 6641.35986328125
+          }
+        ]
+      }
+    ],
+    "activation_status": "blocked_missing_verified_world_population",
+    "limitation": "Pinned quest navigation provides target positions, not a population export with spawn count, range, delay and probabilities. No spawns are invented."
+  },
+  "battle_arena": {
+    "native_runtime_rows": [
+      {
+        "wID": 1,
+        "bType": 3,
+        "dwFee": 50000,
+        "wInPos": 17000,
+        "wOutPos": 17001
+      },
+      {
+        "wID": 2,
+        "bType": 7,
+        "dwFee": 100000,
+        "wInPos": 17002,
+        "wOutPos": 17003
+      }
+    ],
+    "pinned_arena_file": {
+      "path": "Tcd/TArena.tcd",
+      "sha256": "2db76c14d67eee0a88f4815d8f73672540a677373280214a07a2b45ecf967f79",
+      "decoded": [
+        {
+          "id": 1,
+          "size": 3,
+          "fee": 50000
+        },
+        {
+          "id": 2,
+          "size": 5,
+          "fee": 100000
+        }
+      ]
+    },
+    "activation_status": "blocked_missing_compatible_battle_mode_and_objective_producer",
+    "limitation": "Native runtime is the old challenge/streak arena with sizes 3/7. A type/fee change alone cannot supply the newer staged PvP/PvE mode, monster waves or type-28 objective events.",
+    "achievement_reward_1208": {
+      "pinned": 150,
+      "czech_dialogue": 100,
+      "english_dialogue": 150,
+      "english_source": "https://en.4story.gameforge.com/quest/details/1208/battle_arena_5_against_5",
+      "english_sha256": "176c96a08f5ef4703e77771c17fbaa638e275d15a818f199b4776adee050f4b2",
+      "resolution": "Retain pinned 150, corroborated by the publisher EN detail. Record the CZ dialogue discrepancy; do not replace it with 100."
+    }
+  },
+  "existing_native_soul_rewards": [
+    {
+      "dwQuestID": 547,
+      "bType": 8,
+      "dwRewardID": 167,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11232,
+      "bType": 8,
+      "dwRewardID": 187,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11233,
+      "bType": 8,
+      "dwRewardID": 4006,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11259,
+      "bType": 8,
+      "dwRewardID": 203,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11300,
+      "bType": 8,
+      "dwRewardID": 224,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11327,
+      "bType": 8,
+      "dwRewardID": 233,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11356,
+      "bType": 8,
+      "dwRewardID": 3753,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11612,
+      "bType": 8,
+      "dwRewardID": 185,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11613,
+      "bType": 8,
+      "dwRewardID": 185,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11614,
+      "bType": 8,
+      "dwRewardID": 185,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11615,
+      "bType": 8,
+      "dwRewardID": 222,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11616,
+      "bType": 8,
+      "dwRewardID": 222,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    },
+    {
+      "dwQuestID": 11617,
+      "bType": 8,
+      "dwRewardID": 222,
+      "bTakeMethod": 1,
+      "bTakeData": 0,
+      "bCount": 0
+    }
+  ],
+  "all_native_soul_reward_amounts_and_methods_match_pinned_client": true,
+  "source_rules": "Pinned content and publisher evidence guide restoration; native data alone is not publisher parity evidence."
+}

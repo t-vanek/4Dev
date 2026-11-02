@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "status": "deployed_active_with_approved_functional_substitutes",
+  "mission_ids": [
+    11012,
+    11013,
+    11014,
+    11015,
+    11016,
+    11017,
+    11018,
+    11019,
+    11021,
+    11025,
+    11027,
+    11037,
+    11083,
+    11085
+  ],
+  "mission_count": 14,
+  "action_headers": 36,
+  "scope": "Initial Gor training through turn-in at Biseira; other Gor quests and country-choice implementation unchanged.",
+  "plan": "Gameforge/gor-training/plan.json",
+  "approval": "Gameforge/gor-training/approval.json",
+  "audit": "Gameforge/gor-training/audit-after.json",
+  "migration": "Database/migrations/057_gor_training.sql",
+  "captured_reference": "Gameforge/reconstruction-collector.json",
+  "production_dotnet_source_changed": false,
+  "rules": {
+    "mission_completion_cap": 1,
+    "quest_drop_probability_percent": 100,
+    "moray_count": 1,
+    "moray_respawn_delay_ms": 60000
+  },
+  "source_backed": [
+    "Acceptance/turn-in NPCs and completion action IDs",
+    "Ordered parent chain and objectives",
+    "Rewards including class weapons and Gallau bag",
+    "Soup grant, three separate sword pickups and consumed turn-in items"
+  ],
+  "legacy_routing_preserved": true,
+  "routing_aliases": {
+    "40007930": {
+      "source_id": 7930,
+      "npc": 26055
+    },
+    "40007931": {
+      "source_id": 7931,
+      "npc": 26056
+    },
+    "40007932": {
+      "source_id": 7932,
+      "npc": 26057
+    }
+  },
+  "new_year_event_activated": false,
+  "validation": {
+    "sequential_sql_loaded_missions_passed": 14,
+    "sql_import_and_integrity_scenarios_passed": 10,
+    "focused_existing_regressions_passed": 64,
+    "working_local_client_objectives_rewards_matched": 14,
+    "live_native_template_loader_verified": 36,
+    "native_quest_inventory_sql_reload_verified": true,
+    "acceptance_and_completion_replay_verified": true,
+    "player_state_hashes_preserved": true,
+    "source_database_modified_by_fixture": false,
+    "fixture_player_rows_copied": 0,
+    "fixtures_removed": true,
+    "full_character_balance_restart_test_added": false,
+    "real_client_local_playthrough_verified": false,
+    "logs": [
+      ".runtime/reconstruction/training-sql.log",
+      ".runtime/reconstruction/training-regressions.log",
+      ".runtime/reconstruction/sword-dialog-sql.log"
+    ],
+    "client_routing_alias_definitions_verified": 3,
+    "npc_click_item_list_path_verified": true,
+    "live_sql_loaded_teleport_routes_verified": 4
+  },
+  "deployment": {
+    "migration": "057_gor_training.sql",
+    "deployed": true,
+    "applied_utc": "2026-11-01T10:02:03.606614+00:00",
+    "mission_count": 14,
+    "headers": 36,
+    "player_state_preserved": true,
+    "player_hashes": {
+      "TCHARTABLE": {
+        "rows": 3,
+        "sha256": "7c5873491157b577af62c42859bd4730937f8e8f47c1d6ea941190ae7fc2ffab"
+      },
+      "TITEMTABLE": {
+        "rows": 97,
+        "sha256": "9c2737cb0ea29e6a2f1c2ac8864b48a69c1ab8631acd4e51c82155768c9bfa11"
+      },
+      "TINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      },
+      "TQUESTTABLE": {
+        "rows": 15,
+        "sha256": "79cf79ac97f591769932b5552a665218b627a9dd703326140d6723b4e26e8292"
+      },
+      "TQUESTTERMTABLE": {
+        "rows": 5,
+        "sha256": "abddd129f878a32cf9ff19caac8fd4b09a64626b2ec1157b1124294dac1809f9"
+      },
+      "TTEMPITEMTABLE": {
+        "rows": 95,
+        "sha256": "533569a604cfb9e1b177dec462455afa3ba087a2db4ae858dcb5a00151cadd47"
+      },
+      "TTEMPINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      }
+    },
+    "backup": "/var/opt/mssql/data/4Dev-before-training-20261101-100200.bak",
+    "after_hash": "FF83DC4829212A28005D6A041BE564D6D98771DB17608B7ABCB75A22C7CDD2DA",
+    "image_rebuilt": false,
+    "real_client_verified": false,
+    "map_started_utc": "2026-11-01T10:02:03.717987888Z",
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "verified_utc": "2026-11-01T10:09:35.166486+00:00",
+    "startup_log_observation": "Observed docker logs: Indexed 6463 quests; Announced to world: server 1, channels [1]; Authenticated Control server connected at 10:02:09 UTC."
+  },
+  "remaining_gor_missing_roots": 20,
+  "limitations": [
+    "Fixed Moray is an approved substitute, not the unknown rare-appearance rule.",
+    "Exact repeat and quest drop rules are approved substitutes.",
+    "Real-client local playthrough and full baseline parity still require verification.",
+    "Independent official soul updates differ from the existing local protocol/formula profile; this data-only migration does not rewrite that system."
+  ],
+  "sword_pickup_dialog_fix": {
+    "status": "native_client_chart_repaired_restart_required",
+    "recorded_utc": "2026-11-01T10:41:48.039033+00:00",
+    "cause": "Migration 057 advertised routing aliases 40007930..40007932 absent from the native client quest chart. OnCS_QUESTLIST_POSSIBLE_ACK skips unknown IDs before setting THASQUEST_ROUTING, so clicking never reaches the item-list action.",
+    "prior_test_gap": "The original lifecycle invoked routing quest execution directly and bypassed client-side advertised-ID lookup.",
+    "client_source_evidence": "Client/TClient/CSHandler.cpp:6044",
+    "repair_tool": "Tools/GameforgeReference/repair_training_client.py",
+    "repair": {
+      "path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TQuest.mpq",
+      "aliases_added": 3,
+      "before_sha256": "8c728b7e4203bb927bc2da048f3beab3fa849be7d4ef3617c8ef86cb91fd4f05",
+      "after_sha256": "c11319aac65bab05f3e22a0671fcbf037e80d03519a3305830b7b5b5d60763c0",
+      "existing_records_preserved": true,
+      "client_restart_required": true
+    },
+    "validation": {
+      "client_regression_cases_passed": 2,
+      "sequential_sql_missions_passed": 14,
+      "sql_import_cases_passed": 10,
+      "all_three_advertised_actions_npc_click_and_item_dialog_packets_verified": true,
+      "production_dotnet_changed": false,
+      "production_gameplay_sql_changed": false,
+      "existing_client_records_preserved": true,
+      "local_real_client_ui_verified": false
+    },
+    "user_action": "Fully close and restart the game client using the repaired Game folder. Logout alone does not reload TQuest.mpq."
+  },
+  "portal_navigation_fix": "Gameforge/gor-training/portal-navigation-repair.json",
+  "portal_destination_repair": "Gameforge/gor-training/portal-destinations.json",
+  "moray_combat_repair": {
+    "evidence": "Gameforge/gor-training/moray-combat.json",
+    "migration": "Database/migrations/059_gor_moray_combat.sql",
+    "deployed": true,
+    "sql_loaded_native_hits_verified": true,
+    "real_client_verified": false
+  },
+  "moray_defense_repair": {
+    "evidence": "Gameforge/gor-training/moray-defense-proposal.json",
+    "migration": "Database/migrations/060_gor_moray_defense.sql",
+    "status": "approved_functional_substitute_deployed_sql_verified",
+    "deployed": true,
+    "reference_value_verified": false,
+    "sql_loaded_native_accuracy_verified": true,
+    "real_client_verified": false
+  },
+  "portal_intro_repair": "Gameforge/gor-training/portal-intro-repair.json",
+  "ostrich_egg_navigation": "Gameforge/gor-training/ostrich-eggs-navigation.json",
+  "additional_quest_navigation": "Gameforge/gor-training/quest-navigation-batch.json",
+  "full_gor_audit": "Gameforge/gor-full-audit.json",
+  "legacy_first_post_navigation_remaining": "Quest 7837 still points to zero-position Darni 26023. Previous marker update was insufficient; NPC position was not invented."
+}

@@ -1,0 +1,357 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "user_priority": "All Gor quests, including Tebekut, training, ordinary missions, crafting and seasonal content.",
+  "overall_status": "full_runtime_scope_audited_npc_navigation_repaired_remaining_reference_and_client_contract_gaps",
+  "audit": "Gameforge/gor-training/audit-after.json",
+  "report": "Gameforge/gor-quests/audit.html",
+  "before_giver_repair": "Gameforge/gor-quests/audit-before-giver-repair.json",
+  "counts": {
+    "root_quests": 139,
+    "reference_missions": 83,
+    "reference_recipes": 56,
+    "gor_npcs": 306,
+    "sql_npc_actions": 499,
+    "missing_server_roots": 20,
+    "disabled_server_roots": 1,
+    "issue_counts": {
+      "completion_mapping_needs_more_evidence": 10,
+      "start_npc_not_proven_by_navigation": 66,
+      "server_quest_disabled": 1,
+      "completion_action_missing_or_wrong_type": 20,
+      "objectives_differ": 3,
+      "parent_link_differs": 2,
+      "quest_type_differs": 2,
+      "reward_rows_differ": 3,
+      "start_npc_differs": 3,
+      "reward_template_missing": 1,
+      "server_quest_missing": 20
+    }
+  },
+  "npc_repairs": {
+    "completion_actions_from_migration_050": [
+      8884,
+      8886,
+      8888,
+      8894
+    ],
+    "acceptance_actions_from_migration_051": [
+      8883,
+      8885,
+      8887
+    ],
+    "total_changed_npc_fields": 9,
+    "distinct_missions": 5,
+    "acceptance_and_completion_npc_for_paper_quests": {
+      "id": 22919,
+      "name": "Houba"
+    },
+    "acceptance_and_completion_actions_from_migration_053": [
+      547,
+      548
+    ],
+    "preserved_existing_paper_objectives_rewards_repeat_caps_and_character_progress": true
+  },
+  "coverage": {
+    "pinned_reference_hashes_checked": true,
+    "catalogue_region": "Tebekut",
+    "publisher_catalogue_used_only_to_enumerate_scope": true,
+    "reference_missions": 83,
+    "reference_recipes": 56,
+    "sql_npc_actions_enumerated": 469,
+    "static_rows_without_reported_issues": 39,
+    "complete_playable_quests_verified": 0,
+    "missing_roots": {
+      "missions": 20,
+      "recipes": 0
+    },
+    "disabled_roots": {
+      "missions": 1,
+      "recipes": 0
+    }
+  },
+  "priority_gaps": [
+    {
+      "priority": 1,
+      "area": "Initial Gor training local-client acceptance",
+      "mission_ids": [
+        11012,
+        11013,
+        11014,
+        11015,
+        11016,
+        11017,
+        11018,
+        11019,
+        11021,
+        11025,
+        11027,
+        11037,
+        11083,
+        11085
+      ],
+      "mission_count": 14,
+      "example": "11012 Vycvik zoldaka: Shondoleon 26022 -> Daekamson 26025",
+      "publisher_source": "https://cz.4story.gameforge.com/quest/details/11012",
+      "needed": "All 14 roots and 36 definitions active; sequential native SQL tests passed. Verify in the local client. Exact original repeat/drop/rare rules remain unverified.",
+      "status": "deployed_with_approved_substitutes",
+      "evidence": "Gameforge/gor-training.json"
+    },
+    {
+      "priority": 2,
+      "area": "Other missing/disabled Gor roots and changed quest identities",
+      "needed": "20 mission roots remain missing: 15 higher-level and five other event missions. See Gameforge/gor-content-repairs/backlog.json."
+    },
+    {
+      "priority": 3,
+      "area": "Existing Gor actions and reward parity",
+      "needed": "32 existing recipes and 12 mission definitions are repaired. Three active roots still have conflicting NPC/objective/reward identities: 3199, 8906, 8907. Their world/reward dependencies remain unverified. Unknown values are not invented."
+    },
+    {
+      "priority": 4,
+      "area": "Client and persistence acceptance",
+      "needed": "Walk the Gor training and Tebekut missions in the pinned client, including acquisition, hand-in, class rewards, logout and restart. Static references and actor/SQL component tests do not certify the full journey."
+    }
+  ],
+  "validation": {
+    "gor_scope_regressions_passed": 6,
+    "new_gor_actor_regressions_passed": 3,
+    "focused_gor_and_dianna_actor_cases_passed": 7,
+    "gor_sql_migration_scenarios_passed": 7,
+    "fresh_live_snapshot_matches_exactly_three_giver_changes": true,
+    "other_quest_fields_and_all_8_dependency_snapshots_unchanged": true,
+    "disposable_sql_fixture_cleaned": true,
+    "player_rows_copied_to_fixture": 0,
+    "player_quest_and_term_hashes_unchanged_after_restart": true,
+    "unit_results": ".runtime/gor-quests-20261031/tests",
+    "sql_results": ".runtime/quest-turn-in-audit-20261031/gor-sql-validation.json",
+    "live_results": ".runtime/gor-quests-20261031",
+    "activation": {
+      "new_actor_cases_passed": 6,
+      "focused_actor_cases_passed": 13,
+      "isolated_sql_scenarios_passed": 9,
+      "existing_scope_and_npc_classifier_cases_passed": 18,
+      "live_static_target_rows_match_plan": true,
+      "unrelated_static_rows_unchanged": true,
+      "saved_character_quest_and_term_hashes_unchanged": true,
+      "database_reload_after_restart_verified": true,
+      "full_new_quest_character_logout_round_trip_verified": false,
+      "disposable_sql_fixture_cleaned": true,
+      "player_rows_copied_to_fixture": 0,
+      "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\tests",
+      "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\sql-validation.json",
+      "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\verification.json"
+    },
+    "current_publisher_details_captured": 140,
+    "current_publisher_tebekut_catalogue_rows": 134,
+    "publisher_parser_cases_passed": 6,
+    "latest_pact_and_reward_validation": {
+      "new_actor_cases_passed": 11,
+      "map_server_cases_passed": 1853,
+      "isolated_sql_migration_scenarios_passed": 10,
+      "native_quest_store_lifecycle_scenarios_passed": 4,
+      "python_audit_cases_passed": 27,
+      "static_sql_and_character_preservation_verified": true,
+      "disposable_fixture_cleaned": true,
+      "player_rows_copied": 0,
+      "gold_exp_native_database_round_trip_verified": false,
+      "full_new_quest_mapworker_client_journey_verified": false,
+      "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\tests-final",
+      "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\pact-sql-lifecycle.txt",
+      "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\verification.json"
+    },
+    "latest_content_repairs": {
+      "content_import_scenarios_passed": 15,
+      "content_sql_loaded_execution_cases_passed": 44,
+      "wakeup_import_scenarios_passed": 13,
+      "wakeup_sql_loaded_execution_cases_passed": 2,
+      "real_sql_quest_inventory_reload_verified": true,
+      "corneus_repeat_after_reload_verified": true,
+      "wakeup_acceptance_destination_map_and_completion_reload_verified": true,
+      "relocated_legacy_switch_event_verified": true,
+      "live_template_definitions_verified": 49,
+      "all_player_char_inventory_quest_term_hashes_preserved": true,
+      "unrelated_static_tables_preserved": true,
+      "python_audit_cases_passed": 28,
+      "production_dotnet_source_changed": false,
+      "last_full_map_server_source_tests": 1868,
+      "full_source_suite_rerun_for_data_only_changes": false,
+      "real_client_playthrough_verified": false,
+      "fixture_player_rows_copied": 0,
+      "fixtures_removed": true,
+      "sql_results": [
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\content-sql-final3.txt",
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\wakeup-sql.txt"
+      ],
+      "live_results": [
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification.json",
+        "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification-wakeup.json"
+      ]
+    },
+    "training": {
+      "sequential_sql_loaded_missions_passed": 14,
+      "sql_import_and_integrity_scenarios_passed": 10,
+      "focused_existing_regressions_passed": 64,
+      "working_local_client_objectives_rewards_matched": 14,
+      "live_native_template_loader_verified": 36,
+      "native_quest_inventory_sql_reload_verified": true,
+      "acceptance_and_completion_replay_verified": true,
+      "player_state_hashes_preserved": true,
+      "source_database_modified_by_fixture": false,
+      "fixture_player_rows_copied": 0,
+      "fixtures_removed": true,
+      "full_character_balance_restart_test_added": false,
+      "real_client_local_playthrough_verified": false,
+      "logs": [
+        ".runtime/reconstruction/training-sql.log",
+        ".runtime/reconstruction/training-regressions.log"
+      ]
+    }
+  },
+  "deployment": {
+    "migration": "056_gor_wakeup_quest.sql",
+    "applied_utc": "2026-10-31T16:49:42.6003294Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "map_started_utc": "2026-10-31T16:49:43.179459933Z",
+    "verified_utc": "2026-10-31T16:49:53.2564872Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "limitations": [
+    "The catalogue has no established patch identity; never activate a quest from its listing alone.",
+    "Spawn references and template existence do not verify positions, drop probabilities, item acquisition, NPC interaction or a playable route.",
+    "No player state is written by this audit; no complete Gor or Gameforge parity claim.",
+    "Explicit population/arena exception applies only to the five approved missions; see gor-remaining-quests.json."
+  ],
+  "before_activation": "Gameforge/gor-quests/audit-before-activation.json",
+  "activation": "Gameforge/gor-quest-activation.json",
+  "previous_deployment": {
+    "migration": "052_gor_event_missions.sql",
+    "applied_utc": "2026-10-31T11:51:17.8299778Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+    "map_started_utc": "2026-10-31T11:51:18.446838305Z",
+    "verified_utc": "2026-10-31T11:51:24.8101962Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "publisher_research": "Gameforge/gor-publisher-quests.json",
+  "before_pact": "Gameforge/gor-quests/audit-before-pact.json",
+  "remaining_work": "Gameforge/gor-content-repairs/backlog.json",
+  "deployment_history": [
+    {
+      "migration": "051_gor_paper_quest_givers.sql",
+      "applied_utc": "2026-10-31T11:21:34.7217174Z",
+      "deployed": true,
+      "image_rebuilt": false,
+      "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+      "map_started_utc": "2026-10-31T11:21:35.546254419Z",
+      "verified_utc": "2026-10-31T11:22:50Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    },
+    {
+      "migration": "052_gor_event_missions.sql",
+      "applied_utc": "2026-10-31T11:51:17.8299778Z",
+      "deployed": true,
+      "image_rebuilt": false,
+      "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+      "map_started_utc": "2026-10-31T11:51:18.446838305Z",
+      "verified_utc": "2026-10-31T11:51:24.8101962Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    },
+    {
+      "migration": "053_gor_tripartite_pact.sql",
+      "applied_utc": "2026-10-31T12:30:27.8823707Z",
+      "deployed": true,
+      "image_rebuilt": true,
+      "image": "sha256:cdf7c22320fe73c2bfa4d3ae53c50694573b1a945cd6687e20008520de40730c",
+      "server_assembly_sha256": "be1679c2620d451591c1140b2de345800670d39d7f848f1714f72cf587633ba2",
+      "map_started_utc": "2026-10-31T12:30:28.32015701Z",
+      "verified_utc": "2026-10-31T12:31:00.5339627Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    },
+    {
+      "migration": "054_gor_reconstructed_missions.sql",
+      "applied_utc": "2026-10-31T16:07:59.0688570Z",
+      "deployed": true,
+      "image_rebuilt": true,
+      "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+      "server_assembly_sha256": "0b8881846dbe5802c0f4b2ea190df5738c0b6ad9951150e359ee76ab73e09af4",
+      "data_assembly_sha256": "301a068e96c7806de9b2cbe6c268fd14e21e3cc499668e0703d0672dc5eb7a2e",
+      "map_started_utc": "2026-10-31T16:08:03.390632536Z",
+      "verified_utc": "2026-10-31T16:08:12.4297011Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    }
+  ],
+  "latest_content_repairs": "Gameforge/gor-content-repairs.json",
+  "audit_before_training": "Gameforge/gor-quests/audit.json",
+  "training_deployment": {
+    "migration": "057_gor_training.sql",
+    "deployed": true,
+    "applied_utc": "2026-11-01T10:02:03.606614+00:00",
+    "mission_count": 14,
+    "headers": 36,
+    "player_state_preserved": true,
+    "player_hashes": {
+      "TCHARTABLE": {
+        "rows": 3,
+        "sha256": "7c5873491157b577af62c42859bd4730937f8e8f47c1d6ea941190ae7fc2ffab"
+      },
+      "TITEMTABLE": {
+        "rows": 97,
+        "sha256": "9c2737cb0ea29e6a2f1c2ac8864b48a69c1ab8631acd4e51c82155768c9bfa11"
+      },
+      "TINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      },
+      "TQUESTTABLE": {
+        "rows": 15,
+        "sha256": "79cf79ac97f591769932b5552a665218b627a9dd703326140d6723b4e26e8292"
+      },
+      "TQUESTTERMTABLE": {
+        "rows": 5,
+        "sha256": "abddd129f878a32cf9ff19caac8fd4b09a64626b2ec1157b1124294dac1809f9"
+      },
+      "TTEMPITEMTABLE": {
+        "rows": 95,
+        "sha256": "533569a604cfb9e1b177dec462455afa3ba087a2db4ae858dcb5a00151cadd47"
+      },
+      "TTEMPINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      }
+    },
+    "backup": "/var/opt/mssql/data/4Dev-before-training-20261101-100200.bak",
+    "after_hash": "FF83DC4829212A28005D6A041BE564D6D98771DB17608B7ABCB75A22C7CDD2DA",
+    "image_rebuilt": false,
+    "real_client_verified": false,
+    "map_started_utc": "2026-11-01T10:02:03.717987888Z",
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "verified_utc": "2026-11-01T10:09:35.166486+00:00",
+    "startup_log_observation": "Observed docker logs: Indexed 6463 quests; Announced to world: server 1, channels [1]; Authenticated Control server connected at 10:02:09 UTC."
+  },
+  "latest_full_runtime_audit": "Gameforge/gor-full-audit.json"
+}

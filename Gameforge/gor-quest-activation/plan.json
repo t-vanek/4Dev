@@ -1,0 +1,1311 @@
+{
+  "schema": 1,
+  "requested_ids": [
+    233,
+    234,
+    235,
+    236,
+    237,
+    291,
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    2398,
+    3209
+  ],
+  "enabled_ids": [
+    233,
+    234,
+    235,
+    236,
+    237,
+    2398
+  ],
+  "changes": [
+    {
+      "id": 233,
+      "title": "Leyina jiskra - dárkový košík",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 238,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    },
+    {
+      "id": 234,
+      "title": "Na lovu pro \"4\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 239,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    },
+    {
+      "id": 235,
+      "title": "Na lovu pro \"St\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 240,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    },
+    {
+      "id": 236,
+      "title": "Na lovu pro 'or'",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 241,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    },
+    {
+      "id": 237,
+      "title": "Na lovu pro unikátní \"y\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 242,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    },
+    {
+      "id": 2398,
+      "title": "Čas na první objednávky!",
+      "npc_id": 20040,
+      "npc_name": "Pivař",
+      "completion_id": 2458,
+      "npc_reference": [
+        {
+          "wID": 20040,
+          "template_id": 1387,
+          "name": "Pivař",
+          "title": "Pivní festival",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 1,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3773.7099609375,
+          "fPosY": 89.11000061035156,
+          "fPosZ": 162.1999969482422,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0
+    }
+  ],
+  "before": {
+    "headers": [
+      {
+        "dwQuestID": 233,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 234,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 235,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 236,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 237,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 238,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 239,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 240,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 241,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 242,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 0,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 2398,
+        "dwParentID": 0,
+        "bType": 0,
+        "bForceRun": 0,
+        "bTriggerType": 0,
+        "dwTriggerID": 32,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 2458,
+        "dwParentID": 362,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 20400,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      }
+    ],
+    "terms": [
+      {
+        "dwQuestID": 2398,
+        "bTermType": 16,
+        "dwTermID": 15132,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 2398,
+        "bTermType": 16,
+        "dwTermID": 15133,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 2458,
+        "bTermType": 1,
+        "dwTermID": 362,
+        "bCount": 0
+      }
+    ],
+    "conditions": [
+      {
+        "dwQuestID": 2458,
+        "bConditionType": 3,
+        "dwConditionID": 362,
+        "bCount": 0
+      }
+    ],
+    "rewards": []
+  },
+  "after": {
+    "headers": [
+      {
+        "dwQuestID": 233,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 234,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 235,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 236,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 237,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 238,
+        "dwParentID": 233,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 239,
+        "dwParentID": 234,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 240,
+        "dwParentID": 235,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 241,
+        "dwParentID": 236,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 242,
+        "dwParentID": 237,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26567,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 2398,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 20040,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      {
+        "dwQuestID": 2458,
+        "dwParentID": 2398,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 20040,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      }
+    ],
+    "terms": [
+      {
+        "dwQuestID": 233,
+        "bTermType": 2,
+        "dwTermID": 18540,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 233,
+        "bTermType": 2,
+        "dwTermID": 18541,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 233,
+        "bTermType": 2,
+        "dwTermID": 18542,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 233,
+        "bTermType": 2,
+        "dwTermID": 18543,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 234,
+        "bTermType": 2,
+        "dwTermID": 18541,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 234,
+        "bTermType": 2,
+        "dwTermID": 18542,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 235,
+        "bTermType": 2,
+        "dwTermID": 18540,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 235,
+        "bTermType": 2,
+        "dwTermID": 18542,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 236,
+        "bTermType": 2,
+        "dwTermID": 18540,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 236,
+        "bTermType": 2,
+        "dwTermID": 18541,
+        "bCount": 3
+      },
+      {
+        "dwQuestID": 237,
+        "bTermType": 2,
+        "dwTermID": 18540,
+        "bCount": 5
+      },
+      {
+        "dwQuestID": 237,
+        "bTermType": 2,
+        "dwTermID": 18541,
+        "bCount": 5
+      },
+      {
+        "dwQuestID": 237,
+        "bTermType": 2,
+        "dwTermID": 18542,
+        "bCount": 5
+      },
+      {
+        "dwQuestID": 238,
+        "bTermType": 1,
+        "dwTermID": 233,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 239,
+        "bTermType": 1,
+        "dwTermID": 234,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 240,
+        "bTermType": 1,
+        "dwTermID": 235,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 241,
+        "bTermType": 1,
+        "dwTermID": 236,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 242,
+        "bTermType": 1,
+        "dwTermID": 237,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 2398,
+        "bTermType": 2,
+        "dwTermID": 18323,
+        "bCount": 5
+      },
+      {
+        "dwQuestID": 2458,
+        "bTermType": 1,
+        "dwTermID": 2398,
+        "bCount": 0
+      }
+    ],
+    "conditions": [
+      {
+        "dwQuestID": 238,
+        "bConditionType": 3,
+        "dwConditionID": 233,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 239,
+        "bConditionType": 3,
+        "dwConditionID": 234,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 240,
+        "bConditionType": 3,
+        "dwConditionID": 235,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 241,
+        "bConditionType": 3,
+        "dwConditionID": 236,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 242,
+        "bConditionType": 3,
+        "dwConditionID": 237,
+        "bCount": 0
+      },
+      {
+        "dwQuestID": 2458,
+        "bConditionType": 3,
+        "dwConditionID": 2398,
+        "bCount": 0
+      }
+    ],
+    "rewards": [
+      {
+        "dwQuestID": 233,
+        "bRewardType": 2,
+        "dwRewardID": 18061,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 234,
+        "bRewardType": 2,
+        "dwRewardID": 18540,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 235,
+        "bRewardType": 2,
+        "dwRewardID": 18541,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 236,
+        "bRewardType": 2,
+        "dwRewardID": 18542,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 237,
+        "bRewardType": 2,
+        "dwRewardID": 18543,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 2398,
+        "bRewardType": 2,
+        "dwRewardID": 7844,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 1
+      },
+      {
+        "dwQuestID": 2398,
+        "bRewardType": 2,
+        "dwRewardID": 18322,
+        "bTakeMethod": 1,
+        "bTakeData": 0,
+        "bCount": 5
+      }
+    ]
+  },
+  "before_hash": "B6260FC9401761A89C8DB2587DC0DFC80BAA202A4587F1EC0FD7109587E40D5E",
+  "after_hash": "888481BA620CCF3AE772453BA31CF6DD878AC87BB70C145D6F801A4AB76C8B0B",
+  "snapshot_query": "SELECT JSON_QUERY(COALESCE((SELECT CONVERT(int,dwQuestID) AS dwQuestID,CONVERT(int,dwParentID) AS dwParentID,CONVERT(int,bType) AS bType,CONVERT(int,bForceRun) AS bForceRun,CONVERT(int,bTriggerType) AS bTriggerType,CONVERT(int,dwTriggerID) AS dwTriggerID,CONVERT(int,bCountMax) AS bCountMax,CONVERT(int,bLevel) AS bLevel,CONVERT(int,bMain) AS bMain,CONVERT(int,bConditionCheck) AS bConditionCheck FROM dbo.TQUESTCHART WITH(UPDLOCK,HOLDLOCK) WHERE dwQuestID IN(233,234,235,236,237,238,239,240,241,242,2398,2458) ORDER BY dwQuestID,dwParentID,bType,bForceRun,bTriggerType,dwTriggerID,bCountMax,bLevel,bMain,bConditionCheck FOR JSON PATH),N'[]')) AS headers,JSON_QUERY(COALESCE((SELECT CONVERT(int,dwQuestID) AS dwQuestID,CONVERT(int,bTermType) AS bTermType,CONVERT(int,dwTermID) AS dwTermID,CONVERT(int,bCount) AS bCount FROM dbo.TQUESTTERMCHART WITH(UPDLOCK,HOLDLOCK) WHERE dwQuestID IN(233,234,235,236,237,238,239,240,241,242,2398,2458) ORDER BY dwQuestID,bTermType,dwTermID,bCount FOR JSON PATH),N'[]')) AS terms,JSON_QUERY(COALESCE((SELECT CONVERT(int,dwQuestID) AS dwQuestID,CONVERT(int,bConditionType) AS bConditionType,CONVERT(int,dwConditionID) AS dwConditionID,CONVERT(int,bCount) AS bCount FROM dbo.TQCONDITIONCHART WITH(UPDLOCK,HOLDLOCK) WHERE dwQuestID IN(233,234,235,236,237,238,239,240,241,242,2398,2458) ORDER BY dwQuestID,bConditionType,dwConditionID,bCount FOR JSON PATH),N'[]')) AS conditions,JSON_QUERY(COALESCE((SELECT CONVERT(int,dwQuestID) AS dwQuestID,CONVERT(int,bRewardType) AS bRewardType,CONVERT(int,dwRewardID) AS dwRewardID,CONVERT(int,bTakeMethod) AS bTakeMethod,CONVERT(int,bTakeData) AS bTakeData,CONVERT(int,bCount) AS bCount FROM dbo.TQREWARDCHART WITH(UPDLOCK,HOLDLOCK) WHERE dwQuestID IN(233,234,235,236,237,238,239,240,241,242,2398,2458) ORDER BY dwQuestID,bRewardType,dwRewardID,bTakeMethod,bTakeData,bCount FOR JSON PATH),N'[]')) AS rewards FOR JSON PATH,WITHOUT_ARRAY_WRAPPER;\n",
+  "original_inputs": [
+    {
+      "path": "TQuest.mpq",
+      "sha256": "91510c02c6f9d4d1e41ec14528172226ea5f5c2a4ff0d49ea36be3a248c916fd"
+    },
+    {
+      "path": "TQNode.qpd",
+      "sha256": "d95510c95549d7303d75876e672abee799d8e635e189d981799760d67ac1f5d0"
+    },
+    {
+      "path": "tcd/tnpc00000000.tcd",
+      "sha256": "77afda0d2c4a1f06c18f4e30e8305e5af57d3515197a711ba0afe0f3f8f9604f"
+    },
+    {
+      "path": "tcd/tnpc00000003.tcd",
+      "sha256": "92020be3c86a58356a83419f873bfa9f94b5ecc79fa56600aecdd6d1cdd43876"
+    },
+    {
+      "path": "tcd/tnpc00000004.tcd",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tcd/tnpc00000103.tcd",
+      "sha256": "b23e67578ba173cadba352514f2378a1f7c6eacbfc7faf8e2b674d670b4f29d4"
+    },
+    {
+      "path": "tcd/tnpc00000203.tcd",
+      "sha256": "73883b46b0df3c5edee21d4a7248296625f14e4215be32d879afc0537e182d15"
+    },
+    {
+      "path": "tcd/tnpc00000302.tcd",
+      "sha256": "b935225332385525343b8581997c9db2d9d7ce16391068fed76c2d1244f47f05"
+    },
+    {
+      "path": "tcd/tnpc00000303.tcd",
+      "sha256": "d0dfca9c43db554603060f53976f87893cb7c1bc81550afdbd0a032b4e59f35d"
+    },
+    {
+      "path": "tcd/tnpc00000304.tcd",
+      "sha256": "966f97cc3b83a53e8ec6fcf1c64a5473549eb79ca89178f6c4ea7b9b12af6117"
+    },
+    {
+      "path": "tcd/tnpc00000305.tcd",
+      "sha256": "d859a43cc916a3a3ceacdfe591cff0e03f7a552ee573912fb831426390a49c2f"
+    },
+    {
+      "path": "tcd/tnpc00000401.tcd",
+      "sha256": "288820fd4f934750ffe4aafdbf13a29265de8f5dbb79fdbb642148b3b53317d6"
+    },
+    {
+      "path": "tcd/tnpc00000402.tcd",
+      "sha256": "94c7a47b3d6f5f303e48105838b7138eed9dbec46443f643a23f92fef91e983a"
+    },
+    {
+      "path": "tcd/tnpc00000403.tcd",
+      "sha256": "db9e52f776a5928b1416ccca13436d523e1e1ef135b0512a75dd63a0920f0309"
+    },
+    {
+      "path": "tcd/tnpc00000404.tcd",
+      "sha256": "d85352d900b2b615a95d5c46d6d621d6dd462b61f13e0199975a1e391bf7703c"
+    },
+    {
+      "path": "tcd/tnpc00000405.tcd",
+      "sha256": "a8bda37f882ff769bf7faac7a8f82d8f3a6864ab524adb067e573147ddaa5e6f"
+    },
+    {
+      "path": "tcd/tnpc00000406.tcd",
+      "sha256": "fa32eba13b6819017c416ca39516d8b9c6932b1023c3ba6193d8cd82b7b0b9f8"
+    },
+    {
+      "path": "tcd/tnpc00000501.tcd",
+      "sha256": "7f901303fe01ec429e0013e19d22038333ecb26e28f318a19415bfff08eccf22"
+    },
+    {
+      "path": "tcd/tnpc00000502.tcd",
+      "sha256": "9992fd8fc31810acc49aa7f1ebf9251ce1e606380f176a9afda4712d7f1a9808"
+    },
+    {
+      "path": "tcd/tnpc00000503.tcd",
+      "sha256": "caeae1304e484a3507665a85e4d1529967afc8f618ac383a65b09636b7ef9c1f"
+    },
+    {
+      "path": "tcd/tnpc00000504.tcd",
+      "sha256": "212ee16e7c52fc4aa27df2ee8939f8bf34139eeaf1c98c8e9005ded917aa3481"
+    },
+    {
+      "path": "tcd/tnpc00000505.tcd",
+      "sha256": "efb445984851db6395e3c3e2fbf2376b1f2c6a0db922a39d97a3c11a69677296"
+    },
+    {
+      "path": "tcd/tnpc00000506.tcd",
+      "sha256": "f5a2135f31ea35aa0b792e51296d6410c93514a7fa21a6455ecccb697fc0876d"
+    },
+    {
+      "path": "tcd/tnpc00000602.tcd",
+      "sha256": "b63b92d1f3ca7a7ff73a380a456a872d2cc9e42dd816f499e90ae9c20b764866"
+    },
+    {
+      "path": "tcd/tnpc00000603.tcd",
+      "sha256": "0a69e4ff62a3b7f73eba9c4b766cde8ca813846e172f5e83b36936f2caf95fc1"
+    },
+    {
+      "path": "tcd/tnpc00000604.tcd",
+      "sha256": "dee9cefc0caf3df02d13183c36ae7a706f1ff30eb346a024a4325b82f052e0ba"
+    },
+    {
+      "path": "tcd/tnpc00000605.tcd",
+      "sha256": "878624fa4d400d50b6f314a0eaa9d3854f7b9baa3b75884b71662f2ee77737f0"
+    },
+    {
+      "path": "tcd/tnpc00000606.tcd",
+      "sha256": "75d9bfd1d277d0ef7177ac1c7d7962fb214ecb6fdab5bfd163c7d19934e37d59"
+    },
+    {
+      "path": "tcd/tnpc00030000.tcd",
+      "sha256": "dbb83703415ffeb3fa265127b7f4eec8ac468fcc36214049cc971a5db3757f14"
+    },
+    {
+      "path": "tcd/tnpc00040000.tcd",
+      "sha256": "a13b47fbcfac828deaf621ad7aa3d33cf37c32e59d0f9752d46fc78d50d8369a"
+    },
+    {
+      "path": "tcd/tnpc00060000.tcd",
+      "sha256": "29dd3d76392a3995d4dad9482b127e9711bd8e456adf98abbbc9755a876dbceb"
+    },
+    {
+      "path": "tcd/tnpc00070000.tcd",
+      "sha256": "f9728b2f72ec153abcc773bb1098b978821df0746229ffc8a1533dbe38b2cac5"
+    },
+    {
+      "path": "tcd/tnpc00080000.tcd",
+      "sha256": "342718afc2ab74e405f45f19ef90d7b09383ea27f79006bfedb3cb63be6dfb92"
+    },
+    {
+      "path": "tcd/tnpc00090000.tcd",
+      "sha256": "841be96cb48d54a10fba2277ede0244051e2eddcd260523c38ce3cd64ae2199e"
+    },
+    {
+      "path": "tcd/tnpc000a0000.tcd",
+      "sha256": "a398a6bfdeade22ab8f2a3bbde89bd8609c1126639dec1a826b8d1d809f74be7"
+    },
+    {
+      "path": "tcd/tnpc000b0000.tcd",
+      "sha256": "2c8b463a5b591251e6f50b9caded6ba16afbbfbb9d816adb0dc2fa4f0407b597"
+    },
+    {
+      "path": "tcd/tnpc000c0000.tcd",
+      "sha256": "5ef5ebda5691f9edabf32aebcf74e9f7c722a202713a769356b637732ca169cc"
+    },
+    {
+      "path": "tcd/tnpc000d0000.tcd",
+      "sha256": "dff18aac26fb103154ef56a9a5d729a55439c279df351c9d779fb43f3604851d"
+    },
+    {
+      "path": "tcd/tnpc000e0000.tcd",
+      "sha256": "51de823be07029b633da0198f1d0411c29c1341b569be6571b3586b5fffc5fb7"
+    },
+    {
+      "path": "tcd/tnpc000f0000.tcd",
+      "sha256": "0126da5e219f02610b273b64ab9e8663a36095e729775385a8277274a835cae5"
+    },
+    {
+      "path": "tcd/tnpc00100000.tcd",
+      "sha256": "302b370b50f15b2f21c6ebc26acd32a38ec64e7f98d296f9c32d7c33d3d0471f"
+    },
+    {
+      "path": "tcd/tnpc00110000.tcd",
+      "sha256": "88ddb3e3036411909e39cce91bb2799f39168234ee541d16d8b1cc8151f48757"
+    },
+    {
+      "path": "tcd/tnpc00120000.tcd",
+      "sha256": "946bc03045b2047f5f084f3ed1f1980412351c6ba547a0784892b14d5564147f"
+    },
+    {
+      "path": "tcd/tnpc00640000.tcd",
+      "sha256": "448103cf4d8c081b40de7db2267e6ab79c1fa0c11c27de3f31880541d9ea2c14"
+    },
+    {
+      "path": "tcd/tnpc00650000.tcd",
+      "sha256": "4863ac62bcf5e2147aac217d8bd88e725707574d23b56da6f870e58854003362"
+    },
+    {
+      "path": "tcd/tnpc00660000.tcd",
+      "sha256": "06ffd20dac154512f69d2ff959a7ef1c3160d42a1d0480a61fef64fed461bba5"
+    },
+    {
+      "path": "tcd/tnpc00670000.tcd",
+      "sha256": "1e10c681797ce8d506c4bbe4c33cb20e8edcb1022f353335dc04cfe103eefe26"
+    },
+    {
+      "path": "tcd/tnpc00680000.tcd",
+      "sha256": "ad35e942883bd6dc86b5aa2392bcbfda08906763a791cc4cd097d0eb303c08fc"
+    },
+    {
+      "path": "tcd/tnpc00690000.tcd",
+      "sha256": "79e2e4945fd6779c087584f043f145ef8e2b3b7e398f78a6e6f5371e6a9dae3e"
+    },
+    {
+      "path": "tcd/tnpc006a0000.tcd",
+      "sha256": "70fbf81d29d0a66d39b1ab82450358565c7252e9466863de7df25c7a089d1623"
+    },
+    {
+      "path": "tcd/tnpc006b0000.tcd",
+      "sha256": "338f45bb76e42691adf627d68fd4d51c9bd8b53f21694bd96d3db2fc4988b374"
+    },
+    {
+      "path": "tcd/tnpc006c0000.tcd",
+      "sha256": "ed9c91013150b366e7332fd7113c7f0050a1beae1f48950299ed99f615be6914"
+    },
+    {
+      "path": "tcd/tnpc006d0000.tcd",
+      "sha256": "0143d9b8b35f0d2dbb141d7dee3e7aae16274f9198208a79f61c29efaa99c14e"
+    },
+    {
+      "path": "tcd/tnpc006e0000.tcd",
+      "sha256": "9e775f48902bff02839faf2a3e50c33ccc02ea87dcf296e3207acbc285fc6151"
+    },
+    {
+      "path": "tcd/tnpc01f40000.tcd",
+      "sha256": "f76c479d29acdd1efe3c03e95920c75cf208c4efc216b5649ccf24ad3a3c58be"
+    },
+    {
+      "path": "tcd/tnpc01f50000.tcd",
+      "sha256": "d4371d4d7adaea6146df1c04933bb2b319c9fe47fa8c16dca0810a508ab18d83"
+    },
+    {
+      "path": "tcd/tnpc01f60000.tcd",
+      "sha256": "97d3f6dd1056dcaf271e20d1e66cc6edbeb0262d2244bdf592fc5b51180fdc38"
+    },
+    {
+      "path": "tcd/tnpc01f70000.tcd",
+      "sha256": "7244871c6ca957d35c33fd1af455376ddab5f02f03c46e5ced593caf9680b2fe"
+    },
+    {
+      "path": "tcd/tnpc01f80000.tcd",
+      "sha256": "41826875cd5c5009c087d962b0ae3e86071a82fbf2a13bfa4042cdf41361886a"
+    },
+    {
+      "path": "tcd/tnpc01f90000.tcd",
+      "sha256": "c660d44aba4fcce890ec73bed1bed5d2065d5de2c6bb44b6b4a284ec22c2c9fe"
+    },
+    {
+      "path": "tcd/tnpc01fa0000.tcd",
+      "sha256": "d63da31683b1913073f1295f6657aaa4d851db06b0836f8ed9c74fcbebceb7f7"
+    },
+    {
+      "path": "tcd/tnpc01fb0000.tcd",
+      "sha256": "6c608eae33eb9d0980c9cffcf518a1aa6258c1a667c23c6e29d9db3daa8fcb16"
+    },
+    {
+      "path": "tcd/tnpc01fc0000.tcd",
+      "sha256": "57dbbb1f6746765e836cb66b70f46bd8b890cca20a129034d8416ae3eb34b9dc"
+    },
+    {
+      "path": "tcd/tnpc01fd0000.tcd",
+      "sha256": "6a56ec27c61477099e7766abf59bfbb1672db5685579db89344ca45b24d03be1"
+    },
+    {
+      "path": "tcd/tnpc01fe0000.tcd",
+      "sha256": "65476fb27d6658fc0e9ce4966afa920d7fbb556616c0248fa9368c9e45dd95fe"
+    },
+    {
+      "path": "tcd/tnpc01ff0000.tcd",
+      "sha256": "1b0ba69922a7499100190e3b87dc6b4f42b26578fa925afc5bde9212d1b66699"
+    },
+    {
+      "path": "tcd/tnpc02000000.tcd",
+      "sha256": "16693ac4ed52ebafa2f9bd2a1cf397a4161a896c907b7bf5e3cb47bd81c41a93"
+    },
+    {
+      "path": "tcd/tnpc02010000.tcd",
+      "sha256": "54ff07d70c426aa9e1a2e3a545a33bfbf6afd83770bbb214e7941a7d4244baa1"
+    },
+    {
+      "path": "tcd/tnpc02020000.tcd",
+      "sha256": "a676a10a784fa6f9937e2eb0cb3425c1490f8b12d8eacd6389f5568f575dda0c"
+    },
+    {
+      "path": "tcd/tnpc02030000.tcd",
+      "sha256": "2cbc61db6ec176ac49fecf5a2b5c520586714bc709c026b6a91e79a359c454d4"
+    },
+    {
+      "path": "tcd/tnpc02040000.tcd",
+      "sha256": "c097e88b9fdbcfbda73abcad27f4e2cab662e73caca4f10d2fdd306b179819f0"
+    },
+    {
+      "path": "tcd/tnpc02050000.tcd",
+      "sha256": "9d68347fc1797461272901ae754de963ffe3ceaa05014d5642f328c87ac2dc7f"
+    },
+    {
+      "path": "tcd/tnpc02060000.tcd",
+      "sha256": "15f7e853706c75b8eb80f64ad37d47168b66aed943fdc95c1a5c2cec9fde9cbe"
+    },
+    {
+      "path": "tcd/tnpc02070000.tcd",
+      "sha256": "13ca6502e61775220851b78354aa5a2037904b07cff241877f243dc259ecce2c"
+    },
+    {
+      "path": "tcd/tnpc02080000.tcd",
+      "sha256": "b387ed9e4bd791a8dea64ff0a20fba122be98885bb0312e2bf537fdba616c5ba"
+    },
+    {
+      "path": "tcd/tnpc02090000.tcd",
+      "sha256": "1d333139f832c858d66f8e8352fddcffea23afe1075a85b01288deec1ae20b0b"
+    },
+    {
+      "path": "tcd/tnpc020a0000.tcd",
+      "sha256": "7461e6cda9c13b17d57b3efaaaa328a00b66dd1a40bf6d33bd96e816699e8c04"
+    },
+    {
+      "path": "tcd/tnpc020b0000.tcd",
+      "sha256": "8d2ac794e10649f2c9dbc652c8a5b481c47c3443ad5b8b0fd981367bbc31bb2a"
+    },
+    {
+      "path": "tcd/tnpc020c0000.tcd",
+      "sha256": "3a38d54c786c840806aa5766ec3456503acf52af4472e2720fd36323d148e154"
+    },
+    {
+      "path": "tcd/tnpc020d0000.tcd",
+      "sha256": "9edb0177ea2bfde3f4a70da90aac2cd37a37f6bf9860942b0f0eca4f0a202d76"
+    },
+    {
+      "path": "tcd/tnpc020e0000.tcd",
+      "sha256": "7e8d81f019c8688e9eb59929d9021962e656b1e3b91f5478a8f5cb5cb1492a7a"
+    },
+    {
+      "path": "tcd/tnpc020f0000.tcd",
+      "sha256": "160a7090f255962e1aae0caf1fe01376ba17d633f1c17aadc845a4455f6d31a4"
+    },
+    {
+      "path": "tcd/tnpc02100000.tcd",
+      "sha256": "7c634a8eee4b72c6302e2821e5216473d9119b86ef1443162a719a98b8a1905b"
+    },
+    {
+      "path": "tcd/tnpc02110000.tcd",
+      "sha256": "8dc237e2397f22a65cb802969a4e1ed1537834156f14c1f9e87b4b5ff8dc9a4f"
+    },
+    {
+      "path": "tcd/tnpc02120000.tcd",
+      "sha256": "cc19783b7275aec46b19dedf5f2cacc7f255dc8a82d2d5c36436989175c05fb5"
+    },
+    {
+      "path": "tcd/tnpc02130000.tcd",
+      "sha256": "996c9e986b742084824fab381ece07e269629655f2c2d0bc0309347014aa0752"
+    },
+    {
+      "path": "tcd/tnpc02140000.tcd",
+      "sha256": "a8930045106908a7755c7aa656dc6bee08009f62dd416e6caa0139afc2307ae2"
+    },
+    {
+      "path": "tcd/tnpc02260000.tcd",
+      "sha256": "28dd80342a54895a70107aad8514be072c1584f304ceef503cd27ff72083b37d"
+    },
+    {
+      "path": "tcd/tnpc02590000.tcd",
+      "sha256": "b9a49331d1bf6142a715e04fe3bd0264d1efcbfc55862ca6f8cb2e070fa15fda"
+    },
+    {
+      "path": "tcd/tnpc025a0000.tcd",
+      "sha256": "c460d0da5855c75fc35538de5809c9fe379915699191cde9795e7f4f585fae22"
+    },
+    {
+      "path": "tcd/tnpc025b0000.tcd",
+      "sha256": "98d3da44830d2f5f481f500c0a3e445d16d5f20507f61043d2e761e10f3e9c61"
+    },
+    {
+      "path": "tcd/tnpc025c0000.tcd",
+      "sha256": "a19b92d01e498c680358d5f1577181fc3a04b38112d3ee58928572dd6cfafb5c"
+    },
+    {
+      "path": "tcd/tnpc025d0000.tcd",
+      "sha256": "42a79d0628181c4662cf4158cd97aec1f41f1cfbffb4064232f8b991fe5a6095"
+    },
+    {
+      "path": "tcd/tnpc02bc0000.tcd",
+      "sha256": "d33b09f809b22c839669a737c1e5541a237ba8a41ec73ac97d9e39b42bef47c9"
+    },
+    {
+      "path": "tcd/tnpc02bd0000.tcd",
+      "sha256": "ecfbc16427c21bd9211cb393edd011243dd3df007b16a3c29df39f737bbdf7d9"
+    },
+    {
+      "path": "tcd/tnpc02be0000.tcd",
+      "sha256": "c8c92c43a64f9b887997b6bb218c8f42651ccdb9e6c61b9fac1a24e349b7eb48"
+    },
+    {
+      "path": "tcd/tnpc02bf0000.tcd",
+      "sha256": "7580aea4fe81c630c595172e0377e44b9c02ac7ac154b2bad86883084cbddec1"
+    },
+    {
+      "path": "tcd/tnpc02c00000.tcd",
+      "sha256": "21b6700f38dbf0d74aa1302eeb10290dce425b3499fc8f290909cfdbc626a698"
+    },
+    {
+      "path": "tcd/tnpc02c20000.tcd",
+      "sha256": "794ca64f0715216c4bc5defe2dbc15ab318f8d79e1670367dda29c4c2efb0d51"
+    },
+    {
+      "path": "tcd/tnpc02c40000.tcd",
+      "sha256": "efc2ebe808d4b0a597d3ebb1f9d908e77b084f2da5fcfc21b325105a01a496f5"
+    },
+    {
+      "path": "tcd/tnpc02c60000.tcd",
+      "sha256": "58327dc3a1fc4b80182fcecd8b6a382ed3d398d0a04e2811f1db9f2c160b92ed"
+    },
+    {
+      "path": "tcd/tnpc02c80000.tcd",
+      "sha256": "0df5cd3dc969beccd321ab7677b1f43fe8a7ec3419013df0c5a049f8e48248a5"
+    },
+    {
+      "path": "tcd/tnpc02c90000.tcd",
+      "sha256": "92878ed254a02914b41d7d0ade7e7601797ff15993a1081a8bc2b342b7336996"
+    },
+    {
+      "path": "tcd/tnpc02ca0000.tcd",
+      "sha256": "08c57896f437884374676280607a25020996c6aeb5c2825440298e78b73d01ff"
+    },
+    {
+      "path": "tcd/tnpc02d10000.tcd",
+      "sha256": "c4640debee5c0cd07d3aab7f780f44d4ec6b79df2cfcd3350431eeb7ae1a724b"
+    },
+    {
+      "path": "tcd/tnpc02d20000.tcd",
+      "sha256": "8ed9cf138e4a0e858dd71c1b0bc0208068480184f67da5f81e785b565d2fc854"
+    },
+    {
+      "path": "tcd/tnpc02d30000.tcd",
+      "sha256": "41f70430b446df105969c4b1e6c66b0ab28cf2553bfcff96b729290da45b5923"
+    },
+    {
+      "path": "tcd/tnpc02d40000.tcd",
+      "sha256": "29e271f2d192ec40ec16c88b6b8bcf65b95a45d995f0e8f9b1b4e501aaabc2f7"
+    },
+    {
+      "path": "tcd/tnpc02d50000.tcd",
+      "sha256": "6f926dccc62d90295624f6100d75365ac0fddd71b9a0ceb07bb6f57992ff2ceb"
+    },
+    {
+      "path": "tcd/tnpc02d60000.tcd",
+      "sha256": "2f961d81bbd775f2853ebe39d785ca141a70b57a471c6bb2effaf83733e4867e"
+    },
+    {
+      "path": "tcd/tnpc02db0000.tcd",
+      "sha256": "c5486f75f97ca72c0e2e0346cbe74c50d2674d48a6bfc48ebabcd4b39f37b7aa"
+    },
+    {
+      "path": "tcd/tnpc02dc0000.tcd",
+      "sha256": "ae7d84e35596ad7abc0111040cb69c8f202a3debf09fa34b27cac4e88b41130b"
+    },
+    {
+      "path": "tcd/tnpc02dd0000.tcd",
+      "sha256": "488a2adbee52e65f53e25a6f0b1012c5eacb4d507beaad257c03ebbfe037fc27"
+    },
+    {
+      "path": "tcd/tnpc02de0000.tcd",
+      "sha256": "3270938fa38dbf97c85c1986220a6f8b468312483f58f70d80163b027e023721"
+    },
+    {
+      "path": "tcd/tnpc02df0000.tcd",
+      "sha256": "361a68eec6c98d18fec7270719fcdc8143f739d4c010fe3a17c3dbfe6ed28e07"
+    },
+    {
+      "path": "tcd/tnpc02e00000.tcd",
+      "sha256": "830838992c1146ad319e0c22e84cb085750e9ae098d0c68b039a13a7e1a48707"
+    },
+    {
+      "path": "tcd/tnpc03210000.tcd",
+      "sha256": "4c8a5812b745ed5d4f978e73fe15a8ec67902e63283620905b67414fad51a8c5"
+    },
+    {
+      "path": "tcd/tnpc03220000.tcd",
+      "sha256": "9b09e860f785e7ee77192104feb6f5b3860741766c5171e38300c97257bcf52f"
+    },
+    {
+      "path": "tcd/tnpc03230000.tcd",
+      "sha256": "4eb22ba087cc90b5095ee78b86097fb95e45cbdf8e777569701f155b02af23e1"
+    },
+    {
+      "path": "tcd/tnpc03240000.tcd",
+      "sha256": "e330238bdc00e743eac3806bff89870818328e2746e4a86c2dd3815ed31389fe"
+    },
+    {
+      "path": "tcd/tnpc03250000.tcd",
+      "sha256": "a016665d388580c347590909e277dbe636630801bbf575d08643aafcc94f311f"
+    },
+    {
+      "path": "tcd/tnpc038b0000.tcd",
+      "sha256": "a6c6de57d00c5518c8a1128dfd0548a7fe383640da438ad71a67cc1cf8002ce3"
+    },
+    {
+      "path": "tcd/tnpc038c0000.tcd",
+      "sha256": "c0479c0c59465412e2414d261dc00c56534f875a865e2f5a26ce917166d7e82c"
+    },
+    {
+      "path": "tcd/tnpc038d0000.tcd",
+      "sha256": "6e95e67dcbbd0dd8a02162f8d7a5dc5dd739ba4b2a5346b69ff2e217cc906f66"
+    },
+    {
+      "path": "tcd/tnpc038e0000.tcd",
+      "sha256": "52a9d7c1b3a337428dfa3c986f80c948a65c9a8d0afbb93501ea5f2a12232b2a"
+    },
+    {
+      "path": "tcd/tnpc038f0000.tcd",
+      "sha256": "25eaf0b213f3621b8dbe0df138e195c36ff6099f60c75529741b86d5a78e1a1d"
+    },
+    {
+      "path": "tcd/tnpc044c0000.tcd",
+      "sha256": "6b1545fd65bd7debe98630651be7018fc704f438e610d00f56c312822289e970"
+    },
+    {
+      "path": "tcd/tnpc044d0000.tcd",
+      "sha256": "6927b9733c8c6a32af6cb12b90cafa9ca57fee3d476f5df43ec220fa6508fff4"
+    },
+    {
+      "path": "tcd/tnpc044e0000.tcd",
+      "sha256": "f3d15e84cf65e173be6286969b964b73dab44848ccfbe86dcff4ae23ed23df99"
+    },
+    {
+      "path": "tcd/tnpc044f0000.tcd",
+      "sha256": "be6b13c9999f9c14f87e343b66096bdc2ccf427c8073c06702395df070b61b5c"
+    },
+    {
+      "path": "tcd/tnpc04500000.tcd",
+      "sha256": "f19e2f73c9f22f8ae7f20e22e77091b91b081461b47c82bb1e6ddbf82a42e03c"
+    },
+    {
+      "path": "tcd/tnpc04510000.tcd",
+      "sha256": "18ea279346c01ded5cedbf4928e3bae1804e44fa3eb65ce5bd0c011e30405fbc"
+    },
+    {
+      "path": "tcd/tnpc05dd0000.tcd",
+      "sha256": "06b9b810313853b887f3260f988c89f5592faf3e5bc215244370bc5c2a15ad36"
+    },
+    {
+      "path": "tcd/tnpc05de0000.tcd",
+      "sha256": "d6d3c2d7036faff4e06433ad45e5cbd35e82201f88c29fe7107580bba6111097"
+    },
+    {
+      "path": "tcd/tnpc05df0000.tcd",
+      "sha256": "51d3336a0032224f0e962b738fd6f0836d5165f19ffd231e64736d1a40e8a666"
+    },
+    {
+      "path": "tcd/tnpc07da0000.tcd",
+      "sha256": "48575eaa82bf94a99692ed1c86a7ec3a30cd5da1aeb6e059d15d9174143bdd30"
+    },
+    {
+      "path": "tcd/tnpc08340000.tcd",
+      "sha256": "f6e9efb1c39d01bd28eb9afb873379e8c89ef8eba6b45817104f615a0eb10d7a"
+    },
+    {
+      "path": "tcd/tnpc08980000.tcd",
+      "sha256": "edf8e487a38ab7b349fa7dc9a2b6b73791c2d8855a98540741ad91433d342cd4"
+    },
+    {
+      "path": "tcd/tnpc08990000.tcd",
+      "sha256": "aff305fb714091d5835910597ba64c0b86d4bc4f9395841c273e8247a638b30e"
+    },
+    {
+      "path": "tcd/tnpc089a0000.tcd",
+      "sha256": "f9de1a290dfe15ce86fee39558a398a16a046051a2eed24b1897e92b07e99dcf"
+    },
+    {
+      "path": "tcd/tnpc0bb80000.tcd",
+      "sha256": "cd04be0d11793ec4d3fba97eeb044d708c668a75bcd3794df865dad52b7e272d"
+    }
+  ],
+  "unsupported_ids": [
+    291,
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    3209
+  ]
+}

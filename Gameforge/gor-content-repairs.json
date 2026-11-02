@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "status": "documented_repairs_and_approved_training_deployed_remaining_reference_gaps",
+  "plan": "Gameforge/gor-content-repairs/plan.json",
+  "wakeup_plan": "Gameforge/gor-content-repairs/wakeup-plan.json",
+  "repaired": {
+    "existing_recipes": 32,
+    "new_recipe": 10634,
+    "aligned_mission_reward_definitions": 9,
+    "corneus_missions": [
+      5917,
+      5919
+    ],
+    "corneus_completion_actions": [
+      5918,
+      5920
+    ],
+    "wakeup_mission": 7307,
+    "wakeup_completion": 9720,
+    "legacy_switch_preserved_as": 40007307
+  },
+  "before_issue_counts": {
+    "objectives_differ": 35,
+    "reward_rows_differ": 46,
+    "start_npc_differs": 6,
+    "missing_server_roots": 35
+  },
+  "after_issue_counts": {
+    "completion_mapping_needs_more_evidence": 10,
+    "start_npc_not_proven_by_navigation": 66,
+    "server_quest_disabled": 1,
+    "completion_action_missing_or_wrong_type": 20,
+    "objectives_differ": 3,
+    "parent_link_differs": 2,
+    "quest_type_differs": 2,
+    "reward_rows_differ": 3,
+    "start_npc_differs": 3,
+    "reward_template_missing": 1,
+    "server_quest_missing": 20
+  },
+  "training": {
+    "status": "activated_with_user_approved_functional_substitutes",
+    "count": 14,
+    "mission_ids": [
+      11012,
+      11013,
+      11014,
+      11015,
+      11016,
+      11017,
+      11018,
+      11019,
+      11021,
+      11025,
+      11027,
+      11037,
+      11083,
+      11085
+    ],
+    "proposal": "Gameforge/gor-content-repairs/training-proposal.json",
+    "classification_correction": "11080 Sberatel is a golden-ticket event, not initial training; earlier 15-training count is corrected.",
+    "activation_evidence": "Gameforge/gor-training.json"
+  },
+  "remaining": "Gameforge/gor-content-repairs/backlog.json",
+  "validation": {
+    "content_import_scenarios_passed": 15,
+    "content_sql_loaded_execution_cases_passed": 44,
+    "wakeup_import_scenarios_passed": 13,
+    "wakeup_sql_loaded_execution_cases_passed": 2,
+    "real_sql_quest_inventory_reload_verified": true,
+    "corneus_repeat_after_reload_verified": true,
+    "wakeup_acceptance_destination_map_and_completion_reload_verified": true,
+    "relocated_legacy_switch_event_verified": true,
+    "live_template_definitions_verified": 49,
+    "all_player_char_inventory_quest_term_hashes_preserved": true,
+    "unrelated_static_tables_preserved": true,
+    "python_audit_cases_passed": 28,
+    "production_dotnet_source_changed": false,
+    "last_full_map_server_source_tests": 1868,
+    "full_source_suite_rerun_for_data_only_changes": false,
+    "real_client_playthrough_verified": false,
+    "fixture_player_rows_copied": 0,
+    "fixtures_removed": true,
+    "sql_results": [
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\content-sql-final3.txt",
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\wakeup-sql.txt"
+    ],
+    "live_results": [
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification.json",
+      "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-parity-20261031\\verification-wakeup.json"
+    ]
+  },
+  "deployment": {
+    "migration": "056_gor_wakeup_quest.sql",
+    "applied_utc": "2026-10-31T16:49:42.6003294Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "map_started_utc": "2026-10-31T16:49:43.179459933Z",
+    "verified_utc": "2026-10-31T16:49:53.2564872Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "previous_deployment": {
+    "migration": "055_gor_content_repairs.sql",
+    "applied_utc": "2026-10-31T16:36:06.3531507Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "map_started_utc": "2026-10-31T16:36:06.891899958Z",
+    "verified_utc": "2026-10-31T16:36:17.1313925Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "limitations": [
+    "20 mission roots remain absent; three existing root NPC/objective/reward conflicts remain.",
+    "Training cap, quest drops and fixed Moray are explicitly approved substitutes, not certified original probabilities.",
+    "Local real-client playthrough and full Gameforge parity remain unverified."
+  ],
+  "previous_after_issue_counts": {
+    "completion_mapping_needs_more_evidence": 10,
+    "start_npc_not_proven_by_navigation": 66,
+    "server_quest_disabled": 1,
+    "completion_action_missing_or_wrong_type": 34,
+    "objectives_differ": 3,
+    "parent_link_differs": 2,
+    "quest_type_differs": 2,
+    "reward_rows_differ": 3,
+    "start_npc_differs": 3,
+    "reward_template_missing": 1,
+    "server_quest_missing": 34,
+    "reference_parent_not_active_on_server": 13
+  },
+  "training_deployment": {
+    "migration": "057_gor_training.sql",
+    "deployed": true,
+    "applied_utc": "2026-11-01T10:02:03.606614+00:00",
+    "mission_count": 14,
+    "headers": 36,
+    "player_state_preserved": true,
+    "player_hashes": {
+      "TCHARTABLE": {
+        "rows": 3,
+        "sha256": "7c5873491157b577af62c42859bd4730937f8e8f47c1d6ea941190ae7fc2ffab"
+      },
+      "TITEMTABLE": {
+        "rows": 97,
+        "sha256": "9c2737cb0ea29e6a2f1c2ac8864b48a69c1ab8631acd4e51c82155768c9bfa11"
+      },
+      "TINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      },
+      "TQUESTTABLE": {
+        "rows": 15,
+        "sha256": "79cf79ac97f591769932b5552a665218b627a9dd703326140d6723b4e26e8292"
+      },
+      "TQUESTTERMTABLE": {
+        "rows": 5,
+        "sha256": "abddd129f878a32cf9ff19caac8fd4b09a64626b2ec1157b1124294dac1809f9"
+      },
+      "TTEMPITEMTABLE": {
+        "rows": 95,
+        "sha256": "533569a604cfb9e1b177dec462455afa3ba087a2db4ae858dcb5a00151cadd47"
+      },
+      "TTEMPINVENTABLE": {
+        "rows": 11,
+        "sha256": "b879eec108f30e7d573070a3a22a10e5d76f0e4479177eb76b53c01430da9257"
+      }
+    },
+    "backup": "/var/opt/mssql/data/4Dev-before-training-20261101-100200.bak",
+    "after_hash": "FF83DC4829212A28005D6A041BE564D6D98771DB17608B7ABCB75A22C7CDD2DA",
+    "image_rebuilt": false,
+    "real_client_verified": false,
+    "map_started_utc": "2026-11-01T10:02:03.717987888Z",
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "verified_utc": "2026-11-01T10:09:35.166486+00:00",
+    "startup_log_observation": "Observed docker logs: Indexed 6463 quests; Announced to world: server 1, channels [1]; Authenticated Control server connected at 10:02:09 UTC."
+  }
+}

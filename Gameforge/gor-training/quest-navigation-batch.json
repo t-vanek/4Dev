@@ -1,0 +1,2539 @@
+{
+  "schema": 1,
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "scope": "Seven requested titles with three existing alternate branches: ten mission IDs. Navigation only; no objective/reward, spawn or player-state changes.",
+  "plans": [
+    {
+      "schema": 1,
+      "quest_id": 7913,
+      "title": "Inteligentní masožravé rostliny",
+      "before_nodes": [
+        {
+          "quest_id": 7913,
+          "ordinal": 0,
+          "offset": 136690,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7913,
+          "ordinal": 1,
+          "offset": 136719,
+          "length": 29,
+          "type": 3,
+          "term_id": 793,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7913,
+          "ordinal": 2,
+          "offset": 136748,
+          "length": 29,
+          "type": 3,
+          "term_id": 796,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7913,
+          "ordinal": 3,
+          "offset": 136777,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7913,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7913,
+          "type": 3,
+          "term_id": 793,
+          "monster_kind": 793,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3572.659912109375,
+          "y": 104.26000213623047,
+          "z": 921.0900268554688,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7913,
+          "type": 3,
+          "term_id": 796,
+          "monster_kind": 796,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3532.22998046875,
+          "y": 102.83999633789062,
+          "z": 882.5599975585938,
+          "ordinal": 2,
+          "length": 29
+        },
+        {
+          "quest_id": 7913,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 3,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 3,
+          "id": 793,
+          "count": 8
+        },
+        {
+          "type": 3,
+          "id": 796,
+          "count": 1
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7913,
+        "dwParentID": 7906,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 1,
+        "bLevel": 8,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7914,
+        "dwParentID": 7913,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7913,
+          "dwParentID": 7906,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 1,
+          "bLevel": 8,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7914,
+          "dwParentID": 7913,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7915,
+          "dwParentID": 7913,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 1,
+          "bLevel": 9,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14722,
+          "dwQuestID": 7913,
+          "bTermType": 3,
+          "dwTermID": 793,
+          "bCount": 8
+        },
+        {
+          "dwID": 14837,
+          "dwQuestID": 7913,
+          "bTermType": 3,
+          "dwTermID": 796,
+          "bCount": 1
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8659,
+          "dwQuestID": 7914,
+          "bConditionType": 3,
+          "dwConditionID": 7913,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26041": {
+          "wID": 26041,
+          "template_id": 1258,
+          "name": "Ennahi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3601.2099609375,
+          "fPosY": 105.04000091552734,
+          "fPosZ": 926.6400146484375,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7915,
+      "title": "Závěrečný test",
+      "before_nodes": [
+        {
+          "quest_id": 7915,
+          "ordinal": 0,
+          "offset": 136814,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7915,
+          "ordinal": 1,
+          "offset": 136843,
+          "length": 29,
+          "type": 3,
+          "term_id": 797,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7915,
+          "ordinal": 2,
+          "offset": 136872,
+          "length": 29,
+          "type": 3,
+          "term_id": 798,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7915,
+          "ordinal": 3,
+          "offset": 136901,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7915,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7915,
+          "type": 3,
+          "term_id": 797,
+          "monster_kind": 797,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3313.3101,
+          "y": 114.21,
+          "z": 847.78998,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7915,
+          "type": 3,
+          "term_id": 798,
+          "monster_kind": 798,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3306.46,
+          "y": 117.33,
+          "z": 837.46002,
+          "ordinal": 2,
+          "length": 29
+        },
+        {
+          "quest_id": 7915,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 3,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 3,
+          "id": 797,
+          "count": 7
+        },
+        {
+          "type": 3,
+          "id": 798,
+          "count": 7
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7915,
+        "dwParentID": 7913,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 1,
+        "bLevel": 9,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7916,
+        "dwParentID": 7915,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7915,
+          "dwParentID": 7913,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 1,
+          "bLevel": 9,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7916,
+          "dwParentID": 7915,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7917,
+          "dwParentID": 7915,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14726,
+          "dwQuestID": 7915,
+          "bTermType": 3,
+          "dwTermID": 797,
+          "bCount": 7
+        },
+        {
+          "dwID": 14841,
+          "dwQuestID": 7915,
+          "bTermType": 3,
+          "dwTermID": 798,
+          "bCount": 7
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8661,
+          "dwQuestID": 7916,
+          "bConditionType": 3,
+          "dwConditionID": 7915,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26041": {
+          "wID": 26041,
+          "template_id": 1258,
+          "name": "Ennahi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3601.2099609375,
+          "fPosY": 105.04000091552734,
+          "fPosZ": 926.6400146484375,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7971,
+      "title": "Závěrečný test",
+      "before_nodes": [
+        {
+          "quest_id": 7971,
+          "ordinal": 0,
+          "offset": 138310,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7971,
+          "ordinal": 1,
+          "offset": 138339,
+          "length": 29,
+          "type": 3,
+          "term_id": 797,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7971,
+          "ordinal": 2,
+          "offset": 138368,
+          "length": 29,
+          "type": 3,
+          "term_id": 798,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7971,
+          "ordinal": 3,
+          "offset": 138397,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7971,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26042,
+          "map_id": 0,
+          "x": 3604.110107421875,
+          "y": 105.02999877929688,
+          "z": 929.6199951171875,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7971,
+          "type": 3,
+          "term_id": 797,
+          "monster_kind": 797,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3313.3101,
+          "y": 114.21,
+          "z": 847.78998,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7971,
+          "type": 3,
+          "term_id": 798,
+          "monster_kind": 798,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3306.46,
+          "y": 117.33,
+          "z": 837.46002,
+          "ordinal": 2,
+          "length": 29
+        },
+        {
+          "quest_id": 7971,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26042,
+          "map_id": 0,
+          "x": 3604.110107421875,
+          "y": 105.02999877929688,
+          "z": 929.6199951171875,
+          "ordinal": 3,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 3,
+          "id": 797,
+          "count": 7
+        },
+        {
+          "type": 3,
+          "id": 798,
+          "count": 7
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7971,
+        "dwParentID": 7967,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26042,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7972,
+        "dwParentID": 7971,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26042,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7971,
+          "dwParentID": 7967,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26042,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7972,
+          "dwParentID": 7971,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26042,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7973,
+          "dwParentID": 7971,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26042,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14802,
+          "dwQuestID": 7971,
+          "bTermType": 3,
+          "dwTermID": 797,
+          "bCount": 7
+        },
+        {
+          "dwID": 14842,
+          "dwQuestID": 7971,
+          "bTermType": 3,
+          "dwTermID": 798,
+          "bCount": 7
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8744,
+          "dwQuestID": 7972,
+          "bConditionType": 3,
+          "dwConditionID": 7971,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26042": {
+          "wID": 26042,
+          "template_id": 1259,
+          "name": "Belnandi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3604.110107421875,
+          "fPosY": 105.02999877929688,
+          "fPosZ": 929.6199951171875,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7774,
+      "title": "Tajemství Markova úkrytu",
+      "before_nodes": [
+        {
+          "quest_id": 7774,
+          "ordinal": 0,
+          "offset": 134014,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7774,
+          "ordinal": 1,
+          "offset": 134043,
+          "length": 29,
+          "type": 16,
+          "term_id": 20669,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7774,
+          "ordinal": 2,
+          "offset": 134072,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7774,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26045,
+          "map_id": 0,
+          "x": 3600.419921875,
+          "y": 105.0199966430664,
+          "z": 923.010009765625,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7774,
+          "type": 3,
+          "term_id": 800,
+          "monster_kind": 800,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3230.110107421875,
+          "y": 124.27999877929688,
+          "z": 837.5800170898438,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7774,
+          "type": 2,
+          "term_id": 9651,
+          "monster_kind": 800,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3230.110107421875,
+          "y": 124.27999877929688,
+          "z": 837.5800170898438,
+          "ordinal": 2,
+          "length": 29
+        },
+        {
+          "quest_id": 7774,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 3,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 3,
+          "id": 800,
+          "count": 1
+        },
+        {
+          "type": 2,
+          "id": 9651,
+          "count": 1
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7774,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26045,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7922,
+        "dwParentID": 7774,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7774,
+          "dwParentID": 0,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26045,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7922,
+          "dwParentID": 7774,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7923,
+          "dwParentID": 7774,
+          "bType": 4,
+          "bForceRun": 0,
+          "bTriggerType": 5,
+          "dwTriggerID": 800,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14733,
+          "dwQuestID": 7774,
+          "bTermType": 3,
+          "dwTermID": 800,
+          "bCount": 1
+        },
+        {
+          "dwID": 14843,
+          "dwQuestID": 7774,
+          "bTermType": 2,
+          "dwTermID": 9651,
+          "bCount": 1
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8664,
+          "dwQuestID": 7774,
+          "bConditionType": 15,
+          "dwConditionID": 7913,
+          "bCount": 0
+        },
+        {
+          "dwID": 8666,
+          "dwQuestID": 7922,
+          "bConditionType": 3,
+          "dwConditionID": 7774,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26041": {
+          "wID": 26041,
+          "template_id": 1258,
+          "name": "Ennahi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3601.2099609375,
+          "fPosY": 105.04000091552734,
+          "fPosZ": 926.6400146484375,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26045": {
+          "wID": 26045,
+          "template_id": 1262,
+          "name": "Redali",
+          "title": "Rekrut",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3600.419921875,
+          "fPosY": 105.0199966430664,
+          "fPosZ": 923.010009765625,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7976,
+      "title": "Tajemství Markova úkrytu",
+      "before_nodes": [
+        {
+          "quest_id": 7976,
+          "ordinal": 0,
+          "offset": 138500,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7976,
+          "ordinal": 1,
+          "offset": 138529,
+          "length": 29,
+          "type": 3,
+          "term_id": 800,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7976,
+          "ordinal": 2,
+          "offset": 138558,
+          "length": 29,
+          "type": 2,
+          "term_id": 9651,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7976,
+          "ordinal": 3,
+          "offset": 138587,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7976,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26046,
+          "map_id": 0,
+          "x": 3600.4599609375,
+          "y": 105.02999877929688,
+          "z": 924.6300048828125,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7976,
+          "type": 3,
+          "term_id": 800,
+          "monster_kind": 800,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3230.110107421875,
+          "y": 124.27999877929688,
+          "z": 837.5800170898438,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7976,
+          "type": 2,
+          "term_id": 9651,
+          "monster_kind": 800,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 3230.110107421875,
+          "y": 124.27999877929688,
+          "z": 837.5800170898438,
+          "ordinal": 2,
+          "length": 29
+        },
+        {
+          "quest_id": 7976,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26042,
+          "map_id": 0,
+          "x": 3604.110107421875,
+          "y": 105.02999877929688,
+          "z": 929.6199951171875,
+          "ordinal": 3,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 3,
+          "id": 800,
+          "count": 1
+        },
+        {
+          "type": 2,
+          "id": 9651,
+          "count": 1
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7976,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26046,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7999,
+        "dwParentID": 7976,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26042,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7976,
+          "dwParentID": 0,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26046,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7999,
+          "dwParentID": 7976,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26042,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 8000,
+          "dwParentID": 7976,
+          "bType": 4,
+          "bForceRun": 0,
+          "bTriggerType": 5,
+          "dwTriggerID": 800,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14847,
+          "dwQuestID": 7976,
+          "bTermType": 3,
+          "dwTermID": 800,
+          "bCount": 1
+        },
+        {
+          "dwID": 14848,
+          "dwQuestID": 7976,
+          "bTermType": 2,
+          "dwTermID": 9651,
+          "bCount": 1
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8762,
+          "dwQuestID": 7976,
+          "bConditionType": 15,
+          "dwConditionID": 7967,
+          "bCount": 0
+        },
+        {
+          "dwID": 8761,
+          "dwQuestID": 7999,
+          "bConditionType": 3,
+          "dwConditionID": 7976,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26042": {
+          "wID": 26042,
+          "template_id": 1259,
+          "name": "Belnandi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3604.110107421875,
+          "fPosY": 105.02999877929688,
+          "fPosZ": 929.6199951171875,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26046": {
+          "wID": 26046,
+          "template_id": 1263,
+          "name": "Jaima",
+          "title": "Rekrut",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3600.4599609375,
+          "fPosY": 105.02999877929688,
+          "fPosZ": 924.6300048828125,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7775,
+      "title": "Nápověda Peijo",
+      "before_nodes": [
+        {
+          "quest_id": 7775,
+          "ordinal": 0,
+          "offset": 134109,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7775,
+          "ordinal": 1,
+          "offset": 134138,
+          "length": 29,
+          "type": 16,
+          "term_id": 20670,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7775,
+          "ordinal": 2,
+          "offset": 134167,
+          "length": 29,
+          "type": 16,
+          "term_id": 20672,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7775,
+          "ordinal": 3,
+          "offset": 134196,
+          "length": 29,
+          "type": 16,
+          "term_id": 20673,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7775,
+          "ordinal": 4,
+          "offset": 134225,
+          "length": 29,
+          "type": 16,
+          "term_id": 20674,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7775,
+          "ordinal": 5,
+          "offset": 134254,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7775,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26043,
+          "map_id": 0,
+          "x": 3601.820068359375,
+          "y": 105.0199966430664,
+          "z": 920.4099731445312,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7775,
+          "type": 2,
+          "term_id": 9649,
+          "monster_kind": 0,
+          "npc_id": 26067,
+          "map_id": 0,
+          "x": 3817.14990234375,
+          "y": 103.08000183105469,
+          "z": 854.489990234375,
+          "ordinal": 1,
+          "length": 29
+        },
+        {
+          "quest_id": 7775,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26043,
+          "map_id": 0,
+          "x": 3601.820068359375,
+          "y": 105.0199966430664,
+          "z": 920.4099731445312,
+          "ordinal": 2,
+          "length": 29
+        }
+      ],
+      "objectives": [
+        {
+          "type": 2,
+          "id": 9649,
+          "count": 1
+        }
+      ],
+      "quest": {
+        "dwQuestID": 7775,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26043,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7924,
+        "dwParentID": 7775,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26043,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7775,
+          "dwParentID": 0,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26043,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7924,
+          "dwParentID": 7775,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26043,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7925,
+          "dwParentID": 7775,
+          "bType": 9,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26067,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14839,
+          "dwQuestID": 7775,
+          "bTermType": 2,
+          "dwTermID": 9649,
+          "bCount": 1
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 9295,
+          "dwQuestID": 7775,
+          "bConditionType": 15,
+          "dwConditionID": 7773,
+          "bCount": 0
+        },
+        {
+          "dwID": 8669,
+          "dwQuestID": 7924,
+          "bConditionType": 3,
+          "dwConditionID": 7775,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26043": {
+          "wID": 26043,
+          "template_id": 1260,
+          "name": "Peijo",
+          "title": "Rekrut",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3601.820068359375,
+          "fPosY": 105.0199966430664,
+          "fPosZ": 920.4099731445312,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26067": {
+          "wID": 26067,
+          "template_id": 1265,
+          "name": "Kupka sena",
+          "title": "Špína",
+          "bType": 7,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3817.14990234375,
+          "fPosY": 103.08000183105469,
+          "fPosZ": 854.489990234375,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7917,
+      "title": "Hlášení pro Gallau",
+      "before_nodes": [
+        {
+          "quest_id": 7917,
+          "ordinal": 0,
+          "offset": 136938,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7917,
+          "ordinal": 1,
+          "offset": 136967,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7917,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26041,
+          "map_id": 0,
+          "x": 3601.2099609375,
+          "y": 105.04000091552734,
+          "z": 926.6400146484375,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7917,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26039,
+          "map_id": 0,
+          "x": 3614.6201171875,
+          "y": 105.01000213623047,
+          "z": 932.2999877929688,
+          "ordinal": 1,
+          "length": 29
+        }
+      ],
+      "objectives": [],
+      "quest": {
+        "dwQuestID": 7917,
+        "dwParentID": 7915,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26041,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7918,
+        "dwParentID": 7917,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26039,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7917,
+          "dwParentID": 7915,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26041,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7918,
+          "dwParentID": 7917,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26039,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14728,
+          "dwQuestID": 7917,
+          "bTermType": 1,
+          "dwTermID": 7917,
+          "bCount": 0
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8662,
+          "dwQuestID": 7918,
+          "bConditionType": 3,
+          "dwConditionID": 7917,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26041": {
+          "wID": 26041,
+          "template_id": 1258,
+          "name": "Ennahi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3601.2099609375,
+          "fPosY": 105.04000091552734,
+          "fPosZ": 926.6400146484375,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26039": {
+          "wID": 26039,
+          "template_id": 1256,
+          "name": "Gallau",
+          "title": "Trenér",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3614.6201171875,
+          "fPosY": 105.01000213623047,
+          "fPosZ": 932.2999877929688,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7973,
+      "title": "Hlášení pro Gallau",
+      "before_nodes": [
+        {
+          "quest_id": 7973,
+          "ordinal": 0,
+          "offset": 138434,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7973,
+          "ordinal": 1,
+          "offset": 138463,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7973,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26042,
+          "map_id": 0,
+          "x": 3604.110107421875,
+          "y": 105.02999877929688,
+          "z": 929.6199951171875,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7973,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26039,
+          "map_id": 0,
+          "x": 3614.6201171875,
+          "y": 105.01000213623047,
+          "z": 932.2999877929688,
+          "ordinal": 1,
+          "length": 29
+        }
+      ],
+      "objectives": [],
+      "quest": {
+        "dwQuestID": 7973,
+        "dwParentID": 7971,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26042,
+        "bCountMax": 1,
+        "bLevel": 10,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7974,
+        "dwParentID": 7973,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26039,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7973,
+          "dwParentID": 7971,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26042,
+          "bCountMax": 1,
+          "bLevel": 10,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7974,
+          "dwParentID": 7973,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26039,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14804,
+          "dwQuestID": 7973,
+          "bTermType": 1,
+          "dwTermID": 7973,
+          "bCount": 0
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8745,
+          "dwQuestID": 7974,
+          "bConditionType": 3,
+          "dwConditionID": 7973,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26042": {
+          "wID": 26042,
+          "template_id": 1259,
+          "name": "Belnandi",
+          "title": "Vedoucí výcviku",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3604.110107421875,
+          "fPosY": 105.02999877929688,
+          "fPosZ": 929.6199951171875,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26039": {
+          "wID": 26039,
+          "template_id": 1256,
+          "name": "Gallau",
+          "title": "Trenér",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3614.6201171875,
+          "fPosY": 105.01000213623047,
+          "fPosZ": 932.2999877929688,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7837,
+      "title": "K prvnímu strážnímu stanovišti",
+      "before_nodes": [
+        {
+          "quest_id": 7837,
+          "ordinal": 0,
+          "offset": 134848,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7837,
+          "ordinal": 1,
+          "offset": 134877,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7837,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26003,
+          "map_id": 0,
+          "x": 3777.139892578125,
+          "y": 86.20999908447266,
+          "z": 405.95001220703125,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7837,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26023,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "ordinal": 1,
+          "length": 29
+        }
+      ],
+      "objectives": [],
+      "quest": {
+        "dwQuestID": 7837,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26003,
+        "bCountMax": 1,
+        "bLevel": 3,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "completion": {
+        "dwQuestID": 7838,
+        "dwParentID": 7837,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26023,
+        "bCountMax": 1,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7837,
+          "dwParentID": 0,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26003,
+          "bCountMax": 1,
+          "bLevel": 3,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7838,
+          "dwParentID": 7837,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26023,
+          "bCountMax": 1,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        },
+        {
+          "dwQuestID": 7839,
+          "dwParentID": 7837,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26023,
+          "bCountMax": 1,
+          "bLevel": 3,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14629,
+          "dwQuestID": 7837,
+          "bTermType": 1,
+          "dwTermID": 7837,
+          "bCount": 0
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8573,
+          "dwQuestID": 7838,
+          "bConditionType": 3,
+          "dwConditionID": 7837,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26003": {
+          "wID": 26003,
+          "template_id": 1202,
+          "name": "Biseira",
+          "title": "Červený vlk",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3777.139892578125,
+          "fPosY": 86.20999908447266,
+          "fPosZ": 405.95001220703125,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26023": {
+          "wID": 26023,
+          "template_id": 1241,
+          "name": "Darni",
+          "title": "Mistr zvířat",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 0.0,
+          "fPosY": 0.0,
+          "fPosZ": 0.0,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000000.tcd",
+          "source_sha256": "77afda0d2c4a1f06c18f4e30e8305e5af57d3515197a711ba0afe0f3f8f9604f"
+        }
+      }
+    },
+    {
+      "schema": 1,
+      "quest_id": 7860,
+      "title": "Ke druhému strážnímu stanovišti",
+      "before_nodes": [
+        {
+          "quest_id": 7860,
+          "ordinal": 0,
+          "offset": 135455,
+          "length": 29,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "quest_id": 7860,
+          "ordinal": 1,
+          "offset": 135484,
+          "length": 29,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 0,
+          "map_id": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      ],
+      "after_nodes": [
+        {
+          "quest_id": 7860,
+          "type": 19,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26003,
+          "map_id": 0,
+          "x": 3777.139892578125,
+          "y": 86.20999908447266,
+          "z": 405.95001220703125,
+          "ordinal": 0,
+          "length": 29
+        },
+        {
+          "quest_id": 7860,
+          "type": 20,
+          "term_id": 0,
+          "monster_kind": 0,
+          "npc_id": 26031,
+          "map_id": 0,
+          "x": 3858.8798828125,
+          "y": 86.02999877929688,
+          "z": 835.9600219726562,
+          "ordinal": 1,
+          "length": 29
+        }
+      ],
+      "objectives": [],
+      "quest": {
+        "dwQuestID": 7860,
+        "dwParentID": 0,
+        "bType": 8,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26003,
+        "bCountMax": 1,
+        "bLevel": 4,
+        "bMain": 0,
+        "bConditionCheck": 1
+      },
+      "completion": {
+        "dwQuestID": 7861,
+        "dwParentID": 7860,
+        "bType": 7,
+        "bForceRun": 0,
+        "bTriggerType": 3,
+        "dwTriggerID": 26031,
+        "bCountMax": 0,
+        "bLevel": 1,
+        "bMain": 0,
+        "bConditionCheck": 0
+      },
+      "related_headers": [
+        {
+          "dwQuestID": 7860,
+          "dwParentID": 0,
+          "bType": 8,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26003,
+          "bCountMax": 1,
+          "bLevel": 4,
+          "bMain": 0,
+          "bConditionCheck": 1
+        },
+        {
+          "dwQuestID": 7861,
+          "dwParentID": 7860,
+          "bType": 7,
+          "bForceRun": 0,
+          "bTriggerType": 3,
+          "dwTriggerID": 26031,
+          "bCountMax": 0,
+          "bLevel": 1,
+          "bMain": 0,
+          "bConditionCheck": 0
+        }
+      ],
+      "terms": [
+        {
+          "dwID": 14661,
+          "dwQuestID": 7860,
+          "bTermType": 1,
+          "dwTermID": 7860,
+          "bCount": 0
+        }
+      ],
+      "conditions": [
+        {
+          "dwID": 8681,
+          "dwQuestID": 7860,
+          "bConditionType": 15,
+          "dwConditionID": 7858,
+          "bCount": 0
+        },
+        {
+          "dwID": 9355,
+          "dwQuestID": 7860,
+          "bConditionType": 1,
+          "dwConditionID": 4,
+          "bCount": 0
+        },
+        {
+          "dwID": 8601,
+          "dwQuestID": 7861,
+          "bConditionType": 3,
+          "dwConditionID": 7860,
+          "bCount": 0
+        }
+      ],
+      "npc_evidence": {
+        "26003": {
+          "wID": 26003,
+          "template_id": 1202,
+          "name": "Biseira",
+          "title": "Červený vlk",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3777.139892578125,
+          "fPosY": 86.20999908447266,
+          "fPosZ": 405.95001220703125,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        },
+        "26031": {
+          "wID": 26031,
+          "template_id": 1248,
+          "name": "Saujel",
+          "title": "Trenér",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3858.8798828125,
+          "fPosY": 86.02999877929688,
+          "fPosZ": 835.9600219726562,
+          "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+          "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+        }
+      }
+    }
+  ],
+  "monster_targets": {
+    "793": {
+      "position": {
+        "x": 3572.659912109375,
+        "y": 104.26000213623047,
+        "z": 921.0900268554688
+      },
+      "source": "original_appearance_matching_existing_enabled_spawn",
+      "evidence": {
+        "observation": {
+          "record_key": "46061272e72dc0e577e3bc1d5e176062eeffbfb6c30748a195cd64729e242a4f",
+          "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+          "event": {
+            "direction": "s2c",
+            "frame": 42996,
+            "handler": "004129b0",
+            "hp": 206,
+            "id_hex": "0x20da",
+            "instance_id": 316276992,
+            "kind": "monster_appearance",
+            "level": 7,
+            "max_hp": 206,
+            "max_mp": 444,
+            "mp": 444,
+            "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+            "semantic_scope": "inspected_prefix",
+            "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+            "sequence": 13371,
+            "stream": 1,
+            "template_id": 793,
+            "time": 1793524110.9446936,
+            "time_prague": "2026-11-01T10:08:30.944694+01:00",
+            "time_utc": "2026-11-01T09:08:30.944694+00:00",
+            "uninterpreted_tail_bytes": 16,
+            "x": 3572.659912109375,
+            "y": 104.26000213623047,
+            "z": 921.0900268554688
+          }
+        },
+        "existing_spawn": {
+          "wID": 4826,
+          "wGroup": 0,
+          "wLocalID": 0,
+          "wMapID": 0,
+          "fPosX": 3572.6599,
+          "fPosY": 104.26,
+          "fPosZ": 921.09003,
+          "wDir": 20,
+          "bCountry": 3,
+          "bCount": 1,
+          "bRange": 3,
+          "bArea": 4,
+          "bLink": 0,
+          "bProb": 100,
+          "bRoamType": 1,
+          "dwRegion": 0,
+          "dwDelay": 1000,
+          "bEvent": 0,
+          "wPartyID": 0,
+          "wMonID": 793,
+          "monster_prob": 100
+        }
+      }
+    },
+    "796": {
+      "position": {
+        "x": 3532.22998046875,
+        "y": 102.83999633789062,
+        "z": 882.5599975585938
+      },
+      "source": "original_appearance_matching_existing_enabled_spawn",
+      "evidence": {
+        "observation": {
+          "record_key": "318805f57fd34d0334ea0c9d54bb87a3dbd37c357778aa4519d323197da7616d",
+          "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+          "event": {
+            "direction": "s2c",
+            "frame": 42996,
+            "handler": "004129b0",
+            "hp": 670,
+            "id_hex": "0x20da",
+            "instance_id": 322699520,
+            "kind": "monster_appearance",
+            "level": 8,
+            "max_hp": 670,
+            "max_mp": 457,
+            "mp": 457,
+            "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+            "semantic_scope": "inspected_prefix",
+            "semantic_version": "97210b3ee26897eb946d81cdffbe300ad13308cae57a689af68c38b26af36c9c",
+            "sequence": 13368,
+            "stream": 1,
+            "template_id": 796,
+            "time": 1793524110.9446936,
+            "time_prague": "2026-11-01T10:08:30.944694+01:00",
+            "time_utc": "2026-11-01T09:08:30.944694+00:00",
+            "uninterpreted_tail_bytes": 16,
+            "x": 3532.22998046875,
+            "y": 102.83999633789062,
+            "z": 882.5599975585938
+          }
+        },
+        "existing_spawn": {
+          "wID": 4924,
+          "wGroup": 0,
+          "wLocalID": 0,
+          "wMapID": 0,
+          "fPosX": 3532.23,
+          "fPosY": 102.84,
+          "fPosZ": 882.56,
+          "wDir": 251,
+          "bCountry": 3,
+          "bCount": 1,
+          "bRange": 3,
+          "bArea": 4,
+          "bLink": 0,
+          "bProb": 100,
+          "bRoamType": 1,
+          "dwRegion": 0,
+          "dwDelay": 1000,
+          "bEvent": 0,
+          "wPartyID": 0,
+          "wMonID": 796,
+          "monster_prob": 100
+        }
+      }
+    },
+    "800": {
+      "position": {
+        "x": 3230.110107421875,
+        "y": 124.27999877929688,
+        "z": 837.5800170898438
+      },
+      "source": "pinned_original_navigation_and_captured_appearance",
+      "evidence": "Gameforge/gor-training/marka-spawn.json"
+    },
+    "797": {
+      "position": {
+        "x": 3313.3101,
+        "y": 114.21,
+        "z": 847.78998
+      },
+      "source": "existing_enabled_SQL_spawn_anchor_verified_by_native_spawn_pipeline",
+      "evidence": {
+        "wID": 4927,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 3313.3101,
+        "fPosY": 114.21,
+        "fPosZ": 847.78998,
+        "wDir": 1218,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 3,
+        "bArea": 4,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 1,
+        "dwRegion": 0,
+        "dwDelay": 1000,
+        "bEvent": 0,
+        "wPartyID": 0,
+        "wMonID": 797,
+        "monster_prob": 100
+      },
+      "publisher_position_verified": false
+    },
+    "798": {
+      "position": {
+        "x": 3306.46,
+        "y": 117.33,
+        "z": 837.46002
+      },
+      "source": "existing_enabled_SQL_spawn_anchor_verified_by_native_spawn_pipeline",
+      "evidence": {
+        "wID": 4926,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 3306.46,
+        "fPosY": 117.33,
+        "fPosZ": 837.46002,
+        "wDir": 1282,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 3,
+        "bArea": 2,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 1,
+        "dwRegion": 0,
+        "dwDelay": 1000,
+        "bEvent": 0,
+        "wPartyID": 0,
+        "wMonID": 798,
+        "monster_prob": 100
+      },
+      "publisher_position_verified": false
+    }
+  },
+  "source_navigation_sha256": "a9c8b588084a684013477782b0b054e29cf10c60abfdb3f1573aa1f6956b7eb1",
+  "source_quest_sha256": "c11319aac65bab05f3e22a0671fcbf037e80d03519a3305830b7b5b5d60763c0",
+  "reference_limit": "Inherited missions are disabled or different types in the pinned modern client; 7774/7775 reuse dialogue-only navigation. Repair targets the existing active local definitions. Moray 797/798 coordinates are existing SQL anchors, not certified publisher positions; other targets have pinned/captured primary position evidence. No new spawn positions or probabilities are created.",
+  "validation": {
+    "native_loader_and_path_selection_tests_passed": 3,
+    "native_before_failure_reproduced_for_all_ten": true,
+    "native_objective_count_progression_and_turn_in_verified": true,
+    "sql_loaded_synthetic_active_mission_lifecycle": {
+      "Passed": [
+        {
+          "Quest": 7913,
+          "Kills": 9,
+          "TurnInNpc": 26041,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7915,
+          "Kills": 14,
+          "TurnInNpc": 26041,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7971,
+          "Kills": 14,
+          "TurnInNpc": 26042,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7774,
+          "Kills": 1,
+          "TurnInNpc": 26041,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7976,
+          "Kills": 1,
+          "TurnInNpc": 26042,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7775,
+          "Kills": 0,
+          "TurnInNpc": 26043,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7917,
+          "Kills": 0,
+          "TurnInNpc": 26039,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7973,
+          "Kills": 0,
+          "TurnInNpc": 26039,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7837,
+          "Kills": 0,
+          "TurnInNpc": 26023,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        },
+        {
+          "Quest": 7860,
+          "Kills": 0,
+          "TurnInNpc": 26031,
+          "CorrectNpcOffersCompletion": true,
+          "RepeatedRewardRejected": true
+        }
+      ],
+      "ReadOnlySql": true,
+      "PlayerRowsModified": 0,
+      "Scope": "Synthetic already-active missions: native existing spawns, kill relay, quest item pickups and completion; no real-client or full character persistence claim"
+    },
+    "existing_server_regressions_passed": 90,
+    "quest_engine_check_build_passed": true,
+    "unrelated_navigation_groups_preserved": true,
+    "prior_egg_repair_preserved": true,
+    "idempotence_verified": true,
+    "egg_regression_rerun": {
+      "python_data_cases_passed": 2,
+      "native_case": "Blocked by Windows application control WinError 4551 while launching the temporary test executable; prior standalone egg native verification remains recorded separately."
+    },
+    "real_client_navigation_verified": false,
+    "logout_restart_persistence_tested": false
+  },
+  "deployed": true,
+  "deployment": {
+    "deployed": true,
+    "deployed_utc": "2026-11-01T14:14:41.936385+00:00",
+    "path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TQNode.qpd",
+    "backup": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-navigation-batch-20261101\\TQNode.before.a9c8b588084a684013477782b0b054e29cf10c60abfdb3f1573aa1f6956b7eb1.qpd",
+    "before_sha256": "a9c8b588084a684013477782b0b054e29cf10c60abfdb3f1573aa1f6956b7eb1",
+    "after_sha256": "1687a0011950c562777dfdd9be2c39e23152c2eff246af35d1d9e6f5fd47e514",
+    "before_bytes": 213568,
+    "after_bytes": 213510,
+    "quest_ids": [
+      7774,
+      7775,
+      7837,
+      7860,
+      7913,
+      7915,
+      7917,
+      7971,
+      7973,
+      7976
+    ],
+    "per_quest_changed_scope": {
+      "7913": 4,
+      "7915": 4,
+      "7971": 4,
+      "7774": 4,
+      "7976": 4,
+      "7775": 6,
+      "7917": 2,
+      "7973": 2,
+      "7837": 2,
+      "7860": 2
+    },
+    "unrelated_groups_preserved": true,
+    "egg_7906_group_preserved": true,
+    "idempotence_verified": true,
+    "client_restart_required": true,
+    "gameplay_sql_changed": false,
+    "production_dotnet_changed": false,
+    "real_client_verified": false
+  },
+  "real_client_navigation_verified": false,
+  "remaining": [
+    "Fully restart the client from the repaired Game folder and play through arrow/map navigation.",
+    "Inherited active missions differ from the pinned modern client; current publisher quest parity is not certified.",
+    "For monsters 797/798 the navigation uses existing enabled SQL anchors; exact publisher positions are not verified.",
+    "Full acceptance/prerequisite and logout/restart playthroughs are outside this synthetic already-active mission check."
+  ]
+}

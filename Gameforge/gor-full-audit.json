@@ -1,0 +1,428 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-11-01T14:40:06.245245+00:00",
+  "status": "all_scoped_definitions_audited_safe_npc_navigation_repairs_deployed_remaining_gaps",
+  "scope": "Union of pinned/publisher Gor roots and all active SQL mission/recipe roots with a Gor giver or working Gor navigation; Gor includes Tebekut and Gor-country NPCs.",
+  "counts": {
+    "total_roots": 244,
+    "pinned_publisher_roots": 139,
+    "active_local_missions": 108,
+    "active_local_recipes": 113,
+    "other_conflicting_root_types": 2,
+    "missing_pinned_roots": 20,
+    "disabled_roots": 1,
+    "local_issue_counts": {
+      "working_client_objectives_differ": 43,
+      "working_client_quest_type_differs": 16,
+      "working_client_rewards_differ": 55,
+      "working_navigation_has_zero_positions": 48,
+      "server_definition_disabled": 1,
+      "working_navigation_objective_marker_missing": 4,
+      "completion_npc_zero_position": 1,
+      "reward_item_missing": 1,
+      "working_navigation_group_missing": 1,
+      "server_definition_missing": 20
+    },
+    "reference_issue_counts": {
+      "completion_mapping_needs_more_evidence": 10,
+      "start_npc_not_proven_by_navigation": 66,
+      "server_quest_disabled": 1,
+      "completion_action_missing_or_wrong_type": 20,
+      "objectives_differ": 3,
+      "parent_link_differs": 2,
+      "quest_type_differs": 2,
+      "reward_rows_differ": 3,
+      "start_npc_differs": 3,
+      "inherited_local_root_outside_active_pinned_scope": 105,
+      "reward_template_missing": 1,
+      "server_quest_missing": 20
+    },
+    "safe_npc_navigation_plans": 0
+  },
+  "working_client_contract_conflict_roots": 57,
+  "before": "Gameforge/gor-full-audit/complete-before.json",
+  "after": "Gameforge/gor-full-audit/after.json",
+  "report": "Gameforge/gor-full-audit/report.html",
+  "audit_tool": "Tools/GameforgeReference/audit_gor_runtime.py",
+  "deployment": {
+    "deployed_utc": "2026-11-01T14:33:56.442553+00:00",
+    "deployed": true,
+    "path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TQNode.qpd",
+    "backup": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-full-audit-20261101\\TQNode.before.1687a0011950c562777dfdd9be2c39e23152c2eff246af35d1d9e6f5fd47e514.qpd",
+    "quest_ids": [
+      6533,
+      6534,
+      6535,
+      7771,
+      7772,
+      7773,
+      7777,
+      7778,
+      7779,
+      7780,
+      7841,
+      7851,
+      7853,
+      7856,
+      7858,
+      7875,
+      7877,
+      7882,
+      7886,
+      7888,
+      7891,
+      7893,
+      7897,
+      7899,
+      7901,
+      7903,
+      7919,
+      7928,
+      7938,
+      7940,
+      7944,
+      7946,
+      7951,
+      7955,
+      7957,
+      7960,
+      7967,
+      7977,
+      7978,
+      8838
+    ],
+    "quests_changed": 40,
+    "npc_markers_changed": 80,
+    "before_sha256": "1687a0011950c562777dfdd9be2c39e23152c2eff246af35d1d9e6f5fd47e514",
+    "after_sha256": "273d2e63bc118b2102aba4242ece7a9070e84588ae131976e4a592611024bc3b",
+    "before_bytes": 213510,
+    "after_bytes": 213510,
+    "objective_and_unrelated_navigation_preserved": true,
+    "prior_egg_and_ten_mission_repairs_preserved": true,
+    "idempotence_verified": true,
+    "gameplay_sql_changed": false,
+    "production_dotnet_changed": false,
+    "client_restart_required": true,
+    "real_client_verified": false
+  },
+  "validation": {
+    "server_regressions_passed": 261,
+    "audit_data_regressions_passed": 5,
+    "native_navigation_regression": {
+      "status": "blocked_by_windows_application_control",
+      "error": "WinError 4551 while launching temporary test executable; no security settings changed",
+      "ordinary_shell_rerun": "5 passed, native test skipped because cl not available"
+    },
+    "read_only_native_sql_probes": [
+      {
+        "mode": "--gor-content-readonly",
+        "result": {
+          "ReadOnly": true,
+          "SqlWrites": 0,
+          "VerifiedTemplates": 46,
+          "RealClientVerified": false
+        }
+      },
+      {
+        "mode": "--gor-reconstruction-readonly",
+        "result": {
+          "ReadOnly": true,
+          "SqlWrites": 0,
+          "LoadedMissions": 6,
+          "ReconstructedArenas": 2,
+          "InitializedApprovedMonsters": 6,
+          "RealClientVerified": false
+        }
+      },
+      {
+        "mode": "--gor-eggs-readonly",
+        "result": {
+          "Passed": [
+            "7908: nest 26068, item 9644, advertisement, click, box, pickup, objective and replay guard",
+            "7909: nest 26069, item 9645, advertisement, click, box, pickup, objective and replay guard",
+            "7910: nest 26070, item 9646, advertisement, click, box, pickup, objective and replay guard",
+            "7911: nest 26071, item 9647, advertisement, click, box, pickup, objective and replay guard",
+            "7912: nest 26072, item 9648, advertisement, click, box, pickup, objective and replay guard",
+            "Ennahi turn-in consumes five distinct eggs, completes mission and rejects repeat rewards"
+          ],
+          "ReadOnlySql": true,
+          "PlayerRowsModified": 0,
+          "RealClientNavigationVerified": false
+        }
+      },
+      {
+        "mode": "--gor-navigation-journeys-readonly",
+        "result": {
+          "Passed": [
+            {
+              "Quest": 7913,
+              "Kills": 9,
+              "TurnInNpc": 26041,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7915,
+              "Kills": 14,
+              "TurnInNpc": 26041,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7971,
+              "Kills": 14,
+              "TurnInNpc": 26042,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7774,
+              "Kills": 1,
+              "TurnInNpc": 26041,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7976,
+              "Kills": 1,
+              "TurnInNpc": 26042,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7775,
+              "Kills": 0,
+              "TurnInNpc": 26043,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7917,
+              "Kills": 0,
+              "TurnInNpc": 26039,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7973,
+              "Kills": 0,
+              "TurnInNpc": 26039,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7837,
+              "Kills": 0,
+              "TurnInNpc": 26023,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            },
+            {
+              "Quest": 7860,
+              "Kills": 0,
+              "TurnInNpc": 26031,
+              "CorrectNpcOffersCompletion": true,
+              "RepeatedRewardRejected": true
+            }
+          ],
+          "ReadOnlySql": true,
+          "PlayerRowsModified": 0,
+          "Scope": "Synthetic already-active missions: native existing spawns, kill relay, quest item pickups and completion; no real-client or full character persistence claim"
+        }
+      }
+    ],
+    "gameplay_sql_writes": 0,
+    "real_client_playthrough_verified": false,
+    "full_character_persistence_verified_this_audit": false
+  },
+  "backlog": [
+    {
+      "priority": 1,
+      "area": "client_sql_contract_differences",
+      "quest_ids": [
+        233,
+        234,
+        235,
+        236,
+        237,
+        547,
+        1082,
+        1084,
+        1203,
+        1208,
+        2398,
+        3209,
+        5873,
+        5874,
+        5875,
+        5876,
+        5877,
+        5878,
+        5879,
+        5880,
+        5881,
+        5882,
+        5883,
+        5884,
+        5917,
+        5919,
+        6533,
+        6534,
+        6535,
+        7307,
+        8552,
+        8553,
+        8554,
+        8555,
+        8556,
+        8557,
+        8558,
+        8559,
+        8560,
+        8561,
+        8562,
+        8563,
+        8564,
+        8565,
+        8566,
+        8567,
+        8568,
+        8569,
+        8570,
+        8571,
+        8856,
+        8858,
+        8860,
+        8874,
+        8880,
+        8934,
+        8937
+      ],
+      "detail": "57 active definitions have at least one client/SQL type, objective or reward difference. These overlapping differences require source-aware reconciliation; inherited missions are not automatically current publisher content."
+    },
+    {
+      "priority": 1,
+      "area": "legacy_first_post_npc",
+      "quest_ids": [
+        7837
+      ],
+      "npc_id": 26023,
+      "detail": "Darni has x=y=z=0 in SQL and original decoded placement. Previous navigation-only repair did not make this legacy target reachable; no placement was invented."
+    },
+    {
+      "priority": 1,
+      "area": "legacy_reward_template",
+      "quest_ids": [
+        7960
+      ],
+      "item_id": 8100,
+      "detail": "Alternate legacy egg mission references reward item 8100 absent from live item templates. Original verified replacement is not established."
+    },
+    {
+      "priority": 2,
+      "area": "remaining_navigation_markers",
+      "quest_ids": [
+        233,
+        234,
+        235,
+        236,
+        237,
+        2398,
+        5917,
+        5919,
+        6533,
+        6534,
+        6535,
+        7771,
+        7772,
+        7773,
+        7780,
+        7837,
+        7841,
+        7851,
+        7853,
+        7877,
+        7882,
+        7886,
+        7888,
+        7893,
+        7919,
+        7928,
+        7938,
+        7940,
+        7946,
+        7951,
+        7955,
+        7957,
+        7960,
+        7967,
+        8838,
+        8854,
+        8864,
+        8866,
+        8883,
+        8885,
+        8887,
+        8889,
+        8891,
+        8896,
+        8899,
+        8901,
+        8906,
+        8934
+      ],
+      "detail": "48 missions still contain zero-coordinate nodes, usually objectives. Actual selection/reachability must be verified before classifying every zero marker as a player-visible failure."
+    },
+    {
+      "priority": 2,
+      "area": "reference_only_missing_roots",
+      "quest_ids": [
+        8992,
+        9247,
+        11080,
+        11384,
+        11393,
+        11397,
+        11401,
+        11405,
+        11409,
+        11413,
+        11441,
+        11557,
+        11561,
+        11565,
+        11569,
+        11573,
+        11577,
+        11581,
+        22000,
+        22002
+      ],
+      "detail": "20 pinned/publisher roots remain absent from SQL: higher-level and seasonal content; no missing probabilities, spawns or event rules were invented."
+    },
+    {
+      "priority": 2,
+      "area": "conflicting_reference_identities",
+      "quest_ids": [
+        3199,
+        8906,
+        8907
+      ],
+      "detail": "Pre-existing giver/objective/reward/action identity conflicts remain unresolved. These IDs were excluded from navigation repair."
+    },
+    {
+      "priority": 3,
+      "area": "real_client_and_persistence",
+      "quest_ids": [],
+      "detail": "Full route playthroughs, combat/drop probabilities and logout/restart verification remain incomplete. Synthetic seeded-active checks do not establish all acceptance prerequisites or full journey parity."
+    }
+  ],
+  "new_year_quest_291": "Preserved disabled per user instruction; not treated as a defect to activate.",
+  "reference_limitations": [
+    "Static template/graph integrity is not a full gameplay or persistence proof.",
+    "No quest producer found does not prove an item unobtainable; normal loot, shops, scripted and external-region sources need separate review.",
+    "No enabled spawn slot does not exclude quest/event/instance-controlled spawning.",
+    "Inherited active missions and approved substitutes remain distinct from publisher parity; no probabilities, spawns, rewards, event activation or player state changed.",
+    "Installed official quest/NPC bytes differ from the pinned manifest. Prior decoded facts identify matching pinned source hashes; original quest/NPC raw bytes were unavailable for independent re-verification. Raw pinned navigation hash was reverified. No patch switch was made."
+  ]
+}

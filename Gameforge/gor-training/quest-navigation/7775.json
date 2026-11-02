@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "quest_id": 7775,
+  "title": "Nápověda Peijo",
+  "before_nodes": [
+    {
+      "quest_id": 7775,
+      "ordinal": 0,
+      "offset": 134109,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7775,
+      "ordinal": 1,
+      "offset": 134138,
+      "length": 29,
+      "type": 16,
+      "term_id": 20670,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7775,
+      "ordinal": 2,
+      "offset": 134167,
+      "length": 29,
+      "type": 16,
+      "term_id": 20672,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7775,
+      "ordinal": 3,
+      "offset": 134196,
+      "length": 29,
+      "type": 16,
+      "term_id": 20673,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7775,
+      "ordinal": 4,
+      "offset": 134225,
+      "length": 29,
+      "type": 16,
+      "term_id": 20674,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7775,
+      "ordinal": 5,
+      "offset": 134254,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7775,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26043,
+      "map_id": 0,
+      "x": 3601.820068359375,
+      "y": 105.0199966430664,
+      "z": 920.4099731445312,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7775,
+      "type": 2,
+      "term_id": 9649,
+      "monster_kind": 0,
+      "npc_id": 26067,
+      "map_id": 0,
+      "x": 3817.14990234375,
+      "y": 103.08000183105469,
+      "z": 854.489990234375,
+      "ordinal": 1,
+      "length": 29
+    },
+    {
+      "quest_id": 7775,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26043,
+      "map_id": 0,
+      "x": 3601.820068359375,
+      "y": 105.0199966430664,
+      "z": 920.4099731445312,
+      "ordinal": 2,
+      "length": 29
+    }
+  ],
+  "objectives": [
+    {
+      "type": 2,
+      "id": 9649,
+      "count": 1
+    }
+  ],
+  "quest": {
+    "dwQuestID": 7775,
+    "dwParentID": 0,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26043,
+    "bCountMax": 1,
+    "bLevel": 10,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "completion": {
+    "dwQuestID": 7924,
+    "dwParentID": 7775,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26043,
+    "bCountMax": 0,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7775,
+      "dwParentID": 0,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26043,
+      "bCountMax": 1,
+      "bLevel": 10,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7924,
+      "dwParentID": 7775,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26043,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7925,
+      "dwParentID": 7775,
+      "bType": 9,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26067,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14839,
+      "dwQuestID": 7775,
+      "bTermType": 2,
+      "dwTermID": 9649,
+      "bCount": 1
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 9295,
+      "dwQuestID": 7775,
+      "bConditionType": 15,
+      "dwConditionID": 7773,
+      "bCount": 0
+    },
+    {
+      "dwID": 8669,
+      "dwQuestID": 7924,
+      "bConditionType": 3,
+      "dwConditionID": 7775,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26043": {
+      "wID": 26043,
+      "template_id": 1260,
+      "name": "Peijo",
+      "title": "Rekrut",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3601.820068359375,
+      "fPosY": 105.0199966430664,
+      "fPosZ": 920.4099731445312,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    },
+    "26067": {
+      "wID": 26067,
+      "template_id": 1265,
+      "name": "Kupka sena",
+      "title": "Špína",
+      "bType": 7,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3817.14990234375,
+      "fPosY": 103.08000183105469,
+      "fPosZ": 854.489990234375,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

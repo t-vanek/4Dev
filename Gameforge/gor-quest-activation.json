@@ -1,0 +1,573 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "user_request": "Enable the thirteen disabled Gor/Tebekut missions.",
+  "status": "twelve_requested_missions_enabled_one_seasonal_excluded_client_verification_pending",
+  "requested_count": 13,
+  "activated_count": 12,
+  "remaining_count": 1,
+  "requested_ids": [
+    233,
+    234,
+    235,
+    236,
+    237,
+    291,
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    2398,
+    3209
+  ],
+  "activated": [
+    {
+      "id": 233,
+      "title": "Leyina jiskra - dárkový košík",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 238,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 233,
+          "bTermType": 2,
+          "dwTermID": 18540,
+          "bCount": 1
+        },
+        {
+          "dwQuestID": 233,
+          "bTermType": 2,
+          "dwTermID": 18541,
+          "bCount": 1
+        },
+        {
+          "dwQuestID": 233,
+          "bTermType": 2,
+          "dwTermID": 18542,
+          "bCount": 1
+        },
+        {
+          "dwQuestID": 233,
+          "bTermType": 2,
+          "dwTermID": 18543,
+          "bCount": 1
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 233,
+          "bRewardType": 2,
+          "dwRewardID": 18061,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        }
+      ]
+    },
+    {
+      "id": 234,
+      "title": "Na lovu pro \"4\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 239,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 234,
+          "bTermType": 2,
+          "dwTermID": 18541,
+          "bCount": 3
+        },
+        {
+          "dwQuestID": 234,
+          "bTermType": 2,
+          "dwTermID": 18542,
+          "bCount": 3
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 234,
+          "bRewardType": 2,
+          "dwRewardID": 18540,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        }
+      ]
+    },
+    {
+      "id": 235,
+      "title": "Na lovu pro \"St\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 240,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 235,
+          "bTermType": 2,
+          "dwTermID": 18540,
+          "bCount": 3
+        },
+        {
+          "dwQuestID": 235,
+          "bTermType": 2,
+          "dwTermID": 18542,
+          "bCount": 3
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 235,
+          "bRewardType": 2,
+          "dwRewardID": 18541,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        }
+      ]
+    },
+    {
+      "id": 236,
+      "title": "Na lovu pro 'or'",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 241,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 236,
+          "bTermType": 2,
+          "dwTermID": 18540,
+          "bCount": 3
+        },
+        {
+          "dwQuestID": 236,
+          "bTermType": 2,
+          "dwTermID": 18541,
+          "bCount": 3
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 236,
+          "bRewardType": 2,
+          "dwRewardID": 18542,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        }
+      ]
+    },
+    {
+      "id": 237,
+      "title": "Na lovu pro unikátní \"y\"",
+      "npc_id": 26567,
+      "npc_name": "Elyssa",
+      "completion_id": 242,
+      "npc_reference": [
+        {
+          "wID": 26567,
+          "template_id": 1216,
+          "name": "Elyssa",
+          "title": "Leyina kněžka",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 0,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3197.47998046875,
+          "fPosY": 140.00999450683594,
+          "fPosZ": 556.5900268554688,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 237,
+          "bTermType": 2,
+          "dwTermID": 18540,
+          "bCount": 5
+        },
+        {
+          "dwQuestID": 237,
+          "bTermType": 2,
+          "dwTermID": 18541,
+          "bCount": 5
+        },
+        {
+          "dwQuestID": 237,
+          "bTermType": 2,
+          "dwTermID": 18542,
+          "bCount": 5
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 237,
+          "bRewardType": 2,
+          "dwRewardID": 18543,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        }
+      ]
+    },
+    {
+      "id": 2398,
+      "title": "Čas na první objednávky!",
+      "npc_id": 20040,
+      "npc_name": "Pivař",
+      "completion_id": 2458,
+      "npc_reference": [
+        {
+          "wID": 20040,
+          "template_id": 1387,
+          "name": "Pivař",
+          "title": "Pivní festival",
+          "bType": 0,
+          "class_index": 255,
+          "level": 0,
+          "bCountryID": 3,
+          "wItemID": 1,
+          "max_hp": 0,
+          "wMapID": 0,
+          "fPosX": 3773.7099609375,
+          "fPosY": 89.11000061035156,
+          "fPosZ": 162.1999969482422,
+          "source_file": "tcd/tnpc00000003.tcd"
+        }
+      ],
+      "repeat_cap_retained": 0,
+      "objectives": [
+        {
+          "dwQuestID": 2398,
+          "bTermType": 2,
+          "dwTermID": 18323,
+          "bCount": 5
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 2398,
+          "bRewardType": 2,
+          "dwRewardID": 7844,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 1
+        },
+        {
+          "dwQuestID": 2398,
+          "bRewardType": 2,
+          "dwRewardID": 18322,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 5
+        }
+      ]
+    },
+    {
+      "id": 547,
+      "title": "Trojstranný pakt",
+      "npc_id": 26200,
+      "npc_name": "Bílý sokol",
+      "completion_id": 548,
+      "completion_npc_id": 26436,
+      "completion_npc_name": "Randaygaron",
+      "repeat_cap_retained": 1,
+      "objectives": [
+        {
+          "dwQuestID": 547,
+          "bTermType": 1,
+          "dwTermID": 547,
+          "bCount": 0
+        }
+      ],
+      "rewards": [
+        {
+          "dwQuestID": 547,
+          "bRewardType": 1,
+          "dwRewardID": 1782,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 0,
+          "dwQuestMob": 0,
+          "dwQuestTime": 0,
+          "dwQuestPathMob": 0,
+          "dwTicketID": 0,
+          "bSendQ": 0
+        },
+        {
+          "dwQuestID": 547,
+          "bRewardType": 6,
+          "dwRewardID": 855,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 0,
+          "dwQuestMob": 0,
+          "dwQuestTime": 0,
+          "dwQuestPathMob": 0,
+          "dwTicketID": 0,
+          "bSendQ": 0
+        },
+        {
+          "dwQuestID": 547,
+          "bRewardType": 9,
+          "dwRewardID": 167,
+          "bTakeMethod": 1,
+          "bTakeData": 0,
+          "bCount": 0,
+          "dwQuestMob": 0,
+          "dwQuestTime": 0,
+          "dwQuestPathMob": 0,
+          "dwTicketID": 0,
+          "bSendQ": 0
+        }
+      ]
+    },
+    {
+      "id": 1082,
+      "title": "Bitevní aréna (3 proti 3)",
+      "npc_id": 26424,
+      "completion_id": 10552,
+      "completion_npc_id": 26427,
+      "repeat_cap_retained": 1,
+      "reconstruction_evidence": "Gameforge/gor-remaining-quests.json"
+    },
+    {
+      "id": 1084,
+      "title": "Bitevní aréna (5 proti 5)",
+      "npc_id": 26424,
+      "completion_id": 10553,
+      "completion_npc_id": 26427,
+      "repeat_cap_retained": 1,
+      "reconstruction_evidence": "Gameforge/gor-remaining-quests.json"
+    },
+    {
+      "id": 1203,
+      "title": "Bitevní aréna (3 proti 3)",
+      "npc_id": 26425,
+      "completion_id": 10596,
+      "completion_npc_id": 26428,
+      "repeat_cap_retained": 1,
+      "reconstruction_evidence": "Gameforge/gor-remaining-quests.json"
+    },
+    {
+      "id": 1208,
+      "title": "Bitevní aréna (5 proti 5)",
+      "npc_id": 26425,
+      "completion_id": 10597,
+      "completion_npc_id": 26428,
+      "repeat_cap_retained": 1,
+      "reconstruction_evidence": "Gameforge/gor-remaining-quests.json"
+    },
+    {
+      "id": 3209,
+      "title": "Ragoenova mise",
+      "npc_id": 26081,
+      "completion_id": 9716,
+      "completion_npc_id": 26081,
+      "repeat_cap_retained": 1,
+      "reconstruction_evidence": "Gameforge/gor-remaining-quests.json"
+    }
+  ],
+  "remaining": [
+    {
+      "id": 291,
+      "title": "Šťastný nový rok!",
+      "status": "excluded_seasonal_kept_disabled_by_user",
+      "blocker": "missing_reward_definition",
+      "needed": "Pinned quest text promises a reward, but its reward list is empty; no compatible native child reward was found. Do not consume the four digit items without a defined reward.",
+      "publisher_source": "https://cz.4story.gameforge.com/quest/details/291/astn_nov_rok"
+    }
+  ],
+  "source_plan": "Gameforge/gor-quest-activation/plan.json",
+  "deferred_source_records": "Gameforge/gor-quest-activation/deferred.json",
+  "evidence": {
+    "pinned_hashes_checked": true,
+    "npc_binding": "Pinned quest text NPC label (names[6]) matched to a unique pinned Gor NPC placement. These six quests have no NPC navigation markers; the name-to-ID binding is inferred from those matching assets.",
+    "objectives_and_item_rewards_copied_exactly": true,
+    "existing_repeat_caps_retained": true,
+    "legacy_completion_2458": "Previously belonged to disabled mission 362; migration rejects running old progress, active 362 or unexpected child actions before reuse.",
+    "inherited_cpp_used_as_implementation_reference_only": true,
+    "production_dotnet_changed": false,
+    "semantic_before_hash": "B6260FC9401761A89C8DB2587DC0DFC80BAA202A4587F1EC0FD7109587E40D5E",
+    "semantic_after_hash": "888481BA620CCF3AE772453BA31CF6DD878AC87BB70C145D6F801A4AB76C8B0B",
+    "activated_six_givers_confirmed_by_current_publisher_details": true
+  },
+  "validation": {
+    "new_actor_cases_passed": 6,
+    "focused_actor_cases_passed": 13,
+    "isolated_sql_scenarios_passed": 9,
+    "existing_scope_and_npc_classifier_cases_passed": 18,
+    "live_static_target_rows_match_plan": true,
+    "unrelated_static_rows_unchanged": true,
+    "saved_character_quest_and_term_hashes_unchanged": true,
+    "database_reload_after_restart_verified": true,
+    "full_new_quest_character_logout_round_trip_verified": false,
+    "disposable_sql_fixture_cleaned": true,
+    "player_rows_copied_to_fixture": 0,
+    "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\tests",
+    "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\sql-validation.json",
+    "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-activation-20261031\\verification.json",
+    "latest_regular_mission_evidence": "Gameforge/gor-remaining-quests.json",
+    "latest_reconstruction_validation": {
+      "new_point_and_arena_actor_cases_passed": 15,
+      "map_server_cases_passed": 1868,
+      "map_protocol_cases_passed": 9,
+      "data_suite_cases_passed": 14,
+      "data_suite_note": "Optional live DataSmoke cases require their environment; separate SQL fixtures and read-only live probe provide actual DB evidence.",
+      "isolated_sql_migration_scenarios_passed": 16,
+      "native_quest_inventory_lifecycle_scenarios_passed": 5,
+      "full_native_save_process_scenarios_passed": 75,
+      "wolverine_mail_scenarios_passed": 14,
+      "python_audit_cases_passed": 28,
+      "static_sql_and_all_character_hash_preservation_verified": true,
+      "disposable_fixtures_cleaned": true,
+      "player_rows_copied": 0,
+      "actual_ragoen_gold_exp_native_character_table_round_trip_verified": false,
+      "full_new_quest_mapworker_client_journey_verified": false,
+      "readonly_live_population_initialization_verified": true,
+      "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\map-final",
+      "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\reconstruction-sql-final.txt",
+      "process_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\sql-process-v7",
+      "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\verification.json",
+      "rerun_after_new_saved_progress_preserved": true
+    }
+  },
+  "deployment": {
+    "migration": "054_gor_reconstructed_missions.sql",
+    "applied_utc": "2026-10-31T16:07:59.0688570Z",
+    "deployed": true,
+    "image_rebuilt": true,
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "server_assembly_sha256": "0b8881846dbe5802c0f4b2ea190df5738c0b6ad9951150e359ee76ab73e09af4",
+    "data_assembly_sha256": "301a068e96c7806de9b2cbe6c268fd14e21e3cc499668e0703d0672dc5eb7a2e",
+    "map_started_utc": "2026-10-31T16:08:03.390632536Z",
+    "verified_utc": "2026-10-31T16:08:12.4297011Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "limitations": [
+    "Twelve of the original thirteen requested missions are enabled; the user excluded New Year event 291.",
+    "The last five use an explicitly approved reconstruction. Earlier exchanges still need event acquisition/calendar/client verification; complete Gor/Gameforge parity is not asserted."
+  ],
+  "publisher_research": "Gameforge/gor-publisher-quests.json",
+  "remaining_regular_count": 0,
+  "excluded_seasonal_count": 1,
+  "latest_followup": "Gameforge/gor-remaining-quests.json",
+  "previous_deployment": {
+    "migration": "052_gor_event_missions.sql",
+    "applied_utc": "2026-10-31T11:51:17.8299778Z",
+    "deployed": true,
+    "image_rebuilt": false,
+    "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+    "map_started_utc": "2026-10-31T11:51:18.446838305Z",
+    "verified_utc": "2026-10-31T11:51:24.8101962Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "deployment_history": [
+    {
+      "migration": "053_gor_tripartite_pact.sql",
+      "applied_utc": "2026-10-31T12:30:27.8823707Z",
+      "deployed": true,
+      "image_rebuilt": true,
+      "image": "sha256:cdf7c22320fe73c2bfa4d3ae53c50694573b1a945cd6687e20008520de40730c",
+      "server_assembly_sha256": "be1679c2620d451591c1140b2de345800670d39d7f848f1714f72cf587633ba2",
+      "map_started_utc": "2026-10-31T12:30:28.32015701Z",
+      "verified_utc": "2026-10-31T12:31:00.5339627Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    }
+  ],
+  "later_documented_content_repairs": "Gameforge/gor-content-repairs.json"
+}

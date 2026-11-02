@@ -1,0 +1,362 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "status": "implemented_deployed_user_approved_reconstruction_client_verification_pending",
+  "requested_regular_ids": [
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    3209
+  ],
+  "restored_regular_ids": [
+    547,
+    1082,
+    1084,
+    1203,
+    1208,
+    3209
+  ],
+  "remaining_regular_ids": [],
+  "seasonal_291": "User explicitly selected keeping the New Year event disabled; no substitute reward is invented.",
+  "restored": {
+    "id": 547,
+    "title": "Trojstranný pakt",
+    "minimum_level": 90,
+    "giver": {
+      "id": 26200,
+      "name": "Bílý sokol"
+    },
+    "completion": {
+      "id": 548,
+      "npc_id": 26436,
+      "npc_name": "Randaygaron"
+    },
+    "gold": 1782,
+    "experience": 855,
+    "soul": 167,
+    "repeat_cap_retained": 1,
+    "migration": "Database/migrations/053_gor_tripartite_pact.sql",
+    "plan": "Gameforge/gor-remaining-quests/pakt-plan.json",
+    "coupled_quarantine": {
+      "id": 3200,
+      "reason": "Active inherited mission 3200 has an AfterQuestComplete(547) condition. The pinned 3200 is a completion of 3199, not that mission. Leaving it active would expose an unrelated obsolete quest after the new level-90 quest. No saved legacy progress may exist before this scoped quarantine.",
+      "saved_player_rows": 0
+    }
+  },
+  "soul_contract": {
+    "implemented": true,
+    "reward_type": 9,
+    "method": 1,
+    "amount": "Exact unsigned integer from the pinned reward row; separately added to the existing soul bar.",
+    "packet": "Existing CS_EXP_ACK soul total and CS_SOULUP_ACK full-bar indication.",
+    "persistence": "Soul remains session-only and resets on a new character session. Quest completion/reward eligibility remains SQL-backed.",
+    "existing_exp_soul_contribution_retained": true,
+    "undocumented_nondefault_methods_rejected": true,
+    "old_native_reward_rows_matched_to_pinned_client": 12,
+    "current_native_reward_rows_matched_to_pinned_client": 13,
+    "reference_client_runtime_parity_verified": false
+  },
+  "battle_arena_guard": {
+    "implemented": true,
+    "objective_type": 28,
+    "behavior": "Type-28 is a persisted counter. Only a completed opt-in 3/5 match with two round wins credits its winning participants; zero credit cannot complete.",
+    "old_arena_wins_do_not_satisfy_new_objectives": true
+  },
+  "dependencies": "Gameforge/gor-remaining-quests/dependencies.json",
+  "history_review": {
+    "commits": [
+      "949d26c reward prevalidation and atomic ingredient guards",
+      "070673a cap/overflow/level protections",
+      "93ba2b1 soul bar packets and session behavior",
+      "a4f34cc legacy arena admission/result/queue",
+      "de0ae56 PvP point balances and native persistence"
+    ],
+    "retained": "Unknown reward rejection, existing reward selection, magic/item capacity prevalidation, SQL quest checkpoints and prior EXP-to-soul behavior. Review covered ordinary turn-in, crafting and mail-continuation completion entry points.",
+    "new_evidence": "Publisher 4.1 documentation explicitly confirms quest Soul Power rewards; client RT_SOUL rendering displays the raw integer and CS_EXP_ACK reads a separate soul total. Pinned amounts/methods match all current native rows.",
+    "evidence_files": [
+      "Client/TClient/TQuestNewDlg.cpp:2589",
+      "Client/TClient/CSHandler.cpp:3795",
+      "Client/TClient/Outro.cpp:39",
+      "Gameforge/gor-publisher-quests.json"
+    ],
+    "reconstruction_reasoning": "The old arena result did not implement two-round type-28 quests. New behavior is explicitly opt-in. Prior legacy arena and reward guards remain. The queued full-party path uses the same validated roster as initial admission so distant members are not lost from a view-cell lookup."
+  },
+  "validation": {
+    "new_point_and_arena_actor_cases_passed": 15,
+    "map_server_cases_passed": 1868,
+    "map_protocol_cases_passed": 9,
+    "data_suite_cases_passed": 14,
+    "data_suite_note": "Optional live DataSmoke cases require their environment; separate SQL fixtures and read-only live probe provide actual DB evidence.",
+    "isolated_sql_migration_scenarios_passed": 16,
+    "native_quest_inventory_lifecycle_scenarios_passed": 5,
+    "full_native_save_process_scenarios_passed": 75,
+    "wolverine_mail_scenarios_passed": 14,
+    "python_audit_cases_passed": 28,
+    "static_sql_and_all_character_hash_preservation_verified": true,
+    "disposable_fixtures_cleaned": true,
+    "player_rows_copied": 0,
+    "actual_ragoen_gold_exp_native_character_table_round_trip_verified": false,
+    "full_new_quest_mapworker_client_journey_verified": false,
+    "readonly_live_population_initialization_verified": true,
+    "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\map-final",
+    "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\reconstruction-sql-final.txt",
+    "process_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\sql-process-v7",
+    "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-final-20261031\\verification.json",
+    "rerun_after_new_saved_progress_preserved": true
+  },
+  "deployment": {
+    "migration": "054_gor_reconstructed_missions.sql",
+    "applied_utc": "2026-10-31T16:07:59.0688570Z",
+    "deployed": true,
+    "image_rebuilt": true,
+    "image": "sha256:b177baec9102eafc6e918af7cd24dab970f239c426f089458e3e51d2ab3d69ae",
+    "server_assembly_sha256": "0b8881846dbe5802c0f4b2ea190df5738c0b6ad9951150e359ee76ab73e09af4",
+    "data_assembly_sha256": "301a068e96c7806de9b2cbe6c268fd14e21e3cc499668e0703d0672dc5eb7a2e",
+    "map_started_utc": "2026-10-31T16:08:03.390632536Z",
+    "verified_utc": "2026-10-31T16:08:12.4297011Z",
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "pending_sql_saves": 0,
+    "real_client_playthrough_verified": false
+  },
+  "limitations": [
+    "The five requested missions are implemented and deployed under the explicit reconstruction exception; the pinned real-client journeys remain unverified.",
+    "Population count, delay and two-round PvP rules are approved reconstruction choices. This does not certify original Gameforge populations or its PvE wave mode.",
+    "Existing repeat caps remain; daily reset parity is not asserted. Actual Ragoen gold/EXP native-character round trip and full client logout/restart journey remain pending.",
+    "Other Gor gaps, including 35 absent roots and 15 initial training missions, are outside these five and remain visible in baseline-readiness.json.",
+    "Unfinished arena rounds and queues remain transient across Map restarts; credited quest results and point balances persist in SQL. Full match recovery and fee recovery on interruption are not certified."
+  ],
+  "previous_deployments": [
+    {
+      "migration": "053_gor_tripartite_pact.sql",
+      "applied_utc": "2026-10-31T12:30:27.8823707Z",
+      "deployed": true,
+      "image_rebuilt": true,
+      "image": "sha256:cdf7c22320fe73c2bfa4d3ae53c50694573b1a945cd6687e20008520de40730c",
+      "server_assembly_sha256": "be1679c2620d451591c1140b2de345800670d39d7f848f1714f72cf587633ba2",
+      "map_started_utc": "2026-10-31T12:30:28.32015701Z",
+      "verified_utc": "2026-10-31T12:31:00.5339627Z",
+      "world_registration_verified": true,
+      "control_connection_verified": true,
+      "pending_sql_saves": 0,
+      "real_client_playthrough_verified": false
+    }
+  ],
+  "historical_pre_reconstruction_blockers": [
+    {
+      "ids": [
+        1082,
+        1084,
+        1203,
+        1208
+      ],
+      "status": "disabled",
+      "needed": "Compatible staged 3v3/5v5 PvP/PvE arena, type-28 result producer and achievement-point reward contract. Native 3v3/7v7 challenge arena cannot be substituted.",
+      "reward_1208": "Canonical 150 is corroborated by the publisher EN detail; CZ dialogue says 100. See dependencies.json."
+    },
+    {
+      "ids": [
+        3209
+      ],
+      "status": "disabled",
+      "needed": "Restore canonical seal producer 3210 and completions without losing reused IDs, plus verified world populations for six required monster kinds. All six kinds currently have zero spawn rows. Soul rewards are now supported."
+    }
+  ],
+  "remaining": [],
+  "reconstruction": {
+    "approval_evidence": "Gameforge/gor-remaining-quests/reconstruction-proposal.json",
+    "plan": "Gameforge/gor-remaining-quests/reconstruction-plan.json",
+    "missions": [
+      1082,
+      1084,
+      1203,
+      1208,
+      3209
+    ],
+    "producer_id": 3210,
+    "producer_repeatable": true,
+    "quarantined_ids": [
+      1083,
+      1085,
+      1204,
+      1209,
+      3212,
+      3213
+    ],
+    "saved_target_rows_before_import": 0,
+    "populations": [
+      {
+        "wID": 32398,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5822.60009765625,
+        "fPosY": 31.739999771118164,
+        "fPosZ": 6700.2001953125,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      },
+      {
+        "wID": 32399,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5819.7900390625,
+        "fPosY": 31.790000915527344,
+        "fPosZ": 6695.60009765625,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      },
+      {
+        "wID": 32400,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5937.18994140625,
+        "fPosY": 59.9900016784668,
+        "fPosZ": 6508.81982421875,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      },
+      {
+        "wID": 32401,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5941.06982421875,
+        "fPosY": 59.88999938964844,
+        "fPosZ": 6515.77978515625,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      },
+      {
+        "wID": 32402,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5975.89990234375,
+        "fPosY": 98.20999908447266,
+        "fPosZ": 6901.9599609375,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      },
+      {
+        "wID": 32403,
+        "wGroup": 0,
+        "wLocalID": 0,
+        "wMapID": 0,
+        "fPosX": 5974.10009765625,
+        "fPosY": 98.26000213623047,
+        "fPosZ": 6904.18017578125,
+        "wDir": 0,
+        "bCountry": 3,
+        "bCount": 1,
+        "bRange": 0,
+        "bArea": 0,
+        "bLink": 0,
+        "bProb": 100,
+        "bRoamType": 0,
+        "dwRegion": 0,
+        "dwDelay": 60000,
+        "bEvent": 0,
+        "wPartyID": 0
+      }
+    ],
+    "arena": {
+      "sizes": [
+        3,
+        5
+      ],
+      "required_round_wins": 2,
+      "fees": [
+        50000,
+        100000
+      ],
+      "ready_seconds": 60,
+      "battle_seconds": 240,
+      "pve_waves": false
+    },
+    "repeat_caps": "Existing SQL caps retained; no daily reset introduced.",
+    "certified_gameforge_parity": false
+  },
+  "point_contract": {
+    "reward_type": 10,
+    "supported_method": 1,
+    "amounts": [
+      100,
+      150
+    ],
+    "exact_spendable_balance_only": true,
+    "overflow_prevalidated": true,
+    "native_pvp_save_and_process_reload_verified": true,
+    "packet": "Existing CS_PVPPOINT_ACK with silent PvpeWin indication.",
+    "honour_monthly_and_bonus_rules_preserved": true
+  },
+  "validation_before_reconstruction": {
+    "new_actor_cases_passed": 11,
+    "map_server_cases_passed": 1853,
+    "isolated_sql_migration_scenarios_passed": 10,
+    "native_quest_store_lifecycle_scenarios_passed": 4,
+    "python_audit_cases_passed": 27,
+    "static_sql_and_character_preservation_verified": true,
+    "disposable_fixture_cleaned": true,
+    "player_rows_copied": 0,
+    "gold_exp_native_database_round_trip_verified": false,
+    "full_new_quest_mapworker_client_journey_verified": false,
+    "unit_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\tests-final",
+    "sql_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\pact-sql-lifecycle.txt",
+    "live_results": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-remaining-20261031\\verification.json"
+  }
+}

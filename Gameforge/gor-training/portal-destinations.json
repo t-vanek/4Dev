@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "status": "deployed_sql_repair_runtime_requests_verified",
+  "routes": [
+    {
+      "npc_id": 26174,
+      "portal_id": 4506,
+      "expected": {
+        "map_id": 0,
+        "x": 3618.10009765625,
+        "y": 105.25,
+        "z": 915.27001953125
+      },
+      "request_frame": 21456,
+      "ack_frame": 21460
+    },
+    {
+      "npc_id": 26176,
+      "portal_id": 4507,
+      "expected": {
+        "map_id": 0,
+        "x": 3278.3701171875,
+        "y": 124.5,
+        "z": 821.8400268554688
+      },
+      "request_frame": 49920,
+      "ack_frame": 49925
+    },
+    {
+      "npc_id": 26566,
+      "portal_id": 4506,
+      "expected": {
+        "map_id": 0,
+        "x": 3618.10009765625,
+        "y": 105.25,
+        "z": 915.27001953125
+      },
+      "request_frame": 50634,
+      "ack_frame": 50637
+    },
+    {
+      "npc_id": 26176,
+      "portal_id": 4508,
+      "expected": {
+        "map_id": 0,
+        "x": 3776.330078125,
+        "y": 86.20999908447266,
+        "z": 408.5
+      },
+      "request_frame": 51748,
+      "ack_frame": 51755
+    }
+  ],
+  "changes": [
+    {
+      "portal": 4506,
+      "before_spawn": 4506,
+      "after_spawn": 4507
+    },
+    {
+      "portal": 4507,
+      "before_spawn": 4507,
+      "after_spawn": 4509
+    }
+  ],
+  "new_spawn": {
+    "id": 4509,
+    "map_id": 0,
+    "x": 3278.3701171875,
+    "y": 124.5,
+    "z": 821.8400268554688
+  },
+  "source": "SQL FourDevReference, original Czech live capture",
+  "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+  "player_state_modified": false,
+  "npc_binding_fix": {
+    "npc": 26176,
+    "removed_source": 4507,
+    "retained_source": 4506
+  },
+  "deployment": {
+    "migration": "058_gor_portal_destinations.sql",
+    "applied_utc": "2026-11-01T11:16:48.377633+00:00",
+    "deployed": true,
+    "player_state_preserved": true,
+    "unrelated_portals_and_spawn_positions_preserved": true,
+    "existing_spawn_4507_reused": true,
+    "new_spawn": 4509,
+    "duplicate_npc_binding_removed": {
+      "npc": 26176,
+      "wrong_portal": 4507,
+      "retained_portal": 4506
+    },
+    "backup": "/var/opt/mssql/data/4Dev-before-gor-portals-20261101-111644.bak",
+    "production_dotnet_changed": false,
+    "real_client_portal_verification_pending": true
+  },
+  "validation": {
+    "isolated_full_training_missions": 14,
+    "captured_teleport_routes_verified": 4,
+    "sql_integrity_scenarios_passed": 19,
+    "existing_teleport_npc_regressions_passed": 18,
+    "live_sql_loaded_request_world_client_verdict_routes_passed": 4,
+    "player_state_preserved": true,
+    "navigation_arrow_user_confirmed": true,
+    "real_client_portal_verification_pending": true,
+    "user_confirmed_second_post_destination_correct": true,
+    "native_camera_user_verified": true
+  },
+  "native_camera_repair": "Gameforge/gor-training/portal-intro-repair.json"
+}

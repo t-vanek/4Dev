@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "status": "deployed_position_repaired_client_playthrough_pending",
+  "quest_id": 11027,
+  "monster_id": 800,
+  "spawn_id": 5024,
+  "scope": "Only fPosX/fPosY/fPosZ of existing spawn 5024. No monster stats, population, probabilities, delays or quest rules changed.",
+  "original_navigation": {
+    "path": "C:\\Program Files (x86)\\4Story\\TQNode.qpd",
+    "sha256": "d95510c95549d7303d75876e672abee799d8e635e189d981799760d67ac1f5d0",
+    "node": {
+      "quest_id": 11027,
+      "ordinal": 1,
+      "offset": 193551,
+      "length": 29,
+      "type": 3,
+      "term_id": 800,
+      "monster_kind": 800,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 3230.110107421875,
+      "y": 124.27999877929688,
+      "z": 837.5800170898438
+    }
+  },
+  "observations": [
+    {
+      "record_key": "e0652f82c42adbdb6c3d9725fd65613b944fb4ebbcffe2159e51343b95dad275",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 49932,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 329253120,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 15450,
+        "stream": 1,
+        "template_id": 800,
+        "time": 1793525405.2593026,
+        "time_prague": "2026-11-01T10:30:05.259303+01:00",
+        "time_utc": "2026-11-01T09:30:05.259303+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3230.110107421875,
+        "y": 124.27999877929688,
+        "z": 837.5800170898438
+      },
+      "packet": {
+        "body_hex": "0001a01320030ac7020000c7020000e5010000e5010000c3e149455c8ff8421f655144fc064605040400000003030b03000000",
+        "direction": "s2c",
+        "frame": 49932,
+        "id": 8410,
+        "id_hex": "0x20da",
+        "offset": 648365,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 15450,
+        "server_port": 4501,
+        "size": 67,
+        "stream": 1,
+        "time": 1793525405.2593026,
+        "wire_hex": "4300c61c46001c3c304512cd1ae2f5a540b07cb0f10dfcb542b1dc64d30ef69741b1dc46d00ef6b1a1f899ff5ef6b46d25e0985fd748f37644b1dca3d20dfd7140b1dc"
+      }
+    },
+    {
+      "record_key": "431c1744bfe6cf200f5c4761875b08a1d24afde34601e47fbd69c701d8c06f34",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 50618,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 329253120,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 15965,
+        "stream": 1,
+        "template_id": 800,
+        "time": 1793525465.5675173,
+        "time_prague": "2026-11-01T10:31:05.567517+01:00",
+        "time_utc": "2026-11-01T09:31:05.567517+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3230.110107421875,
+        "y": 124.27999877929688,
+        "z": 837.5800170898438
+      },
+      "packet": {
+        "body_hex": "0001a01320030ac7020000c7020000e5010000e5010000c3e149455c8ff8421f655144be064605040400000103030b03000000",
+        "direction": "s2c",
+        "frame": 50618,
+        "id": 8410,
+        "id_hex": "0x20da",
+        "offset": 678249,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 15965,
+        "server_port": 4501,
+        "size": 67,
+        "stream": 1,
+        "time": 1793525465.5675173,
+        "wire_hex": "430011dc96c2cbfce104c3cfcba324e4ba0cc08ef1e9ded1b80d605ad3ead4f3bb0d6078d0ead4d55b4425c15e129609df5c2423d7acd112be0d609cd2e9df15ba0d60"
+      }
+    }
+  ],
+  "spawn_before": {
+    "wID": 5024,
+    "wGroup": 0,
+    "wLocalID": 0,
+    "wMapID": 0,
+    "fPosX": 3173.53,
+    "fPosY": 134.37,
+    "fPosZ": 908.04999,
+    "wDir": 1500,
+    "bCountry": 3,
+    "bCount": 1,
+    "bRange": 3,
+    "bArea": 2,
+    "bLink": 0,
+    "bProb": 100,
+    "bRoamType": 1,
+    "dwRegion": 0,
+    "dwDelay": 1000,
+    "bEvent": 0,
+    "wPartyID": 0
+  },
+  "spawn_after": {
+    "wID": 5024,
+    "wGroup": 0,
+    "wLocalID": 0,
+    "wMapID": 0,
+    "fPosX": 3230.110107421875,
+    "fPosY": 124.27999877929688,
+    "fPosZ": 837.5800170898438,
+    "wDir": 1500,
+    "bCountry": 3,
+    "bCount": 1,
+    "bRange": 3,
+    "bArea": 2,
+    "bLink": 0,
+    "bProb": 100,
+    "bRoamType": 1,
+    "dwRegion": 0,
+    "dwDelay": 1000,
+    "bEvent": 0,
+    "wPartyID": 0
+  },
+  "map_monsters": [
+    {
+      "wSpawnID": 5024,
+      "wMonID": 800,
+      "bEssential": 0,
+      "bLeader": 0,
+      "bProb": 100
+    }
+  ],
+  "history_review": {
+    "files": [
+      "Servers/TMapSvr.Net/TMap.Server/Map/MapService.Spawns.cs"
+    ],
+    "inspected": [
+      "git log",
+      "git show 949d26c",
+      "git blame 105-178",
+      "MonsterSpawnTests",
+      "QuestSpawnTests",
+      "QuestRegenTests"
+    ],
+    "finding": "Existing C# correctly uses chart placement, scatter and attributes; preserve the port and its earlier fixes. Reproduced inherited SQL placement differs from two original appearances and pinned hunt navigation."
+  },
+  "limitations": [
+    "Appearance packets alone do not prove a complete spawn origin/roam/respawn rule. Placement uses agreement of two full-HP appearances, the original instance spawn ID and the pinned hunt marker.",
+    "Inherited spawn radius, count, event, probability and delay remain provisional; unchanged by this repair.",
+    "Captured Marka HP is 711; inherited local HP is 1186. Combat-stat reconciliation is outside this placement repair.",
+    "Local real-client kill/turn-in/relog remains unverified."
+  ],
+  "validation": {
+    "real_client_verified": false,
+    "full_gameforge_parity_verified": false,
+    "sql_scenarios": 12,
+    "focused_existing_map_tests_passed": 26,
+    "packet_evidence_tests_passed": 1,
+    "sql_native_spawn_kill_credit_respawn_verified": true,
+    "fresh_process_sql_reload_verified": true,
+    "player_state_hashes_preserved": true,
+    "logs": [
+      ".runtime/marka-spawn/sql-validation.json",
+      ".runtime/marka-spawn/deployment.json"
+    ]
+  },
+  "deployment": {
+    "deployed": true,
+    "applied_utc": "2026-11-01T13:07:15.524610+00:00",
+    "migration": "Database/migrations/061_gor_marka_spawn.sql",
+    "migration_sha256": "f336b7579cdcfaf4e1503399ea9ce773f739b17accedf8091c72812177eab345",
+    "spawn_before": {
+      "wID": 5024,
+      "wGroup": 0,
+      "wLocalID": 0,
+      "wMapID": 0,
+      "fPosX": 3173.53,
+      "fPosY": 134.37,
+      "fPosZ": 908.04999,
+      "wDir": 1500,
+      "bCountry": 3,
+      "bCount": 1,
+      "bRange": 3,
+      "bArea": 2,
+      "bLink": 0,
+      "bProb": 100,
+      "bRoamType": 1,
+      "dwRegion": 0,
+      "dwDelay": 1000,
+      "bEvent": 0,
+      "wPartyID": 0
+    },
+    "spawn_after": {
+      "wID": 5024,
+      "wGroup": 0,
+      "wLocalID": 0,
+      "wMapID": 0,
+      "fPosX": 3230.1101,
+      "fPosY": 124.28,
+      "fPosZ": 837.58002,
+      "wDir": 1500,
+      "bCountry": 3,
+      "bCount": 1,
+      "bRange": 3,
+      "bArea": 2,
+      "bLink": 0,
+      "bProb": 100,
+      "bRoamType": 1,
+      "dwRegion": 0,
+      "dwDelay": 1000,
+      "bEvent": 0,
+      "wPartyID": 0
+    },
+    "player_and_unrelated_hashes_before": {
+      "TCHARTABLE": {
+        "rows": 3,
+        "sha256": "caa9837f103e97e5a9602c31af0e4a5ba506fc5a4d1a43930d50188a12197c25"
+      },
+      "TITEMTABLE": {
+        "rows": 105,
+        "sha256": "09d918b489d0ac633eb0a45209a4c7615784141e565b5426a5c248f83245ea7f"
+      },
+      "TINVENTABLE": {
+        "rows": 11,
+        "sha256": "d29d4439906a3b55c043b4949b6a91de0edbdbb9ca551e583c0f107c7ecba0e9"
+      },
+      "TQUESTTABLE": {
+        "rows": 28,
+        "sha256": "ee97c860c227ac6dd358fbec2edcbaf2d4a18fc2bce9417a4b7896f904bb4b64"
+      },
+      "TQUESTTERMTABLE": {
+        "rows": 9,
+        "sha256": "083a82a5e30a8351ef5a78971e9bbc50b742e849ce851db02ae6c3b34f097458"
+      },
+      "TMONSPAWNCHART": {
+        "rows": 20363,
+        "sha256": "eb880265721bd4e15cbb0b4c10503ff28ec23f87f3d2717edf1c1531cc5bc78a"
+      },
+      "TMAPMONCHART": {
+        "rows": 23388,
+        "sha256": "01678a545e0624465ace24d9fcb3613ac695cba1b42a25a5915c37b547c5483c"
+      },
+      "TMONSTERCHART": {
+        "rows": 3707,
+        "sha256": "c1de2199724cc04d9fc390e5aee6280be1c1a718c923319968b15ca88f1b3879"
+      },
+      "TMONATTRCHART": {
+        "rows": 11484,
+        "sha256": "d6950fa49bca23e230a8c3db8f11aaf48e04523528bed526e1d1199f4c473c07"
+      }
+    },
+    "player_and_unrelated_hashes_after": {
+      "TCHARTABLE": {
+        "rows": 3,
+        "sha256": "caa9837f103e97e5a9602c31af0e4a5ba506fc5a4d1a43930d50188a12197c25"
+      },
+      "TITEMTABLE": {
+        "rows": 105,
+        "sha256": "09d918b489d0ac633eb0a45209a4c7615784141e565b5426a5c248f83245ea7f"
+      },
+      "TINVENTABLE": {
+        "rows": 11,
+        "sha256": "d29d4439906a3b55c043b4949b6a91de0edbdbb9ca551e583c0f107c7ecba0e9"
+      },
+      "TQUESTTABLE": {
+        "rows": 28,
+        "sha256": "ee97c860c227ac6dd358fbec2edcbaf2d4a18fc2bce9417a4b7896f904bb4b64"
+      },
+      "TQUESTTERMTABLE": {
+        "rows": 9,
+        "sha256": "083a82a5e30a8351ef5a78971e9bbc50b742e849ce851db02ae6c3b34f097458"
+      },
+      "TMONSPAWNCHART": {
+        "rows": 20363,
+        "sha256": "eb880265721bd4e15cbb0b4c10503ff28ec23f87f3d2717edf1c1531cc5bc78a"
+      },
+      "TMAPMONCHART": {
+        "rows": 23388,
+        "sha256": "01678a545e0624465ace24d9fcb3613ac695cba1b42a25a5915c37b547c5483c"
+      },
+      "TMONSTERCHART": {
+        "rows": 3707,
+        "sha256": "c1de2199724cc04d9fc390e5aee6280be1c1a718c923319968b15ca88f1b3879"
+      },
+      "TMONATTRCHART": {
+        "rows": 11484,
+        "sha256": "d6950fa49bca23e230a8c3db8f11aaf48e04523528bed526e1d1199f4c473c07"
+      }
+    },
+    "read_only_live_native_probe": {
+      "ReadOnlySql": true,
+      "PlayerRowsModified": 0,
+      "BeforeRepair": false,
+      "SpawnId": 5024,
+      "MonsterId": 800,
+      "DistanceFromHuntMarker": 1.0000023,
+      "QuestCreditAndRespawnVerified": true,
+      "RealClientVerified": false
+    },
+    "real_client_verified": false,
+    "deployed_assemblies_native_probe": {
+      "ReadOnlySql": true,
+      "PlayerRowsModified": 0,
+      "BeforeRepair": false,
+      "SpawnId": 5024,
+      "MonsterId": 800,
+      "DistanceFromHuntMarker": 1.0000023,
+      "QuestCreditAndRespawnVerified": true,
+      "RealClientVerified": false
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "date": "2026-10-31",
+  "quest_id": 8006,
+  "title": "Diannina přeměna",
+  "completion_quest_id": 8007,
+  "scope": "Repair the one incorrect completion NPC in inherited SQL; preserve quest rules, rewards and character progress.",
+  "defect": {
+    "reported": "The completed quest navigates to Karl but cannot be turned in there.",
+    "server_before": { "quest_id": 8007, "parent_id": 8006, "type": 7, "trigger_type": 3, "trigger_npc": 20004 },
+    "reference_completion_npc": 20012,
+    "reference_completion_name": "Karel",
+    "effect": "The server offers completion at NPC 20004 instead of Karl. The repaired client selects a completion offered by the current NPC, so it cannot send the completion action at Karl.",
+    "observed_saved_objectives": { "character_id": 59098, "quest_accepted": true, "quest_completed": false, "hunt_kind_290_count": 1, "item_9657_count": 1 }
+  },
+  "reference": {
+    "manifest": "Gameforge/reference.json",
+    "hashes_verified_before_use": true,
+    "files": [
+      { "path": "TQuest.mpq", "sha256": "91510c02c6f9d4d1e41ec14528172226ea5f5c2a4ff0d49ea36be3a248c916fd" },
+      { "path": "TQNode.qpd", "sha256": "d95510c95549d7303d75876e672abee799d8e635e189d981799760d67ac1f5d0" }
+    ],
+    "navigation": { "quest_id": 8006, "term_type": 20, "npc_id": 20012, "map_id": 0, "x": 2500.889892578125, "y": 61.540000915527344, "z": 4918.06005859375 },
+    "quest_identity": "Pinned quest 8006 has hunt kind 290 and fetch item 9657; pinned completion 8007 references mission 8006.",
+    "exact_client_release_known": false
+  },
+  "history_review": [
+    { "commit": "84018c5", "result": "Preserve the Map's NPC identity/map/country validation and normal completion dispatch; do not accept an arbitrary mission ID as a completion." },
+    { "commit": "949d26c", "result": "Retain item/reward prevalidation, ingredient preservation, magic-item and skill corrections. No production .NET behavior changes are required for the NPC data repair." },
+    { "commit": "19feb56", "result": "Retain the client's completed-dialog action: resolve the QT_COMPLETE offered by the current NPC instead of selecting an unrelated global completion." },
+    { "scope": "Existing SQL quest checkpoints and current source", "result": "Retain current main-session, admission, durable checkpoint and repeat-reward guards. Their regression suites pass alongside the new quest-specific cases." }
+  ],
+  "repair": {
+    "migration": "Database/migrations/049_dianna_quest_turn_in.sql",
+    "only_changed_field": "TQUESTCHART[dwQuestID=8007].dwTriggerID: 20004 -> 20012",
+    "guards": "Require the expected completion type/parent/NPC, mission identity, sole completion term and Karl on map 0. Unknown data aborts the transaction. Already repaired data is accepted.",
+    "player_state_written_by_migration": false,
+    "production_dotnet_code_changed": false,
+    "client_changed": false
+  },
+  "validation": {
+    "new_actor_cases_passed": 4,
+    "focused_quest_and_checkpoint_cases_passed": 45,
+    "sql_migration_cases_passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "actor_coverage": "Karl offers completion; old NPC does not. Satisfied kill/fetch completes, consumes the crystal and rewards only once. Missing kill or crystal still rejects without rewards or lost eligibility.",
+    "sql_coverage": "A fresh generated 4DevQuestTest_dianna_* database copies only static chart rows. Repair changes only the intended field; a second application is idempotent. Unexpected NPC, changed objective and missing Karl fail atomically. Fixture is removed in finally; no player rows are copied.",
+    "unit_results": ".runtime/dianna-turn-in-20261031/final-tests",
+    "sql_results": ".runtime/dianna-turn-in-20261031/sql-validation.json",
+    "sql_runner": "Tools/QuestEngineCheck/test-dianna-turn-in.ps1",
+    "real_client_turn_in_verified": false
+  },
+  "deployment": {
+    "migration_applied": true,
+    "migration_applied_utc": "2026-10-31T10:46:58.4165046Z",
+    "map_restarted": true,
+    "image_rebuilt": false,
+    "image": "sha256:441699fe1552a2b02ad5c6ba04577421eb5b22c24783f0c80bb72a8dd82c8da8",
+    "map_started_utc": "2026-10-31T10:47:01.357738368Z",
+    "verified_utc": "2026-10-31T10:48:15Z",
+    "verified": true,
+    "world_registration_verified": true,
+    "control_connection_verified": true,
+    "quest_templates_indexed": 6419,
+    "pending_save_records": 0,
+    "saved_objectives_preserved_after_restart": true,
+    "other_quest_chart_sha256_before_and_after": "0F79C185986EF2201DB5E94F54EDC61E29FD00172720081A033E18F39B135C36",
+    "reward_chart_sha256_before_and_after": "B5F9627BF00A36E51C5CBAABBC9F6B5B2AF22BAFFE3F802A5AE48E7E9A66FEBF",
+    "term_chart_sha256_before_and_after": "9F26D118756F85FD0A50FC1FE2AC9CAC4AABA7F92F276EB3B287383CEAD78863",
+    "evidence": ".runtime/dianna-turn-in-20261031/live-before.txt, live-migration.txt, live-after.txt, live-runtime.txt",
+    "real_client_turn_in_verified": false
+  },
+  "remaining": [
+    "Actual client dialog, turn-in and completion persistence after relog need user/client acceptance.",
+    "This repair does not certify the whole quest graph or its rewards. The pinned mission also contains RT_SOUL=374 and six selectable magic rewards 2238/2243/2248/2253/2258/2263 absent from the inherited SQL reward list. Existing RT_SOUL support and exact reward reconciliation remain incomplete; no reward is inferred or silently substituted here.",
+    "Full Gameforge baseline, distributed ownership and the exact pinned executable release remain unverified."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "activation_request": "díky získaným datům aktivuj questy a oprav",
+  "fallback_approval": "Ano, použít tuto funkční náhradu",
+  "scope": "14 initial Gor training missions",
+  "rules": {
+    "completion_cap": 1,
+    "missing_active_quest_items_guaranteed": true,
+    "moray_fixed_population_count": 1,
+    "moray_respawn_delay_ms": 60000
+  },
+  "not_certified_publisher_rules": [
+    "Repeatability cap",
+    "Quest drop chance",
+    "Moray rare appearance/respawn"
+  ],
+  "migration": "Database/migrations/057_gor_training.sql"
+}

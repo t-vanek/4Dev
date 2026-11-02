@@ -1973,7 +1973,8 @@ void CTChart::InitTDESTINATION( CString strPath)
 		if(pTUNIT)
 
 		{
-			LPTPORTAL pTPORTAL = GetTPORTAL(wPortalID);
+			// The NPC is the entrance; route reachability must use the destination's coordinates.
+			LPTPORTAL pTPORTAL = GetTPORTAL(wDestID);
 
 			if(pTPORTAL)
 			{

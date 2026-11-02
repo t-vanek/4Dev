@@ -1,0 +1,240 @@
+{
+  "schema": 1,
+  "quest_id": 7913,
+  "title": "Inteligentní masožravé rostliny",
+  "before_nodes": [
+    {
+      "quest_id": 7913,
+      "ordinal": 0,
+      "offset": 136690,
+      "length": 29,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7913,
+      "ordinal": 1,
+      "offset": 136719,
+      "length": 29,
+      "type": 3,
+      "term_id": 793,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7913,
+      "ordinal": 2,
+      "offset": 136748,
+      "length": 29,
+      "type": 3,
+      "term_id": 796,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "quest_id": 7913,
+      "ordinal": 3,
+      "offset": 136777,
+      "length": 29,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  ],
+  "after_nodes": [
+    {
+      "quest_id": 7913,
+      "type": 19,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26041,
+      "map_id": 0,
+      "x": 3601.2099609375,
+      "y": 105.04000091552734,
+      "z": 926.6400146484375,
+      "ordinal": 0,
+      "length": 29
+    },
+    {
+      "quest_id": 7913,
+      "type": 3,
+      "term_id": 793,
+      "monster_kind": 793,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 3572.659912109375,
+      "y": 104.26000213623047,
+      "z": 921.0900268554688,
+      "ordinal": 1,
+      "length": 29
+    },
+    {
+      "quest_id": 7913,
+      "type": 3,
+      "term_id": 796,
+      "monster_kind": 796,
+      "npc_id": 0,
+      "map_id": 0,
+      "x": 3532.22998046875,
+      "y": 102.83999633789062,
+      "z": 882.5599975585938,
+      "ordinal": 2,
+      "length": 29
+    },
+    {
+      "quest_id": 7913,
+      "type": 20,
+      "term_id": 0,
+      "monster_kind": 0,
+      "npc_id": 26041,
+      "map_id": 0,
+      "x": 3601.2099609375,
+      "y": 105.04000091552734,
+      "z": 926.6400146484375,
+      "ordinal": 3,
+      "length": 29
+    }
+  ],
+  "objectives": [
+    {
+      "type": 3,
+      "id": 793,
+      "count": 8
+    },
+    {
+      "type": 3,
+      "id": 796,
+      "count": 1
+    }
+  ],
+  "quest": {
+    "dwQuestID": 7913,
+    "dwParentID": 7906,
+    "bType": 8,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26041,
+    "bCountMax": 1,
+    "bLevel": 8,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "completion": {
+    "dwQuestID": 7914,
+    "dwParentID": 7913,
+    "bType": 7,
+    "bForceRun": 0,
+    "bTriggerType": 3,
+    "dwTriggerID": 26041,
+    "bCountMax": 0,
+    "bLevel": 1,
+    "bMain": 0,
+    "bConditionCheck": 0
+  },
+  "related_headers": [
+    {
+      "dwQuestID": 7913,
+      "dwParentID": 7906,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26041,
+      "bCountMax": 1,
+      "bLevel": 8,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7914,
+      "dwParentID": 7913,
+      "bType": 7,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26041,
+      "bCountMax": 0,
+      "bLevel": 1,
+      "bMain": 0,
+      "bConditionCheck": 0
+    },
+    {
+      "dwQuestID": 7915,
+      "dwParentID": 7913,
+      "bType": 8,
+      "bForceRun": 0,
+      "bTriggerType": 3,
+      "dwTriggerID": 26041,
+      "bCountMax": 1,
+      "bLevel": 9,
+      "bMain": 0,
+      "bConditionCheck": 0
+    }
+  ],
+  "terms": [
+    {
+      "dwID": 14722,
+      "dwQuestID": 7913,
+      "bTermType": 3,
+      "dwTermID": 793,
+      "bCount": 8
+    },
+    {
+      "dwID": 14837,
+      "dwQuestID": 7913,
+      "bTermType": 3,
+      "dwTermID": 796,
+      "bCount": 1
+    }
+  ],
+  "conditions": [
+    {
+      "dwID": 8659,
+      "dwQuestID": 7914,
+      "bConditionType": 3,
+      "dwConditionID": 7913,
+      "bCount": 0
+    }
+  ],
+  "npc_evidence": {
+    "26041": {
+      "wID": 26041,
+      "template_id": 1258,
+      "name": "Ennahi",
+      "title": "Vedoucí výcviku",
+      "bType": 0,
+      "class_index": 255,
+      "level": 0,
+      "bCountryID": 3,
+      "wItemID": 0,
+      "max_hp": 0,
+      "wMapID": 0,
+      "fPosX": 3601.2099609375,
+      "fPosY": 105.04000091552734,
+      "fPosZ": 926.6400146484375,
+      "source_file": "C:\\Program Files (x86)\\4Story\\Tcd\\TNPC00000003.tcd",
+      "source_sha256": "467f426bd18e153fa2860eb3afb00c96091d44af80a3d2f4fa7ca124df9d7281"
+    }
+  },
+  "status": "client_navigation_deployed_restart_and_real_client_verification_pending",
+  "deployed": true,
+  "batch_evidence": "Gameforge/gor-training/quest-navigation-batch.json",
+  "real_client_navigation_verified": false
+}

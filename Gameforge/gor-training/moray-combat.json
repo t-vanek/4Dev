@@ -1,0 +1,779 @@
+{
+  "schema": 1,
+  "status": "deployed_captured_effective_attack_verified",
+  "quest_id": 11025,
+  "monster_id": 801,
+  "attribute_id": 30050,
+  "level": 10,
+  "capture": ".runtime/official-captures/20261101-071443/gameforge-cz.pcapng",
+  "reference_executable_sha256": "320c557910c890b4c17b5311ab5c343fd4ee6d8fed3b5490db278fc5221111e1",
+  "inspected_handler": "004158a0",
+  "observations": [
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc0201000001bc7f5f45d3d3d1428361614420935f450bf6d1424b226244005d2af9011e12000000",
+        "direction": "s2c",
+        "frame": 46058,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 596612,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14206,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524652.9481728,
+        "wire_hex": "6d00f64262551c62ab6dcc076bea37703c1323f26f4002463e1334f77f56030c68122456245602463c1224e170571546365a24e17f1d02463c5824e17f1b02463c1324e27cea00473c12255d00094795efc366621e374666af4d61ea8987400d1e7060e1227cfb47220024e17f"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 18
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0217000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e1a000000",
+        "direction": "s2c",
+        "frame": 46107,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 598296,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14235,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524654.5032039,
+        "wire_hex": "6d00ac1cdd0b463cffb396abc8376da840b0dbb0c118f67242b0ccb5d10ef73814b1dc148a0ef67240b1dca3de0ce1724af9dca3d145f67240fbdca3d143f67240b0dca0d2b2f47340b1dd8b5151b3a795609ec6b66fb252d3ee99a827dfb43962d398a38c240f735eabdca3d1"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 2,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 26
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e12000000",
+        "direction": "s2c",
+        "frame": 46149,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 599385,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14255,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524656.0485976,
+        "wire_hex": "6d001fdc5acbf5fc46f227ea7975dce9ba0c678ec1fcd416b80c708bd1ead55cee0d602a8aead416ba0d609ddeebc316b045609dd1a1d416ba47609dd1a7d416ba0c609ed256d617ba0d61b551b591c36fdc22f8b68b903629522596273b965d986f249d8cc02d17a41f609dd1"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 18
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e11000000",
+        "direction": "s2c",
+        "frame": 46162,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 599784,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14263,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524656.4077272,
+        "wire_hex": "6d0047e11af6adc11d0d7f15218a84167a0f5b538ae52b72780f4c569af32a382e0e5cf7c1f32b727a0e5c4095f23c7270465c409ab82b727a445c409abe2b727a0f5c43994f29737a0e5d681aac6ea7afdf1e25fd926f52e951194b6c226939586c1840c7d9d273641f5c409a"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 17
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e13000000",
+        "direction": "s2c",
+        "frame": 46206,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 601370,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14291,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524657.7281454,
+        "wire_hex": "6d001fdc26cbf5fc47f227ea7975dce9ba0c678ec1fcd416b80c708bd1ead55cee0d602a8aead416ba0d609ddeebc316b045609dd1a1d416ba47609dd1a7d416ba0c609ed256d617ba0d61b551b591c36fdc22f8b68b903629522596273b965d986f249d8cc02d17a41e609dd1"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 19
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e13000000",
+        "direction": "s2c",
+        "frame": 46247,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 602998,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14320,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524659.3977444,
+        "wire_hex": "6d00e2a0f8b70880b04fd0578ec82b5406c902b52d1c6fc204c915b03d0a6e8852c80511660a6fc206c805a6320b78c20c8005a63d416fc2068205a63d476fc206c905a53eb66dc306c8048ebd552a17d31947c35a6b2be2959740adcbdb2d8924aa41a6602096c318db05a63d"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 19
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e13000000",
+        "direction": "s2c",
+        "frame": 46305,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 605250,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14358,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524660.9749231,
+        "wire_hex": "6d00ce7d3265245d9492f48aaa150f890648bcf382a1f89b0448abf692b7f9d15249bb57c9b7f89b0649bbe09db6ef9b0c01bbe092fcf89b0603bbe092faf89b0648bbe3910bfa9a0649bac812e8bd4ed398f985f5d6bcbb9516feeb6466bad0242bffe0cf9d019a185abbe092"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 19
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e12000000",
+        "direction": "s2c",
+        "frame": 46314,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 605535,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14363,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524661.3617938,
+        "wire_hex": "6d001fdceec4f5fc46f227ea7975dce9ba0c678ec1fcd416b80c708bd1ead55cee0d602a8aead416ba0d609ddeebc316b045609dd1a1d416ba47609dd1a7d416ba0c609ed256d617ba0d61b551b591c36fdc22f8b68b903629522596273b965d986f249d8cc02d17a41f609dd1"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 18
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e11000000",
+        "direction": "s2c",
+        "frame": 46356,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 607556,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14396,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524662.5935853,
+        "wire_hex": "6d009abd4ca5709dda52b84ae6d54349eb13f852ef04ffa3e913ef57ff12fee9bf12fff6a412ffa3eb12ff41f013e8a3e15aff41ff59ffa3eb58ff41ff5fffa3eb13ff42fcaefda2eb12fe697f4dba763ec3bd249873bb83784dba4a09c3bde8c970bb41a23806a2f503ff41ff"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 17
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e12000000",
+        "direction": "s2c",
+        "frame": 46411,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 609959,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14439,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524664.3001392,
+        "wire_hex": "6d00ce7d4365245d9592f48aaa150f890648bcf382a1f89b0448abf692b7f9d15249bb57c9b7f89b0649bbe09db6ef9b0c01bbe092fcf89b0603bbe092faf89b0648bbe3910bfa9a0649bac812e8bd4ed398f985f5d6bcbb9516feeb6466bad0242bffe0cf9d019a185bbbe092"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 18
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    },
+    {
+      "packet": {
+        "body_hex": "0001071310160000020110160000014a540000b75b000000000000000f0117000a480000004b0000004a0000004d00000001000303bc020100000128805f45d5d5d1426567614420935f450bf6d1424b226244005d2af9011e12000000",
+        "direction": "s2c",
+        "frame": 46448,
+        "id": 8426,
+        "id_hex": "0x20ea",
+        "offset": 610934,
+        "profile": "4e0e8907c71d4fdeac674acb675ceb033daae394c9c9921513b5cb595a2c1a99",
+        "sequence": 14459,
+        "server_port": 4501,
+        "size": 109,
+        "stream": 1,
+        "time": 1793524665.8471444,
+        "wire_hex": "6d009abd0ba5709dd952b84ae6d54349eb13f852ef04ffa3e913ef57ff12fee9bf12fff6a412ffa3eb12ff41f013e8a3e15aff41ff59ffa3eb58ff41ff5fffa3eb13ff42fcaefda2eb12fe697f4dba763ec3bd249873bb83784dba4a09c3bde8c970bb41a23806a2f500ff41ff"
+      },
+      "decoded": {
+        "kind": "combat_result",
+        "attacker_id": 319226112,
+        "target_id": 5648,
+        "attacker_type": 2,
+        "target_type": 1,
+        "host_id": 5648,
+        "host_type": 1,
+        "critical_probability": 15,
+        "hit_type": 1,
+        "attack_level": 23,
+        "attacker_level": 10,
+        "physical_min": 72,
+        "physical_max": 75,
+        "magic_min": 74,
+        "magic_max": 77,
+        "skill_id": 700,
+        "skill_level": 1,
+        "original_extension_hex": "005d2af9",
+        "effects": [
+          {
+            "exec": 30,
+            "value": 18
+          }
+        ],
+        "handler": "004158a0",
+        "evidence_scope": "Observed effective attack snapshot; not base/weapon decomposition or a damage formula"
+      }
+    }
+  ],
+  "attribute_before": {
+    "wID": 30050,
+    "bLevel": 10,
+    "wAP": 250,
+    "wLAP": 250,
+    "dwAtkSpeed": 0,
+    "wAL": 250,
+    "wDL": 124,
+    "bCriticalPP": 15,
+    "dwMaxHP": 711,
+    "bHPRecover": 255,
+    "wMAP": 500,
+    "bCriticalMP": 15,
+    "dwMaxMP": 14528,
+    "bMPRecover": 255,
+    "wDP": 100,
+    "wMDP": 100,
+    "wMinWAP": 100,
+    "wMaxWAP": 100,
+    "wWDP": 230,
+    "wMAL": 703,
+    "wMDL": 124
+  },
+  "attribute_after": {
+    "wID": 30050,
+    "bLevel": 10,
+    "wAP": 56,
+    "wLAP": 250,
+    "dwAtkSpeed": 0,
+    "wAL": 23,
+    "wDL": 124,
+    "bCriticalPP": 15,
+    "dwMaxHP": 711,
+    "bHPRecover": 255,
+    "wMAP": 58,
+    "bCriticalMP": 15,
+    "dwMaxMP": 485,
+    "bMPRecover": 255,
+    "wDP": 100,
+    "wMDP": 100,
+    "wMinWAP": 16,
+    "wMaxWAP": 19,
+    "wWDP": 230,
+    "wMAL": 703,
+    "wMDL": 124
+  },
+  "standard_level_basis": {
+    "wID": 1001,
+    "bLevel": 10,
+    "wAP": 56,
+    "wLAP": 60,
+    "dwAtkSpeed": 0,
+    "wAL": 23,
+    "wDL": 11,
+    "bCriticalPP": 15,
+    "dwMaxHP": 539,
+    "bHPRecover": 67,
+    "wMAP": 58,
+    "bCriticalMP": 15,
+    "dwMaxMP": 485,
+    "bMPRecover": 34,
+    "wDP": 43,
+    "wMDP": 43,
+    "wMinWAP": 16,
+    "wMaxWAP": 18,
+    "wWDP": 7,
+    "wMAL": 23,
+    "wMDL": 11
+  },
+  "rationale": "Earlier level/HP-only restoration retained level-90 legacy attack fields. Eleven original combat results agree on physical 72..75, magic 74..77, physical attack level 23, critical probability 15; original appearance reports HP 711 / MP 485. Correct the uniquely referenced attribute row. No combat formula changes.",
+  "decomposition": {
+    "status": "inferred_internal_representation_not_directly_observed",
+    "basis": "Existing level-10 standard attribute 1001 supplies base physical 56 and magic 58; shared weapon interval 16..19 is derived by subtraction from BOTH observed bands. This reproduces both effective bands exactly. Original base/weapon split and disarmed/buffed behavior remain unverified."
+  },
+  "unchanged_unknowns": [
+    "Long-range base attack and magic attack level are not exercised by owned skill 700; retain their existing values.",
+    "Defense, regeneration, rewards, spawn fallback and drop fallback are unchanged."
+  ],
+  "validation": {
+    "isolated_sql_scenarios_passed": 8,
+    "captured_packet_tests_passed": 2,
+    "original_combat_layouts_validated": 505,
+    "focused_combat_regressions_passed": 34,
+    "collector_regressions_passed": 18,
+    "sql_loaded_spawn_verified": true,
+    "native_authoritative_hit_reports_per_probe": 32,
+    "fresh_process_sql_reload_verified": true,
+    "live_sql_probe": {
+      "ReadOnlySql": true,
+      "PlayerRowsModified": 0,
+      "BeforeRepair": false,
+      "Physical": [
+        72,
+        75
+      ],
+      "Magic": [
+        74,
+        77
+      ],
+      "AttackLevel": 23,
+      "Hits": 32,
+      "FixtureDamageMin": 29,
+      "FixtureDamageMax": 43,
+      "RealClientVerified": false
+    },
+    "player_hashes_preserved": true,
+    "unrelated_static_hashes_preserved": true,
+    "map_restart_connections_verified": true
+  },
+  "deployed": true,
+  "real_client_verified": false,
+  "appearance_observations": [
+    {
+      "record_key": "07f52aa38dd220688f794019f7c14cefcf6b2cbbe8674607922b0c5238e13a38",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 42995,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 319226112,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 13350,
+        "stream": 1,
+        "template_id": 801,
+        "time": 1793524110.9446912,
+        "time_prague": "2026-11-01T10:08:30.944691+01:00",
+        "time_utc": "2026-11-01T09:08:30.944691+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3567.010009765625,
+        "y": 104.31999969482422,
+        "z": 894.5499877929688
+      }
+    },
+    {
+      "record_key": "db88df467e516d917ad716e2c966e816594cdd8dac3c4e006766588c656e9f86",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 45965,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 318963968,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 14123,
+        "stream": 1,
+        "template_id": 801,
+        "time": 1793524649.6906369,
+        "time_prague": "2026-11-01T10:17:29.690637+01:00",
+        "time_utc": "2026-11-01T09:17:29.690637+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3512.55517578125,
+        "y": 104.41000366210938,
+        "z": 852.2743530273438
+      }
+    },
+    {
+      "record_key": "d8f797149e90528e6dbf9004e9353f5259d94761df87cc05f350742abfff12c0",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 46875,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 319226112,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 14674,
+        "stream": 1,
+        "template_id": 801,
+        "time": 1793524695.900077,
+        "time_prague": "2026-11-01T10:18:15.900077+01:00",
+        "time_utc": "2026-11-01T09:18:15.900077+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3567.010009765625,
+        "y": 104.31999969482422,
+        "z": 894.5499877929688
+      }
+    },
+    {
+      "record_key": "9cf24769ee447e3664ce41b805276380cde3a66f4e7a6d656a888efe49e95c48",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 50643,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 319226112,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 16021,
+        "stream": 1,
+        "template_id": 801,
+        "time": 1793525476.7656286,
+        "time_prague": "2026-11-01T10:31:16.765629+01:00",
+        "time_utc": "2026-11-01T09:31:16.765629+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3567.010009765625,
+        "y": 104.31999969482422,
+        "z": 894.5499877929688
+      }
+    },
+    {
+      "record_key": "0d658e87f36d75f5a3c237b7026d058af63f4ce149f3e0421ba50e201a8fc654",
+      "source_key": "f6f9c2080173557e94936fb1eaa23f6e8b657414e87bdef99b7e9d684eb6c5e8",
+      "decoded": {
+        "direction": "s2c",
+        "frame": 21466,
+        "handler": "004129b0",
+        "hp": 711,
+        "id_hex": "0x20da",
+        "instance_id": 319226112,
+        "kind": "monster_appearance",
+        "level": 10,
+        "max_hp": 711,
+        "max_mp": 485,
+        "mp": 485,
+        "position_scope": "Observed appearance, not a proven spawn origin or respawn rule",
+        "semantic_scope": "inspected_prefix",
+        "semantic_version": "0dad43e32183ee4766d5c183bfc0e796209750f94d1031db4a2b8621ab0ce94a",
+        "sequence": 7564,
+        "stream": 1,
+        "template_id": 801,
+        "time": 1793519817.9400246,
+        "time_prague": "2026-11-01T08:56:57.940025+01:00",
+        "time_utc": "2026-11-01T07:56:57.940025+00:00",
+        "uninterpreted_tail_bytes": 16,
+        "x": 3566.9228515625,
+        "y": 104.31999969482422,
+        "z": 895.5462036132812
+      }
+    }
+  ],
+  "migration": "Database/migrations/059_gor_moray_combat.sql",
+  "deployment_evidence": ".runtime/gor-moray-combat-deploy-20261101/deployment.json",
+  "deployed_utc": "2026-11-01T11:49:07.680131+00:00",
+  "production_dotnet_source_changed": false,
+  "remaining": [
+    "Real-client replay of this repaired Moray encounter is pending.",
+    "Original base/weapon split, disarmed/buffed behavior, long-range/magic attack levels, defense and regeneration remain unverified; effective owned-skill attack snapshots are verified."
+  ]
+}

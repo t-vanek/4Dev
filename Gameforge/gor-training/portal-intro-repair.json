@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "status": "deployed_and_user_verified_in_game",
+  "issue": "Ordinary Gor portal replays the legacy intro camera near Biseira while the actual destination is correct.",
+  "user_confirmation": "Přesunul jsem se správně ... kamera přesune do tebekutu k Beiře ... správně na druhém stanovišti. Ano bude to úvodní scénou hry.",
+  "cause": {
+    "start_act": 1,
+    "client_latch": "m_bFirstConnect",
+    "pending_intro_dispatch": "CTClientGame::DoEventFirstConnect",
+    "legacy_camera_target": [
+      3774.64,
+      87.21,
+      405.89
+    ],
+    "legacy_camera_npc": 26003,
+    "portal_target_4506": [
+      3618.10009765625,
+      105.25,
+      915.27001953125
+    ]
+  },
+  "repair": {
+    "source": "Client/TClient/CSHandler.cpp",
+    "function": "IntroFlagForInitialEntry",
+    "rule": "Consume pending value 1 at initial CHARINFO entry only for neutral country 4 on playable Gor map 0. The deferred portal dispatcher then cannot run the unrelated Biseira intro.",
+    "preserved": [
+      "Wire character-info layout and original server start-act field",
+      "Tutorial map 2010 and start-act values other than 1",
+      "Other countries/maps and later country-change intro rearming",
+      "Existing fall-damage, quest routing and portal navigation fixes"
+    ]
+  },
+  "observed_original_scope": "Archived original character-info packet 0x20ce frame 21 also contains startup value 1 after its name. This fix changes the native client lifecycle, not the recorded official packet or SQL character flags.",
+  "validation": {
+    "actual_cpp_entry_helper_and_scene_dispatch_compiled": true,
+    "old_behavior_negative_control_failed": true,
+    "fixed_cpp_cases_passed": true,
+    "checks": [
+      "initial playable Gor consumes stale latch",
+      "three ordinary portal events do not start legacy scene",
+      "tutorial flags 0/1/2 retained",
+      "actual tutorial exit still starts its scene",
+      "country change re-arms intro once",
+      "other maps/countries and flag 2 retained"
+    ],
+    "release_x86_build_passed": true,
+    "map_teleport_regressions_passed": 8,
+    "world_movement_regressions_passed": 7,
+    "local_client_tcp_movement_after_return_matches_second_post": true,
+    "local_client_position": [
+      3619.5105,
+      105.313866,
+      917.59875
+    ],
+    "real_client_camera_replay_after_fix_verified": true
+  },
+  "deployment": {
+    "recorded_utc": "2026-11-01T13:22:14.815820+00:00",
+    "source": "Client/TClient/CSHandler.cpp",
+    "client_path": "C:\\Users\\tomas\\source\\repos\\4Dev\\Game\\TClient.exe",
+    "before_sha256": "f338d18e54c1e5a48b0d5d8f007fa58293d3631c5f0136a41d054a14ae733d6f",
+    "build_sha256": "662248730da0aecee6f91029304aaaf0798191937014165e60a008439695d883",
+    "backup": "C:\\Users\\tomas\\source\\repos\\4Dev\\.runtime\\gor-portal-local-capture-20261101\\TClient.before-intro-fix.exe",
+    "gameplay_database_modified": false,
+    "production_dotnet_modified": false,
+    "restart_required": false,
+    "deployed": true,
+    "replacement_mode": "direct copy",
+    "after_sha256": "662248730da0aecee6f91029304aaaf0798191937014165e60a008439695d883"
+  },
+  "gameplay_sql_changed": false,
+  "production_dotnet_changed": false,
+  "remaining": [],
+  "user_verification": {
+    "answer": "už to funguje",
+    "recorded_utc": "2026-11-01T13:26:35.224569+00:00",
+    "scope": "Gor portal camera sequence after restarting the repaired native client; no claim of full server baseline verification."
+  }
+}

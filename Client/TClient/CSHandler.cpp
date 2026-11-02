@@ -100,6 +100,14 @@ static void TraceTeleportState(const char* stage, CTClientChar* character, BYTE 
 #include "GuildSkillsDlg.h"
 #include "ArenaRanking.h"
 
+static BYTE IntroFlagForInitialEntry(BYTE pending, BYTE country, WORD mapID)
+{
+	// Playable Gor training starts on map 0. Do not carry its first-entry latch
+	// into an ordinary portal: that would start the legacy Biseira camera scene.
+	// Tutorial entry and a later country change keep their own intro lifecycle.
+	return pending == 1 && country == TCONTRY_PEACE && mapID == 0 ? FALSE : pending;
+}
+
 bool _SortMATCH( const LPTMATCH& a, const LPTMATCH& b )
 {
 	if( a->m_bGroup != b->m_bGroup )
@@ -753,6 +761,9 @@ int CTClientGame::OnCS_CHARINFO_ACK(CTachyonSession *pSession, CPacket *pPacket)
 		m_pMainChar->m_fDepth,
 		m_pMainChar->m_fSight);
 	m_pCtrlHost = m_pMainChar;
+
+	m_bFirstConnect = IntroFlagForInitialEntry(
+		m_bFirstConnect, m_pMainChar->m_bContryID, m_vMAP.m_wMapID);
 
 	if(m_bFirstConnect)
 	{
