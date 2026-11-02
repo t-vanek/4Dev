@@ -63,6 +63,26 @@ public class DataSmokeTests
     }
 
     [Fact]
+    public async Task LoadTemplates_MonsterHuntKindsMatchSql_WhenConfigured()
+    {
+        if (!Configured()) return;
+        var store = await new GameDatabase(GameCs!).LoadTemplatesAsync();
+        await using var connection = new Microsoft.Data.SqlClient.SqlConnection(GameCs);
+        await connection.OpenAsync();
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand("SELECT wID,wKind FROM TMONSTERCHART",connection);
+        await using var reader = await command.ExecuteReaderAsync();
+        int count=0,variants=0;
+        while (await reader.ReadAsync())
+        {
+            ushort id=unchecked((ushort)reader.GetInt16(0)),kind=unchecked((ushort)reader.GetInt16(1));
+            Assert.Equal((ushort?)kind,store.MonsterTemplates[id].HuntKind);
+            count++;if(id!=kind)variants++;
+        }
+        Assert.True(count>0);Assert.True(variants>0);
+        _out.WriteLine($"Verified {count} monster hunt kinds, including {variants} variant mappings; read-only.");
+    }
+
+    [Fact]
     public async Task LoadTemplates_WeaponAmmoFieldsMatchSql_WhenConfigured()
     {
         if (!Configured()) return;

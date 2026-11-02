@@ -333,6 +333,16 @@ public sealed class Inven
     public byte SlotCount { get; set; } = DefaultSlotCount;   // C++ m_pTITEM->m_bSlotCount
     public List<Item> Items { get; } = new();
 
+    public static Inven FromTemplate(byte id, ushort templateId, TemplateStore templates, long endTime = 0, byte eld = 0)
+    {
+        // Same fallback item IDs as the native CHARINFO inventory headers.
+        ushort resolved = templateId != 0 ? templateId : id == Proto.InvenDefault ? (ushort)3 : id == Proto.InvenEquip ? (ushort)2 : (ushort)0;
+        return new Inven { InvenId = id, TemplateId = templateId, EndTime = endTime, Eld = eld,
+            SlotCount = templates.Item(resolved)?.SlotCount ?? (templates.HasItems ? (byte)0 : DefaultSlotCount) };
+    }
+
+    public bool ContainsSlot(byte slot) => slot < SlotCount;
+
     /// <summary>Finds the item in the given slot (C++ <c>CTInven::FindTItem</c>), or null.</summary>
     public Item? FindItem(byte slot) => Items.FirstOrDefault(it => it.ItemSlot == slot);
 

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TWorld.Protocol\TWorld.Protocol.csproj" />
     <ProjectReference Include="..\TWorld.Data\TWorld.Data.csproj" />
+    <ProjectReference Include="..\..\FourDev.Mail\FourDev.Mail.csproj" />
   </ItemGroup>
 
 </Project>

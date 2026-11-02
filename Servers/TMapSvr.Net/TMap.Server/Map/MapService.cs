@@ -41,6 +41,11 @@ public sealed partial class MapService
         _gameDb = gameDb;
         _entryStore = entryStore ?? gameDb;
         PostStore = gameDb;
+        OperatorPostStore = gameDb;
+        QuestPostStore = gameDb;
+        TerritoryOccupationStore = gameDb;
+        QuestProgressStore = gameDb;
+        CharacterAuxiliaryStore = gameDb;
         PetStore = gameDb;
         CompanionStore = gameDb;
         GuildSkillStore = gameDb;
@@ -77,9 +82,20 @@ public sealed partial class MapService
         return ValueTask.CompletedTask;
     }
 
+    public async Task OnClientDisconnectAsync(ClientSession session)
+    {
+        if (!session.IsControl && session.IsMain && session.State == EnterState.InGame && session.Char is { } ch)
+            CheckQuest(session, 0, ch.PosX, ch.PosY, ch.PosZ, ch.MapId, QttMapId, 11 /*TT_LEAVEMAP*/, 1);
+        await FlushTerritoryWritesAsync();
+        await FlushQuestPostsAsync(); // children must be included in the logout snapshot below
+        FlushQuestCheckpoints(except: session.Char);
+        OnClientDisconnect(session);
+    }
+
     public void OnClientDisconnect(ClientSession session)
     {
         if (session.IsControl) { if (_control == session) _control = null; return; }        // the control server's link (MapService.Gm.cs)
+        CancelDealOnLeave(session);
         // Broadcast the leave to neighbours before de-registering.
         var watching = new List<Monster>();
         if (session.State == EnterState.InGame && session.Char is not null)
@@ -117,6 +133,8 @@ public sealed partial class MapService
     public async Task DispatchClientAsync(ClientSession session, byte[] packet)
     {
         var r = new PacketReader(packet);
+        using var questResponses = r.Id is Msg.CS_QUESTEXEC_REQ or Msg.CS_QUESTDROP_REQ
+            ? session.DeferResponses() : null;
         try
         {
             if (session.IsControl) { DispatchControl(session, r); return; }                     // the admin tool's link (MapService.Gm.cs)
@@ -146,7 +164,7 @@ public sealed partial class MapService
                 case Msg.CS_POSTDEL_REQ: await OnCS_POSTDEL_REQ(session, r); break;
                 case Msg.CS_POSTGETITEM_REQ: await OnCS_POSTGETITEM_REQ(session, r); break;
                 case Msg.CS_POSTRETURN_REQ: await OnCS_POSTRETURN_REQ(session, r); break;
-                case Msg.CS_CONREADY_REQ: OnCS_CONREADY_REQ(session, r); break;
+                case Msg.CS_CONREADY_REQ: await OnCS_CONREADY_REQ(session, r); break;
                 case Msg.CS_HOTKEYADD_REQ: OnCS_HOTKEYADD_REQ(session, r); break;
                 case Msg.CS_INVENADD_REQ: OnCS_INVENADD_REQ(session, r); break;
                 case Msg.CS_ITEMUPGRADE_REQ: OnCS_ITEMUPGRADE_REQ(session, r); break;
@@ -165,6 +183,7 @@ public sealed partial class MapService
                 case Msg.CS_DELETESADDLE_REQ: await OnCS_DELETESADDLE_REQ(session, r); break;
                 case Msg.CS_DELRECALLMON_REQ: OnCS_DELRECALLMON_REQ(session, r); break;
                 case Msg.CS_CHGMODERECALLMON_REQ: OnCS_CHGMODERECALLMON_REQ(session, r); break;
+                case Msg.CS_OTHERSELF_REQ: OnCS_OTHERSELF_REQ(session, r); break;
                 case Msg.CS_CREATECOMPANION_REQ: OnCS_CREATECOMPANION_REQ(session, r); break;
                 case Msg.CS_DELETECOMPANION_REQ: await OnCS_DELETECOMPANION_REQ(session, r); break;
                 case Msg.CS_COMPANIONRECALL_REQ: OnCS_COMPANIONRECALL_REQ(session, r); break;
@@ -356,7 +375,7 @@ public sealed partial class MapService
                 case Msg.CS_LEAVEAB_REQ: OnAggroBoundReq(session, r, AiTrigger.LeaveAb); break;
                 case Msg.CS_CHARSTATINFO_REQ: OnCS_CHARSTATINFO_REQ(session, r); break;
                 case Msg.CS_MOVEITEM_REQ: OnCS_MOVEITEM_REQ(session, r); break;
-                case Msg.CS_ITEMUSE_REQ: OnCS_ITEMUSE_REQ(session, r); break;
+                case Msg.CS_ITEMUSE_REQ: await OnCS_ITEMUSE_REQ(session, r); break;
                 case Msg.CS_DURATIONREP_REQ: OnCS_DURATIONREP_REQ(session, r); break;
                 case Msg.CS_MONMOVE_REQ: OnCS_MONMOVE_REQ(session, r); break;
                 case Msg.CS_ACTION_REQ: OnCS_ACTION_REQ(session, r); break;
@@ -411,6 +430,21 @@ public sealed partial class MapService
         catch (Exception ex)
         {
             _log.LogError(ex, "Client handler 0x{Id:X4} failed.", r.Id);
+        }
+        try
+        {
+            await FlushTerritoryWritesAsync();
+            await FlushQuestPostsAsync();
+            FlushQuestCheckpoints();
+        }
+        catch
+        {
+            if (questResponses is not null)
+            {
+                questResponses.Discard(); session.EntryValidated = false;
+                session.State = EnterState.Entering; session.Conn.Close();
+            }
+            throw;
         }
     }
 
@@ -588,6 +622,7 @@ public sealed partial class MapService
                 case Msg.MW_SPOLECNIKMONDEL_REQ: OnMW_SPOLECNIKMONDEL_REQ(r); break;
                 case Msg.MW_RECALLMONDATA_REQ: break;   // cross-server summon handoff — never sent to a single map server
                 case Msg.MW_GETBLOOD_REQ: OnMW_GETBLOOD_REQ(r); break;
+                case Msg.MW_MONSTERDIE_REQ: OnMW_MONSTERDIE_REQ(r); break;
                 case Msg.MW_CHGPARTYCHIEF_REQ: OnMW_CHGPARTYCHIEF_REQ(r); break;
                 case Msg.MW_CHGPARTYTYPE_REQ: OnMW_CHGPARTYTYPE_REQ(r); break;
                 case Msg.MW_PARTYMANSTAT_REQ: OnMW_PARTYMANSTAT_REQ(r); break;
@@ -606,6 +641,9 @@ public sealed partial class MapService
         {
             _log.LogError(ex, "World handler 0x{Id:X4} failed.", r.Id);
         }
+        await FlushTerritoryWritesAsync();
+        await FlushQuestPostsAsync();
+        FlushQuestCheckpoints();
     }
 
     // ---- world link lifecycle ----
@@ -633,10 +671,11 @@ public sealed partial class MapService
     {
         _tickSeconds++;
         NowMs = unchecked((uint)(_tickSeconds * 1000L)); // advance the map ms clock (skill cooldowns)
-        RunDbResults();                        // the database's answers, applied here (MapService.Fort.cs)
+        RunDbResults();                        // deferred guild-board DB callbacks, applied on the actor
         RunGodBallCmds();                      // the castle wars' god ball commands and power race (MapService.Castle.cs)
         RunMonsterRegen(_tickSeconds * 1000L); // monster spawn/respawn regen (map clock in ms)
         RunMaintainSkills(NowMs);              // expire ended buffs/debuffs (C++ CheckMaintainSkill, before Recover)
+        RunQuestTimers();                      // quest deadlines are authoritative even without a client notification
         RunSwitchReverts(NowMs);               // auto-revert duration-limited switches (C++ m_vTSWITCHOBJ sweep)
         RunRecover(NowMs);                     // HP/MP regeneration (players + monsters)
         RunAftermath(NowMs);                   // one step of death-penalty recovery when due (CTPlayer::OnTimer)
@@ -651,12 +690,15 @@ public sealed partial class MapService
         RunPeriodicSaves(NowMs);               // 30-min per-char DB save (no-op DB-free); off-thread write
         FlushItemDirect();                     // incremental item persistence (TSaveItemDirect); off-thread write
         await RunPostBills();                  // unpaid bills past 3 days go back to their sender
+        await RetryWelcomeMailAsync();         // SQL-only first-entry gifts, including interrupted dispatch
         await RunAuctionEnds();                // auctions whose time is up (MapService.Auction.cs)
         ArenaTick();                           // the arenas' ready and battle clocks (MapService.Arena.cs)
         TournamentTick();                      // the tournament's countdowns and drawn matches (MapService.TournamentMatch.cs)
         HelpMessageTick();                     // the event help message on and off (MapService.Gm.cs)
         MeetingRoomTick();
         RunDuels();                            // duel standby → start → timeout → clear (the SM_DUEL* timer)
-        // Still deferred here: war timers — see PORT_STATUS.md.
+        await FlushTerritoryWritesAsync();
+        await FlushQuestPostsAsync();
+        FlushQuestCheckpoints();
     }
 }

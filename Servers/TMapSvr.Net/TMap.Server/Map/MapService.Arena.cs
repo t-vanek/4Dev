@@ -40,6 +40,7 @@ public sealed partial class MapService
         public byte Status;
         public long Tick;
         public byte WinCount, DrawCount, MaxWinCount;
+        public readonly byte[] RoundWins = new byte[2];
         public ushort WinPartyId;
         public readonly List<(string Name, byte Level, byte Class)> TopPlayers = new();
         public readonly List<List<ClientSession>> Queue = new();
@@ -52,7 +53,8 @@ public sealed partial class MapService
     {
         _arenas.Clear();
         foreach (var row in _templates.Arenas)
-            if (_templates.SpawnPositions.TryGetValue(row.InPos, out var inPos) && OwnsMap(inPos.MapId)
+            if ((!row.QuestMatch || row.Type is 3 or 5)
+                && _templates.SpawnPositions.TryGetValue(row.InPos, out var inPos) && OwnsMap(inPos.MapId)
                 && _templates.SpawnPositions.TryGetValue(row.OutPos, out var outPos))
                 _arenas[row.Id] = new Arena { Row = row, In = inPos, Out = outPos };
     }
@@ -89,7 +91,8 @@ public sealed partial class MapService
     private static void SendArenaCountdown(ClientSession s, Arena a, uint seconds)
     {
         var w = new PacketWriter(Msg.CS_SYSTEMMSG_ACK);
-        w.WriteByte(SmArenaCountdown); w.WriteUInt16(a.Row.Id); w.WriteUInt32(seconds); w.WriteByte(a.Status); w.WriteByte(a.WinCount);
+        w.WriteByte(SmArenaCountdown); w.WriteUInt16(a.Row.Id); w.WriteUInt32(seconds); w.WriteByte(a.Status);
+        w.WriteByte(a.Row.QuestMatch ? Math.Max(a.RoundWins[0], a.RoundWins[1]) : a.WinCount);
         s.Send(w);
     }
 
@@ -130,6 +133,15 @@ public sealed partial class MapService
         }
     }
 
+    private bool ValidQuestArenaParty(Arena a, IReadOnlyList<ClientSession> party, ClientSession chief)
+    {
+        if (chief.Char is not { } leader || party.Count != a.Row.Type || !leader.UseMoney(a.Row.Fee, commit: false)) return false;
+        return party.All(p => p.IsMain && p.State == EnterState.InGame && !p.TeleportPending
+            && p.Channel == DefaultChannel && ReferenceEquals(_state.FindByChar(p.CharId), p)
+            && p.Char is { ArenaId: 0, TournamentBackup: null } c && c.MapId == leader.MapId
+            && c.GetPartyId() == leader.GetPartyId() && c.GetPartyChiefId() == leader.CharId);
+    }
+
     /// <summary>C++ <c>OnCS_ARENA_REQ</c> (CSHandler.cpp:17340): sign up (command 0) or give up a waiting arena (command 1).</summary>
     private void OnCS_ARENA_REQ(ClientSession s, PacketReader r)
     {
@@ -141,10 +153,13 @@ public sealed partial class MapService
 
         if (command != 0)
         {
-            if (_arenas.TryGetValue(arenaId, out var waiting) && waiting.Status == BsNormal) ArenaEnd(waiting, s);
+            if (_arenas.TryGetValue(arenaId, out var waiting) && waiting.Status == BsNormal
+                && (!waiting.Row.QuestMatch || (ch.ArenaId == arenaId && waiting.Fighters.Any(side => side.ContainsKey(ch.CharId)))))
+                ArenaEnd(waiting, s);
             return;
         }
         if (_state.FindNpc(npcId) is not { ArenaId: not 0 } npc || !_arenas.TryGetValue(npc.ArenaId, out var a)) { SendArenaAck(s, ArenaFail); return; }
+        if (a.Row.QuestMatch && !CanTalk(npc, ch)) { SendArenaAck(s, ArenaFail); return; }
         if (ch.ArenaId != 0) { SendArenaAck(s, ArenaFail); return; }
         if (!ch.UseMoney(a.Row.Fee, commit: false)) { SendArenaAck(s, ArenaMoney); return; }
 
@@ -152,7 +167,8 @@ public sealed partial class MapService
         var mapPlayers = _state.AllInGame().Where(p => p.Char is { } c && c.MapId == ch.MapId && p.Channel == s.Channel).ToList();
         var party = mapPlayers.Where(p => p.Char!.GetPartyId() != 0 && p.Char.GetPartyId() == ch.GetPartyId()).ToList();
         if (party.Count > a.Row.Type) { SendArenaAck(s, ArenaMaxParty); return; }
-        if (party.Count < (byte)(a.Row.Type / 2.0f + 0.99f)) { SendArenaAck(s, ArenaMinParty); return; }
+        if (party.Count < (a.Row.QuestMatch ? a.Row.Type : (byte)(a.Row.Type / 2.0f + 0.99f))) { SendArenaAck(s, ArenaMinParty); return; }
+        if (a.Row.QuestMatch && !ValidQuestArenaParty(a, party, s)) { SendArenaAck(s, ArenaFail); return; }
 
         if (team == 0)                                                                         // both sides taken: the queue
         {
@@ -164,8 +180,9 @@ public sealed partial class MapService
         SendArenaJoinToWorld(ch, s.Key, true, party.Select(p => p.CharId).ToList());
         ch.UseMoney(a.Row.Fee, commit: true);
         SendCS_MONEY_ACK(s, ch);
+        if (a.Row.QuestMatch) ScheduleQuestCheckpoint(ch);
         bool start = (a.Fighters[0].Count != 0 && team == 2) || (a.Fighters[1].Count != 0 && team == 1);
-        if (start) { a.Status = BsReady; a.Tick = NowMs; }
+        if (start) { a.Status = BsReady; a.Tick = NowMs; Array.Clear(a.RoundWins); }
         ArenaEnter(a, team, party, mapPlayers);
         if (start) foreach (var p in mapPlayers) SendArenaCountdown(p, a, ArenaReadySecs);
     }
@@ -197,7 +214,7 @@ public sealed partial class MapService
     private void ArenaLeave(ClientSession s, Character ch, bool teleport = true)
     {
         if (ch.ArenaId == 0 || ch.ArenaTeam == 0 || ArenaOf(ch) is not { } a) return;
-        if (a.Fighters[ch.ArenaTeam - 1].Count <= 2) { ArenaEnd(a, s); return; }
+        if (a.Row.QuestMatch || a.Fighters[ch.ArenaTeam - 1].Count <= 2) { ArenaEnd(a, s); return; }
         a.Fighters[ch.ArenaTeam - 1].Remove(ch.CharId);
         ch.ArenaId = 0;
         ch.ArenaTeam = 0;
@@ -244,6 +261,31 @@ public sealed partial class MapService
             {
                 win = f0 is { Char: { } c0 } && c0.GetPartyId() == a.WinPartyId ? f0 : f1;
                 lose = win == f0 ? f1 : f0;
+            }
+        }
+
+        if (a.Row.QuestMatch && a.Status == BsBattle && leaver is null
+            && win?.Char is { ArenaTeam: > 0 and <= 2 } roundWinner && lose is not null && win != lose)
+        {
+            int side = roundWinner.ArenaTeam - 1;
+            a.RoundWins[side]++;
+            if (a.RoundWins[side] < 2)
+            {
+                a.Status = BsReady; a.Tick = NowMs; a.DrawCount = 0;
+                foreach (var player in viewers) SendArenaCountdown(player, a, ArenaReadySecs);
+                return; // rounds have no fee mail or quest credit
+            }
+            foreach (var player in a.Fighters[side].Values.ToArray())
+            {
+                if (!player.IsMain || player.State != EnterState.InGame || player.Char is not { } winningCharacter) continue;
+                using var responses = player.DeferResponses();
+                try
+                {
+                    CheckQuest(player, 0, winningCharacter.PosX, winningCharacter.PosY, winningCharacter.PosZ,
+                        a.Row.Type == 3 ? 1u : 2u, QttBattleArena, 0, 1);
+                    FlushQuestCheckpoints();
+                }
+                catch { responses.Discard(); throw; }
             }
         }
 
@@ -295,15 +337,24 @@ public sealed partial class MapService
         {
             byte team = a.Fighters[0].Count == 0 ? (byte)1 : a.Fighters[1].Count == 0 ? (byte)2 : (byte)0;
             if (team == 0) return;
-            var next = a.Queue[0];
-            a.Queue.RemoveAt(0);
-            var chief = next.FirstOrDefault(p => p.Char is { } c && c.GetPartyChiefId() == c.CharId);
+            List<ClientSession> next;
+            ClientSession? chief;
+            do
+            {
+                next = a.Queue[0]; a.Queue.RemoveAt(0);
+                chief = next.FirstOrDefault(p => p.Char is { } c && c.GetPartyChiefId() == c.CharId);
+                if (!a.Row.QuestMatch || (chief is not null && ValidQuestArenaParty(a, next, chief))) break;
+                next = new(); chief = null;
+            } while (a.Queue.Count != 0);
             if (chief?.Char is not { } cc || FindPlayer(cc.CharId, chief.Key) is null) return;
             cc.UseMoney(a.Row.Fee, commit: true);
             SendCS_MONEY_ACK(chief, cc);
+            if (a.Row.QuestMatch) ScheduleQuestCheckpoint(cc);
             bool start = (a.Fighters[0].Count != 0 && team == 2) || (a.Fighters[1].Count != 0 && team == 1);
-            if (start) { a.Status = BsReady; a.Tick = NowMs; }
-            var party = viewers.Where(p => p.Char is { } c && c.GetPartyId() != 0 && c.GetPartyId() == cc.GetPartyId()).ToList();
+            if (start) { a.Status = BsReady; a.Tick = NowMs; Array.Clear(a.RoundWins); }
+            // A queued member can be outside the arena's view cells, just as on initial admission.
+            var party = a.Row.QuestMatch ? next
+                : viewers.Where(p => p.Char is { } c && c.GetPartyId() != 0 && c.GetPartyId() == cc.GetPartyId()).ToList();
             ArenaEnter(a, team, party, viewers);
             SendArenaJoinToWorld(cc, chief.Key, true, next.Select(p => p.CharId).ToList());
         }

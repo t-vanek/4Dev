@@ -1,3 +1,4 @@
+using TWorld.Data;
 using TWorld.Protocol;
 using TWorld.Server.World;
 using Xunit;
@@ -8,6 +9,68 @@ namespace TWorld.Server.Tests;
 /// guild stat-exp and fans the new ownership out to every connected map. No DB.</summary>
 public class CastleTests
 {
+    private sealed class HeldApplicantStore(bool fail) : ICastleApplicantStore
+    {
+        public TaskCompletionSource Entered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public TaskCompletionSource Release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public (ushort Castle, uint Char, byte Camp) Saved;
+        public int Calls;
+        public async Task SaveCastleApplicantAsync(ushort castle, uint charId, byte camp, CancellationToken ct = default)
+        {
+            Saved = (castle, charId, camp); Calls++; Entered.TrySetResult();
+            await Release.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            if (fail) throw new IOException("injected applicant SQL failure");
+        }
+    }
+
+    [Theory]
+    [InlineData(0, false, false)] [InlineData(0, false, true)]
+    [InlineData(0, true, false)] [InlineData(0, true, true)]
+    [InlineData(1, false, false)] [InlineData(1, false, true)]
+    [InlineData(1, true, false)] [InlineData(1, true, true)]
+    [InlineData(2, false, false)] [InlineData(2, false, true)]
+    [InlineData(2, true, false)] [InlineData(2, true, true)]
+    public async Task ApplicantAssignmentWithdrawalAndMoveWaitForSql(int operation, bool tactics, bool fail)
+    {
+        await using var host = new WorldTestHost(); using var client = await host.ConnectAsync();
+        Connect(client); EnterChar(client, 30, 11); EnterChar(client, 31, 22);
+        var guild = SetupGuild(host, 10, 30, 31);
+        ushort previous = operation == 0 ? (ushort)0 : (ushort)200;
+        var member = guild.Members[31]; member.Castle = previous; member.Camp = previous == 0 ? (byte)0 : (byte)1;
+        var mercenary = new TacticsMember { CharId = 31, OnlineChar = member.OnlineChar, Castle = member.Castle, Camp = member.Camp };
+        if (tactics) { guild.Members.Remove(31); guild.Tactics[31] = mercenary; }
+        (ushort Castle, byte Camp) Current() => tactics ? (mercenary.Castle, mercenary.Camp) : (member.Castle, member.Camp);
+        var before = Current();
+        var store = new HeldApplicantStore(fail); host.Service.CastleApplicantStore = store;
+        ushort requested = operation == 2 ? (ushort)201 : (ushort)200;
+        ushort expected = operation == 1 ? (ushort)0 : requested;
+        byte expectedCamp = expected == 0 ? (byte)0 : (byte)1;
+        client.Send(new PacketWriter(Msg.MW_CASTLEAPPLY_ACK).WriteUInt32(30).WriteUInt32(11)
+            .WriteUInt16(requested).WriteUInt32(31).WriteByte(1));
+        await store.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        try
+        {
+            Assert.Equal(before, Current());
+            Assert.Throws<IOException>(() => client.Receive(TimeSpan.FromMilliseconds(100)));
+        }
+        finally { store.Release.TrySetResult(); }
+        // This packet is processed after the applicant operation and proves the actor survives SQL failure.
+        client.Send(new PacketWriter(Msg.MW_ENDWAR_ACK).WriteUInt16(999));
+        if (!fail)
+        {
+            var chief = client.Receive(TimeSpan.FromSeconds(5)); Assert.Equal(Msg.MW_CASTLEAPPLY_REQ, chief.Id);
+            Assert.Equal(30u, chief.ReadUInt32()); Assert.Equal(11u, chief.ReadUInt32()); Assert.Equal(0, chief.ReadByte());
+            Assert.Equal(expected, chief.ReadUInt16()); Assert.Equal(31u, chief.ReadUInt32()); Assert.Equal(expectedCamp, chief.ReadByte());
+            Assert.Equal(0, chief.Remaining);
+            Assert.Equal(Msg.MW_CASTLEAPPLY_REQ, client.Receive(TimeSpan.FromSeconds(5)).Id);
+            int counts = (previous != 0 ? 1 : 0) + (expected != 0 ? 1 : 0);
+            for (int i = 0; i < counts; i++) Assert.Equal(Msg.MW_CASTLEAPPLICANTCOUNT_REQ, client.Receive(TimeSpan.FromSeconds(5)).Id);
+        }
+        Assert.Equal(Msg.MW_ENDWAR_REQ, client.Receive(TimeSpan.FromSeconds(5)).Id);
+        Assert.Equal(fail ? before : (expected, expectedCamp), Current());
+        Assert.Equal((expected, 31u, expectedCamp), store.Saved); Assert.Equal(1, store.Calls);
+    }
+
     private const byte ServerId = 1, ServerType = 4;
     private static ushort WId => (ushort)((ServerType << 8) | ServerId);
 

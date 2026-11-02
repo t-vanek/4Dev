@@ -31,9 +31,8 @@ namespace TMap.Server.Map;
 /// </list>
 /// <para><b>Fixed C++ bug:</b> <c>ResetLocal</c> marks the fort taken (<c>m_bOccupied</c>) after every result, and only the next
 /// peace cleared it — so every other war of a fort that was held ended without its <c>OCCUPY_DEFEND</c> result. It is now cleared
-/// when a war starts. <b>Deviations:</b> the proc's answer comes back on the next timer tick (the C++ posts it to its batch
-/// thread); the stat-exp change is not sent
-/// to the world's guild info (guilds are not ported).</para>
+/// when a war starts. SQL results are awaited through the shared DB lane and applied on the map actor;
+/// stat-exp changes refresh the existing guild-info relay and schedule a SQL character checkpoint.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -45,7 +44,7 @@ public sealed partial class MapService
     private const byte GuildDutyChief = 2;
     private const int LocalOccupyStatExp = 1000, UnitSize = 1024, LoccupyInternal = 1;
 
-    /// <summary>What the database answered, to be applied on the map's own thread (C++ <c>SayToBATCH</c>).</summary>
+    // GuildBoard also uses this actor callback queue. Territory results now use FlushTerritoryWritesAsync.
     private readonly ConcurrentQueue<Action> _dbResults = new();
 
     private void RunDbResults()
@@ -127,18 +126,16 @@ public sealed partial class MapService
     /// choice is made here.</summary>
     private void LocalOccupy(Territory t, byte type, uint guildId, uint charId)
     {
-        if (_gameDb is not { } db)
+        if (TerritoryOccupationStore is not { } db)
         {
             var (country, guild) = LocalOccupyOwner(t, type, guildId, charId);
             OnLocalOccupied(t, 0, type, country, guild);
             return;
         }
-        _ = Task.Run(async () =>
+        QueueTerritoryWrite(t, async () =>
         {
-            (int ret, byte country, uint guild) result;
-            try { result = await db.SaveLocalOccupyAsync(t.Id, type, guildId, charId); }
-            catch (Exception ex) { _log.LogWarning(ex, "TSaveLocalOccupy failed for fort {Id}.", t.Id); result = (LoccupyInternal, 0, 0); }
-            _dbResults.Enqueue(() => OnLocalOccupied(t, result.ret, type, result.country, result.guild));
+            var result = await SaveTerritoryResultAsync(() => db.SaveLocalOccupyAsync(t.Id, type, guildId, charId));
+            OnLocalOccupied(t, result.Ret, type, result.Country, result.Guild);
         });
     }
 
@@ -188,11 +185,14 @@ public sealed partial class MapService
 
     /// <summary>C++ <c>CTPlayer::IncreaseStatExp</c> (TPlayer.cpp:7808): past the level's need (level × 1200) the stat level goes
     /// up with a point, and the exp starts over.</summary>
-    private static void IncreaseStatExp(Character ch, ushort inc)
+    private void IncreaseStatExp(Character ch, ushort inc)
     {
         var p = ch.Persist;
         if (p.StatExp + inc > p.StatLevel * 1200u) { p.StatLevel++; p.StatPoint++; p.StatExp = 0; }
         else p.StatExp += inc;
+        ScheduleQuestCheckpoint(ch); // the shared SQL character snapshot also owns war stat rewards
+        if (_state.FindByChar(ch.CharId) is { IsMain: true } s && ReferenceEquals(s.Char, ch))
+            SendToWorld(Msg.MW_GUILDINFO_ACK, s); // native IncreaseStatExp refreshes the client's guild/stat window
     }
 
     /// <summary>C++ <c>OnMW_LOCALOCCUPY_REQ</c> (SSHandler.cpp:11399): the news of a capture, the new owner, and every player told.</summary>

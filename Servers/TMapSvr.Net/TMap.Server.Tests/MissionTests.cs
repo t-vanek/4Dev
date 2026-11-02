@@ -147,4 +147,27 @@ public class MissionTests
 
         Assert.Equal((byte)26 /* SM_MISSION_TIMEOUT */, new PacketReader(ca.Last(Msg.CS_SYSTEMMSG_ACK)!).ReadByte());
     }
+
+    [Theory]
+    [InlineData(0)] [InlineData(1)] [InlineData(-1)]
+    public async Task CaptureWaitsForSqlAndPaysOnlyAConfirmedResult(int result)
+    {
+        var (h, a, _, _, _) = await Setup();
+        var store = new HeldTerritoryStore(result); h.Service.TerritoryOccupationStore = store;
+        await h.Service.DispatchWorldAsync(MissionEnable(1));
+        var save = Kill(h, a, Live(h, GateD)!);
+        await store.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        try
+        {
+            Assert.Null(h.World.Last(Msg.MW_MISSIONOCCUPY_ACK));
+            Assert.Equal(N, h.Service.Territories[Mission].Country);
+            Assert.Equal(0u, a.Char!.PvpUseablePoint);
+        }
+        finally { store.Release.TrySetResult(); }
+        await save;
+        Assert.Equal(1, store.Calls); Assert.Equal(Mission, store.Territory);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_MISSIONOCCUPY_ACK) is not null);
+        Assert.Equal(result == 0 ? 200u : 0u, a.Char!.PvpUseablePoint);
+        Assert.Equal(result == 0 ? C : N, h.Service.Territories[Mission].Country);
+    }
 }

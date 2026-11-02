@@ -1,4 +1,5 @@
 using TMap.Protocol;
+using TMap.Data;
 
 namespace TMap.Server.Map;
 
@@ -55,12 +56,14 @@ public sealed partial class MapService
                 srcInv.Items.Remove(srcItem);
                 SendCS_DELITEM_ACK(s, src, srcItem);
             }
+            PlayerCheckQuest(s, ch, srcItem.TemplateId, QttGetItem, 0, 0);
             SendCS_MOVEITEM_ACK(s, MoveItemResult.Success);
             return;
         }
 
         var dstInv = ch.FindInven(dst);
         if (dstInv is null) { SendCS_MOVEITEM_ACK(s, MoveItemResult.NoDestInven); return; }
+        if (dst != Proto.InvenEquip && !dstInv.ContainsSlot(dstSlot)) { SendCS_MOVEITEM_ACK(s, MoveItemResult.InvenFull); return; }
         if (src == dst && srcSlot == dstSlot) { SendCS_MOVEITEM_ACK(s, MoveItemResult.SamePos); return; }
 
         bool dstEquip = dst == Proto.InvenEquip;
@@ -412,7 +415,7 @@ public sealed partial class MapService
     /// <c>IU_FULL</c> and no consume. Non-HP/MP kinds, the server-side cooldown, targeted/buff items, the
     /// deal/store/riding/secure guards and the tournament map are deferred (documented — PORT_STATUS.md).
     /// </summary>
-    private void OnCS_ITEMUSE_REQ(ClientSession s, PacketReader r)
+    private async Task OnCS_ITEMUSE_REQ(ClientSession s, PacketReader r)
     {
         if (s.State != EnterState.InGame || s.Char is not { } ch) return;
 
@@ -473,6 +476,7 @@ public sealed partial class MapService
         if (item.Template is { Type: ItActItems } act) { PlayActItem(s, ch, act); return; }
 
         uint heal = item.Template?.UseValue ?? 0u;
+        ItemTemplate? cashBonus = null;
         bool used;
         if (kind is IkHp or IkMaxHp)
         {
@@ -512,7 +516,7 @@ public sealed partial class MapService
         else if (kind == IkGainExp) { GainExp(s, ch, item.Template?.SpeedInc ?? 0); used = true; }
         else if (kind == IkMoney && item.Template is { } mt) { OpenMoneyPouch(s, ch, mt); used = true; }
         else if (kind == IkSpecialBox && item.Template is { } bt) used = OpenSpecialBox(s, ch, bt);
-        else if (kind == IkCash && item.Template is { } ct) { _ = GainCashBonus(s, ch, ct); used = true; }   // MapService.CashShop.cs
+        else if (kind == IkCash && item.Template is { } ct) { cashBonus = ct; used = true; }
         else if (kind == IkAp || item.Template?.Type == ItUse) used = true;   // C++ default: just used up
         else
         {
@@ -539,6 +543,9 @@ public sealed partial class MapService
 
         SendCS_ITEMUSE_ACK(s, ItemUseResult.Success, delayGroup, kind, delay);
         CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, tempId, QttUseItem, TtUseItem, 1);
+        // Queue the consumed item before the cash procedure, and finish its callback on the batch task.
+        // Fire-and-forget let this work outlive dispatch/logout and flush the pre-consumption item state.
+        if (cashBonus is not null) await GainCashBonus(s, ch, cashBonus);
     }
 
     /// <summary>C++ <c>SendCS_HPMP_ACK</c> broadcast to the 3×3 view (incl. self): the actor's id + type +

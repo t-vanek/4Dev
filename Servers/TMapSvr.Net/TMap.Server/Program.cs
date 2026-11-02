@@ -1,5 +1,6 @@
 using Serilog;
 using TMap.Server;
+using FourDev.Mail;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddSerilog((services, lc) => lc
     .WriteTo.Console());
 
 builder.Services.Configure<MapServerOptions>(builder.Configuration.GetSection("Map"));
+builder.AddGameMail(builder.Configuration["Map:Db:GameConnectionString"], builder.Configuration["Map:Db:GlobalConnectionString"], world: false);
 builder.Services.AddHostedService<MapWorker>();
 builder.Services.AddHostedService<FourDev.Hosting.ManagedProcessLifetime>();
 

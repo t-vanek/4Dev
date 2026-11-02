@@ -71,6 +71,10 @@ public sealed partial class MapService
         var ack = w.ToArray();
         // MOVE broadcasts to the 3×3 EXCLUDING self (C++ CSHandler has the `pChar->m_dwID != pPlayer->m_dwID` guard).
         foreach (var other in _state.Neighbors(s)) other.Send(ack);
+        if (s.IsMain)
+            foreach (var q in TriggerQuests(2 /*TT_POSITION*/, ch.MapId).ToList())
+                if (CanRunQuest(ch, q, out _) == QctNone)
+                    ExecQuest(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ);
     }
 
     private void OnCS_JUMP_REQ(ClientSession s, PacketReader r)

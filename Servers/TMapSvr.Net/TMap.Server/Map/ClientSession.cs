@@ -43,6 +43,8 @@ public sealed class ClientSession
     /// <summary>True once this map is the char's "main" server for the CHECKMAIN handshake.</summary>
     public bool IsMain { get; set; }
     public bool EntryValidated { get; set; }
+    internal bool WelcomeMailChecked { get; set; }
+    internal bool QuestPostRecoveryFailed { get; set; }
     /// <summary>A world-coordinated teleport is waiting for STARTTELEPORT / CONRESULT / client CONREADY.
     /// Prevents overlapping moves and gameplay packets while the client is loading its destination.</summary>
     public bool TeleportPending { get; internal set; }
@@ -74,6 +76,30 @@ public sealed class ClientSession
     /// Maintained by <see cref="MapGrid"/> so membership never desyncs from position.</summary>
     public uint CellKey { get; set; }
 
-    public void Send(PacketWriter w) => Conn.Send(w);
-    public void Send(byte[] packet) => Conn.Send(packet);
+    private ResponseBatch? _responses;
+    internal ResponseBatch DeferResponses() => new(this);
+    internal sealed class ResponseBatch : IDisposable
+    {
+        private readonly ClientSession _owner;
+        private readonly ResponseBatch? _parent;
+        internal readonly List<byte[]> Packets = new();
+        private bool _discard;
+        internal ResponseBatch(ClientSession owner) { _owner = owner; _parent = owner._responses; owner._responses = this; }
+        internal void Discard() => _discard = true;
+        public void Dispose()
+        {
+            _owner._responses = _parent;
+            if (!_discard) foreach (var packet in Packets) _owner.Send(packet);
+        }
+    }
+    public void Send(PacketWriter w)
+    {
+        if (_responses is { } batch) batch.Packets.Add(w.ToArray());
+        else Conn.Send(w);
+    }
+    public void Send(byte[] packet)
+    {
+        if (_responses is { } batch) batch.Packets.Add((byte[])packet.Clone());
+        else Conn.Send(packet);
+    }
 }

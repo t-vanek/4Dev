@@ -112,7 +112,8 @@ public sealed partial class MapService
     /// (the monster's 3×3 neighborhood whose effective party id equals the keeper party) share the exp — the
     /// party-size bonus scales the pool, which is split by member level, then each is level-gap-scaled and
     /// awarded with its <c>wBonus</c> (MapService.DuringItem.cs), its soulmate among them getting a tenth more
-    /// (<see cref="CheckSoulExp"/>). Cross-map members (<c>SendMW_MONSTERDIE_ACK</c>) are deferred (documented).</summary>
+    /// (<see cref="CheckSoulExp"/>). A secondary copy relays the base share and hunt event through World
+    /// to the character's main; it must not mutate EXP or quest state locally.</summary>
     private void AwardPartyKill(Monster mon, uint getExp)
     {
         var members = _state.PlayersAround(mon)
@@ -126,21 +127,32 @@ public sealed partial class MapService
         float bonus = 1.0f + 0.01f * ((n * n) / 2.0f + n - 1.5f);         // 1 + 0.01·(n²/2 + n − 1.5); n=1 ⇒ 1.0
         uint totalExp = (uint)((float)getExp * bonus);
 
+        // Native startup marks kill-triggered Regen quests with MONID terms as party-once.
+        bool partyOnce = TriggerQuests(TtKillMon, mon.ChartId)
+            .Any(q => q.Type == (byte)QuestType.Regen && q.Terms.Any(t => t.TermType == QttMonId));
+        if (partyOnce) members.Sort((a, b) => a.CharId.CompareTo(b.CharId));
+        bool checkedQuest = false;
         foreach (var ks in members)
         {
             var m = ks.Char!;
             uint shared = totalExp * m.Level / totalLevel;                // integer level-weighted split
-            uint gain = WithExpBonus(m, (uint)((double)((float)shared * LevelRate(m.Level, mon.Level)) + 0.99));
+            uint gain = (uint)((double)((float)shared * LevelRate(m.Level, mon.Level)) + 0.99);
+            if (!ks.IsMain)
+            {
+                SendMonsterReward(ks, mon, gain);
+                continue;
+            }
+            gain = WithExpBonus(m, gain);
             CheckSoulExp(members, m, gain);                               // MapService.Soulmate.cs
             GainExp(ks, m, gain);
-            HuntQuest(ks, m, mon);                                        // C++ fires the hunt quest per member
+            if (!partyOnce || !checkedQuest) HuntQuest(ks, m, mon);
+            checkedQuest = true;
         }
     }
 
-    /// <summary>Advance/trigger the killer's hunt quests (C++ <c>CheckQuest TT_KILLMON</c>, keyed by monster
-    /// chart id). The QTT_SPAWNID_DEL monster-instance proximity nuance is deferred.</summary>
+    /// <summary>Advance/trigger hunt quests with the monster's wKind and kill position.</summary>
     private void HuntQuest(ClientSession s, Character ch, Monster mon)
-        => CheckQuest(s, mon.Id, ch.PosX, ch.PosY, ch.PosZ, mon.ChartId, QttHunt, TtKillMon, 1);
+        => CheckQuest(s, mon.Id, mon.PosX, mon.PosY, mon.PosZ, MonsterHuntTerm(mon), QttHunt, TtKillMon, 1);
 
     /// <summary>C++ <c>CTObjBase::GetMonExpRate</c> (TObjBase.cpp:4947, non-Korea): <c>64 − min(39, level)·9/39</c>
     /// percent (integer) — 64% at level 0 sliding to 55% at level ≥39.</summary>
@@ -152,8 +164,8 @@ public sealed partial class MapService
         => (float)(1 - Math.Min(Math.Max(playerLevel - monLevel, 0), 10) * 0.1);
 
     /// <summary>C++ <c>CTPlayer::GainExp</c> (TPlayer.cpp:1094) — add exp, level up across as many levels as the
-    /// exp covers (full heal + skill points), broadcast the changes. The vital/soul/premium bonuses and the
-    /// quest / map-level-kick hooks are deferred (0 / no-op). A zero gain is a no-op (we skip the C++ 0-exp
+    /// exp covers (full heal + skill points), broadcast the changes and fire level-quest hooks. Callers apply
+    /// their appropriate reward bonuses. A zero gain is a no-op (we skip the C++ 0-exp
     /// <c>CS_EXP_ACK</c> to avoid a packet on every loot-less kill).</summary>
     private void GainExp(ClientSession s, Character ch, uint gain)
     {
@@ -181,6 +193,11 @@ public sealed partial class MapService
             BroadcastHpMp(s, ch);
             SendCS_CHARSTATINFO_ACK(s, ch);
             SendMW_LEVELUP_ACK(s, ch);  // the world's level (guild, party, soulmate) — MapService.Soulmate.cs
+            // Native GainExp iterates from the previous-level chart through newLevel-1 (TPlayer.cpp:1198).
+            // Keep those chart keys; changing them would shift the loaded reward schedule.
+            if (s.IsMain)
+                for (int i = Math.Max(0, oldLevel - 1); i < lvl; i++)
+                    CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, (uint)i, 0, 12 /*TT_LEVELUP*/, 1);
         }
         SendCS_EXP_ACK(s, ch);
     }
@@ -304,7 +321,7 @@ public sealed partial class MapService
     private void OnCS_MONMONEYTAKE_REQ(ClientSession s, PacketReader r)
     {
         uint monId = r.ReadUInt32();
-        if (!s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
             || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
         if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
         if (!CanLootKeeper(mon, ch) || !CanTakePartyLoot(mon, ch) || mon.CorpseMoney == 0) return;
@@ -347,7 +364,7 @@ public sealed partial class MapService
         r.ReadByte();                 // bInvenID (target bag — the free-slot allocator is used instead)
         r.ReadByte();                 // bSlotID
 
-        if (!s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon
             || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
         if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
         if (mon.CorpseInven.FindItem(itemId) is not { } item)
@@ -383,11 +400,21 @@ public sealed partial class MapService
         }
 
         mon.CorpseInven.Items.Remove(item);   // C++ EraseItem
-        PushTItem(s, one);                     // place into the taker's bags (+ CS_ADDITEM/UPDATEITEM)
+        GrantMonsterItem(s, ch, item, 0);
         SendCS_GETITEM_ACK(s, item, ch.CharId);
         if (mon.KeeperType == OwnerParty) PartyMonItemTake(s, ch, item);
         SendCS_MONITEMLIST_ACK(s, mon, update: 1);
         SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Success);
+    }
+
+    // Local MonItemTake and the lottery receiver both fire GETITEM after the inventory mutation.
+    // Keep this separate from PushTItem: moving one's own items must not fire acquisition triggers.
+    private void GrantMonsterItem(ClientSession s, Character ch, Item item, uint questTarget)
+    {
+        ushort templateId = item.TemplateId;
+        byte count = item.Count;
+        PushTItem(s, new[] { item });
+        CheckQuest(s, questTarget, ch.PosX, ch.PosY, ch.PosZ, templateId, QttGetItem, TtGetItem, count);
     }
 
     /// <summary>C++ <c>PartyMonItemTake</c>: tell the looter's near party members what was taken.</summary>
@@ -465,7 +492,8 @@ public sealed partial class MapService
     private static void SendCS_GETITEM_ACK(ClientSession s, Item item, uint ownerCharId)
     {
         var w = new PacketWriter(Msg.CS_GETITEM_ACK, capacity: 48);
-        item.WrapPacketClient(w, ownerCharId);   // C++ SendCS_GETITEM_ACK: just the item block
+        // OnCS_GETITEM_ACK reads SetItemData/SetItemMagic directly, without SetItemSlot.
+        item.WrapPacketClient(w, ownerCharId, addItemId: false);
         s.Send(w);
     }
 

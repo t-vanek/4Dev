@@ -624,6 +624,8 @@ public static class Msg
     public const ushort CS_ADDSELFOBJ_ACK = CS_MAP + 0x00F4;        // a placed object (C++ CTSelfObj) comes into view
     public const ushort CS_DELSELFOBJ_ACK = CS_MAP + 0x00F5;        // dwObjID · bExitMap
     public const ushort CS_CHGMODERECALLMON_REQ = CS_MAP + 0x00E2;  // dwMonID · bMode
+    public const ushort CS_OTHERSELF_REQ = CS_MAP + 0x0137;       // dwHostID · dwMonID (doppelganger owner appearance)
+    public const ushort CS_OTHERSELF_ACK = CS_MAP + 0x0138;       // dwMonID · owner appearance · equipped items
     public const ushort MW_CREATERECALLMON_REQ = MW_BASE + 0x00B8;
     public const ushort MW_CREATERECALLMON_ACK = MW_BASE + 0x00B9;
     public const ushort MW_RECALLMONDEL_REQ = MW_BASE + 0x00BA;     // charId · key · monId · bForever
@@ -839,6 +841,8 @@ public static class Msg
     public const ushort MW_SOULMATEEND_REQ = MW_BASE + 0x010B;
     public const ushort MW_SOULMATEEND_ACK = MW_BASE + 0x010C;
     public const ushort MW_LEVELUP_ACK = MW_BASE + 0x0027;           // dwCharID, dwKey, bLevel
+    public const ushort MW_MONSTERDIE_REQ = MW_BASE + 0x0042;
+    public const ushort MW_MONSTERDIE_ACK = MW_BASE + 0x0043;
     public const ushort MW_GUILDESTABLISH_REQ = MW_BASE + 0x002A;
     public const ushort MW_GUILDESTABLISH_ACK = MW_BASE + 0x002B;
     public const ushort MW_GUILDDISORGANIZATION_REQ = MW_BASE + 0x002C;

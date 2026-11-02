@@ -27,7 +27,8 @@ internal static class SqlProc
 
     public static SqlParameter Ret() => new("@__ret", SqlDbType.Int) { Direction = ParameterDirection.Output };
 
-    public static async Task ExecAsync(SqlConnection c, string proc, SqlParameter? ret, IReadOnlyList<SqlParameter> args, CancellationToken ct)
+    public static async Task ExecAsync(SqlConnection c, string proc, SqlParameter? ret, IReadOnlyList<SqlParameter> args, CancellationToken ct,
+        SqlTransaction? transaction = null)
     {
         var sb = new StringBuilder("EXEC ");
         if (ret is not null) sb.Append("@__ret = ");
@@ -40,7 +41,7 @@ internal static class SqlProc
                 sb.Append(" OUTPUT");
         }
 
-        await using var cmd = new SqlCommand(sb.ToString(), c) { CommandType = CommandType.Text };
+        await using var cmd = new SqlCommand(sb.ToString(), c, transaction) { CommandType = CommandType.Text };
         if (ret is not null) cmd.Parameters.Add(ret);
         foreach (var p in args) cmd.Parameters.Add(p);
         await cmd.ExecuteNonQueryAsync(ct).ConfigureAwait(false);

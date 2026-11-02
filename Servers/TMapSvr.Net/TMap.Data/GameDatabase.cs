@@ -177,7 +177,7 @@ public sealed partial class GameDatabase
                  fPrice, bCanRepair, wDelayGroupID, bConsumable, bIsSell,
                  bGrade, bCanGrade, bCanMagic, bCanRare, bCanWrap, bCanColor, dwDuraMax, wUseTime, bUseType,
                  bItemCountry, fPvPrice, bEquipSkill, dwCode, bCanGamble, bGambleProb, bDestroyProb,
-                 bGroupID, bDropLevel, bInitState, wWeight, wItemProb_G, bUseItemKind, bUseItemCount FROM TITEMCHART";
+                 bGroupID, bDropLevel, bInitState, wWeight, wItemProb_G, bUseItemKind, bUseItemCount, bSlotCount FROM TITEMCHART";
     // The per-level chart (CTBLLevelChart): the repair-cost coefficient (m_dwRepairCost), dwEXP (the
     // level-up threshold) + bSkillPoint (granted per level), and dwMoney (the base price the item
     // buy/sell math scales by m_fPrice).
@@ -206,7 +206,7 @@ public sealed partial class GameDatabase
     // (multi-machine topology); this single-server port loads all rows and buckets them by (channel, map).
     private const string MonsterChartSql =
         @"SELECT wID, bLevel, wMonAttr, wExp, bMoneyProb, dwMinMoney, dwMaxMoney, bItemProb, bDropCount, bAIType, wSkill1, wSkill2, wSkill3, wSkill4, wChaseRange,
-                 bRecallType, wSummonAttr, bClass, bRace, bIsSelf, bCanSelect, bCanAttack, bTame FROM TMONSTERCHART";
+                 bRecallType, wSummonAttr, bClass, bRace, bIsSelf, bCanSelect, bCanAttack, bTame, wKind FROM TMONSTERCHART";
     private const string MountChartSql = @"SELECT wMountID, wDefMonID, wUpgMonID FROM TMOUNTCHART";
     private const string CompanionBonusChartSql = @"SELECT bBonusID, fBase, fLevelMultiplier FROM TCOMPANIONBONUSCHART";
     private const string CompanionRuneChartSql = @"SELECT wItemID, wMonID FROM TCOMPANIONRUNECHART";
@@ -331,7 +331,7 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                     ItemCountry: r.GetByteSafe(32), PvPrice: r.GetFloatSafe(33), EquipSkill: r.GetByteSafe(34), Code: r.GetUIntSafe(35),
                     CanGamble: r.GetByteSafe(36), GambleProb: r.GetByteSafe(37), DestroyProb: r.GetByteSafe(38),
                     GroupId: r.GetByteSafe(39), DropLevel: r.GetByteSafe(40), InitState: r.GetByteSafe(41), Weight: r.GetUShortSafe(42),
-                    ItemProbG: r.GetUShortSafe(43), UseItemKind: r.GetByteSafe(44), UseItemCount: r.GetByteSafe(45));
+                    ItemProbG: r.GetUShortSafe(43), UseItemKind: r.GetByteSafe(44), UseItemCount: r.GetByteSafe(45), SlotCount: r.GetByteSafe(46));
                 var t = store.Items[id];
                 if (t.DropLevel != 0)                                                        // C++ m_mapTMONITEM (TMapSvr.cpp:1983)
                 {
@@ -515,11 +515,15 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
         }
         catch (SqlException) { }
 
-        // C++ CTBLArena (DBAccess.h:4588)
-        await using (var cmd = new SqlCommand("SELECT wID, bType, wInPos, wOutPos, dwFee FROM TARENACHART", c))
+        // Old databases retain legacy matches; only the explicitly enabled reconstruction uses round wins.
+        bool questMatchColumn;
+        await using (var metadata = new SqlCommand("SELECT COL_LENGTH('dbo.TARENACHART','bQuestMatch')", c))
+            questMatchColumn = await metadata.ExecuteScalarAsync(ct) is not (null or DBNull);
+        await using (var cmd = new SqlCommand("SELECT wID, bType, wInPos, wOutPos, dwFee, "
+            + (questMatchColumn ? "bQuestMatch" : "CAST(0 AS bit)") + " FROM TARENACHART", c))
         await using (var r = await cmd.ExecuteReaderAsync(ct))
             while (await r.ReadAsync(ct))
-                store.Arenas.Add(new ArenaRow(r.GetUShortSafe(0), r.GetByteSafe(1), r.GetUIntSafe(4), r.GetUShortSafe(2), r.GetUShortSafe(3)));
+                store.Arenas.Add(new ArenaRow(r.GetUShortSafe(0), r.GetByteSafe(1), r.GetUIntSafe(4), r.GetUShortSafe(2), r.GetUShortSafe(3), r.GetBoolean(5)));
 
         // C++ CTBLRPSGame (DBAccess.h:4545)
         await using (var cmd = new SqlCommand(@"SELECT bType, bWinCount, wItemID, dwRewardMoney, wRewardItem_1, wRewardItem_2, bItemCount_1,
@@ -734,7 +738,7 @@ SELECT wID, wMapID, fPosX, fPosY, fPosZ FROM TGODTOWERCHART ORDER BY wID";
                     ChaseRange: r.GetUShortSafe(14),
                     RecallType: r.GetByteSafe(15), SummonAttr: r.GetUShortSafe(16), Class: r.GetByteSafe(17),
                     Race: r.GetByteSafe(18), IsSelf: r.GetByteSafe(19), CanSelect: r.GetByteSafe(20),
-                    CanAttack: r.GetByteSafe(21), Tame: r.GetByteSafe(22));
+                    CanAttack: r.GetByteSafe(21), Tame: r.GetByteSafe(22), HuntKind: r.GetUShortSafe(23));
             }
 
         await using (var cmd = new SqlCommand(MountChartSql, c))
@@ -989,8 +993,9 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
 
     /// <summary>C++ <c>TSaveChar</c> (CSPSaveChar) — the single-row char UPDATE by <c>dwCharID</c>. Params are
     /// bound positionally in the exact <c>DBAccess.h</c> order (28 value columns; the two pc-bang columns are 0
-    /// — that subsystem is unported). A missing proc (2812, not in the baseline) is tolerated silently.</summary>
-    public async Task SaveCharAsync(CharSaveData d, CancellationToken ct = default)
+    /// — that subsystem is unported). Legacy callers tolerate a missing proc; journaled callers set
+    /// requireProcedures to require both the procedure and a successful native return code.</summary>
+    public async Task SaveCharAsync(CharSaveData d, CancellationToken ct = default, bool requireProcedures = false)
     {
         try
         {
@@ -1027,14 +1032,17 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
                 SqlProc.In("@p27", SqlDbType.TinyInt, d.StatPoint),
                 SqlProc.In("@p28", SqlDbType.Int, unchecked((int)d.StatExp)),
             };
-            await SqlProc.ExecAsync(c, "TSaveChar", SqlProc.Ret(), args, ct);
+            var saved = SqlProc.Ret();
+            await SqlProc.ExecAsync(c, "TSaveChar", saved, args, ct);
+            if (requireProcedures && saved.AsInt() != 0)
+                throw new InvalidDataException($"TSaveChar rejected character {d.CharId}: {saved.AsInt()}.");
             await SaveMaintainsAsync(c, d, ct);
             await SavePvPointAsync(c, d, ct);
             await SaveTitlesAsync(c, d, ct);
             await SaveRecallsAsync(c, d, ct);
             await SaveDuringItemsAsync(c, d, ct);
         }
-        catch (SqlException ex) when (ex.Number == 2812) { /* proc absent in this baseline — tolerate */ }
+        catch (SqlException ex) when (ex.Number == 2812 && !requireProcedures) { /* proc absent in this baseline — tolerate */ }
     }
 
     /// <summary>C++ <c>CSPSavePvPRecord</c> (DBAccess.h:6796) — <c>TSavePvPRecord(dwCharID, useable, total, 6 × (lose, win))</c>,
@@ -1314,25 +1322,29 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
         }, ct);
     }
 
-    public async Task SaveMissionOccupyAsync(ushort localId, byte type, uint charId, byte country, CancellationToken ct = default)
+    public async Task<int> SaveMissionOccupyAsync(ushort localId, byte type, uint charId, byte country, CancellationToken ct = default)
     {
         await using var c = await OpenAsync(ct);
-        await SqlProc.ExecAsync(c, "TSaveMissionOccupy", null, new[]
+        var ret = SqlProc.Ret();
+        await SqlProc.ExecAsync(c, "TSaveMissionOccupy", ret, new[]
         {
             SqlProc.In("@m0", SqlDbType.SmallInt, unchecked((short)localId)), SqlProc.In("@m1", SqlDbType.TinyInt, type),
             SqlProc.In("@m2", SqlDbType.Int, unchecked((int)charId)), SqlProc.In("@m3", SqlDbType.TinyInt, country),
         }, ct);
+        return ret.AsInt();
     }
 
     /// <summary>C++ <c>CSPSaveSkyGardenOccupy</c> (DBAccess.h:5847) — <c>TSaveSkyGardenOccupy(bCountry, wID, bType)</c>.</summary>
-    public async Task SaveSkyGardenOccupyAsync(byte country, ushort id, byte type, CancellationToken ct = default)
+    public async Task<int> SaveSkyGardenOccupyAsync(byte country, ushort id, byte type, CancellationToken ct = default)
     {
         await using var c = await OpenAsync(ct);
-        await SqlProc.ExecAsync(c, "TSaveSkyGardenOccupy", null, new[]
+        var ret = SqlProc.Ret();
+        await SqlProc.ExecAsync(c, "TSaveSkyGardenOccupy", ret, new[]
         {
             SqlProc.In("@g0", SqlDbType.TinyInt, country), SqlProc.In("@g1", SqlDbType.SmallInt, unchecked((short)id)),
             SqlProc.In("@g2", SqlDbType.TinyInt, type),
         }, ct);
+        return ret.AsInt();
     }
 
     /// <summary>C++ <c>CSPSaveLocalOccupy</c> (DBAccess.h:5863) — <c>TSaveLocalOccupy(wLocalID, bType, dwGuildID, dwCharID,
@@ -1470,12 +1482,13 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
     /// (<c>Save</c>-flagged) quests are passed. All rows share one connection. Missing procs are tolerated.</summary>
     /// <summary>C++ <c>CSPSaveHotkey</c> (DBAccess.h:5813) — <c>TSaveHotkey(dwCharID, bSave, bInven, 12 × (bType, wID))</c>,
     /// one call per page, from <c>OnDM_SAVECHAR_REQ</c> (SSHandler.cpp:7218).</summary>
-    public async Task SaveHotkeysAsync(uint charId, IReadOnlyList<HotkeySaveRow> pages, CancellationToken ct = default)
+    public async Task SaveHotkeysAsync(uint charId, IReadOnlyList<HotkeySaveRow> pages, CancellationToken ct = default, bool requireProcedures = false)
     {
         if (pages.Count == 0) return;
         try
         {
             await using var c = await OpenAsync(ct);
+            await using var tx = (SqlTransaction)await c.BeginTransactionAsync(ct);
             foreach (var pg in pages)
             {
                 var ps = new List<SqlParameter>
@@ -1490,10 +1503,20 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
                     ps.Add(SqlProc.In($"@p{3 + i * 2}", SqlDbType.TinyInt, type));
                     ps.Add(SqlProc.In($"@p{4 + i * 2}", SqlDbType.SmallInt, unchecked((short)id)));
                 }
-                await SqlProc.ExecAsync(c, "TSaveHotkey", SqlProc.Ret(), ps.ToArray(), ct);
+                // Native verb 2 is an unconditional INSERT. Delete + insert the absolute page in one
+                // transaction so retry after an ambiguous commit is safe (verb 3 also repairs a missing row).
+                ps[1].Value = (byte)1;
+                await SqlProc.ExecAsync(c, "TSaveHotkey", SqlProc.Ret(), ps.ToArray(), ct, tx);
+                if (pg.Verb is 2 or 3)
+                {
+                    ps[1].Value = (byte)2;
+                    var insert = ps.Select(p => (SqlParameter)((ICloneable)p).Clone()).ToArray();
+                    await SqlProc.ExecAsync(c, "TSaveHotkey", SqlProc.Ret(), insert, ct, tx);
+                }
             }
+            await tx.CommitAsync(ct);
         }
-        catch (SqlException ex) when (ex.Number == 2812) { /* proc absent — tolerate */ }
+        catch (SqlException ex) when (ex.Number == 2812 && !requireProcedures) { /* proc absent — tolerate */ }
     }
 
     /// <summary>The character's skills — C++ <c>OnDM_SAVECHAR_REQ</c> writes each one (<c>TSaveSkill</c>, into
@@ -1523,12 +1546,13 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
         await tx.CommitAsync(ct);
     }
 
-    public async Task SaveQuestsAsync(uint charId, IReadOnlyList<QuestSaveRow> quests, CancellationToken ct = default)
+    public async Task SaveQuestsAsync(uint charId, IReadOnlyList<QuestSaveRow> quests, CancellationToken ct = default, bool requireProcedures = false)
     {
         if (quests.Count == 0) return;
         try
         {
             await using var c = await OpenAsync(ct);
+            await using var tx = (SqlTransaction)await c.BeginTransactionAsync(ct);
             int cid = unchecked((int)charId);
             foreach (var q in quests)
             {
@@ -1539,7 +1563,7 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
                     SqlProc.In("@p2", SqlDbType.Int, unchecked((int)q.Tick)),
                     SqlProc.In("@p3", SqlDbType.TinyInt, q.CompleteCount),
                     SqlProc.In("@p4", SqlDbType.TinyInt, q.TriggerCount),
-                }, ct);
+                }, ct, tx);
 
                 foreach (var t in q.Terms)
                     await SqlProc.ExecAsync(c, "TSaveQuestTerm", SqlProc.Ret(), new[]
@@ -1549,10 +1573,11 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
                         SqlProc.In("@p2", SqlDbType.Int, unchecked((int)t.TermId)),
                         SqlProc.In("@p3", SqlDbType.TinyInt, t.TermType),
                         SqlProc.In("@p4", SqlDbType.TinyInt, t.Count),
-                    }, ct);
+                    }, ct, tx);
             }
+            await tx.CommitAsync(ct);
         }
-        catch (SqlException ex) when (ex.Number == 2812) { /* proc absent — tolerate */ }
+        catch (SqlException ex) when (ex.Number == 2812 && !requireProcedures) { /* proc absent — tolerate */ }
     }
 
     /// <summary>C++ <c>TInitGenItemID(@out, @serverId)</c> (CSPInitGenItemID) — the per-server base for the
@@ -1585,7 +1610,7 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
     /// used-item save.</para>
     /// A missing proc is tolerated.</summary>
     public async Task SaveInventoryAsync(uint charId, IReadOnlyList<InvenSaveData> invens,
-        IReadOnlyList<ItemSaveData> items, CancellationToken ct = default)
+        IReadOnlyList<ItemSaveData> items, CancellationToken ct = default, bool requireProcedures = false)
     {
         try
         {
@@ -1609,7 +1634,7 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
 
             await SqlProc.ExecAsync(c, "TSaveItemDataEnd", null, new[] { SqlProc.In("@p0", SqlDbType.Int, cid) }, ct);
         }
-        catch (SqlException ex) when (ex.Number == 2812) { /* proc absent — tolerate */ }
+        catch (SqlException ex) when (ex.Number == 2812 && !requireProcedures) { /* proc absent — tolerate */ }
     }
 
     /// <summary>The <c>TSaveItem</c>/<c>TSaveItemDirect</c> 35-value positional arg set (identical param list,
@@ -1659,14 +1684,14 @@ FROM TCHARTABLE WHERE dwCharID = @dwCharID AND bDelete = 0";
     /// <c>TITEMTABLE</c> (delete-by-<c>dlID</c>-then-insert), no staging bracket. The incremental fast-path: one
     /// row per changed item so an item change survives a crash before the next full rewrite. Same 35-value param
     /// set as <c>TSaveItem</c>. Missing proc (2812) tolerated.</summary>
-    public async Task SaveItemDirectAsync(uint charId, ItemSaveData item, CancellationToken ct = default)
+    public async Task SaveItemDirectAsync(uint charId, ItemSaveData item, CancellationToken ct = default, bool requireProcedures = false)
     {
         try
         {
             await using var c = await OpenAsync(ct);
             await SqlProc.ExecAsync(c, "TSaveItemDirect", SqlProc.Ret(), ItemArgs(unchecked((int)charId), item), ct);
         }
-        catch (SqlException ex) when (ex.Number == 2812) { /* proc absent — tolerate */ }
+        catch (SqlException ex) when (ex.Number == 2812 && !requireProcedures) { /* proc absent — tolerate */ }
     }
 
     /// <summary>Removes one item row from the live <c>TITEMTABLE</c> by its primary key — the incremental
@@ -1840,29 +1865,32 @@ FROM TSKILLMAINTAINTABLE WHERE dwCharID = @dwCharID";
 
     /// <summary>C++ <c>CTBLQuestTable</c> + <c>CTBLQuestTermTable</c> (DBAccess.h:2410-2468) — the character's
     /// saved quest progress (headers + running term counters), keyed by <c>dwCharID</c>. The read-back
-    /// counterpart of the <c>TSaveQuest</c>/<c>TSaveQuestTerm</c> write.</summary>
+    /// counterpart of the <c>TSaveQuest</c>/<c>TSaveQuestTerm</c> write. Hold a serializable read transaction
+    /// across both tables so concurrent saves cannot mix headers and counters from different commits.</summary>
     public async Task<(List<QuestLoadRow> quests, List<QuestTermLoadRow> terms)> LoadQuestsAsync(
         uint charId, CancellationToken ct = default)
     {
         await using var c = await OpenAsync(ct);
+        await using var tx = (SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable, ct);
         var quests = new List<QuestLoadRow>();
         var terms = new List<QuestTermLoadRow>();
         int cid = unchecked((int)charId);
 
-        await using (var cmd = new SqlCommand(QuestTableSql, c))
+        await using (var cmd = new SqlCommand(QuestTableSql, c, tx))
         {
             cmd.Parameters.Add(SqlProc.In("@dwCharID", SqlDbType.Int, cid));
             await using var r = await cmd.ExecuteReaderAsync(ct);
             while (await r.ReadAsync(ct))
                 quests.Add(new QuestLoadRow(r.GetUIntSafe(0), r.GetUIntSafe(1), r.GetByteSafe(2), r.GetByteSafe(3)));
         }
-        await using (var cmd = new SqlCommand(QuestTermTableSql, c))
+        await using (var cmd = new SqlCommand(QuestTermTableSql, c, tx))
         {
             cmd.Parameters.Add(SqlProc.In("@dwCharID", SqlDbType.Int, cid));
             await using var r = await cmd.ExecuteReaderAsync(ct);
             while (await r.ReadAsync(ct))
                 terms.Add(new QuestTermLoadRow(r.GetUIntSafe(0), r.GetUIntSafe(1), r.GetByteSafe(2), r.GetByteSafe(3)));
         }
+        await tx.CommitAsync(ct);
         return (quests, terms);
     }
 
@@ -1870,8 +1898,8 @@ FROM TSKILLMAINTAINTABLE WHERE dwCharID = @dwCharID";
 
     /// <summary>
     /// CTBLHotKey — hotkey pages. The C++ query is <c>SELECT *</c> bound positionally
-    /// (dwCharID, bInven, then 12 × {bType, wHotID}). We read positionally too and tolerate a row whose
-    /// shape doesn't match (skips hotkeys) so an unexpected DDL never breaks login.
+    /// (dwCharID, bInven, then 12 × {bType, wHotID}). Read the complete positional page contract;
+    /// missing slots abort login instead of discarding saved pages. Additional trailing columns are ignored.
     /// </summary>
     public async Task<List<HotkeyLoadRow>> LoadHotkeysAsync(uint charId, CancellationToken ct = default)
     {
@@ -1881,9 +1909,9 @@ FROM TSKILLMAINTAINTABLE WHERE dwCharID = @dwCharID";
         await using var r = await cmd.ExecuteReaderAsync(ct);
         var list = new List<HotkeyLoadRow>();
         const int expected = 2 + HotkeyPosCount * 2; // dwCharID, bInven, 12×{type,id}
+        if (r.FieldCount < expected) throw new InvalidDataException("Unexpected THOTKEYTABLE schema.");
         while (await r.ReadAsync(ct))
         {
-            if (r.FieldCount < expected) break; // unexpected shape → skip hotkeys
             byte invenKey = r.GetByteSafe(1);
             var slots = new (byte, ushort)[HotkeyPosCount];
             for (int i = 0; i < HotkeyPosCount; i++)

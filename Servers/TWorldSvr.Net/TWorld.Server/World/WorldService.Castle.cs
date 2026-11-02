@@ -1,3 +1,4 @@
+using TWorld.Data;
 using TWorld.Protocol;
 using TWorld.Server.Net;
 
@@ -7,17 +8,19 @@ namespace TWorld.Server.World;
 /// Phase 5c — castle / territory-war <em>ownership broadcasts</em>, ported from <c>SSHandler.cpp</c>
 /// (OnMW_CASTLEOCCUPY/LOCALOCCUPY/MISSIONOCCUPY/SKYGARDENOCCUPY/ENDWAR) + <c>SSSender.cpp</c>. When a map
 /// reports that a territory changed hands, the world awards the capturing guild its stat-exp and fans the
-/// new ownership out to every connected map so all clients render it. The deeper war machinery
-/// (CASTLEWARINFO aggregation + NotifyCastleWarInfo, the castle-apply lists, the war scheduler, PvP-point
-/// and nation-balance persistence) is a later castle-war phase and is intentionally not handled here.
+/// new ownership out to every connected map so all clients render it. The scoreboard, scheduler and
+/// PvP-point paths live in the adjacent partials. Applicant changes wait for SQL before publishing success.
+/// Guild-stat saves and distributed result/reward replay still need a durable settlement boundary.
 /// </summary>
 public sealed partial class WorldService
 {
+    public ICastleApplicantStore? CastleApplicantStore { get; set; }
+
     private async Task<bool> DispatchCastleAsync(ServerSession session, PacketReader r, byte[] packet)
     {
         switch (r.Id)
         {
-            case Msg.MW_CASTLEAPPLY_ACK: OnMW_CASTLEAPPLY_ACK(session, r); return true;
+            case Msg.MW_CASTLEAPPLY_ACK: await OnMW_CASTLEAPPLY_ACK(session, r); return true;
             case Msg.MW_CASTLEWARINFO_ACK: OnMW_CASTLEWARINFO_ACK(session, r); return true;
             case Msg.MW_CASTLEOCCUPY_ACK: await OnMW_CASTLEOCCUPY_ACK(r); return true;
             case Msg.MW_LOCALOCCUPY_ACK: await OnMW_LOCALOCCUPY_ACK(r); return true;
@@ -118,7 +121,7 @@ public sealed partial class WorldService
     /// camp — or clears it by re-applying to the same castle. Validates the per-guild slot cap, echoes the
     /// result to the chief and (if different) the assigned char, and broadcasts the new applicant count.
     /// C++ OnMW_CASTLEAPPLY_ACK.</summary>
-    private void OnMW_CASTLEAPPLY_ACK(ServerSession main, PacketReader r)
+    private async Task OnMW_CASTLEAPPLY_ACK(ServerSession main, PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
@@ -157,6 +160,9 @@ public sealed partial class WorldService
 
         if (prevCastle != 0 || castle != 0)
         {
+            // Previously the success packet and in-memory slot preceded an unobserved SQL Task.
+            // Keep the old slot if SQL rejects or disconnects; DispatchAsync logs the failure.
+            if (CastleApplicantStore is { } store) await store.SaveCastleApplicantAsync(castle, target, camp);
             if (targetMem is not null) { targetMem.Castle = castle; targetMem.Camp = camp; }
             else { targetTac!.Castle = castle; targetTac.Camp = camp; }
 
@@ -166,7 +172,6 @@ public sealed partial class WorldService
                 _state.FindMapSvr(charTarget.MainId)?.Send(
                     BuildCastleApplyReq(target, charTarget.Key, CastleApplyResult.Success, castle, target, camp));
 
-            if (_gameDb is not null) _ = _gameDb.SaveCastleApplicantAsync(castle, target, camp);   // SendDM_CASTLEAPPLY_REQ
             if (prevCastle != 0) NotifyCastleApply(prevCastle, guild);
             if (castle != 0) NotifyCastleApply(castle, guild);
         }

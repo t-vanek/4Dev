@@ -51,29 +51,24 @@ public sealed partial class MapService
     private async Task LoadCompanionsAsync(Character ch)
     {
         if (CompanionStore is not { } db) return;
-        try
+        var load = await db.LoadCompanionsAsync(ch.CharId);
+        foreach (var row in load.Companions)
         {
-            var load = await db.LoadCompanionsAsync(ch.CharId);
-            foreach (var row in load.Companions)
+            if (row.Stats is not { Length: >= 6 } || row.ItemIds is not { Length: >= 2 } || row.EndTimes is not { Length: >= 2 })
+                throw new InvalidDataException("Incomplete saved companion row.");
+            var c = new Companion
             {
-                var c = new Companion
-                {
-                    Slot = row.Slot, MonId = row.MonId, Level = row.Level, Name = row.Name, Exp = row.Exp,
-                    NextExp = Companion.NextExpFor(row.Level), Life = row.Life, StatPoints = row.StatPoints,
-                    Effect = row.Effect, BonusId = row.BonusId, Tick = row.Tick,
-                };
-                Array.Copy(row.Stats, c.Stats, 6);
-                Array.Copy(row.ItemIds, c.ItemIds, 2);
-                Array.Copy(row.EndTimes, c.EndTimes, 2);
-                ch.Companions[c.Slot] = c;
-            }
-            ch.CompanionSlot = load.SummonedSlot;
-            ch.Medals = load.Medals;
+                Slot = row.Slot, MonId = row.MonId, Level = row.Level, Name = row.Name, Exp = row.Exp,
+                NextExp = Companion.NextExpFor(row.Level), Life = row.Life, StatPoints = row.StatPoints,
+                Effect = row.Effect, BonusId = row.BonusId, Tick = row.Tick,
+            };
+            Array.Copy(row.Stats, c.Stats, 6);
+            Array.Copy(row.ItemIds, c.ItemIds, 2);
+            Array.Copy(row.EndTimes, c.EndTimes, 2);
+            ch.Companions[c.Slot] = c;
         }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Char {Char} companion load failed; continuing without companions.", ch.CharId);
-        }
+        ch.CompanionSlot = load.SummonedSlot;
+        ch.Medals = load.Medals;
     }
 
     private static List<CompanionRow> CompanionSnapshot(Character ch) => ch.Companions.Values.Select(c =>

@@ -25,7 +25,7 @@ namespace TMap.Server.Map;
 /// straight to the portal's spawn point — the C++ behaves the same.</para>
 ///
 /// <para>Meeting-room reservations and release are in MapService.MeetingRooms.cs.
-/// <b>Not ported:</b> <c>TT_LEAVEMAP</c> quest triggers and the second-server
+/// <c>TT_LEAVEMAP</c> quest triggers run before taking the destination. Not ported: the second-server
 /// variant of the chain (<c>ROUTELIST</c>/<c>ADDCONNECT</c>/<c>RELEASEMAIN</c>).</para>
 /// </summary>
 public sealed partial class MapService
@@ -246,16 +246,7 @@ public sealed partial class MapService
     /// until the new <c>CS_CONREADY_REQ</c>.</summary>
     private void ExitMap(ClientSession s, Character ch)
     {
-        if (s.Deal.Status != (byte)DealStatus.Ready)
-        {
-            SendCS_DEALITEMEND_ACK(s, DealResult.NoTarget, ch.Name);
-            if (FindByName(s.Deal.TargetName) is { } partner && partner.Deal.TargetName == ch.Name)
-            {
-                SendCS_DEALITEMEND_ACK(partner, DealResult.NoTarget, ch.Name);   // the world's DEALITEMERROR relay
-                partner.Deal.Clear();
-            }
-            s.Deal.Clear();
-        }
+        CancelDealOnLeave(s);
 
         if (s.State != EnterState.InGame) return;
 
@@ -284,6 +275,7 @@ public sealed partial class MapService
         _state.LeaveWorld(s);
         s.State = EnterState.Granted;
         foreach (var m in watching) MonsterLostSight(m, s.CharId);
+        if (s.IsMain) CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, ch.MapId, QttMapId, 11 /*TT_LEAVEMAP*/, 1);
     }
 
     /// <summary>C++ <c>SendCS_TELEPORT_ACK</c> (CSSender.cpp:3864) — <c>bResult · dwID · bType · dwRange · wMapID ·

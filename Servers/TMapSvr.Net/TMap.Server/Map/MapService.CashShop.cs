@@ -139,7 +139,7 @@ public sealed partial class MapService
         uint cashItemId = r.ReadUInt32();
         byte invenId = r.ReadByte(), slot = r.ReadByte();
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch || IsTutorial(ch) || IsTournamentChar(ch)) return;
-        if (ch.FindInven(invenId) is not { } bag || bag.FindItem(slot) is not null) return;
+        if (invenId == Proto.InvenEquip || ch.FindInven(invenId) is not { } bag || !bag.ContainsSlot(slot) || bag.FindItem(slot) is not null) return;
 
         var res = await CashCall(db => db.CashItemGetAsync(s.UserId, ch.CharId, cashItemId, invenId, slot), null);
         byte ret = res is null ? CashShopInternal : (byte)res.Value.Ret;
@@ -153,7 +153,7 @@ public sealed partial class MapService
         }
         if (ret != 0) { SendCashItemGetAck(s, ret, cashItemId); return; }
 
-        if (ch.FindInven(invenId) is { } b && b.FindItem(slot) is null)
+        if (ch.FindInven(invenId) is { } b && b.ContainsSlot(slot) && b.FindItem(slot) is null)
         {
             item!.ItemSlot = slot;
             b.Items.Add(item);

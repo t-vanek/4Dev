@@ -157,7 +157,7 @@ public sealed partial class MapService
         if (!CheckGuildDuty(ch, GuildDutyViceChief)) { SendByte(s, Msg.CS_GUILDCABINETTAKEOUT_ACK, GuildCabinetNotDuty); return; }
         uint cabinetSlot = r.ReadUInt32();
         byte count = r.ReadByte(), invId = r.ReadByte(), slot = r.ReadByte();
-        if (count == 0 || invId == Proto.InvenEquip || ch.FindInven(invId) is null)
+        if (count == 0 || invId == Proto.InvenEquip || ch.FindInven(invId) is not { } target || !target.ContainsSlot(slot))
         {
             SendByte(s, Msg.CS_GUILDCABINETTAKEOUT_ACK, GuildCabinetFail);
             SendToWorld(Msg.MW_GUILDCABINETLIST_ACK, s);
@@ -177,7 +177,7 @@ public sealed partial class MapService
             bool placed = false;
             if (c.FindInven(invId) is { } dest)
             {
-                if (dest.FindItem(slot) is null)
+                if (dest.ContainsSlot(slot) && dest.FindItem(slot) is null)
                 {
                     taken.ItemSlot = slot;
                     dest.Items.Add(taken);

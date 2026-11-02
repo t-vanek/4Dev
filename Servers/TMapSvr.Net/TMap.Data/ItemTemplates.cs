@@ -46,7 +46,9 @@ public sealed record ItemTemplate(ushort ItemId, byte RefineMax, float[] Revisio
     // whether it drops at all (m_bInitState), its pick weight (m_wWeight) and the chance a drop comes sealed (m_wItemProb_G).
     byte GroupId = 0, byte DropLevel = 0, byte InitState = 0, ushort Weight = 0, ushort ItemProbG = 0,
     // Weapon ammunition: required item kind and base count per accepted skill cast (TITEMCHART).
-    byte UseItemKind = 0, byte UseItemCount = 0);
+    byte UseItemKind = 0, byte UseItemCount = 0,
+    // Container capacity, also used by the client to draw its inventory slots.
+    byte SlotCount = 0);
 
 /// <summary>
 /// An item-attribute row from <c>TITEMATTRCHART</c> (C++ <c>CTBLItemAttrChart</c> → <c>tagITEMATTR</c>,
@@ -80,7 +82,7 @@ public sealed record GambleRow(ushort ReplaceId, byte CountMax, byte MinLevel, b
 /// only), what cashing out pays, and the cumulative odds (win, draw, out of lose) — changed live by the world (<c>MW_RPSGAMECHANGE_REQ</c>).</summary>
 /// <summary>An arena (C++ <c>TARENA</c> from <c>TARENACHART</c>): the party size (3 or 5 a side), the fee, and the spawn points
 /// inside (where a team is sent) and outside (where it leaves).</summary>
-public sealed record ArenaRow(ushort Id, byte Type, uint Fee, ushort InPos, ushort OutPos);
+public sealed record ArenaRow(ushort Id, byte Type, uint Fee, ushort InPos, ushort OutPos, bool QuestMatch = false);
 
 public sealed class RpsGame
 {

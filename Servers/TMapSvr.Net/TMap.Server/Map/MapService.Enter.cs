@@ -101,15 +101,7 @@ public sealed partial class MapService
         _state.Register(s);
 
         // Resolve the character up front (DB or synthesized) so the handshake ACKs carry real data.
-        try { await EnsureCharAsync(s); }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Character load failed for {Char}; entry denied.", charId);
-            SendCS_CONNECT_ACK(s, ConnectResult.Internal, null);
-            s.Conn.Close();
-            _state.Remove(s);
-            return;
-        }
+        if (!await TryEnsureCharAsync(s)) return;
 
         if (!await LoadSecurityCode(s)) return;
         if (!NormalizeMeetingEntry(s)) return;
@@ -153,7 +145,7 @@ public sealed partial class MapService
             s.EntryValidated = true;
         }
 
-        await EnsureCharAsync(s);
+        if (!await TryEnsureCharAsync(s)) return;
         var ch = s.Char!;
 
         // TEnterServer succeeded for this exact session before any successful world response.
@@ -405,11 +397,13 @@ public sealed partial class MapService
 
     // ---- client "ready" → live in the world ----
 
-    private void OnCS_CONREADY_REQ(ClientSession s, PacketReader r)
+    private async Task OnCS_CONREADY_REQ(ClientSession s, PacketReader r)
     {
         if (s.State is not (EnterState.Granted or EnterState.InGame)) return;
         if (s.Char is null) return;
         if (s.TeleportPending && s.State == EnterState.InGame) return; // an old ready packet cannot finish a new move
+        if (s.State == EnterState.Granted)
+            await RecoverQuestPostContinuationsAsync(s);
 
         bool firstEntry = s.State != EnterState.InGame;
         s.State = EnterState.InGame;
@@ -417,6 +411,11 @@ public sealed partial class MapService
         if (firstEntry)
         {
             s.TeleportPending = false;
+            if (s.IsMain && CheckMapGuild(s.Char))
+            {
+                ReturnFromGuildDestination(s, s.Char);
+                return;
+            }
             // Place into the world grid, then exchange CS_ENTER_ACK with the 3×3-cell neighbours
             // (CTMap::EnterMAP adds the player to its centre cell, then CTCell::EnterPlayer runs the
             // bidirectional exchange across the neighbour block). The player must be in the grid first so
@@ -436,6 +435,7 @@ public sealed partial class MapService
             SkyGardenEnterMap(s, s.Char);  // on the sky garden's map: one's camp and the garden's state (InitMap)
             CastleEnterMap(s, s.Char);     // on a castle's map: signed up, or sent out (InitMap, MapService.Castle.cs)
             TournamentEnterMap(s, s.Char); // the lounge and the tournament maps (InitMap, MapService.TournamentMatch.cs)
+            await WelcomeMailAtEntryAsync(s);
             _log.LogInformation("Char {Char} live on map {Map} ch {Ch}.", s.CharId, s.Char.MapId, s.Channel);
         }
     }
@@ -561,6 +561,21 @@ public sealed partial class MapService
 
     // ---- character resolution ----
 
+    private async Task<bool> TryEnsureCharAsync(ClientSession s)
+    {
+        try { await EnsureCharAsync(s); return true; }
+        catch (Exception ex)
+        {
+            _log.LogWarning(ex, "Character load failed for {Char}; entry denied.", s.CharId);
+            s.EntryValidated = false;
+            s.IsMain = false;
+            _state.Remove(s);
+            SendCS_CONNECT_ACK(s, ConnectResult.Internal, null);
+            s.Conn.Close();
+            return false;
+        }
+    }
+
     private async Task EnsureCharAsync(ClientSession s)
     {
         if (s.Char is not null) return;
@@ -580,6 +595,7 @@ public sealed partial class MapService
         {
             try
             {
+                await RecoverPendingSavesAsync(); // previous logout must finish before a new load
                 var row = await _gameDb.LoadCharAsync(s.CharId);
                 if (row is CharLoadRow c)
                 {
@@ -612,20 +628,6 @@ public sealed partial class MapService
                 }
 
                 await TryLoadInventoryAsync(ch);
-                try { (ch.OriCountry, ch.AidCountry, ch.AidDate) = await _gameDb.LoadAidAsync(ch.CharId); }   // CTBLChar / CTBLAidTable
-                catch (Exception ex) { _log.LogWarning(ex, "Char {Char} aid country load failed.", ch.CharId); }
-                try { LoadDuringItems(ch, await _gameDb.LoadDuringItemsAsync(ch.CharId, s.UserId, LocalDay(UnixNow()))); }
-                catch (Exception ex) { _log.LogWarning(ex, "Char {Char} premium / exp item load failed.", ch.CharId); }
-                await LoadPetsAsync(s, ch);
-                await LoadCompanionsAsync(ch);
-
-                // C++ clamps the persisted current HP/MP DOWN to the computed max at load (no refill), so the
-                // in-memory value is never over-max (matters once regen/damage/save read it). Charts-gated.
-                if (_templates.HasStats)
-                {
-                    ch.Hp = Math.Min(ch.Hp, StatEngine.MaxHp(ch, _templates));
-                    ch.Mp = Math.Min(ch.Mp, StatEngine.MaxMp(ch, _templates));
-                }
             }
             catch (Exception ex)
             {
@@ -634,6 +636,22 @@ public sealed partial class MapService
             }
         }
 
+        // Every persisted part must load before this object can become playable or be saved back.
+        await LoadRequiredAuxiliaryAsync(s, ch);
+        // Preserve the existing DB-backed current-HP/MP clamp after companion/premium bonuses load.
+        if (_gameDb is not null && _templates.HasStats)
+        {
+            ch.Hp = Math.Min(ch.Hp, StatEngine.MaxHp(ch, _templates));
+            ch.Mp = Math.Min(ch.Mp, StatEngine.MaxMp(ch, _templates));
+        }
+
+        // Publish the character only after all required quest rows are available. A transient SQL
+        // failure must not turn saved completions into an empty log and permit another reward turn-in.
+        if (QuestProgressStore is { } quests)
+        {
+            var (headers, terms) = await quests.LoadQuestsAsync(ch.CharId);
+            LoadQuestProgress(ch, headers, terms);
+        }
         s.Char = ch;
     }
 
@@ -654,8 +672,8 @@ public sealed partial class MapService
     /// <summary>
     /// Loads the character's inventory containers + items, learned/maintained skills and hotkey pages
     /// (CTBLInven/CTBLItem/CTBLSkill/CTBLSkillMaintain/CTBLHotKey), building the in-memory model the
-    /// CS_CHARINFO_ACK / CS_ENTER_ACK sub-loops serialize. Best-effort — any failure leaves the char with
-    /// whatever loaded so far. Only <c>STORAGE_INVEN</c> (0) items land in the inventory containers; the
+    /// CS_CHARINFO_ACK / CS_ENTER_ACK sub-loops serialize. Failures abort admission before the
+    /// partially loaded character can be published or saved back. Only <c>STORAGE_INVEN</c> (0) items land in the inventory containers; the
     /// backpack (0xFF) and equipped (0xFE) containers always exist.
     /// </summary>
     private async Task TryLoadInventoryAsync(Character ch)
@@ -665,11 +683,11 @@ public sealed partial class MapService
         // Containers: seed backpack + equipped, add the loaded bags, then bucket items by storage id.
         var byId = new Dictionary<byte, Inven>
         {
-            [Proto.InvenDefault] = new Inven { InvenId = Proto.InvenDefault },
-            [Proto.InvenEquip] = new Inven { InvenId = Proto.InvenEquip },
+            [Proto.InvenDefault] = Inven.FromTemplate(Proto.InvenDefault, 0, _templates),
+            [Proto.InvenEquip] = Inven.FromTemplate(Proto.InvenEquip, 0, _templates),
         };
         foreach (var b in await _gameDb.LoadInvensAsync(ch.CharId))
-            byId[b.InvenId] = new Inven { InvenId = b.InvenId, TemplateId = b.TemplateId, EndTime = b.EndTime, Eld = b.Eld };
+            byId[b.InvenId] = Inven.FromTemplate(b.InvenId, b.TemplateId, _templates, b.EndTime, b.Eld);
 
         // Cabinet open-state headers BEFORE items (C++ OnDM_LOADCHAR_ACK applies bCabinetID/bUse first, so the
         // per-item GetCabinet(m_bItemID) lands in an existing record).
@@ -693,7 +711,7 @@ public sealed partial class MapService
             else
             {
                 byte id = (byte)row.StorageId;
-                if (!byId.TryGetValue(id, out var inv)) { inv = new Inven { InvenId = id }; byId[id] = inv; }
+                if (!byId.TryGetValue(id, out var inv)) { inv = Inven.FromTemplate(id, 0, _templates); byId[id] = inv; }
                 inv.Items.Add(item);
             }
         }
@@ -709,9 +727,6 @@ public sealed partial class MapService
         (ch.MonthPvPoint, ch.MonthWin, ch.MonthLose, ch.MonthRankOrder, ch.MonthRankPercent)
             = (pvp.MonthPoint, pvp.MonthWin, pvp.MonthLose, pvp.MonthRankOrder, pvp.MonthRankPercent);
         foreach (var (id, selected) in await _gameDb.LoadTitlesAsync(ch.CharId)) ch.Titles[id] = selected;   // CTBLTitle
-        try { LoadSavedRecalls(ch, await _gameDb.LoadRecallsAsync(ch.CharId)); }                          // CTBLRecallMon / Maintain
-        catch (Exception ex) { _log.LogWarning(ex, "Char {Char} summon load failed; continuing without them.", ch.CharId); }
-
         foreach (var sk in await _gameDb.LoadSkillsAsync(ch.CharId))
             if (!IsGuildSkill(sk.SkillId))                                     // those come from the guild's tables
             ch.Skills.Add(new Skill
@@ -735,32 +750,7 @@ public sealed partial class MapService
             ch.MaintainSkills.Add(buff);
         }
 
-        try
-        {
-            foreach (var hk in await _gameDb.LoadHotkeysAsync(ch.CharId))
-            {
-                var page = new HotkeyPage { InvenKey = hk.InvenKey };
-                for (int i = 0; i < HotkeyPage.SlotCount && i < hk.Slots.Length; i++)
-                    page.Slots[i] = new HotkeySlot(hk.Slots[i].Type, hk.Slots[i].Id);
-                ch.HotkeyPages.Add(page);
-            }
-        }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Char {Char} hotkey load failed; continuing without hotkeys.", ch.CharId);
-        }
 
-        // Quest progress (C++ char-enter quest load): rebuild m_mapQUEST from the saved rows — the read-back
-        // counterpart of the Phase-25 quest save, so accepted quests survive relog. Best-effort.
-        try
-        {
-            var (qRows, qTerms) = await _gameDb.LoadQuestsAsync(ch.CharId);
-            LoadQuestProgress(ch, qRows, qTerms);
-        }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Char {Char} quest-progress load failed; continuing without quests.", ch.CharId);
-        }
     }
 
     /// <summary>

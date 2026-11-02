@@ -102,7 +102,7 @@ public sealed partial class MapService
     private void OnCS_MONITEMTAKEALL_REQ(ClientSession s, PacketReader r)
     {
         uint monId = r.ReadUInt32();
-        if (s.Char is not { } ch || !s.IsMain || _state.FindMonster(monId) is not { } mon
+        if (s.State != EnterState.InGame || s.Char is not { } ch || !s.IsMain || _state.FindMonster(monId) is not { } mon
             || mon.MapId != ch.MapId || mon.Channel != s.Channel) return;
         if (s.Deal.InProgress) { SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Dealing); return; }
         if (!CanLootKeeper(mon, ch) || !CanTakePartyLoot(mon, ch))
@@ -112,11 +112,13 @@ public sealed partial class MapService
         foreach (var item in mon.CorpseInven.Items.OrderBy(i => i.ItemSlot).ToList())
         {
             if (item.OwnerId != 0 && item.OwnerId != ch.CharId) continue;
+            if (item.MaxRouting != 0 || StartLootLottery(s, ch, mon, item)) continue;
             var one = new[] { item };
             if (!CanPush(ch, one)) { result = MonItemTakeResult.FullInven; break; }
             mon.CorpseInven.Items.Remove(item);
-            PushTItem(s, one);
+            GrantMonsterItem(s, ch, item, 0);
             SendCS_GETITEM_ACK(s, item, ch.CharId);
+            if (mon.KeeperType == OwnerParty) PartyMonItemTake(s, ch, item);
         }
         SendCS_MONITEMLIST_ACK(s, mon, update: 1);
         SendCS_MONITEMTAKE_ACK(s, result);
@@ -124,18 +126,13 @@ public sealed partial class MapService
 
     // ================================ quests ================================
 
-    /// <summary>C++ <c>OnCS_QUESTENDTIMER_REQ</c>: a running quest's timer terms fail (and its timer stops).</summary>
+    /// <summary>The client's timer notification is accepted only when the server deadline has passed.</summary>
     private void OnCS_QUESTENDTIMER_REQ(ClientSession s, PacketReader r)
     {
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         uint questId = r.ReadUInt32();
         if (ch.FindQuest(questId) is not { IsRunning: true } qp) return;
-        foreach (var t in qp.Template.Terms.Where(t => t.TermType == QttTimer))
-        {
-            qp.BeginTick = 0;
-            qp.Save = true;
-            SendCS_QUESTUPDATE_ACK(s, questId, t.TermId, t.TermType, 0, (byte)QuestTermStatus.Failed);
-        }
+        ExpireQuestTimer(s, qp);
     }
 
     /// <summary>C++ <c>OnCS_QUESTPOSEXEC_REQ</c>: a hunt term the client reached by position is done — its running count becomes 1.</summary>
@@ -146,6 +143,7 @@ public sealed partial class MapService
         if (ch.FindQuest(questId) is not { } qp || FindTemplateTerm(qp, termId, QttHunt) is null) return;
         if (qp.RunningTerms.FirstOrDefault(t => t.TermId == termId) is { } rt) rt.Count = 1;   // CQuest::FinishTerm
         qp.Save = true;
+        ScheduleQuestCheckpoint(ch);
         SendCS_QUESTUPDATE_ACK(s, questId, termId, QttHunt, 1, (byte)QuestTermStatus.Success);
     }
 

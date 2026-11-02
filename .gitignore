@@ -95,6 +95,8 @@ enc_temp_folder/
 /TGAME_RAGEZONE.bak
 
 # ----- OS / misc junk -----
+__pycache__/
+*.py[cod]
 Thumbs.db
 ehthumbs.db
 Desktop.ini

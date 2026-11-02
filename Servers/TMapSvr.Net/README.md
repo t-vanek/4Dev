@@ -1,6 +1,168 @@
 # TMapSvr.Net
 
+2026-10-31 user-requested welcome mail: characters created after SQL activation receive one letter at
+their first playable main-session entry, containing 5 small life potions (8001) and 5 small mana
+potions (8101). Existing characters are excluded. Migration 048, first-entry intents, Wolverine
+transport and permanent native-mail receipts keep enrollment/recovery in SQL only. Repeated ready
+packets, relog and process recovery reuse the same reward identity. Fourteen focused unit cases and
+nine new isolated SQL/process scenarios pass. This is an explicit custom reward, not Gameforge
+baseline evidence. Deployment and outstanding client verification: `Gameforge/welcome-mail.json`.
+
+2026-10-30 inventory fix: SQL-loaded, added and tournament bags now use `bSlotCount`; explicit
+destinations cannot create hidden inventory slots. Migration 047 recovered five invisible live items
+without changing any item fields except coordinates, or altering quests/characters. All 1,785 Map
+and 220 World tests plus seven isolated SQL repair checks pass. Rebuilt Map/World are deployed.
+See `Gameforge/inventory-visible-slots.json`; real-client acceptance after the fix is pending.
+
+2026-10-30 deployment: current cumulative source is built and deployed in Docker for Login, World,
+Map, Patch and Control. Migrations 041 through 046 are applied after checksum-verified game/global
+backups. Map/World/Control registration, public TCP ports, SQL queue ownership and the deployed data
+library pass startup/read-only checks. Real-client journeys remain unverified. Deployment evidence:
+`Gameforge/deployments/2026-10-30-wolverine.json`. Earlier entries retain their historical test scopes.
+
 ## Current implementation
+
+All production mail stores now use the shared `FourDev.Mail` Wolverine 6.59.1 layer: player mailbox,
+bills/refunds, quest reservations/continuations and server rewards. Interactive handlers are awaited
+by the game actor. New server rewards use durable SQL transport; native letter/coins/items/receipt
+and the World notification outbox commit together. Old queued letters retain their IDs when forwarded.
+Migration 046 provisions the dedicated message/transport schemas; production disables auto-DDL and
+purging. Mail claim failures no longer grant contents, SQL release is transactional, and deletion
+rejects any unclaimed attachment count. See `Gameforge/wolverine-mail.json` and `Servers/FourDev.Mail`.
+The complete player exchange/war settlement and real-client acceptance remain separate gaps. Source is deployed as recorded above.
+Validation: 1,775 Map tests, 220 World tests and 72 distinct native/framework SQL scenarios pass.
+The 14 Wolverine scenarios also pass from published output in the runtime image without an SDK.
+
+The earlier version-3 recovery layer below is retained for pending letters and its native receipts;
+new production letters use Wolverine as described above.
+
+Server reward letters previously committed complete intents to the existing SQL queue before returning from
+MailOperator, including fire-and-forget callers. Migration 045 adds SQL receipts; header, coins,
+new attachments and receipt commit together. Replay after a process exit or after letter collection
+does not issue again. Required schema is checked before startup recovery; notifications run on the
+actor. All 1,767 Map tests and 58 disposable SQL scenarios pass (15 new cases, 14 new SQL checks).
+See `Gameforge/operator-post-recovery.json`. This protects accepted letters; a whole war result,
+all recipients, points and World delivery still need a shared durable settlement. Not deployed.
+
+Classic territory wars now wait for confirmed SQL occupation results before publishing ownership
+success; castle mail/stat rewards also wait for that result. Fort/castle writes use the existing DB
+lane and actor, and war stat/PvP changes schedule SQL character checkpoints. Saved guild destinations
+are rechecked on entry and after castle capture; registered operators retain native castle entry.
+Migration 044 repairs the Sky Garden target ID and missing mission/garden targets. Validation:
+1,752 Map tests, 219 World tests and 44 disposable SQL scenarios (11 new territory/application checks).
+See `Gameforge/territory-wars.json`. Source/migration are not deployed. Active-war restart, durable
+settlement/reward replay, separate BoW/BR matches and real-client acceptance remain incomplete.
+
+Recovery now uses SQL only. Migration 043 adds `TCharacterSaveOwner`/`TCharacterSaveQueue`; queued
+snapshots are committed before acknowledging quest changes, and replay remains on the single DB lane.
+Character/item state, sibling/nested mail intents and receipts need no filesystem journal. The Map save
+directory setting and `map-state` mount are removed. Evidence: `Gameforge/sql-save-queue.json`.
+Migrations 041/042/043 and this source are not deployed; real-client/MapWorker restart and external
+world-effect continuations remain open. The validation notes below record earlier implementation
+stages; their filesystem journal design is superseded by this SQL-only queue.
+
+Quest mail continuation recovery: migration 042 adds an atomic SQL outbox/issuance ledger. A version-2
+journal record joins character/item results, sibling/nested mail intents and receipts; admission resumes
+unfinished character/mail actions after the save-recovery barrier. SQL/file failures suppress child
+replies and prevent partial state from escaping through logout or direct saves. All 1,731 Map tests
+and 27 isolated SQL scenarios pass (6 new unit cases, 11 new mail scenarios). See
+`Gameforge/quest-mail-recovery.json`. NOT deployed: migrations 041/042 are required. World-effect
+children remain explicitly pending/blocked; cross-Map ownership and real-client acceptance remain open.
+
+Quest event checkpoints and selected reward validation are implemented. All 1,725 Map tests pass
+(22 new cases). Six new SQL lifecycle scenarios pass alongside the ten full-save checks: actual
+MapService dispatch, immediate process exit without logout, fresh-process journal recovery and SQL
+reload preserve acceptance, hunt, selected rewards, next missions, abandonment and expired timers.
+Direct quest replies wait for durable journal publication; invalid choices preserve ingredients and
+eligibility. See `Gameforge/quest-checkpoints.json`. This is not deployed or real-client verified;
+RT_SOUL, TT_WARREGION, generic mail-child recovery and cross-Map ownership remain open.
+
+Full-save integrity: migration 041 persists the three Stat* parameters discarded by the inherited
+TSaveChar and removes its private name-specific item gift/credential lookup. Journaled saves now reject
+a nonzero native return before writing auxiliary rows. Cash bonus item use consumes/queues the item
+before its cash procedure and awaits completion on the batch task. Two held-store regressions pass.
+All 1,703 Map tests pass. Ten new SQL scenarios exercise the REAL full MapService journal callback in a
+disposable SQL instance, including a killed writer, fresh-process recovery, a late companion failure,
+all character/inventory/global timed-item stages and replay without duplicate rows. Migration 041 is
+idempotent. See `Gameforge/full-save-integrity.json`. Migration/source are NOT deployed; full MapWorker
+restart, real-client logout/relog, distributed ownership and atomic cash exchange remain open.
+
+Required auxiliary character loading now rejects database failures before a playable/saveable
+character is published. Companion selection/medals, owned pets/saddle, saved recalls/buffs, hotkeys,
+allegiance and premium/EXP items no longer silently become empty on a failed read. Valid empty state,
+existing chart filtering, timed-item rules and the optional PC-bang fallback remain. Incomplete saved
+pages/companion arrays are refused. Validation: all 1,701 Map tests (17 new cases) and 36 isolated SQL
+scenarios (12 new character-state checks) pass, including native companion/pet insert/update and fresh
+connection reload. See `Gameforge/character-admission.json`. Full character/global save recovery,
+real-client/restart and distributed ownership verification remain open. Not deployed.
+
+Quest admission now requires a complete saved quest log. Read failures close and unregister the
+session on both client/world entry paths; queued handshake packets cannot finish rejected entry.
+A valid empty log still permits a new character. Headers and objective counters load in one serializable
+SQL transaction, preventing a concurrent save from mixing versions. Saved completions, running counters
+and failed timers are reconstructed before character packets. Validation: 1,684 Map tests (8 new),
+17 quest SQL scenarios (4 new) and 7 separate-process save-recovery checks pass. Evidence and history:
+`Gameforge/quest-admission.json`. The existing 35 SendPost charts have no exec-quest children; general
+child-event recovery stays open. Full real-client/server-restart acceptance remains pending. Not deployed.
+
+Character-save recovery now journals full snapshots and incremental inventory/cabinet item writes
+before clearing dirty state. Failed SQL work stays in FIFO order across process restarts; startup and
+character reload wait for recovery. Hotkey replacements are transactional and safe to replay. The
+single DB lane, ID-seed/main/DB-loaded gates, arena/meeting exits and prior quest fixes are preserved;
+shutdown also excludes temporary tournament characters. Evidence: `Gameforge/quest-save-recovery.json`.
+Separate-process SQL tests cover quest/item/hotkey recovery; full native character/global/pet/companion
+round trips, full game-server restart and real-client acceptance remain open. Cross-Map owner fencing
+is required before using recovery across independently writing Map servers. This source is not deployed.
+
+Quest acquisition events now run after successful single-item, take-all and lottery corpse transfers.
+Take-all respects pending draws; only the actual winner advances objectives. Destruction refreshes fetch
+counts without firing acquisition triggers; ordinary slot moves do not create acquisition events.
+Server timers expire without client cooperation; early/repeated notifications cannot disable deadlines.
+Repeated saves retain decaying remaining time, expired reloads stay failed and login sends the remaining
+countdown. Main/in-game checks cover loot and lottery recipients. Validation: all 1,662 Map tests pass,
+including 36 new cases, plus thirteen isolated SQL scenarios. See `Gameforge/quest-events.json`.
+World source unchanged; real-client/server-restart acceptance remains pending. Not deployed.
+
+Quest mail now persists its issuance counter in the same transaction as its attachments. The chart's
+CountMax survives reload and concurrent Map issuers; already-issued rewards do not replay their children.
+The 19 level-mail templates retain CountMax=1, and the 16 war-region templates retain CountMax=0.
+Ordinary castle/fort/mission reward mail uses its existing separate path. GiveSkill now activates a
+level-zero catalogue entry using the earlier C# reward fix; abandoning a type-21 objective resets it.
+Follow-up validation: 18 new regressions, all 1,626 Map tests and twelve isolated SQL scenarios pass.
+World source is unchanged (last full suite: 207). See `Gameforge/quest-engine.json`. Not deployed.
+
+Quest dispatch now includes SendPost with atomic reservations and World delivery, offline recipients,
+native chart text and complete item properties. Position, level-up and map-exit hooks run; country,
+quest drops, quest EXP, party-once regeneration and type-21 proximity objectives are covered. Regen
+uses carried death coordinates, cycles are bounded, and quest headers/terms save transactionally.
+Timers remain active at tick zero and after loading an expired quest; reacceptance starts a fresh timer.
+Validation: 1,608 Map + 207 World tests, including 43 new cases, plus eight isolated SQL scenarios.
+See `Gameforge/quest-engine.json` and `Tools/QuestEngineCheck`. This is not deployed. Twelve RT_SOUL
+missions, sixteen TT_WARREGION mail templates, crash/retry semantics and real-client verification
+remain open; the quest system is not certified complete.
+
+Monster rewards for nearby secondary party copies now pass through World to the player's current main;
+the shadow copy cannot change its local EXP or hunt progress. Existing local bonus/soulmate and level
+cap/overflow protections remain. Monster `wKind` groups variants into their hunt objectives for local
+and routed kills, with the monster's kill position. All 19 new cases and 1,568 Map + 204 World tests
+pass; a separate read-only live SQL test verifies 3,707 kinds, including 920 variant mappings.
+See `Gameforge/monster-reward-relay.json`. Source is not deployed; real-client/topology and persistence
+verification remain pending.
+
+TMS private-conversation reopening now checks a pending original message and the prompted peer's current
+main/key. Duplicate invitation IDs retain the original set/merge behaviour. Missing/disconnected peers
+return the localized no-receiver notice; leaving/logging out cancels pending work. Loading/secondary
+sessions cannot originate or approve it, and roster count overflow is refused atomically. All 28 new
+cases pass; Map passes 1,550 tests and World 203. See `Gameforge/tms-recovery.json`. This source is not
+deployed; real-client verification remains pending.
+
+Ordinary-map chat now routes near, whisper, party, guild, tactics, corps, map/show and operator messages
+through Map/World, including existing World event announcements. Recipients, keys and membership are
+server-derived. Faction/aid rules, meeting-room/Broa exceptions, protected lists and bans are retained;
+whisper echo identifies the recipient. Map passes 1,537 tests and World 188, with 69 new cases versus
+the deployed baseline. The operator loader also passes a live read-only SQL check. Source is not
+deployed; real-client/locale checks and separate BoW/BR match-server chat rules remain pending.
+See `Gameforge/chat-routing.json`.
 
 The current [deployment record](../../Gameforge/deployments/2026-10-28-baseline.json) contains image IDs,
 client hash, SQL verification and test results. All five Docker services were rebuilt and recreated;
@@ -486,6 +648,7 @@ is 3815). A client's path through the stack is `patchsvr → loginsvr → mapsvr
 | `Channels` | `[1]` | Channels announced in `MW_CONNECT_ACK`. |
 | `LogIp` / `LogPort` | 127.0.0.1 / 7000 | UDP log-sink endpoint (integration deferred). |
 | `NoCrypt` | false | Set true to accept clients in plaintext (interop with a plaintext bot/client). |
+| `SaveQueueName` | `<group>-<server>` | SQL save queue ownership scope, protected by a session SQL lock. Keep matching game/global databases; pending/corrupt rows block admission. No save directory or file fallback. |
 | `Db:GameConnectionString` | — | Empty ⇒ run DB-free (char synthesized). |
 | `Db:GlobalConnectionString` | — | Account security codes; falls back to the game server/credentials with catalog `TGlobal_gsp`. |
 

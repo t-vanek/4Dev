@@ -9,6 +9,22 @@ namespace TMap.Server.Tests;
 /// the reward.</summary>
 public class SkyGardenTests
 {
+    [Theory]
+    [InlineData(0)] [InlineData(1)] [InlineData(-1)]
+    public async Task GardenResultWaitsForSqlConfirmation(int result)
+    {
+        var (h, a, _, _, _) = await Setup();
+        var store = new HeldTerritoryStore(result); h.Service.TerritoryOccupationStore = store;
+        await h.Service.DispatchWorldAsync(SkyEnable(1));
+        var finish = h.Service.DispatchWorldAsync(SkyEnable(4));
+        await store.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        try { Assert.Null(h.World.Last(Msg.MW_SKYGARDENOCCUPY_ACK)); }
+        finally { store.Release.TrySetResult(); }
+        await finish;
+        Assert.Equal(1, store.Calls); Assert.Equal(Sky, store.Territory);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_SKYGARDENOCCUPY_ACK) is not null);
+    }
+
     private const ushort Sky = 200, Map = 2100, MonId = 500, AttrId = 900;
     private const ushort GateL = 32391, GateR = 32392, GateC = 32393, Mid = 32388, Right = 32389, Left = 32390;
     private const ushort ValDef = 32396, ValAtk = 32397, DerDef = 32394, DerAtk = 32395, CampDD = 40001, CampCA = 40002, CampCD = 40003;

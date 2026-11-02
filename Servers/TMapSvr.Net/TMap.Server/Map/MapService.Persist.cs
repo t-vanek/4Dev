@@ -13,7 +13,7 @@ namespace TMap.Server.Map;
 ///
 /// <para><b>Threading:</b> the snapshot (<see cref="BuildCharSave"/>/<see cref="BuildQuestSaves"/>) is built on
 /// the batch thread — where all char state is lock-free — and the LastSave/quest-dirty flags are updated there;
-/// the actual SQL then runs off-thread (fire-and-forget with logged errors, self-throttled per char), so the
+/// the actual SQL then runs off-thread from durable snapshots, retried in FIFO order, so the
 /// map never blocks on the DB. This replaces the C++ dedicated DB job queue.</para>
 ///
 /// <para><b>DB-free:</b> everything no-ops when <c>_gameDb is null</c>. Only chars loaded from a real
@@ -25,8 +25,8 @@ namespace TMap.Server.Map;
 /// <b>money and inventory now persist together</b> — the Phase-25 relog desync is closed. Gated on the item-id
 /// seed (<see cref="_itemIdReady"/>) so an unseeded counter never rewrites with colliding <c>dlID</c>s.</para>
 ///
-/// <para><b>Deferred (documented, PORT_STATUS.md):</b> skill/maintain/hotkey/cabinet/companion/pet saves and
-/// the incremental single-item fast-path (<c>TSaveItemDirect</c>).</para>
+/// <para>Full character snapshots and incremental item changes are journaled before dirty state is cleared.
+/// Pending writes are recovered before startup and character loading; other DB operations keep their existing semantics.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -56,22 +56,23 @@ public sealed partial class MapService
         MonthPvPoint: ch.MonthPvPoint, MonthWin: ch.MonthWin, MonthLose: ch.MonthLose, MonthSay: ch.MonthSay, Country: ch.Country,
         Titles: ch.Titles.Select(t => (t.Key, t.Value)).ToList());
 
-    /// <summary>Collects the dirty (<c>Save</c>-flagged) quests into save rows and clears their flags (C++ resets
-    /// <c>m_bSave</c> after packing). Batch-thread; the returned rows are an immutable snapshot.</summary>
-    public static List<QuestSaveRow> BuildQuestSaves(Character ch, uint nowMs)
+    /// <summary>Collects dirty quests and running timers into save rows and clears dirty flags. Timers
+    /// must be included again even without an objective change, since their remaining time decays.
+    /// Batch-thread; the returned rows are an immutable snapshot.</summary>
+    public static List<QuestSaveRow> BuildQuestSaves(Character ch, uint nowMs, bool clearFlags = true)
     {
         var rows = new List<QuestSaveRow>();
         foreach (var qp in ch.Quests.Values)
         {
-            if (!qp.Save) continue;
+            // An unchanged active timer still decays between saves and must be snapshotted on logout.
+            if (!qp.Save && !(qp.IsRunning && qp.HasTimer)) continue;
             // Timer quests persist their remaining time (C++ dwTick = TimerTick − elapsed, clamped ≥ 0).
-            uint tick = qp.IsRunning && qp.BeginTick != 0
-                ? (uint)Math.Max(0L, (long)qp.TimerTick - (nowMs - qp.BeginTick)) : 0u;
+            uint tick = qp.IsRunning ? qp.RemainingTimer(nowMs) : 0u;
             var terms = qp.RunningTerms
                 .Select(rt => new QuestTermSaveRow(rt.TermId, rt.TermType, rt.Count))
                 .ToList();
             rows.Add(new QuestSaveRow(qp.Template.QuestId, tick, qp.CompleteCount, qp.TriggerCount, terms));
-            qp.Save = false;
+            if (clearFlags) qp.Save = false;
         }
         return rows;
     }
@@ -126,7 +127,7 @@ public sealed partial class MapService
     private static ItemSaveData BuildItemSave(byte invenId, Item it) =>
         new(it.DlId, Proto.StorageInven, invenId, it.ItemSlot, it.TemplateId, it.Level, it.Count, it.GLevel,
             it.DuraMax, it.DuraCur, it.RefineCur, it.EndTime, it.GradeEffect,
-            MagicIds(it), MagicValues(it), it.Ext, it.Gem, it.MoggItemId);
+            MagicIds(it), MagicValues(it), (uint[])it.Ext.Clone(), it.Gem, it.MoggItemId);
 
     /// <summary>One cabinet item → its <c>TSaveItem</c> value set (Phase 37): <c>STORAGE_CABINET</c>, the
     /// per-cabinet <see cref="Item.StItemId"/> as the storage id, and the cabinet id in the slot field —
@@ -134,7 +135,7 @@ public sealed partial class MapService
     private static ItemSaveData BuildCabinetItemSave(byte cabinetId, Item it) =>
         new(it.DlId, Proto.StorageCabinet, it.StItemId, cabinetId, it.TemplateId, it.Level, it.Count, it.GLevel,
             it.DuraMax, it.DuraCur, it.RefineCur, it.EndTime, it.GradeEffect,
-            MagicIds(it), MagicValues(it), it.Ext, it.Gem, it.MoggItemId);
+            MagicIds(it), MagicValues(it), (uint[])it.Ext.Clone(), it.Gem, it.MoggItemId);
 
     // ---- incremental item persistence (the fast-path; C++ TSaveItemDirect) ----
     //
@@ -149,12 +150,12 @@ public sealed partial class MapService
     // and delete for the same row are mutually exclusive (whichever op came last wins), so pick-up-then-drop in
     // one tick nets to a delete and never resurrects an item.
     private readonly Dictionary<long, (uint charId, ItemSaveData data)> _pendingItemUpserts = new();
-    private readonly HashSet<long> _pendingItemDeletes = new();
+    private readonly Dictionary<long, uint> _pendingItemDeletes = new();
 
     /// <summary>Pending incremental upserts (test visibility).</summary>
     public IReadOnlyDictionary<long, (uint charId, ItemSaveData data)> PendingItemUpserts => _pendingItemUpserts;
     /// <summary>Pending incremental deletes by dlID (test visibility).</summary>
-    public IReadOnlyCollection<long> PendingItemDeletes => _pendingItemDeletes;
+    public IReadOnlyCollection<long> PendingItemDeletes => _pendingItemDeletes.Keys;
 
     /// <summary>Whether this session's item changes should persist incrementally: a main, DB-loaded char with the
     /// item-id base seeded (so a minted dlID can't collide with a live PK — the same gate as the full inventory
@@ -177,7 +178,7 @@ public sealed partial class MapService
     public void EnqueueItemDelete(ClientSession s, Item removed)
     {
         if (!CanPersistItems(s) || removed.DlId == 0) return;
-        _pendingItemDeletes.Add(removed.DlId);
+        _pendingItemDeletes[removed.DlId] = s.Char!.CharId;
         _pendingItemUpserts.Remove(removed.DlId);
     }
 
@@ -207,10 +208,15 @@ public sealed partial class MapService
     /// </summary>
     private Task EnqueueDbWrite(Func<Task> write)
     {
+        long boundary = _saveQueue?.Boundary ?? 0;
         var done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         _dbLane.Writer.TryWrite(async () =>
         {
-            try { await write(); }
+            try
+            {
+                if (_saveQueue is { } journal) await journal.DrainAsync(boundary, ApplyQueuedSaveAsync);
+                await write();
+            }
             catch (Exception ex) { _log.LogWarning(ex, "Database write failed."); }
             finally { done.TrySetResult(); }
         });
@@ -236,30 +242,21 @@ public sealed partial class MapService
     }
 
     /// <summary>Drains the pending item ops (batch thread) and fires the direct writes off-thread — one
-    /// <c>TSaveItemDirect</c> per changed item, one delete per removed row. Queues are cleared regardless; the
-    /// actual writes no-op DB-free.</summary>
+    /// <c>TSaveItemDirect</c> per changed item, one delete per removed row. With a DB, pending operations are
+    /// cleared only after the journal accepts them; DB-free operation still clears the transient queue.</summary>
     public void FlushItemDirect()
     {
+        if (_capturingQuestPost is not null) return; // the continuation's inventory and receipt share one SQL queue record
         if (_pendingItemUpserts.Count == 0 && _pendingItemDeletes.Count == 0) return;
         var upserts = _pendingItemUpserts.Values.ToList();
-        var deletes = _pendingItemDeletes.ToList();
+        var deletes = _pendingItemDeletes.Keys.ToList();
+        if (_gameDb is not null)
+        {
+            SaveQueue.Append(SaveQueueEntry.Direct(upserts.Select(x => new DirectItemSave(x.charId, x.data)).ToList(), deletes));
+            _ = EnqueueDbWrite(() => Task.CompletedTask);
+        }
         _pendingItemUpserts.Clear();
         _pendingItemDeletes.Clear();
-        if (_gameDb is null) return;
-        _ = EnqueueDbWrite(() => FlushItemDirectAsync(upserts, deletes));
-    }
-
-    private async Task FlushItemDirectAsync(List<(uint charId, ItemSaveData data)> upserts, List<long> deletes)
-    {
-        try
-        {
-            foreach (var (charId, data) in upserts) await _gameDb!.SaveItemDirectAsync(charId, data);
-            foreach (var dlId in deletes) await _gameDb!.DeleteItemDirectAsync(dlId);
-        }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Incremental item save failed.");
-        }
     }
 
     // The item's magic set → the fixed 6 (bMagic[i], wValue[i]) slots TSaveItem expects (raw stored values;
@@ -289,70 +286,174 @@ public sealed partial class MapService
     public void RunPeriodicSaves(uint nowMs)
     {
         if (_gameDb is null) return;
+        RetryPendingSaves(nowMs);
         foreach (var s in _state.AllInGame().ToList())
             if (IsSaveDue(s, nowMs)) SaveCharData(s);
     }
 
     /// <summary>Snapshots + fires a char save for one session (gate: DB configured, main, DB-loaded). Ignores the
     /// periodic throttle — used by the disconnect/logout path (C++ <c>SetEventCloseSession</c>).</summary>
-    private void SaveCharData(ClientSession s)
+    private void SaveCharData(ClientSession s) => QueueCharacterSave(s);
+
+    private Task QueueCharacterSave(ClientSession s)
     {
-        if (_gameDb is null || !s.IsMain || s.Char is not { DbLoaded: true, TournamentBackup: null } ch) return;   // not the tournament character
-        ch.LastSaveMs = NowMs;
+        if (_capturingQuestPost is not null) return Task.CompletedTask;
+        if (_gameDb is null || !s.IsMain || s.Char is not { DbLoaded: true, TournamentBackup: null } ch)
+            return Task.CompletedTask;
+        // Item packets accumulated earlier in this batch must precede the full inventory snapshot.
+        bool postSnapshot = _questPostReceipts.ContainsKey(ch) || _questPostRequests.ContainsKey(ch);
+        bool combinedItems = postSnapshot || _pendingItemUpserts.Count != 0 || _pendingItemDeletes.Count != 0;
+        var snapshot = CaptureCharacterSave(ch);
+        SaveQueue.Append(SaveQueueEntry.Full(snapshot,
+            combinedItems ? _pendingItemUpserts.Values.Select(x => new DirectItemSave(x.charId, x.data)).ToList() : null,
+            combinedItems ? _pendingItemDeletes.Keys.ToList() : null));
+        if (combinedItems) { _pendingItemUpserts.Clear(); _pendingItemDeletes.Clear(); }
+        if (postSnapshot) _unpublishedQuestPost = null;
+        CompleteCharacterCheckpoint(ch, snapshot);
+        return EnqueueDbWrite(() => Task.CompletedTask);
+    }
+
+    private CharacterSaveSnapshot CaptureCharacterSave(Character ch)
+    {
         var charData = WithMeetingExit(WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow()));
-        if (ArenaOf(ch) is { } arena)                                                  // a fighter is saved at the exit (SSSender.cpp:823)
+        if (ArenaOf(ch) is { } arena)
             charData = charData with { MapId = arena.Out.MapId, PosX = arena.Out.PosX, PosY = arena.Out.PosY, PosZ = arena.Out.PosZ };
-        var quests = BuildQuestSaves(ch, NowMs);
+        var quests = BuildQuestSaves(ch, NowMs, clearFlags: false);
         var inventory = _itemIdReady ? BuildInvenSaves(ch) : ((List<InvenSaveData>, List<ItemSaveData>)?)null;
-        var hotkeys = BuildHotkeySaves(ch);
-        var pets = PetSnapshot(ch);
-        var comps = (CompanionSnapshot(ch), ch.CompanionSlot, ch.Medals);
-        var skills = BuildSkillSaves(ch, NowMs);
-        _ = EnqueueDbWrite(() => FlushSaveAsync(ch.CharId, charData, quests, inventory, hotkeys, pets, comps, skills));   // snapshot is immutable
+        var hotkeys = BuildHotkeySaves(ch, clearFlags: false);
+        return new CharacterSaveSnapshot(charData, quests,
+            inventory?.Item1, inventory?.Item2, hotkeys, PetSnapshot(ch), CompanionSnapshot(ch),
+            ch.CompanionSlot, ch.Medals, BuildSkillSaves(ch, NowMs),
+            _questPostRequests.GetValueOrDefault(ch), _questPostReceipts.GetValueOrDefault(ch));
     }
 
-    /// <summary>The off-thread write (never throws unobserved — errors are logged and swallowed). The inventory
-    /// rewrite runs only when a snapshot is supplied (i.e. the id seed is ready) — else the DB keeps its last
-    /// item state, never a destructive empty rewrite.</summary>
-    private async Task FlushSaveAsync(uint charId, CharSaveData charData, IReadOnlyList<QuestSaveRow> quests,
-        (List<InvenSaveData> invens, List<ItemSaveData> items)? inventory, IReadOnlyList<HotkeySaveRow> hotkeys,
-        IReadOnlyList<PetRow>? pets = null, (List<CompanionRow> Rows, byte Slot, uint Medals)? comps = null,
-        IReadOnlyList<SkillSaveRow>? skills = null)
+    private void CompleteCharacterCheckpoint(Character ch, CharacterSaveSnapshot snapshot)
     {
-        try
+        _questPostRequests.Remove(ch);
+        _questPostReceipts.Remove(ch);
+        _questCheckpoints.Remove(ch);
+        // A durable record now owns these changes, even if SQL fails or the session disappears.
+        foreach (var row in snapshot.Quests) ch.Quests[row.QuestId].Save = false;
+        foreach (var row in snapshot.Hotkeys) ch.HotkeyPages.First(p => p.InvenKey == row.InvenKey).Save = HotkeyPage.SaveLoad;
+        ch.LastSaveMs = NowMs;
+    }
+
+    private void CheckpointPlayerExchange(Character a, Character b)
+    {
+        if (_gameDb is null) return;
+        var snapshots = new List<CharacterSaveSnapshot> { CaptureCharacterSave(a), CaptureCharacterSave(b) };
+        SaveQueue.Append(SaveQueueEntry.PlayerExchange(snapshots,
+            _pendingItemUpserts.Values.Select(x => new DirectItemSave(x.charId, x.data)).ToList(), _pendingItemDeletes.Keys.ToList()));
+        _pendingItemUpserts.Clear(); _pendingItemDeletes.Clear();
+        CompleteCharacterCheckpoint(a, snapshots[0]); CompleteCharacterCheckpoint(b, snapshots[1]);
+        if (ReferenceEquals(_unpublishedQuestPost, a) || ReferenceEquals(_unpublishedQuestPost, b)) _unpublishedQuestPost = null;
+        _ = EnqueueDbWrite(() => Task.CompletedTask);
+    }
+
+    private async Task ApplyQueuedSaveAsync(SaveQueueEntry entry)
+    {
+        var db = _gameDb ?? throw new InvalidOperationException("Save recovery requires the game database.");
+        if (entry.OperatorPosts is { } serverPosts)
         {
-            if (skills is not null) await _gameDb!.SaveSkillsAsync(charId, skills);
-            await _gameDb!.SaveCharAsync(charData);
-            await _gameDb.SaveQuestsAsync(charId, quests);
-            if (inventory is { } inv) await _gameDb.SaveInventoryAsync(charId, inv.invens, inv.items);
-            await _gameDb.SaveHotkeysAsync(charId, hotkeys);
-            if (pets is { Count: > 0 }) await SavePetsAsync(charId, pets);
-            if (comps is { } cs) await SaveCompanionsAsync(charId, cs.Rows, cs.Slot, cs.Medals);
+            var posts = OperatorPostStore ?? throw new InvalidOperationException("Durable server reward mail store required.");
+            foreach (var intent in serverPosts)
+            {
+                if (LegacyOperatorPostForward is { } forward)
+                {
+                    await forward(intent); // acknowledge the old queue only AFTER Wolverine durably accepts the same operation ID
+                    continue;
+                }
+                var result = await posts.DeliverOperatorPostAsync(intent);
+                if (result.Result != 0)
+                    _log.LogWarning("Server reward mail {Operation} for {Character} rejected: {Result}.", intent.OperationId, intent.CharId, result.Result);
+                else if (result.Created)
+                    _dbResults.Enqueue(() => NotifyPostRecv(result.PostId, "Operator", result.Receiver, intent.Title, intent.Type, intent.Time));
+            }
         }
-        catch (Exception ex)
+        // Version 2 mail checkpoints include direct item operations and the full result in ONE
+        // record. Applying the operations first preserves cabinet/storage moves and the existing
+        // direct-before-full order without a crash gap between two SQL queue commits.
+        if (entry.Upserts is not null)
         {
-            _log.LogWarning(ex, "Char {Char} save failed.", charId);
+            foreach (var item in entry.Upserts) await db.SaveItemDirectAsync(item.CharId, item.Item, requireProcedures: true);
+            foreach (long id in entry.Deletes!) await db.DeleteItemDirectAsync(id);
+        }
+        var snapshots = entry.Exchange ?? (entry.Character is { } character ? [character] : new List<CharacterSaveSnapshot>());
+        foreach (var s in snapshots)
+        {
+            uint id = s.Character.CharId;
+            await db.SaveSkillsAsync(id, s.Skills);
+            await db.SaveCharAsync(s.Character, requireProcedures: true);
+            await db.SaveQuestsAsync(id, s.Quests, requireProcedures: true);
+            if (s.Inventory is not null) await db.SaveInventoryAsync(id, s.Inventory, s.Items!, requireProcedures: true);
+            await db.SaveHotkeysAsync(id, s.Hotkeys, requireProcedures: true);
+            await SavePetsAsync(id, s.Pets);
+            await SaveCompanionsAsync(id, s.Companions, s.CompanionSlot, s.Medals);
+            if (s.QuestPostRequests is not null || s.QuestPostReceipts is not null)
+            {
+                var posts = QuestPostStore as IQuestPostOperationStore
+                    ?? throw new InvalidOperationException("Durable quest post store required for recovery.");
+                foreach (var request in s.QuestPostRequests ?? [])
+                {
+                    var result = await posts.ReserveQuestPostAsync(request);
+                    if (result.Result is not (0 or QuestPostResult.AlreadyIssued))
+                        _log.LogWarning("Journaled quest mail {Quest} for {Character} rejected: {Result}.", request.QuestId, id, result.Result);
+                }
+                // Last stage: only a replayable, fully-applied child snapshot may acknowledge an outbox event.
+                await posts.AcknowledgeQuestPostOperationsAsync(id, s.QuestPostReceipts ?? []);
+            }
         }
     }
 
-    /// <summary>Flushes every in-game char synchronously (awaited) — the shutdown path (C++ <c>SaveAllCharData</c>).</summary>
+    private SqlSaveQueue? _saveQueue;
+    public ICharacterSaveQueueStore? SaveQueueStore { get; set; }
+    private SqlSaveQueue SaveQueue => _saveQueue ??= CreateSaveQueue();
+    private string SaveQueueOwner => _opt.SaveQueueName ?? $"{_opt.GroupId}-{_opt.ServerId}";
+    private SqlSaveQueue CreateSaveQueue()
+    {
+        string DatabaseIdentity(string connection)
+        {
+            var b = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(connection);
+            return b.DataSource + "\n" + b.InitialCatalog;
+        }
+        var identity = DatabaseIdentity(_opt.Db.GameConnectionString) + "\n" + DatabaseIdentity(_opt.Db.GlobalConnectionString ?? "");
+        return new SqlSaveQueue(SaveQueueStore ?? new CharacterSaveQueueStore(_opt.Db.GameConnectionString, SaveQueueOwner), Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(
+            System.Text.Encoding.UTF8.GetBytes(identity))));
+    }
+
+    /// <summary>Hold the SQL lease for the worker lifetime. Configured SQL cannot silently become DB-free.</summary>
+    public IDisposable? OpenSaveQueue()
+    {
+        if (_gameDb is not null) return SaveQueue;
+        if (!string.IsNullOrWhiteSpace(_opt.Db.GameConnectionString))
+            throw new InvalidOperationException("Configured SQL save recovery is required before startup.");
+        return null;
+    }
+
+    /// <summary>Startup/login barrier. Unlike background logging, failures here deny admission.</summary>
+    public async Task RecoverPendingSavesAsync()
+    {
+        if (_gameDb is null) return;
+        _ = SaveQueue; // initialize before capturing the enqueue boundary
+        await EnqueueDbWrite(() => Task.CompletedTask);
+        if (SaveQueue.PendingCount != 0)
+            throw new IOException("Character save recovery is incomplete; admission denied.");
+    }
+
+    private uint _lastSaveRetry;
+    private Task? _saveRetry;
+    private void RetryPendingSaves(uint nowMs)
+    {
+        if (_saveQueue is not { PendingCount: > 0 } || _saveRetry is { IsCompleted: false } || nowMs - _lastSaveRetry < 5000) return;
+        _lastSaveRetry = nowMs;
+        _saveRetry = EnqueueDbWrite(() => Task.CompletedTask);
+    }
+
     public async Task SaveAllCharDataAsync()
     {
         if (_gameDb is null) return;
-        foreach (var s in _state.AllInGame().ToList())
-        {
-            if (!s.IsMain || s.Char is not { DbLoaded: true } ch) continue;
-            ch.LastSaveMs = NowMs;
-            var charData = WithMeetingExit(WithDuringItems(WithRecalls(BuildCharSave(ch), ch, NowMs), ch, UnixNow()));
-            if (ArenaOf(ch) is { } arena)                                                  // a fighter is saved at the exit (SSSender.cpp:823)
-                charData = charData with { MapId = arena.Out.MapId, PosX = arena.Out.PosX, PosY = arena.Out.PosY, PosZ = arena.Out.PosZ };
-            var quests = BuildQuestSaves(ch, NowMs);
-            var inventory = _itemIdReady ? BuildInvenSaves(ch) : ((List<InvenSaveData>, List<ItemSaveData>)?)null;
-            var hotkeys = BuildHotkeySaves(ch);
-            var pets = PetSnapshot(ch);
-            var comps = (CompanionSnapshot(ch), ch.CompanionSlot, ch.Medals);
-            var skills = BuildSkillSaves(ch, NowMs);
-            await EnqueueDbWrite(() => FlushSaveAsync(ch.CharId, charData, quests, inventory, hotkeys, pets, comps, skills));
-        }
+        FlushItemDirect();
+        foreach (var s in _state.AllInGame().ToList()) await QueueCharacterSave(s);
+        await RecoverPendingSavesAsync();
     }
 }

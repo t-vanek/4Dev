@@ -7,8 +7,8 @@ namespace TMap.Server.Map;
 /// Chat — ported from <c>OnCS_CHAT_REQ</c> (CSHandler.cpp:5206) / <c>SendCS_CHAT_ACK</c>. Local scopes
 /// (CHAT_NEAR, and CHAT_WHISPER when the target is on this map) are delivered directly; the remaining
 /// scopes (party/guild/tactics/map/force and unresolved whispers) are forwarded to the world via
-/// <c>MW_CHAT_ACK</c>. Delivery of world-relayed chat back to clients (<c>OnMW_CHAT_REQ</c>) is a
-/// documented Phase-1 deferral — see PORT_STATUS.md.
+/// <c>MW_CHAT_ACK</c>. World deliveries use the native receiver layout and faction/block-list rules.
+/// World selects party/guild/corps/tactics members and remote whisper recipients from authoritative state.
 /// </summary>
 public sealed partial class MapService
 {
@@ -16,7 +16,7 @@ public sealed partial class MapService
 
     private void OnCS_CHAT_REQ(ClientSession s, PacketReader r)
     {
-        if (s.State != EnterState.InGame || s.Char is not { } ch) return;
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
 
         string sender = r.ReadString();
         var group = (ChatGroup)r.ReadByte();
@@ -24,9 +24,10 @@ public sealed partial class MapService
         string name = r.ReadString();
         string talk = r.ReadString();
 
-        if (group is ChatGroup.World or ChatGroup.Operator) return; // clients may not originate these
+        if (group is ChatGroup.World or ChatGroup.Operator || (byte)group > (byte)ChatGroup.Show) return;
         if (talk.Length > MaxChatLen) talk = talk[..MaxChatLen];
         if (ChatBanned(s, ch)) return;                                                          // MapService.Gm.cs
+        if (group == ChatGroup.Show && (target != talk.Length || !talk.Contains(ch.Name, StringComparison.Ordinal))) return;
 
         // Anti-spoof: the sender name must match the char (the C++ chat-bans a mismatch). Phase-1 just drops.
         if (!string.Equals(sender, ch.Name, StringComparison.Ordinal))
@@ -39,16 +40,22 @@ public sealed partial class MapService
         {
             case ChatGroup.Near:
                 foreach (var other in _state.Neighbors(s))
-                    SendChat(other, BuildCS_CHAT_ACK(group, s.CharId, ch.Name, talk), s.CharId);
+                    if (other is { IsMain: true, State: EnterState.InGame, Char: { } receiver }
+                        && (ch.MapId is >= MeetingLobby and <= MeetingLast || CanTalk(ch, group, receiver.Country, receiver.AidCountry)))
+                        SendChat(other, BuildCS_CHAT_ACK(group, s.CharId, ch.Name, talk), s.CharId);
                 s.Send(BuildCS_CHAT_ACK(group, s.CharId, ch.Name, talk)); // echo to self
                 break;
 
             case ChatGroup.Whisper:
-                var to = FindByName(name);
-                if (to is not null)
+                bool CanWhisperTo(ClientSession? candidate) => candidate is { IsMain: true, State: EnterState.InGame, Char: { } c }
+                    && CanTalk(ch, group, c.Country, c.AidCountry);
+                var to = _state.FindByChar(target);
+                if (!CanWhisperTo(to)) to = FindByName(name);
+                if (CanWhisperTo(to))
                 {
-                    SendChat(to, BuildCS_CHAT_ACK(group, s.CharId, ch.Name, talk), s.CharId);
-                    s.Send(BuildCS_CHAT_ACK(group, s.CharId, ch.Name, talk)); // echo to sender
+                    var recipient = to!.Char!;
+                    SendChat(to, BuildCS_CHAT_ACK(IsOperator(ch.CharId) ? ChatGroup.Operator : group, s.CharId, ch.Name, talk), s.CharId);
+                    s.Send(BuildCS_CHAT_ACK(group, s.CharId, recipient.Name, talk));
                 }
                 else
                 {
@@ -86,8 +93,10 @@ public sealed partial class MapService
         w.WriteUInt32(s.CharId);
         w.WriteUInt32(s.Key);
         w.WriteString(s.Char!.Name);
-        w.WriteByte(group);   // bType
+        w.WriteByte(IsOperator(s.CharId) ? (byte)ChatGroup.Operator : group);   // bType
         w.WriteByte(group);   // bGroup
+        target = (ChatGroup)group switch { ChatGroup.Party => s.Char.GetPartyId(), ChatGroup.Guild => s.Char.GuildId,
+            ChatGroup.Tactics => GuildOf(s.Char), _ => target };
         w.WriteUInt32(target);
         w.WriteString(name);
         w.WriteString(talk);
@@ -96,16 +105,47 @@ public sealed partial class MapService
 
     private void OnMW_CHAT_REQ(PacketReader r)
     {
-        // World-relayed chat delivery to local clients is deferred (the exact MW_CHAT_REQ payload layout is
-        // not yet transcribed). Local NEAR/WHISPER chat already works end-to-end. See PORT_STATUS.md.
-        _log.LogDebug("MW_CHAT_REQ received (world-relayed chat delivery deferred).");
+        // SSHandler.cpp:9618. Channel/target are routing context; the native broadcast receiver does
+        // not apply another local map/channel filter. Targeted deliveries require the current main key.
+        uint charId = r.ReadUInt32(), key = r.ReadUInt32();
+        r.ReadByte(); // channel
+        uint senderId = r.ReadUInt32();
+        string sender = r.ReadString();
+        byte country = r.ReadByte(), aidCountry = r.ReadByte();
+        var type = (ChatGroup)r.ReadByte();
+        var group = (ChatGroup)r.ReadByte();
+        r.ReadUInt32(); // target
+        string talk = r.ReadString();
+
+        bool CanReceive(ClientSession recipient)
+            => recipient is { IsMain: true, State: EnterState.InGame, Char: { } ch }
+               && CanTalk(ch, group, country, aidCountry);
+
+        if (group is ChatGroup.Show or ChatGroup.Map or ChatGroup.World)
+        {
+            var message = BuildCS_CHAT_ACK(type, senderId, sender, talk);
+            foreach (var recipient in _state.AllInGame())
+                if (CanReceive(recipient)) SendChat(recipient, message, senderId);
+        }
+        else if (group is ChatGroup.Tactics or ChatGroup.Force or ChatGroup.Guild or ChatGroup.Party or ChatGroup.Whisper
+                 && _state.FindByChar(charId) is { } recipient && recipient.Key == key && CanReceive(recipient))
+            SendChat(recipient, BuildCS_CHAT_ACK(charId == senderId ? group : type, senderId, sender, talk), senderId);
     }
 
     private ClientSession? FindByName(string name)
     {
         foreach (var s in _state.AllInGame())
-            if (string.Equals(s.Char!.Name, name, StringComparison.Ordinal))
+            if (s.IsMain && string.Equals(s.Char!.Name, name, StringComparison.OrdinalIgnoreCase))
                 return s;
         return null;
+    }
+
+    private static bool CanTalk(Character ch, ChatGroup group, byte country, byte aid)
+    {
+        if (ch.Country == TcontryPeace || country is TcontryPeace or TcontryN) return true;
+        if (group is ChatGroup.Party or ChatGroup.Guild or ChatGroup.Force or ChatGroup.Tactics) return true;
+        if (group == ChatGroup.Near && (ch.Country == TcontryB || country == TcontryB)
+            && (((byte)((int)ch.PosX / 1024)) | ((byte)((int)ch.PosZ / 1024) << 8)) == 3) return true;
+        return WarCountryOf(ch) == GetAttackCountry(country, aid);
     }
 }

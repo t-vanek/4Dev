@@ -232,7 +232,7 @@ public sealed partial class MapService
     {
         uint tms = r.ReadUInt32();
         string message = r.ReadString();
-        if (s.IsMain && s.Char is not null) SendToWorld(Msg.MW_TMSSEND_ACK, s, w => { w.WriteUInt32(tms); w.WriteString(message); });
+        if (s.State == EnterState.InGame && s.IsMain && s.Char is not null) SendToWorld(Msg.MW_TMSSEND_ACK, s, w => { w.WriteUInt32(tms); w.WriteString(message); });
     }
 
     /// <summary>C++ <c>OnCS_TMSINVITE_REQ</c> (CSHandler.cpp:8583): a new conversation (0) or more people into one.</summary>
@@ -242,7 +242,7 @@ public sealed partial class MapService
         byte count = r.ReadByte();
         var targets = new uint[count];
         for (int i = 0; i < count; i++) targets[i] = r.ReadUInt32();
-        if (!s.IsMain || s.Char is null) return;
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is null) return;
         SendToWorld(Msg.MW_TMSINVITE_ACK, s, w =>
         {
             w.WriteUInt32(tms); w.WriteByte(count);
@@ -254,7 +254,7 @@ public sealed partial class MapService
     private void OnCS_TMSOUT_REQ(ClientSession s, PacketReader r)
     {
         uint tms = r.ReadUInt32();
-        if (s.IsMain && s.Char is not null) SendToWorld(Msg.MW_TMSOUT_ACK, s, w => w.WriteUInt32(tms));
+        if (s.State == EnterState.InGame && s.IsMain && s.Char is not null) SendToWorld(Msg.MW_TMSOUT_ACK, s, w => w.WriteUInt32(tms));
     }
 
     /// <summary>C++ <c>OnMW_TMSINVITEASK_REQ</c> (SSHandler.cpp:11983): may the one who left a conversation be brought back in —
@@ -265,7 +265,7 @@ public sealed partial class MapService
         uint targetId = r.ReadUInt32(), targetKey = r.ReadUInt32();
         uint tms = r.ReadUInt32();
         string message = r.ReadString();
-        bool ok = FindPlayer(charId, key) is { Char: { } ch } && CheckProtected(ch, targetId, ProtectedInvite);
+        bool ok = FindPlayer(charId, key) is { State: EnterState.InGame, IsMain: true, Char: { } ch } && CheckProtected(ch, targetId, ProtectedInvite);
         var w = new PacketWriter(Msg.MW_TMSINVITEASK_ACK);
         w.WriteUInt32(targetId); w.WriteUInt32(targetKey); w.WriteUInt32(charId); w.WriteUInt32(key);
         w.WriteByte(ok ? (byte)1 : (byte)0); w.WriteUInt32(tms); w.WriteString(message);

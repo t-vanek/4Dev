@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TMap.Protocol\TMap.Protocol.csproj" />
     <ProjectReference Include="..\TMap.Data\TMap.Data.csproj" />
+    <ProjectReference Include="..\..\FourDev.Mail\FourDev.Mail.csproj" />
   </ItemGroup>
 
 </Project>

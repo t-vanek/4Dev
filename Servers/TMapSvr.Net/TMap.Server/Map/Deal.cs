@@ -10,7 +10,8 @@ public readonly record struct DealItem(byte Inven, Item Snapshot);
 /// <summary>
 /// The per-player deal (player-to-player trade) state — a port of C++ <c>tagDEALITEM</c> (<c>m_dealItem</c> on
 /// <c>CTPlayer</c>, TMapType.h:2109). A deal is a same-map, in-memory two-party state machine paired by partner
-/// <b>name</b> (there is no partner id). <see cref="Status"/> is the shared paired state (READY/START/CONFORM —
+/// <b>name</b> on the wire, bound to the partner's character ID and session key on acceptance.
+/// <see cref="Status"/> is the shared paired state (READY/START/CONFORM —
 /// <c>&gt;= START</c> is the "in a deal" lock threshold); <see cref="Dealing"/> is this side's offer sub-state
 /// (READY/WAIT/ADDITEM/CONFORM). Confirmation is state-encoded (no bOkey field): the first confirm sets both
 /// sides' <see cref="Status"/> to CONFORM; the second executes.
@@ -20,6 +21,8 @@ public sealed class Deal
     public byte Status { get; set; }        // DealStatus (Ready/Start/Conform)
     public byte Dealing { get; set; }        // DealStatus (Ready/Wait/AddItem/Conform)
     public string TargetName { get; set; } = "";
+    public uint TargetId { get; private set; }
+    public uint TargetKey { get; private set; }
     public long SendMoney { get; set; }      // money this player offers
     public long RecvMoney { get; set; }      // money this player receives
     public List<DealItem> SendItems { get; } = new();   // items this player offers (+ src inven)
@@ -31,16 +34,18 @@ public sealed class Deal
         Status = (byte)DealStatus.Ready;
         Dealing = (byte)DealStatus.Ready;
         TargetName = "";
+        TargetId = 0; TargetKey = 0;
         SendMoney = 0; RecvMoney = 0;
         SendItems.Clear(); RecvItems.Clear();
     }
 
     /// <summary>C++ <c>SetDealItemTarget</c> (TPlayer.cpp:450) — pair with <paramref name="partner"/> and open the
     /// window (START / WAIT), clearing any stale offer. Returns false if not idle (already in a deal).</summary>
-    public bool SetTarget(string partner)
+    public bool SetTarget(string partner, uint charId = 0, uint key = 0)
     {
         if (Status != (byte)DealStatus.Ready) return false;
         TargetName = partner;
+        TargetId = charId; TargetKey = key;
         SendMoney = 0; RecvMoney = 0; SendItems.Clear(); RecvItems.Clear();
         Status = (byte)DealStatus.Start;
         Dealing = (byte)DealStatus.Wait;

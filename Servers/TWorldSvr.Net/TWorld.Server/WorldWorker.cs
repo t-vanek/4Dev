@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using FourDev.Mail;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,12 +25,15 @@ public sealed class WorldWorker : BackgroundService
     private readonly WorldServerOptions _opt;
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<WorldWorker> _log;
+    private readonly WolverineMailStore? _mail;
+    private readonly MailNotificationInbox? _mailNotifications;
 
-    public WorldWorker(IOptions<WorldServerOptions> opt, ILoggerFactory loggerFactory)
+    public WorldWorker(IOptions<WorldServerOptions> opt, ILoggerFactory loggerFactory, WolverineMailStore? mail = null, MailNotificationInbox? mailNotifications = null)
     {
         _opt = opt.Value;
         _loggerFactory = loggerFactory;
         _log = loggerFactory.CreateLogger<WorldWorker>();
+        _mail = mail; _mailNotifications = mailNotifications;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -71,6 +75,7 @@ public sealed class WorldWorker : BackgroundService
                 await LoadServerMessagesAsync(gameDb, state, stoppingToken);
                 await LoadRpsAsync(gameDb, state, stoppingToken);
                 await LoadCmGiftsAsync(gameDb, state, stoppingToken);
+                foreach (uint id in await gameDb.LoadOperatorsAsync(stoppingToken)) state.Operators.Add(id);
             }
             catch (Exception ex) { _log.LogWarning(ex, "Game DB unavailable at startup."); }
 
@@ -98,6 +103,7 @@ public sealed class WorldWorker : BackgroundService
         state.Nation = nation;
 
         var service = new WorldService(state, guildDb, _loggerFactory.CreateLogger<WorldService>(), socialDb, rankDb, bowDb, brDb, gameDb, globalDb);
+        if (gameDb is not null) service.ReservedPostStore = _mail ?? throw new InvalidOperationException("Configured SQL mail requires Wolverine.");
         // DM_ACTIVECHARUPDATE: seed nation-balance buckets from the active-char table (best-effort; no-op when
         // the table is empty/absent so the live buckets are never wiped).
         if (gameDb is not null)
@@ -131,7 +137,11 @@ public sealed class WorldWorker : BackgroundService
         {
             await foreach (var item in reader.ReadAllAsync(token))
             {
-                if (item.Tick) await service.OnTimerAsync();
+                if (item.Tick)
+                {
+                    _mailNotifications?.Drain(m => service.NotifyMailDelivered(m.PostId, m.CharId, m.Sender, m.Receiver, m.Title, m.Type));
+                    await service.OnTimerAsync();
+                }
                 else if (item.Conn is null) { /* nothing */ }
                 else if (item.Packet is null) service.OnDisconnect(item.Conn);
                 else await service.DispatchAsync(item.Conn, item.Packet);

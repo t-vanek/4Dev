@@ -515,7 +515,7 @@ public sealed partial class MapService
             ch.Skills.Add(new Skill { SkillId = t.Id, Level = t.MaxLevel, Template = t });
         foreach (var (invenId, itemId, eld) in _templates.TnmtInvens)
         {
-            ch.Invens.Add(new Inven { InvenId = invenId, TemplateId = itemId, Eld = eld, EndTime = 0 });
+            ch.Invens.Add(Inven.FromTemplate(invenId, itemId, _templates, eld: eld));
             if (invenId != Proto.InvenDefault && invenId != Proto.InvenEquip) SendCS_INVENADD_ACK(s, 0, invenId, itemId, 0);
         }
         var oldEquip = bak.Invens.FirstOrDefault(b => b.InvenId == Proto.InvenEquip);

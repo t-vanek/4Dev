@@ -223,7 +223,7 @@ public sealed partial class MapService
         if (!cab.Use) { SendCS_CABINETITEMLIST_ACK(s, CabinetResult.NotUse, null); return false; }
         if (invenId == Proto.InvenEquip) return false;
         var destInv = ch.FindInven(invenId);
-        if (destInv is null) return false;
+        if (destInv is null || !destInv.ContainsSlot(destSlot)) return false;
 
         bool moved;
         if (destInv.FindItem(destSlot) is null)

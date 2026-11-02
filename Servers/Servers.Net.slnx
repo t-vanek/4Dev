@@ -1,0 +1,45 @@
+<Solution>
+  <Folder Name="/Shared/">
+    <Project Path="FourDev.Mail/FourDev.Mail.csproj" />
+  </Folder>
+  <Folder Name="/Login/">
+    <Project Path="TLoginSvr.Net/TLogin.Protocol/TLogin.Protocol.csproj" />
+    <Project Path="TLoginSvr.Net/TLogin.Protocol.Tests/TLogin.Protocol.Tests.csproj" />
+    <Project Path="TLoginSvr.Net/TLogin.Data/TLogin.Data.csproj" />
+    <Project Path="TLoginSvr.Net/TLogin.Data.Tests/TLogin.Data.Tests.csproj" />
+    <Project Path="TLoginSvr.Net/TLogin.Server/TLogin.Server.csproj" />
+    <Project Path="TLoginSvr.Net/TLogin.Server.Tests/TLogin.Server.Tests.csproj" />
+  </Folder>
+  <Folder Name="/World/">
+    <Project Path="TWorldSvr.Net/TWorld.Protocol/TWorld.Protocol.csproj" />
+    <Project Path="TWorldSvr.Net/TWorld.Protocol.Tests/TWorld.Protocol.Tests.csproj" />
+    <Project Path="TWorldSvr.Net/TWorld.Data/TWorld.Data.csproj" />
+    <Project Path="TWorldSvr.Net/TWorld.Data.Tests/TWorld.Data.Tests.csproj" />
+    <Project Path="TWorldSvr.Net/TWorld.Server/TWorld.Server.csproj" />
+    <Project Path="TWorldSvr.Net/TWorld.Server.Tests/TWorld.Server.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Map/">
+    <Project Path="TMapSvr.Net/TMap.Protocol/TMap.Protocol.csproj" />
+    <Project Path="TMapSvr.Net/TMap.Protocol.Tests/TMap.Protocol.Tests.csproj" />
+    <Project Path="TMapSvr.Net/TMap.Data/TMap.Data.csproj" />
+    <Project Path="TMapSvr.Net/TMap.Data.Tests/TMap.Data.Tests.csproj" />
+    <Project Path="TMapSvr.Net/TMap.Server/TMap.Server.csproj" />
+    <Project Path="TMapSvr.Net/TMap.Server.Tests/TMap.Server.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Patch/">
+    <Project Path="TPatchSvr.Net/TPatch.Protocol/TPatch.Protocol.csproj" />
+    <Project Path="TPatchSvr.Net/TPatch.Protocol.Tests/TPatch.Protocol.Tests.csproj" />
+    <Project Path="TPatchSvr.Net/TPatch.Data/TPatch.Data.csproj" />
+    <Project Path="TPatchSvr.Net/TPatch.Server/TPatch.Server.csproj" />
+    <Project Path="TPatchSvr.Net/TPatch.Server.Tests/TPatch.Server.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Control/">
+    <Project Path="TControlSvr.Net/TControl.TestProcess/TControl.TestProcess.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Protocol/TControl.Protocol.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Protocol.Tests/TControl.Protocol.Tests.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Data/TControl.Data.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Data.Tests/TControl.Data.Tests.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Server/TControl.Server.csproj" />
+    <Project Path="TControlSvr.Net/TControl.Server.Tests/TControl.Server.Tests.csproj" />
+  </Folder>
+</Solution>

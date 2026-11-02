@@ -19,6 +19,7 @@ internal sealed class FakePostStore : IPostStore
     public readonly Dictionary<string, uint> Chars = new();
     public readonly List<Mail> Mails = new();
     public int FailSave;
+    public bool FailRelease;
     private uint _next = 100;
 
     public Task<(int, uint)> PostCanSendAsync(string sender, string target, byte type)
@@ -80,6 +81,7 @@ internal sealed class FakePostStore : IPostStore
 
     public Task PostGetItemAsync(uint charId, uint postId)
     {
+        if (FailRelease) return Task.FromException(new IOException("injected mail release failure"));
         var m = Mails.Single(x => x.CharId == charId && x.Id == postId);
         m.Gold = m.Silver = m.Cooper = 0;
         m.Items.Clear();
@@ -246,6 +248,24 @@ public class PostTests
     }
 
     // ================= read, take, delete =================
+
+    [Fact]
+    public async Task FailedMailReleaseCannotGrantContentsAndCanRetryWithoutDuplicateMoney()
+    {
+        var (h, db, sender, _, _, receiver, client, ch) = await Setup();
+        await h.Service.DispatchClientAsync(sender, Send("Bob", "Gift", 1, cooper: 700, inven: 0, slot: 3));
+        uint id = Assert.Single(db.Mails).Id;
+        await h.Service.DispatchClientAsync(receiver, Id(Msg.CS_POSTVIEW_REQ, id));
+        db.FailRelease = true;
+        await h.Service.DispatchClientAsync(receiver, Id(Msg.CS_POSTGETITEM_REQ, id));
+        Assert.Equal(11, Result(client, Msg.CS_POSTGETITEM_ACK)); Assert.Equal(0, ch.MoneyTotal);
+        Assert.Empty(ch.Invens[0].Items); Assert.Single(ch.OpenPost!.Items); Assert.Single(db.Mails[0].Items);
+        db.FailRelease = false;
+        await h.Service.DispatchClientAsync(receiver, Id(Msg.CS_POSTGETITEM_REQ, id));
+        Assert.Equal(0, Result(client, Msg.CS_POSTGETITEM_ACK)); Assert.Equal(700, ch.MoneyTotal);
+        Assert.Single(ch.Invens[0].Items); Assert.Empty(db.Mails[0].Items);
+        await h.Service.DispatchClientAsync(receiver, Id(Msg.CS_POSTGETITEM_REQ, id)); Assert.Equal(700, ch.MoneyTotal);
+    }
 
     [Fact]
     public async Task ReadingAndTakingAPackage_GivesTheItemAndMoney()

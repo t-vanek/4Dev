@@ -76,6 +76,11 @@ public class SocialAuditTests
         using var __ = client;
         var tms = Conversation(host, "Bob", Ann);
 
+        // Complete the native request/answer sequence; an unsolicited ACK is no longer accepted.
+        client.Send(new PacketWriter(Msg.MW_TMSSEND_ACK).WriteUInt32(Ann).WriteUInt32(Key(Ann))
+            .WriteUInt32(tms.Id).WriteString("back?"));
+        Assert.Equal(Msg.MW_TMSINVITEASK_REQ, Next(client, Msg.MW_TMSINVITEASK_REQ).Id);
+
         var w = new PacketWriter(Msg.MW_TMSINVITEASK_ACK);
         w.WriteUInt32(Ann); w.WriteUInt32(Key(Ann)); w.WriteUInt32(Bob); w.WriteUInt32(Key(Bob));
         w.WriteByte(1); w.WriteUInt32(tms.Id); w.WriteString("back?");

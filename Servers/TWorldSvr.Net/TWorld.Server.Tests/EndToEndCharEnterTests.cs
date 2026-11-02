@@ -117,21 +117,25 @@ public class EndToEndCharEnterTests
         client.Send(checkAck);
         Assert.Equal(Msg.MW_CONRESULT_REQ, client.Receive(TimeSpan.FromSeconds(5)).Id);
 
-        // 7) Chat is relayed back to connected servers (this one included)
+        // 7) A map chat is translated to the Map receiver contract, rather than echoing the ACK.
+        // This legacy CHARDATA fixture does not carry a name; production ENTERSVR_ACK supplies it.
+        state.Characters[charId].Name = "Hero";
         var chat = new PacketWriter(Msg.MW_CHAT_ACK);
         chat.WriteByte(0);          // bChannel
         chat.WriteUInt32(charId);   // dwSender
         chat.WriteUInt32(key);      // dwSenderKEY
         chat.WriteString("Hero");   // strSenderName
-        chat.WriteByte(0);          // bType
-        chat.WriteByte(0);          // bGroup (all)
+        chat.WriteByte(2);          // bType CHAT_MAP
+        chat.WriteByte(2);          // bGroup CHAT_MAP
         chat.WriteUInt32(0);        // dwTarget
         chat.WriteString("");       // strName
         chat.WriteString("hello world"); // strTalk
         client.Send(chat);
 
         var echo = client.Receive(TimeSpan.FromSeconds(5));
-        Assert.Equal(Msg.MW_CHAT_ACK, echo.Id);
+        Assert.Equal(Msg.MW_CHAT_REQ, echo.Id);
+        Assert.Equal(0u, echo.ReadUInt32()); Assert.Equal(0u, echo.ReadUInt32());
+        echo.ReadByte(); Assert.Equal(charId, echo.ReadUInt32()); Assert.Equal("Hero", echo.ReadString());
 
         cts.Cancel();
         try { await listen; } catch (OperationCanceledException) { }

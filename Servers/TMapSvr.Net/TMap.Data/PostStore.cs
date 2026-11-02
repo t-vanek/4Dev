@@ -156,23 +156,38 @@ FROM TPOSTTABLE WHERE dwCharID = @c AND dwPostID <= @b ORDER BY dwPostID DESC", 
     public async Task<int> PostDeleteAsync(uint charId, uint postId)
     {
         await using var c = await OpenAsync(default);
+        await using var tx = (SqlTransaction)await c.BeginTransactionAsync();
+        // Native TPostDelete rejects attachments only when @@ROWCOUNT=1, allowing two or more
+        // unclaimed attachments to lose their header. Preserve its return codes for ANY contents.
+        await using (var guard = new SqlCommand(@"SELECT CASE
+WHEN EXISTS(SELECT 1 FROM TPOSTTABLE WITH(UPDLOCK,HOLDLOCK) WHERE dwCharID=@char AND dwPostID=@post AND (dwGold>0 OR dwSilver>0 OR dwCooper>0)) THEN 1
+WHEN EXISTS(SELECT 1 FROM TITEMTABLE WITH(UPDLOCK,HOLDLOCK) WHERE dwOwnerID=@char AND bOwnerType=0 AND bStorageType=2 AND dwStorageID=@post) THEN 2 ELSE 0 END", c, tx))
+        {
+            guard.Parameters.Add(SqlProc.In("@char", SqlDbType.Int, unchecked((int)charId)));
+            guard.Parameters.Add(SqlProc.In("@post", SqlDbType.Int, unchecked((int)postId)));
+            int blocked = Convert.ToInt32(await guard.ExecuteScalarAsync());
+            if (blocked != 0) return blocked;
+        }
         var ret = SqlProc.Ret();
         await SqlProc.ExecAsync(c, "TPostDelete", ret, new[]
         {
             SqlProc.In("@p0", SqlDbType.Int, unchecked((int)charId)),
             SqlProc.In("@p1", SqlDbType.Int, unchecked((int)postId)),
-        }, default);
+        }, default, tx);
+        await tx.CommitAsync();
         return ret.AsInt();
     }
 
     public async Task PostGetItemAsync(uint charId, uint postId)
     {
         await using var c = await OpenAsync(default);
+        await using var tx = (SqlTransaction)await c.BeginTransactionAsync();
         await SqlProc.ExecAsync(c, "TPostGetItem", null, new[]
         {
             SqlProc.In("@p0", SqlDbType.Int, unchecked((int)charId)),
             SqlProc.In("@p1", SqlDbType.Int, unchecked((int)postId)),
-        }, default);
+        }, default, tx);
+        await tx.CommitAsync();
     }
 
     public async Task<PostBillResult> PostBillsUpdateAsync(uint postId, string charName, byte type)

@@ -39,7 +39,7 @@ public readonly record struct EventQuarterUpdateResult(int Ret, ushort OutId, st
 /// Access to the game database (TGame_gsp). Phase 1 only validates connectivity at startup; the guild,
 /// party, ranking, BoW/BR and tournament procs are added in later phases.
 /// </summary>
-public sealed class GameDatabase
+public sealed partial class GameDatabase
 {
     private readonly string _cs;
     public GameDatabase(string connectionString) => _cs = connectionString;
@@ -77,6 +77,16 @@ public sealed class GameDatabase
             return 0; // proc absent in this baseline
         }
         return genId.AsUInt();
+    }
+
+    public async Task<List<uint>> LoadOperatorsAsync(CancellationToken ct = default)
+    {
+        await using var c = await OpenAsync(ct);
+        await using var cmd = new SqlCommand("SELECT dwOperatorID FROM TOPERATORTABLE", c);
+        await using var r = await cmd.ExecuteReaderAsync(ct);
+        var ids = new List<uint>();
+        while (await r.ReadAsync(ct)) ids.Add(r.GetUIntSafe(0));
+        return ids;
     }
 
     /// <summary>TSVRMSGCHART — localized system-message text keyed by id (CTBLSvrMsg → m_mapTSvrMsg).</summary>

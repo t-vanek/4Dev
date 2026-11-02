@@ -16,8 +16,9 @@ namespace TMap.Server.Map;
 /// move/sell/use/drop/bank/mail while <c>m_bStatus &gt;= DEAL_START</c> (the execution-time <c>ValidDeal</c>
 /// re-check already guarantees trade integrity if an offered item is moved/consumed mid-deal); the cross-map
 /// <c>MW_DEALITEMERROR</c> teardown (deal is same-map); and the UDP trade log (a no-op in the C++ build).
-/// Item/money persistence rides the existing incremental item-save (the DEL/ADD item acks) — the C++
-/// <c>DM_DELETEDEALITEM</c>/<c>SAVEITEM</c> batch is not needed.</para>
+/// With SQL enabled, item operations and both complete post-exchange snapshots are durably accepted in
+/// one SQL queue record before either player's success packets. Recovery replays both snapshots before
+/// admission. This is a single-Map recovery boundary; distributed ownership remains separate work.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -26,6 +27,21 @@ public sealed partial class MapService
 
     private static long CalcMoney(uint gold, uint silver, uint cooper)
         => cooper + (long)silver * Character.MoneyMultiply + (long)gold * Character.MoneyMultiply * Character.MoneyMultiply;
+
+    private static bool DealParticipantsAvailable(ClientSession a, ClientSession b) =>
+        a.IsMain && b.IsMain && a.State == EnterState.InGame && b.State == EnterState.InGame
+        && !a.TeleportPending && !b.TeleportPending && a.Char is { } ca && b.Char is { } cb
+        && a.Channel == b.Channel && ca.MapId == cb.MapId && !a.Store.IsOpen && !b.Store.IsOpen
+        && !IsTournamentChar(ca) && !IsTournamentChar(cb);
+
+    private ClientSession? FindDealPartner(ClientSession s)
+    {
+        // A session that started loading or ceased being main still needs its trade lock cleared.
+        // Bind production pairs to the original session; a relog with the same name cannot inherit it.
+        if (s.Deal.TargetId != 0)
+            return _state.FindByChar(s.Deal.TargetId) is { } target && target.Key == s.Deal.TargetKey ? target : null;
+        return _state.ByChar.Values.FirstOrDefault(p => string.Equals(p.Char?.Name, s.Deal.TargetName, StringComparison.OrdinalIgnoreCase));
+    }
 
     // ==================== handlers ====================
 
@@ -37,6 +53,7 @@ public sealed partial class MapService
         string targetName = r.ReadString();
         var t = FindByName(targetName);
         if (t is null || t == s || !t.IsMain || t.State != EnterState.InGame || t.Char is null) return;  // silent (C++ FindPlayer gate)
+        if (!DealParticipantsAvailable(s, t)) return;
         if (IsTournamentChar(t.Char)) return;                                                 // not with a tournament character
         if (!CheckProtected(t.Char, ch.CharId, ProtectedDeal)) { SendCS_DEALITEMEND_ACK(s, DealResult.Deny, targetName); return; }
         SendCS_DEALITEMASK_ACK(t, ch.Name);   // to the target only
@@ -53,7 +70,7 @@ public sealed partial class MapService
         if (s.Deal.Status != DealReady) return;                       // responder must be idle
         var inv = FindByName(inviterName);
         if (inv is null || inv == s || !inv.IsMain || inv.State != EnterState.InGame || inv.Char is null
-            || inv.Deal.Status != DealReady)
+            || inv.Deal.Status != DealReady || !DealParticipantsAvailable(s, inv))
         {
             SendCS_DEALITEMEND_ACK(s, DealResult.Busy, inviterName);
             return;
@@ -61,8 +78,8 @@ public sealed partial class MapService
 
         if (reply == 0)   // ASK_YES
         {
-            s.Deal.SetTarget(inviterName);
-            inv.Deal.SetTarget(ch.Name);
+            s.Deal.SetTarget(inviterName, inv.CharId, inv.Key);
+            inv.Deal.SetTarget(ch.Name, s.CharId, s.Key);
             SendCS_DEALITEMSTART_ACK(inv, ch.Name);
             SendCS_DEALITEMSTART_ACK(s, inviterName);
         }
@@ -90,9 +107,9 @@ public sealed partial class MapService
         if (s.Deal.Dealing != DealWait) return;                       // one-shot offer
         long money = CalcMoney(gold, silver, cooper);
 
-        var t = FindByName(s.Deal.TargetName);
+        var t = FindDealPartner(s);
         if (t?.Char is null) { SendCS_DEALITEMEND_ACK(s, DealResult.NoTarget, s.Deal.TargetName); s.Deal.Clear(); return; }
-        if (!t.IsMain || t.Deal.TargetName != ch.Name) { EndDealBoth(s, t, DealResult.Busy, ch.Name); return; }
+        if (!DealParticipantsAvailable(s, t) || t.Deal.TargetName != ch.Name) { EndDealBoth(s, t, DealResult.Busy, ch.Name); return; }
         if (!ch.UseMoney(money, commit: false)) { EndDealBoth(s, t, DealResult.NoMoney, ch.Name); return; }
 
         s.Deal.SendMoney = money;
@@ -131,9 +148,9 @@ public sealed partial class MapService
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         byte okey = r.ReadByte();
 
-        var t = FindByName(s.Deal.TargetName);
+        var t = FindDealPartner(s);
         if (t?.Char is null) { SendCS_DEALITEMEND_ACK(s, DealResult.NoTarget, s.Deal.TargetName); s.Deal.Clear(); return; }
-        if (!t.IsMain || t.Deal.TargetName != ch.Name) { EndDealBoth(s, t, DealResult.Busy, ch.Name); return; }
+        if (!DealParticipantsAvailable(s, t) || t.Deal.TargetName != ch.Name) { EndDealBoth(s, t, DealResult.Busy, ch.Name); return; }
 
         if (okey == 0) { EndDealBoth(s, t, DealResult.Cancel, ch.Name); return; }   // cancel/back-out
 
@@ -157,9 +174,26 @@ public sealed partial class MapService
         if (!ValidDeal(a, ca) || !ValidDeal(b, cb)) { EndDealBoth(a, b, DealResult.Busy, ca.Name); return; }
         if (!CanPush(ca, a.Deal.RecvItems)) { EndDealBoth(a, b, DealResult.CantRecv, ca.Name); return; }
         if (!CanPush(cb, b.Deal.RecvItems)) { EndDealBoth(a, b, DealResult.CantRecv, cb.Name); return; }
+        if (_gameDb is not null && (!_itemIdReady || !ca.DbLoaded || !cb.DbLoaded
+            || ca.TournamentBackup is not null || cb.TournamentBackup is not null))
+        { EndDealBoth(a, b, DealResult.Busy, ca.Name); return; }
 
-        CommitDealSide(a, ca, a.Deal.TargetName);
-        CommitDealSide(b, cb, b.Deal.TargetName);
+        // Both item/money responses remain private until the entire exchange is durable. Never let
+        // an enqueue failure publish one side or leak its staged inventory through a later logout.
+        using var responsesA = a.DeferResponses(); using var responsesB = b.DeferResponses();
+        try
+        {
+            CommitDealSide(a, ca, a.Deal.TargetName);
+            CommitDealSide(b, cb, b.Deal.TargetName);
+            CheckpointPlayerExchange(ca, cb);
+        }
+        catch
+        {
+            responsesA.Discard(); responsesB.Discard();
+            a.Deal.Clear(); b.Deal.Clear();
+            QuarantinePersistence(a); QuarantinePersistence(b);
+            throw;
+        }
     }
 
     /// <summary>C++ <c>ValidDealItem</c> (TPlayer.cpp:669) — every offered item still sits at its recorded
@@ -200,6 +234,20 @@ public sealed partial class MapService
         SendCS_DEALITEMEND_ACK(b, result, name);
         a.Deal.Clear();
         b.Deal.Clear();
+    }
+
+    // Shared by teleport/map exit and socket disconnect while the peer is still registered.
+    private void CancelDealOnLeave(ClientSession s)
+    {
+        if (s.Deal.Status == DealReady) return;
+        string name = s.Char?.Name ?? "";
+        SendCS_DEALITEMEND_ACK(s, DealResult.NoTarget, name);
+        if (FindDealPartner(s) is { } partner && partner.Deal.TargetName == name)
+        {
+            SendCS_DEALITEMEND_ACK(partner, DealResult.NoTarget, name);
+            partner.Deal.Clear();
+        }
+        s.Deal.Clear();
     }
 
     // ==================== senders ====================

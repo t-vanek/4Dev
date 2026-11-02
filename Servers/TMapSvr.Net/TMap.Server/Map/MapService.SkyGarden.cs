@@ -20,8 +20,8 @@ namespace TMap.Server.Map;
 /// and 360 useable PvP points, the others 360 too.</item>
 /// <item><b>Portals</b>: the sky-garden portal conditions (attacker / defender side, the point one's camp holds).</item>
 /// </list>
-/// <para><b>Not ported:</b> the guardian / boss kill points (<c>PVPE_GODMONKILL</c> — no sky-garden rows in TPVPOINTCHART) and the
-/// war records (<c>PVPE_ENTRY</c>, with the forts).</para>
+/// <para>Guardian/boss point dispatch uses the shared territory path; absent sky-garden rows in TPVPOINTCHART remain a data
+/// evidence gap. Capture acknowledgements wait for SQL success; settlement/reward replay after a crash remains incomplete.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -123,7 +123,20 @@ public sealed partial class MapService
     /// <summary>C++ <c>SendDM_SKYGARDENOCCUPY_REQ</c> → <c>TSaveSkyGardenOccupy</c> → <c>MW_SKYGARDENOCCUPY_ACK</c>.</summary>
     private void SkyGardenOccupy(Territory g, byte type, byte country)
     {
-        if (_gameDb is { } db) { ushort id = g.Id; _ = EnqueueDbWrite(() => db.SaveSkyGardenOccupyAsync(country, id, type)); }
+        if (TerritoryOccupationStore is { } db)
+        {
+            QueueTerritoryWrite(g, async () =>
+            {
+                int result = await SaveTerritoryResultAsync(() => db.SaveSkyGardenOccupyAsync(country, g.Id, type));
+                if (result == 0) SendSkyGardenOccupied(g, type, country);
+            });
+            return;
+        }
+        SendSkyGardenOccupied(g, type, country);
+    }
+
+    private void SendSkyGardenOccupied(Territory g, byte type, byte country)
+    {
         var w = new PacketWriter(Msg.MW_SKYGARDENOCCUPY_ACK);
         w.WriteByte(type); w.WriteUInt16(g.Id); w.WriteByte(country);
         _world.Send(w);
@@ -165,6 +178,7 @@ public sealed partial class MapService
                 GainPvPoint(s, ch, 360, PvpeWin, PvpUseable);
             }
             else GainPvPoint(s, ch, 360, PvpeDefend, PvpUseable);
+            ScheduleQuestCheckpoint(ch);
         }
     }
 

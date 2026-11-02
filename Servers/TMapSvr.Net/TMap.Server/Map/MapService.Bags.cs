@@ -12,7 +12,7 @@ namespace TMap.Server.Map;
 /// C++ (<c>TSaveInven</c> at char save); the items inside go through the incremental path.</para>
 ///
 /// <para><b>Not ported:</b> the secure-code lock on removing/moving bags (secure codes are unported), and the
-/// bag capacity from the template (<c>m_bSlotCount</c> is not loaded — every bag uses the default).</para>
+/// other mode-specific bag restrictions.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -24,6 +24,7 @@ public sealed partial class MapService
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         byte desInven = r.ReadByte(), srcInven = r.ReadByte(), itemSlot = r.ReadByte();
         if (s.Store.IsOpen) return;
+        if (desInven >= 5) { SendCS_INVENADD_ACK(s, InvenFail, 0, 0, 0); return; }
 
         if (ch.FindInven(desInven) is not null) { SendCS_INVENADD_ACK(s, InvenExist, 0, 0, 0); return; }
         if (ch.FindInven(srcInven) is not { } src) { SendCS_INVENADD_ACK(s, InvenFail, 0, 0, 0); return; }
@@ -35,10 +36,7 @@ public sealed partial class MapService
         if (item.Template?.Type != ItInven) { SendCS_INVENADD_ACK(s, InvenFail, 0, 0, 0); return; }
         if (item.EquipLevel > ch.Level) { SendCS_INVENADD_ACK(s, InvenLevel, 0, 0, 0); return; }
 
-        var bag = new Inven
-        {
-            InvenId = desInven, TemplateId = item.TemplateId, EndTime = item.EndTime, Eld = (byte)item.Ext[Item.IevEld],
-        };
+        var bag = Inven.FromTemplate(desInven, item.TemplateId, _templates, item.EndTime, (byte)item.Ext[Item.IevEld]);
         SendCS_DELITEM_ACK(s, srcInven, item);
         src.Items.Remove(item);
         ch.Invens.Add(bag);
@@ -49,13 +47,14 @@ public sealed partial class MapService
     {
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         byte srcInven = r.ReadByte(), desInven = r.ReadByte(), pos = r.ReadByte();
+        if (srcInven >= 5 || desInven == Proto.InvenEquip) { SendCS_INVENDEL_ACK(s, InvenFail, 0); return; }
 
         var src = ch.FindInven(srcInven);
         var des = ch.FindInven(desInven);
         if (src is null || des is null || src == des) { SendCS_INVENDEL_ACK(s, InvenFail, 0); return; }
         if (src.Items.Count != 0) { SendCS_INVENDEL_ACK(s, InvenNotEmpty, 0); return; }
 
-        if (pos == Proto.InvalidSlot || des.Items.Any(i => i.ItemSlot == pos)) pos = des.GetBlankPos();
+        if (!des.ContainsSlot(pos) || des.Items.Any(i => i.ItemSlot == pos)) pos = des.GetBlankPos();
         if (pos == Proto.InvalidSlot) { SendCS_INVENDEL_ACK(s, InvenFull, 0); return; }
 
         var item = new Item
@@ -76,6 +75,7 @@ public sealed partial class MapService
     {
         if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         byte srcInven = r.ReadByte(), desInven = r.ReadByte();
+        if (srcInven >= 5 || desInven >= 5) { SendCS_INVENMOVE_ACK(s, InvenFail, 0, 0); return; }
 
         if (ch.FindInven(srcInven) is not { } src) { SendCS_INVENMOVE_ACK(s, InvenFail, 0, 0); return; }
         var des = ch.FindInven(desInven);

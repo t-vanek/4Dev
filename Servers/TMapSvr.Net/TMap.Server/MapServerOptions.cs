@@ -55,6 +55,9 @@ public sealed class MapServerOptions
     /// <summary>The auction house (MapService.Auction.cs). On, as in the C++ 5.0 map server, unless set false.</summary>
     public bool AuctionEnabled { get; set; } = true;
 
+    /// <summary>SQL queue ownership domain; defaults to group-server. No filesystem storage.</summary>
+    public string? SaveQueueName { get; set; }
+
     public MapDbOptions Db { get; set; } = new();
 
     /// <summary>

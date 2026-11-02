@@ -159,6 +159,7 @@ public sealed partial class WorldService
         // The kingdom balance, once a minute (C++ OnTimer's per-minute block, WorldService.Nation.cs).
         int minute = DateTime.UtcNow.Minute;
         if (minute != _state.BalanceMinute) { _state.BalanceMinute = minute; RecalcCountryBalance(); }
+        await RunReservedPostsAsync(DateTime.UtcNow);
 
         // Phase 4: drive the BoW + BR phase machines and the battle-time machine off the same 1-second tick.
         uint nowSec = (uint)DateTime.UtcNow.TimeOfDay.TotalSeconds;

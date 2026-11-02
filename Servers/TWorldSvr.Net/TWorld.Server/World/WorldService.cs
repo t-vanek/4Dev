@@ -38,6 +38,8 @@ public sealed partial class WorldService
         _bowDb = bowDb;
         _brDb = brDb;
         _gameDb = gameDb;
+        CastleApplicantStore = gameDb;
+        ReservedPostStore = gameDb;
         _globalDb = globalDb;
         _log = log;
         _authorizePeer = authorizePeer;
@@ -484,7 +486,7 @@ public sealed partial class WorldService
 
     private void OnMW_CHAT_ACK(ServerSession session, byte[] packet)
     {
-        foreach (var s in _state.Servers.Values) s.Conn.Send(packet);
+        RoutePlayerChat(session, new PacketReader(packet));
     }
 
     // ===== Phase 2: guild handlers =====
@@ -1029,6 +1031,7 @@ public sealed partial class WorldService
         if (_state.FindTacticsGuild(ch.CharId)?.FindTactics(ch.CharId) is { } tm) tm.OnlineChar = null;
         if (ch.Party is not null) LeaveParty(ch, 0);   // C++ CloseChar → LeaveParty(pTCHAR, 0)
         WarCountryLeave(ch);
+        CancelTmsPrompts(ch);
         if (ch.TmsIds.Count > 0) TmsLeaveAll(ch);
         _state.Characters.Remove(ch.CharId);
         if (!string.IsNullOrEmpty(ch.Name)) _state.CharactersByName.Remove(ch.Name);

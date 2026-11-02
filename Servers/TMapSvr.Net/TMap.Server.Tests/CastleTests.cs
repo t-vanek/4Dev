@@ -9,6 +9,37 @@ namespace TMap.Server.Tests;
 /// result.</summary>
 public class CastleTests
 {
+    [Theory]
+    [InlineData(0)] [InlineData(1)] [InlineData(-1)]
+    public async Task CastleStatRewardWaitsForSqlConfirmation(int result)
+    {
+        var (h, a, _, _, _) = await Setup();
+        a.Char!.LocalId = Castle;
+        a.Char.Persist.StatLevel = 1;
+        var store = new HeldTerritoryStore(result); h.Service.TerritoryOccupationStore = store;
+        await h.Service.DispatchWorldAsync(CastleEnable(1));
+        War(h).DefPower = War(h).AtkPower + 1; // this fixture's winning chief is the defender
+        var finish = h.Service.DispatchWorldAsync(CastleEnable(4));
+        await store.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        try
+        {
+            Assert.Null(h.World.Last(Msg.MW_CASTLEOCCUPY_ACK));
+            Assert.Equal(0u, a.Char.Persist.StatExp);
+        }
+        finally { store.Release.TrySetResult(); }
+        await finish;
+        Assert.Equal(1, store.Calls); Assert.Equal(Castle, store.Territory);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_CASTLEOCCUPY_ACK) is not null);
+        Assert.Equal(result == 0 ? 1000u : 0u, a.Char.Persist.StatExp);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_GUILDINFO_ACK) is not null);
+        if (result == 0)
+        {
+            var guildInfo = new PacketReader(h.World.Last(Msg.MW_GUILDINFO_ACK)!);
+            Assert.Equal(a.CharId, guildInfo.ReadUInt32()); Assert.Equal(a.Key, guildInfo.ReadUInt32());
+            Assert.Equal(0, guildInfo.Remaining);
+        }
+    }
+
     private const ushort Castle = 4, Map = 801, MonId = 500, AttrId = 900, Fort = 1;
     private const ushort GateL = 29937, GateR = 29938, GateC = 29939;
     private const uint DefGuild = 10, AtkGuild = 20, Owner = 2640;

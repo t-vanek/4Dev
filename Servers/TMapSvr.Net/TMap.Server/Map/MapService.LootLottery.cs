@@ -48,7 +48,7 @@ public sealed partial class MapService
         bool yes = r.ReadByte() != 0;
         uint monId = r.ReadUInt32();
         ushort itemId = r.ReadUInt16();
-        if (!s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon) return;
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch || _state.FindMonster(monId) is not { } mon) return;
         var item = mon.CorpseInven.Items.FirstOrDefault(i => i.TemplateId == itemId && i.RoutingAsked?.Contains(ch.CharId) == true);
         if (item?.RoutingAsked is null || item.RoutingJoiner is null) return;
         item.RoutingAsked.Remove(ch.CharId);
@@ -73,7 +73,7 @@ public sealed partial class MapService
         item.RoutingAsked = null;
         if (joiners is not { Count: > 0 }) return;
         var (charId, key) = joiners.ElementAt(Rand() % joiners.Count);
-        if (FindPlayer(charId, key) is not { IsMain: true, Char: { } ch } s) { ReviewMonItemList(mon); return; }
+        if (FindPlayer(charId, key) is not { IsMain: true, State: EnterState.InGame, Char: { } ch } s) { ReviewMonItemList(mon); return; }
         var one = new[] { item };
         if (!CanPush(ch, one))
         {
@@ -82,7 +82,7 @@ public sealed partial class MapService
             return;
         }
         mon.CorpseInven.Items.Remove(item);
-        PushTItem(s, one);
+        GrantMonsterItem(s, ch, item, mon.Id);
         SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Success);
         SendCS_GETITEM_ACK(s, item, ch.CharId);
         ReviewMonItemList(mon);

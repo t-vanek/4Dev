@@ -16,6 +16,7 @@ internal sealed class FakeCashStore : ICashStore
     public (int Ret, long Time, uint Cash, uint Bonus)? CabinetBuy = (0, 2_000_000_000, 800, 50);
     public (int Ret, uint NewId)? Putin = (0, 77);
     public int? Gain = 0;
+    public Func<Task<int?>>? GainHandler;
     public List<string> Log { get; } = new();
 
     public Task<int?> StopTheClockAsync(uint charId, ushort shopItemId) { Calls.Add((charId, shopItemId)); return Task.FromResult(Ret); }
@@ -28,7 +29,7 @@ internal sealed class FakeCashStore : ICashStore
     public Task<(int Ret, long Time, uint Cash, uint Bonus)?> CashCabinetBuyAsync(uint charId, ushort shopItemId)
     { Log.Add($"cabinetbuy {shopItemId}"); return Task.FromResult(CabinetBuy); }
     public Task<(int Ret, uint NewId)?> CashItemPutinAsync(uint charId, byte inven, byte slot) { Log.Add($"putin {inven} {slot}"); return Task.FromResult(Putin); }
-    public Task<int?> GainCashBonusAsync(uint charId, byte inven, byte slot, uint bonus) { Log.Add($"bonus {inven} {slot} {bonus}"); return Task.FromResult(Gain); }
+    public Task<int?> GainCashBonusAsync(uint charId, byte inven, byte slot, uint bonus) { Log.Add($"bonus {inven} {slot} {bonus}"); return GainHandler?.Invoke() ?? Task.FromResult(Gain); }
 }
 
 /// <summary>Batch S7a: fall damage, act items, medal items, the rewards window, stop the clock and waste refine.</summary>

@@ -61,6 +61,26 @@ public class CombatTests
     }
 
     [Fact]
+    public async Task MonsterDie_FullRewardAndHuntContractIsPreserved()
+    {
+        await using var host = new WorldTestHost();using var client = await host.ConnectAsync();
+        Connect(client);EnterChar(client, 22, 0xAA03);
+        using var main = await host.ConnectAsync();
+        main.Send(new PacketWriter(Msg.MW_CONNECT_ACK).WriteUInt16(0x0402).WriteByte(1).WriteByte(1));
+        for (int i=0;i<200 && !host.State.Servers.ContainsKey(0x0402);i++) await Task.Delay(5);
+        Assert.True(host.State.Servers.ContainsKey(0x0402));
+        host.State.Characters[22].MainId=2;
+        host.State.Characters[22].Connections[2]=new CharConnection { ServerId=2,Ready=true };
+        client.Send(new PacketWriter(Msg.MW_MONSTERDIE_ACK).WriteUInt32(22).WriteUInt32(0xAA03).WriteUInt32(322)
+            .WriteUInt32(0x70001).WriteFloat(100).WriteFloat(7).WriteFloat(102).WriteUInt16(600).WriteByte(3).WriteByte(5).WriteByte(1));
+        var r = main.Receive(TimeSpan.FromSeconds(5));Assert.Equal(Msg.MW_MONSTERDIE_REQ,r.Id);
+        Assert.Equal((22u,0xAA03u,322u,0x70001u),(r.ReadUInt32(),r.ReadUInt32(),r.ReadUInt32(),r.ReadUInt32()));
+        Assert.Equal((100f,7f,102f),(r.ReadFloat(),r.ReadFloat(),r.ReadFloat()));
+        Assert.Equal(((ushort)600,(byte)3,(byte)5,(byte)1),(r.ReadUInt16(),r.ReadByte(),r.ReadByte(),r.ReadByte()));
+        Assert.Equal(0,r.Remaining);
+    }
+
+    [Fact]
     public async Task MonsterDie_ForwardedToMainVerbatim()
     {
         const uint charId = 21, key = 0xAA02;

@@ -78,7 +78,9 @@ services:
     restart: unless-stopped
 
   worldsvr:
-    build: ./Servers/TWorldSvr.Net
+    build:
+      context: ./Servers
+      dockerfile: TWorldSvr.Net/Dockerfile
     container_name: araz-worldsvr
     depends_on:
       mssql-importer:
@@ -96,7 +98,9 @@ services:
     restart: unless-stopped
 
   mapsvr:
-    build: ./Servers/TMapSvr.Net
+    build:
+      context: ./Servers
+      dockerfile: TMapSvr.Net/Dockerfile
     container_name: araz-mapsvr
     depends_on:
       mssql-importer:

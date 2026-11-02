@@ -9,6 +9,24 @@ namespace TMap.Server.Tests;
 /// and the owner's say over its NPCs and portals.</summary>
 public class FortTests
 {
+    [Theory]
+    [InlineData(0)] [InlineData(1)] [InlineData(-1)]
+    public async Task FortResultIsAppliedOnTheActorOnlyAfterSqlConfirmation(int result)
+    {
+        var (h, a, _, _, _) = await Setup(); a.Char!.GuildId = 77;
+        var store = new HeldTerritoryStore(result) { Guild = 77 }; h.Service.TerritoryOccupationStore = store;
+        await h.Service.DispatchWorldAsync(LocalEnable(1));
+        await Kill(h, a, Live(h, GateL)!);
+        var capture = Kill(h, a, Live(h, Boss)!);
+        await store.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        try { Assert.Null(h.World.Last(Msg.MW_LOCALOCCUPY_ACK)); }
+        finally { store.Release.TrySetResult(); }
+        await capture;
+        Assert.Equal(1, store.Calls); Assert.Equal(Fort, store.Territory);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_LOCALOCCUPY_ACK) is not null);
+        Assert.Equal(result == 0, h.World.Last(Msg.MW_GUILDINFO_ACK) is not null);
+    }
+
     private const ushort Fort = 1, Map = 0, MonId = 500, AttrId = 900, NpcId = 4000, Shop = 4001;
     private const ushort Boss = 25001, GateR = 25002, GateL = 25003, Guard = 25019;
     private const uint SwL = 9, SwR = 10;

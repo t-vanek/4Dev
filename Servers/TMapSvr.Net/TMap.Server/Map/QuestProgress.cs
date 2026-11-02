@@ -17,7 +17,7 @@ public sealed class RunningTerm
 /// <c>CTPlayer::m_mapQUEST</c>. It links the immutable <see cref="Template"/> to the mutable running state:
 /// the term counters, the trigger/complete tallies (a quest is "running" while
 /// <see cref="CompleteCount"/> &lt; <see cref="TriggerCount"/>), the timer anchors, and the reward choice the
-/// client sent on accept. <see cref="Save"/> mirrors the C++ <c>m_bSave</c> dirty flag (DB persistence deferred).
+/// client sent on accept. <see cref="Save"/> mirrors the C++ <c>m_bSave</c> dirty flag for persistence.
 /// </summary>
 public sealed class QuestProgress
 {
@@ -27,6 +27,11 @@ public sealed class QuestProgress
     public byte CompleteCount;
     public uint BeginTick;
     public uint TimerTick;
+    public bool TimerActive; // tick zero is a valid start and zero remaining means expired, not untimed
+    public bool TimerExpired;
+    public bool HasTimer => TimerActive || BeginTick != 0;
+    public uint RemainingTimer(uint nowMs) => !HasTimer || TimerExpired ? 0
+        : TimerTick - Math.Min(TimerTick, unchecked(nowMs - BeginTick));
     public bool Save;
     public byte RewardType;      // from CS_QUESTEXEC (RM_SELECT reward pick)
     public uint RewardId;

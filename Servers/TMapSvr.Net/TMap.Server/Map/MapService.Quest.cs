@@ -12,38 +12,48 @@ namespace TMap.Server.Map;
 /// fires on talk / get-item / kill, and it is <b>turned in</b> (a <c>QT_COMPLETE</c> quest → <c>CheckComplete</c>
 /// → <see cref="OnQuestComplete"/> reward grant → <c>CS_QUESTCOMPLETE_ACK</c>), recursing into child quests.
 ///
-/// <para>Faithful-but-scoped: the 20-subtype C++ class hierarchy is modelled as a switch on the quest
-/// <see cref="QuestType"/> (functionally identical). Phase 24 implemented the foundational four — <b>NpcTalk</b>
-/// (offer), <b>Mission</b>/<b>Guild</b> (begin + hand over fetch items), <b>Complete</b> (turn-in + reward),
-/// <b>GiveItem</b> (grant items) — plus <b>DefTalk</b> (no-op) and the base child-recursion. <b>Phase 29</b> adds
-/// the <b>DB quest-template load</b> (so quests exist on a live server — see <c>GameDatabase.LoadTemplatesAsync</c>)
-/// and five more subtypes: <b>DeleteItem</b> (remove item), <b>DropQuest</b> (abandon), <b>ChapterMsg</b> +
-/// <b>Routing</b> (client packets), <b>Teleport</b> (same-map reposition).</para>
-///
-/// <para>Done later: <b>DefendSkill</b> (Phase 31, buff via <c>ForceMaintain</c>) and <b>Switch</b> (Phase 32,
-/// the map switch/gate subsystem — <see cref="ExecSwitch"/> + the <c>QCT_SWITCH</c> condition). Still deferred
-/// (documented, PORT_STATUS.md), each blocked on an unported subsystem or ambiguous self-state: <b>SpawnMon</b>/
-/// <b>Regen</b> (need time-limited / dynamic monster spawn — <c>AddTimelimitedMon</c>/<c>RegenDynamicMonster</c>/
-/// <c>DelMonSpawn</c>); <b>DieMon</b>/<b>DropItem</b> (monster force-kill / quest-loot attach — touch the
-/// death/loot flow); <b>Craft</b> (self-completion via the quest's own running terms); <b>GiveSkill</b> (skill
-/// learning), <b>SendPost</b> (mail). Plus: cross-map teleport; the exotic condition/term types (QCT_MONID,
-/// monster-instance QTT_SPAWNID_DEL hunts); RT_MAGICITEM/SKILL/SKILLUP/TITLE/SOUL/POINT rewards.</para>
+/// <para>All declared quest subtypes dispatch here, including transactional reserved mail in
+/// MapService.QuestPost.cs. Movement, level-up and map-exit events join the ordinary objective hooks.
+/// Turn-in prevalidation, magic-item prototypes and recipe integrity fixes are retained. Unknown
+/// conditions/rewards remain fail-closed; see Gameforge/quest-engine.json for reference and coverage gaps.</para>
 /// </summary>
 public sealed partial class MapService
 {
+    // TODO(QUESTENGINE_BASELINE) — zbývající práce podle auditu z 2026-10-30:
+    // 1. RT_SOUL používá samostatnou číselnou odměnu a stávající lištu/CS_EXP_ACK.
+    //    Soul je dočasná hodnota resetovaná při odhlášení; dokončení questu zůstává v SQL.
+    //    Ověření cílovým klientem viz Gameforge/gor-remaining-quests.json.
+    // 2. TT_WARREGION: 16 poštovních questů bez doloženého producenta události.
+    //    Neodvozovat automaticky pravidla z dobývání; nejprve ověřit kompatibilní zdroj.
+    // 3. Obnova světových akcí v pokračování questové pošty: Teleport, Switch, SpawnMon,
+    //    DieMon, DropItem, Regen. Běžné handlery existují, ale v poštovním pokračování
+    //    jsou blokované, dokud nebude bezpečné jejich opakování po pádu bez dvojích účinků.
+    //    Viz ochrana v ExecQuest a MapService.QuestPostRecovery.cs.
+    // 4. Koordinace vlastníka postavy mezi Map servery. SQL zámek fronty není úplná
+    //    ochrana proti souběžnému ukládání stejné postavy různými Map servery.
+    // 5. QCT_MONID, RT_CHGCLASS, RT_TITLE: neimplementované deklarované typy;
+    //    před doplněním doložit použití a pravidla pro cílovou verzi Gameforge.
+    // 6. Ověřit skutečným klientem přijetí/cíle/volbu odměny/řetězce/poštu/časovače,
+    //    odhlášení a restart celého MapWorkeru včetně selhání SQL a neopakování odměn.
+    //    Nasazení migrací 041/042/043 a shodu s referencí ověřovat samostatně.
+    // Podrobnosti: Gameforge/quest-engine.json, Gameforge/sql-save-queue.json;
+    // aktuální připravenost a chybějící důkazy: Gameforge/baseline-readiness.json.
+
+    public IQuestProgressStore? QuestProgressStore { get; set; }
     // TRIGGER_TYPE (TT_*)
     private const byte TtExecQuest = 1, TtTalkNpc = 3, TtGetItem = 4, TtKillMon = 5, TtRunSwitch = 7, TtRunGate = 8, TtComplete = 9;
     // TERM_TYPE (QTT_*)
     private const byte QttCompQuest = 1, QttGetItem = 2, QttHunt = 3, QttSkillId = 4, QttItemId = 5, QttTimer = 6,
         QttMonId = 7, QttMapId = 8, QttLeft = 9, QttTop = 10, QttRight = 11, QttBottom = 12, QttTalk = 13,
-        QttHeight = 14, QttSwitch = 15, QttSpawnId = 16, QttUseItem = 17, QttQuestCompleted = 18, QttSpawnIdDel = 21;
+        QttHeight = 14, QttSwitch = 15, QttSpawnId = 16, QttUseItem = 17, QttQuestCompleted = 18, QttSpawnIdDel = 21,
+        QttBattleArena = 28;
     // QUEST_CONDITION_TYPE (QCT_*)
     private const byte QctNone = 0, QctUpperLevel = 1, QctLowerLevel = 2, QctHaveQuest = 3, QctHaveItem = 4,
         QctClass = 5, QctMapId = 7, QctLeft = 8, QctTop = 9, QctRight = 10, QctBottom = 11, QctProb = 12,
         QctHaveNoItem = 13, QctCountry = 14, QctAfterQuestComplete = 15, QctSameLevel = 16, QctSex = 17,
         QctBeforeQuestComplete = 18, QctMaintainSkill = 19, QctSwitch = 20, QctCountMax = 21, QctNoParent = 22;
     // REWARD_TYPE (RT_*) / REWARD_METHOD (RM_*)
-    private const byte RtGold = 1, RtItem = 2, RtSkill = 3, RtSkillUp = 4, RtExp = 6, RtMagicItem = 7;
+    private const byte RtGold = 1, RtItem = 2, RtSkill = 3, RtSkillUp = 4, RtExp = 6, RtMagicItem = 7, RtSoul = 9, RtPoint = 10;
     private const byte RmDefault = 1, RmSelect = 2, RmProb = 3, RmRandom = 4;
     // TNPC_TYPE TNPC_BOX — the bType of the routing item-list packet (CS_NPCITEMLIST_ACK).
     private const byte TNpcBox = 7;
@@ -51,6 +61,7 @@ public sealed partial class MapService
     /// <summary>The trigger index (C++ <c>m_mapTRIGGER</c>): trigger type → keyed id → the quests that fire.
     /// Child quests land under <c>TT_EXECQUEST</c> keyed by their parent's id.</summary>
     private readonly Dictionary<byte, Dictionary<uint, List<QuestTemplate>>> _questTriggers = new();
+    private readonly HashSet<(Character, uint)> _questExecutionPath = new();
 
     /// <summary>RNG for QCT_PROB / RM_PROB / RM_RANDOM reward rolls. Seedable for tests (not C <c>rand()</c>).</summary>
     public Random QuestRng { get; set; } = new();
@@ -89,9 +100,11 @@ public sealed partial class MapService
             // (SSHandler.cpp:5014).
             if (_templates.Quest(q.QuestId) is not { Type: not 0 } tmpl) continue;
             var qp = new QuestProgress { Template = tmpl, TriggerCount = q.TriggerCount, CompleteCount = q.CompleteCount };
-            if (q.Tick != 0)
+            if (q.Tick != 0 || (qp.IsRunning && tmpl.Terms.Any(t => t.TermType == QttTimer)))
             {
                 qp.TimerTick = q.Tick; qp.BeginTick = NowMs;   // resume the timer with `Tick` ms left
+                qp.TimerActive = true;
+                qp.TimerExpired = q.Tick == 0;
                 qp.Save = true;                                // C++ re-flags m_bSave so the decaying timer re-persists
             }
             ch.Quests[q.QuestId] = qp;
@@ -111,7 +124,7 @@ public sealed partial class MapService
     private void CheckQuest(ClientSession s, uint targetId, float x, float y, float z,
                             uint termId, byte termType, byte triggerType, int count)
     {
-        if (s.Char is not { } ch) return;
+        if (!s.IsMain || s.QuestPostRecoveryFailed || s.Char is not { } ch) return;
         PlayerCheckQuest(s, ch, termId, termType, targetId, count);
 
         foreach (var q in TriggerQuests(triggerType, termId).ToList())
@@ -121,7 +134,7 @@ public sealed partial class MapService
 
     /// <summary>C++ <c>CTPlayer::CheckQuest</c> — advance the matching running term on every active quest and
     /// push a <c>CS_QUESTUPDATE_ACK</c> when its count changed. Returns a quest id whose term matched (the
-    /// NPC-talk objective indicator). The monster-instance (<c>QTT_SPAWNID_DEL</c>) proximity nuance is deferred.</summary>
+    /// NPC-talk objective indicator). Instance objectives also support the native spawn-anchor proximity check.</summary>
     private uint PlayerCheckQuest(ClientSession s, Character ch, uint termId, byte termType, uint targetId, int count)
     {
         uint questId = 0;
@@ -134,9 +147,12 @@ public sealed partial class MapService
             var rt = FindRunningTerm(qp, termId, termType);
             questId = qp.Template.QuestId;
 
+            int advance = termType == QttSpawnIdDel && rt is not null
+                ? SpawnObjectiveCount(s, ch, termId, targetId, rt.TermId, count) : count;
+
             byte prev = rt?.Count ?? 0;
             if (rt is not null)
-                rt.Count = (byte)Math.Min(Math.Max(0, prev + count), tmpl.Count);
+                rt.Count = (byte)Math.Min(Math.Max(0, prev + advance), tmpl.Count);
 
             if (rt is null || rt.Count != prev)
             {
@@ -144,9 +160,26 @@ public sealed partial class MapService
                 SendCS_QUESTUPDATE_ACK(s, qp.Template.QuestId, tmpl.TermId, tmpl.TermType, cur,
                     (byte)CheckTermStatus(ch, qp, tmpl));
                 qp.Save = true;
+                ScheduleQuestCheckpoint(ch);
             }
         }
         return questId;
+    }
+
+    private int SpawnObjectiveCount(ClientSession s, Character ch, uint termId, uint targetId, uint runningId, int count)
+    {
+        // Native CTPlayer::CheckQuest type 21. Resolve inside this map/channel; the .NET registry is global.
+        bool Here(Monster m) => m.MapId == ch.MapId && m.Channel == s.Channel;
+        if (_state.FindMonster(termId) is { } direct && Here(direct) && direct.ChartId == termId) count++;
+        if (count != 0 || _state.FindMonster(targetId) is not { } killed || !Here(killed)
+            || SpawnById((ushort)(killed.Id >> 16)) is not { } origin) return count;
+        foreach (var mon in _state.AllMonsters())
+        {
+            if (!Here(mon) || mon.ChartId != runningId || SpawnById((ushort)(mon.Id >> 16)) is not { } anchor) continue;
+            float dx = anchor.Spawn.PosX - origin.Spawn.PosX, dz = anchor.Spawn.PosZ - origin.Spawn.PosZ;
+            if (dx * dx + dz * dz < 16f * 16f) return 1;
+        }
+        return 0;
     }
 
     // ---- eligibility (C++ CanRunQuest / CheckQuestCondition / CheckLevelCondition) ----
@@ -222,7 +255,7 @@ public sealed partial class MapService
                 case QctClass: result = (c.ConditionId & (1u << ch.Class)) != 0 ? QctNone : QctClass; break;
                 case QctHaveItem: result = HasItem(ch, (ushort)c.ConditionId) ? QctNone : QctHaveItem; break;
                 case QctHaveNoItem: result = HasItem(ch, (ushort)c.ConditionId) ? QctHaveNoItem : QctNone; break;
-                case QctCountry: result = c.ConditionId == ch.Country ? QctNone : QctCountry; break; // GetWarCountry deferred
+                case QctCountry: result = c.ConditionId == WarCountryOf(ch) ? QctNone : QctCountry; break;
                 case QctSex: result = c.ConditionId == ch.Sex ? QctNone : QctSex; break;
                 case QctMaintainSkill: result = ch.MaintainSkills.Any(m => m.SkillId == c.ConditionId) ? QctNone : QctMaintainSkill; break;
                 case QctHaveQuest:
@@ -230,9 +263,15 @@ public sealed partial class MapService
                         var parent = ch.FindQuest(c.ConditionId);
                         if (parent is { IsRunning: true })
                         {
-                            var unmet = CheckComplete(ch, parent);
-                            result = q.Type == (byte)QuestType.Complete || (unmet is not null && unmet.TermType != QttTimer)
-                                ? QctNone : QctHaveQuest;
+                            if (q.Type == (byte)QuestType.DropItem)
+                                result = parent.Template.Terms.Any(t => q.Terms.Any(drop => drop.TermId == t.TermId)
+                                    && CheckTermStatus(ch, parent, t) == QuestTermStatus.Success) ? QctHaveQuest : QctNone;
+                            else
+                            {
+                                var unmet = CheckComplete(ch, parent);
+                                result = q.Type == (byte)QuestType.Complete || (unmet is not null && unmet.TermType != QttTimer)
+                                    ? QctNone : QctHaveQuest;
+                            }
                         }
                         // parent missing / not running ⇒ stays QCT_HAVEQUEST (fail)
                     }
@@ -297,7 +336,7 @@ public sealed partial class MapService
             if ((rt.TermId == termId && rt.TermType == termType) || (termType == QttSpawnIdDel && rt.TermType == QttSpawnIdDel))
                 return rt;
 
-        if (termType is QttHunt or QttTalk or QttSpawnIdDel or QttUseItem)
+        if (termType is QttHunt or QttTalk or QttSpawnIdDel or QttUseItem or QttBattleArena)
         {
             var rt = new RunningTerm { TermId = termId, TermType = termType, Count = 0 };
             qp.RunningTerms.Add(rt);
@@ -328,13 +367,14 @@ public sealed partial class MapService
             case QttHunt:
             case QttSpawnIdDel:
             case QttUseItem:
+            case QttBattleArena:
                 {
                     var rt = FindRunningTerm(qp, term.TermId, term.TermType);
                     if (rt is null || rt.Count < term.Count) return QuestTermStatus.Run;
                 }
                 break;
             case QttTimer:
-                if (qp.BeginTick != 0 && NowMs - qp.BeginTick > qp.TimerTick) return QuestTermStatus.Failed;
+                if (qp.HasTimer && (qp.TimerExpired || unchecked(NowMs - qp.BeginTick) > qp.TimerTick)) return QuestTermStatus.Failed;
                 break;
             case QttLeft: if (ch.PosX < term.TermId) return QuestTermStatus.Run; break;
             case QttTop: if (ch.PosZ > term.TermId) return QuestTermStatus.Run; break;
@@ -369,7 +409,7 @@ public sealed partial class MapService
     }
 
     /// <summary>C++ <c>CTPlayer::DropQuest</c> — abandon one trigger of a quest, resetting its counting terms.</summary>
-    private static void DropQuest(Character ch, uint questId)
+    private void DropQuest(Character ch, uint questId)
     {
         if (ch.FindQuest(questId) is not { } qp) return;
         uint level = GetQuestLevel(qp.Template);
@@ -380,9 +420,12 @@ public sealed partial class MapService
             qp.TriggerCount--;
             qp.BeginTick = 0;
             qp.TimerTick = 0;
+            qp.TimerActive = false;
+            qp.TimerExpired = false;
             qp.Save = true;
+            ScheduleQuestCheckpoint(ch);
             foreach (var rt in qp.RunningTerms)
-                if (rt.TermType is QttHunt or QttTalk or QttUseItem) rt.Count = 0;
+                if (rt.TermType is QttHunt or QttTalk or QttUseItem or QttSpawnIdDel or QttBattleArena) rt.Count = 0;
         }
     }
 
@@ -391,29 +434,43 @@ public sealed partial class MapService
     private void ExecQuest(ClientSession s, Character ch, QuestTemplate q, uint monId, float x, float y, float z,
                            byte rewardType = 0, uint rewardId = 0)
     {
-        switch ((QuestType)q.Type)
+        if (!s.IsMain || s.QuestPostRecoveryFailed || (_gameDb is not null && ch.DbLoaded && !_itemIdReady)) return;
+        if (_capturingQuestPost is not null && (QuestType)q.Type is
+            QuestType.Teleport or QuestType.Switch or QuestType.SpawnMon or QuestType.DieMon or QuestType.DropItem or QuestType.Regen)
+            throw new InvalidOperationException("Quest mail continuation has a world effect without a durable replay contract.");
+        if (_questExecutionPath.Count >= 64 || !_questExecutionPath.Add((ch, q.QuestId)))
         {
-            case QuestType.NpcTalk: ExecTalk(s, ch, q, monId); break;
-            case QuestType.Mission:
-            case QuestType.Guild: ExecMission(s, ch, q, monId, x, y, z); break;
-            case QuestType.Complete: ExecComplete(s, ch, q, rewardType, rewardId); break;
-            case QuestType.Craft: ExecCraft(s, ch, q, rewardType, rewardId); break;
-            case QuestType.GiveItem: ExecGiveItem(s, ch, q, monId, x, y, z); break;
-            case QuestType.DeleteItem: ExecDeleteItem(s, ch, q); break;        // Phase 29
-            case QuestType.DropQuest: ExecDropQuest(s, ch, q); break;          // Phase 29
-            case QuestType.ChapterMsg: ExecChapterMsg(s, ch, q); break;        // Phase 29
-            case QuestType.Routing: ExecRouting(s, ch, q); break;              // Phase 29
-            case QuestType.Teleport: ExecTeleport(s, ch, q, monId, x, y, z); break; // Phase 29
-            case QuestType.DefendSkill: ExecDefendSkill(s, ch, q); break;      // Phase 31
-            case QuestType.Switch: ExecSwitch(s, ch, q); break;                // Phase 32
-            case QuestType.SpawnMon: ExecSpawnMon(s, ch, q); break;            // Phase 33
-            case QuestType.DieMon: ExecDieMon(s, ch, q); break;                // Phase 33
-            case QuestType.DropItem: ExecDropItem(s, ch, q, monId); break;     // Phase 33
-            case QuestType.Regen: ExecRegen(s, ch, q, monId); break;           // Phase 34
-            case QuestType.GiveSkill: ExecGiveSkill(s, ch, q); break;          // Phase 36
-            case QuestType.DefTalk: break;                 // no-op
-            default: ExecChildren(s, ch, q, monId, x, y, z); break;   // base: recurse children
+            _log.LogWarning("Cyclic or over-depth quest chain at {Quest} for {Character}.", q.QuestId, ch.CharId);
+            return;
         }
+        try
+        {
+            switch ((QuestType)q.Type)
+            {
+                case QuestType.NpcTalk: ExecTalk(s, ch, q, monId); break;
+                case QuestType.Mission:
+                case QuestType.Guild: ExecMission(s, ch, q, monId, x, y, z); break;
+                case QuestType.Complete: ExecComplete(s, ch, q, rewardType, rewardId); break;
+                case QuestType.Craft: ExecCraft(s, ch, q, rewardType, rewardId); break;
+                case QuestType.GiveItem: ExecGiveItem(s, ch, q, monId, x, y, z); break;
+                case QuestType.DeleteItem: ExecDeleteItem(s, ch, q); break;        // Phase 29
+                case QuestType.DropQuest: ExecDropQuest(s, ch, q); break;          // Phase 29
+                case QuestType.ChapterMsg: ExecChapterMsg(s, ch, q); break;        // Phase 29
+                case QuestType.Routing: ExecRouting(s, ch, q); break;              // Phase 29
+                case QuestType.Teleport: ExecTeleport(s, ch, q, monId, x, y, z); break; // Phase 29
+                case QuestType.DefendSkill: ExecDefendSkill(s, ch, q); break;      // Phase 31
+                case QuestType.Switch: ExecSwitch(s, ch, q); break;                // Phase 32
+                case QuestType.SpawnMon: ExecSpawnMon(s, ch, q); break;            // Phase 33
+                case QuestType.DieMon: ExecDieMon(s, ch, q); break;                // Phase 33
+                case QuestType.DropItem: ExecDropItem(s, ch, q, monId); break;     // Phase 33
+                case QuestType.Regen: ExecRegen(s, ch, q, monId, x, y, z); break;
+                case QuestType.GiveSkill: ExecGiveSkill(s, ch, q); break;          // Phase 36
+                case QuestType.SendPost: ExecSendPost(s, ch, q, monId, x, y, z); break;
+                case QuestType.DefTalk: break;                 // no-op
+                default: ExecChildren(s, ch, q, monId, x, y, z); break;   // base: recurse children
+            }
+        }
+        finally { _questExecutionPath.Remove((ch, q.QuestId)); }
     }
 
     /// <summary>C++ <c>CQuestDefendSkill::ExecQuest</c> (QuestDefendSkill.cpp:12) — grant each <c>QTT_SKILLID</c>
@@ -431,7 +488,11 @@ public sealed partial class MapService
                 ForceMaintain(s, ch, (ushort)term.TermId, ch.CharId, OtPc, ch.CharId, OtPc, 0);
                 granted = true;
             }
-        if (granted) ExecChildren(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ);
+        if (granted)
+        {
+            ScheduleQuestCheckpoint(ch);
+            ExecChildren(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ);
+        }
     }
 
     /// <summary>C++ <c>CQuestGiveSkill::ExecQuest</c> (QuestGiveSkill.cpp:20) — learn the <c>QTT_SKILLID</c>
@@ -449,8 +510,27 @@ public sealed partial class MapService
             if (t.TermType == QttSkillId) { skillId = (ushort)t.TermId; level = t.Count; }  // C++ keeps the last QTT_SKILLID
         if (_templates.Skill(skillId) is not { } temp) return;                              // pSKILLTEMP->find miss
         if (!temp.IsClassMatch(ch.Class)) return;                                           // m_dwClassID & BITSHIFTID(m_bClass)
-        if (UpdateSkill(s, ch, temp, skillId, (byte)Math.Max(1, (int)level)))               // max(bLevel,1); TRUE ⇒ newly learned
+        if (LearnQuestSkill(s, ch, temp, (byte)Math.Max(1, (int)level)))
+        {
+            ScheduleQuestCheckpoint(ch);
             ExecChildren(s, ch, q, 0, ch.PosX, ch.PosY, ch.PosZ);
+        }
+    }
+
+    // A level-zero C# catalogue entry is not learned. Apply the existing reward fix (949d26c)
+    // to GiveSkill as well, without changing UpdateSkill's add-only contract for other callers.
+    private bool LearnQuestSkill(ClientSession s, Character ch, SkillTemplate template, byte level)
+    {
+        if (!template.IsClassMatch(ch.Class)) return false;
+        if (ch.Skills.FirstOrDefault(k => k.SkillId == template.Id) is { Level: 0 } placeholder)
+        {
+            if (template.MaxLevel == 0) return false;
+            placeholder.Level = level;
+            placeholder.Template = template;
+            SendCS_SKILLBUY_ACK(s, ch, SkillUseResult.Success, template.Id, level);
+            return true;
+        }
+        return UpdateSkill(s, ch, template, template.Id, level);
     }
 
     /// <summary>C++ <c>CQuestSwitch::ExecQuest</c> (QuestSwitch.cpp:11) — flip each <c>QTT_SWITCH</c> term's
@@ -513,12 +593,10 @@ public sealed partial class MapService
     /// (<see cref="RegenDynamicMonster"/> + <see cref="AddTimelimitedMon"/>), and link it to the killed monster's
     /// slot so its respawn force-removes the temp (C++ <c>m_wRegenDelSpawn</c>). Recurses children only if a
     /// spawn was minted. Runnable-gated. The term count is the roam type (inert here). Phase 34.</summary>
-    private void ExecRegen(ClientSession s, Character ch, QuestTemplate q, uint monId)
+    private void ExecRegen(ClientSession s, Character ch, QuestTemplate q, uint monId, float x, float y, float z)
     {
         if (CanRunQuest(ch, q, out _) != QctNone) return;
-        // C++ uses the killed monster's death position (m_fPosX/Y/Z); resolve it from the still-registered corpse.
-        var origin = _state.FindMonster(monId);
-        float x = origin?.PosX ?? ch.PosX, y = origin?.PosY ?? ch.PosY, z = origin?.PosZ ?? ch.PosZ;
+        // Native QuestRegen uses the event position, even when a secondary Map owns the original corpse.
         long nowMs = _tickSeconds * 1000L;
         bool regen = false;
         foreach (var term in q.Terms)
@@ -589,6 +667,7 @@ public sealed partial class MapService
         if (qp.TriggerCount == 0xFF) { qp.TriggerCount = 1; qp.CompleteCount = 1; }
         qp.TriggerCount++;
         qp.Save = true;
+        ScheduleQuestCheckpoint(ch);
 
         foreach (var t in q.Terms) PlayerCheckQuest(s, ch, t.TermId, t.TermType, 0, 0);
 
@@ -599,6 +678,8 @@ public sealed partial class MapService
             {
                 qp.TimerTick = t.TermId;
                 qp.BeginTick = NowMs;
+                qp.TimerActive = true;
+                qp.TimerExpired = false;
                 SendCS_QUESTSTARTTIMER_ACK(s, q.QuestId, qp.TimerTick);
             }
 
@@ -672,6 +753,7 @@ public sealed partial class MapService
                 foreach (var it in give) CheckQuest(s, 0, x, y, z, it.TemplateId, QttGetItem, TtGetItem, it.Count);
                 SendCS_MONITEMTAKE_ACK(s, MonItemTakeResult.Success);
                 gave = true;
+                ScheduleQuestCheckpoint(ch);
             }
             else
             {
@@ -695,7 +777,11 @@ public sealed partial class MapService
             foreach (var inv in ch.Invens)
                 foreach (var it in inv.Items)
                     if (it.TemplateId == (ushort)t.TermId) total += it.Count;
-            if (total > 0) UseItemByTemplate(s, ch, (ushort)t.TermId, total);
+            if (total > 0)
+            {
+                UseItemByTemplate(s, ch, (ushort)t.TermId, total);
+                ScheduleQuestCheckpoint(ch);
+            }
         }
     }
 
@@ -770,6 +856,8 @@ public sealed partial class MapService
                 target.CompleteCount++;
                 target.BeginTick = 0;
                 target.TimerTick = 0;
+                target.TimerActive = false;
+                target.TimerExpired = false;
                 if (target.Template.Type != (byte)QuestType.Guild) target.Save = true;
                 foreach (var rt in target.RunningTerms) rt.Count = 0;
 
@@ -812,7 +900,77 @@ public sealed partial class MapService
     /// ordinary learn/update packets. Invalid selected rewards fail before any items or progress change.</summary>
     private QuestResult OnQuestComplete(ClientSession s, Character ch, QuestTemplate q, byte reqRewardType, uint reqRewardId)
     {
-        var give = new List<Item>();
+        if (!ValidQuestRewardChoice(ch, q, reqRewardType, reqRewardId)) return QuestResult.Term;
+        var itemResult = BuildQuestRewardItems(ch, q, reqRewardType, reqRewardId, out var give);
+        if (itemResult != QuestResult.Success) return itemResult;
+
+        var otherRewards = new List<QuestReward>();
+        ulong pointReward = 0;
+        foreach (var rw in q.Rewards)
+        {
+            if (rw.RewardType is RtItem or RtMagicItem) continue;
+            // Pinned soul/point rewards use RM_DEFAULT. Never silently skip an undocumented method.
+            if (rw.RewardType is RtSoul or RtPoint && rw.TakeMethod != RmDefault) return QuestResult.Term;
+            bool take = rw.TakeMethod switch
+            {
+                RmSelect => rw.RewardType == reqRewardType && rw.RewardId == reqRewardId,
+                RmProb => QuestRng.Next(100) < rw.TakeData,
+                RmDefault => true,
+                _ => false,
+            };
+            if (!take) continue;
+            if (rw.RewardType is RtSkill or RtSkillUp && _templates.Skill((ushort)rw.RewardId) is null)
+                return QuestResult.Term;
+            if (rw.RewardType is not (RtGold or RtExp or RtSkill or RtSkillUp or RtSoul or RtPoint)) return QuestResult.Term;
+            if (rw.RewardType == RtPoint) pointReward += rw.RewardId;
+            otherRewards.Add(rw);
+        }
+
+        if (pointReward > uint.MaxValue - (ulong)ch.PvpUseablePoint) return QuestResult.Term;
+        if (!CanPush(ch, give)) return QuestResult.InventoryFull;
+
+        if (give.Count > 0)
+        {
+            var granted = give.Select(i => (i.TemplateId, i.Count)).ToList();
+            PushTItem(s, give);
+            foreach (var (id, count) in granted)
+                CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, id, QttGetItem, TtGetItem, count);
+        }
+
+        ApplyOtherQuestRewards(s, ch, otherRewards);
+        ConsumeFetchItems(s, ch, q);
+        GetTitle(s, ch, QuestTitle, q.QuestId, start: true);
+        ScheduleQuestCheckpoint(ch);
+        return QuestResult.Success;
+    }
+
+    private bool ValidQuestRewardChoice(Character ch, QuestTemplate q, byte type, uint id)
+    {
+        var choices = q.Rewards.Where(r => r.TakeMethod == RmSelect).ToList();
+        if (choices.Count == 0) return true; // retain the existing default/probability reward contract
+        bool ClassEligible(QuestReward r)
+        {
+            if (r.RewardType is RtSkill or RtSkillUp)
+                return _templates.Skill((ushort)r.RewardId)?.IsClassMatch(ch.Class) ?? true;
+            ItemTemplate? item = r.RewardType switch
+            {
+                RtItem => _templates.Item((ushort)r.RewardId),
+                RtMagicItem => _templates.QuestItems.TryGetValue(r.RewardId, out var magic) ? _templates.Item(magic.Item.TemplateId) : null,
+                _ => null
+            };
+            return item is null || (item.ClassId & (1u << ch.Class)) != 0;
+        }
+        // Native client selects the first eligible item/skill choice. Gold/EXP-only rows have no
+        // selectable item widget; preserve their existing zero-selection sequence and class filtering.
+        if (type == 0 && id == 0 && !choices.Any(r => r.RewardType is not (RtGold or RtExp) && ClassEligible(r))) return true;
+        return choices.Any(r => r.RewardType == type && r.RewardId == id && ClassEligible(r));
+    }
+
+    // Shared by turn-in and SendPost; retain the .NET fixes for magic prototypes and one random reward.
+    private QuestResult BuildQuestRewardItems(Character ch, QuestTemplate q, byte reqRewardType, uint reqRewardId,
+        out List<Item> give)
+    {
+        give = new List<Item>();
         int randTake = QuestRng.Next(100);
         int randSum = 0;
 
@@ -859,53 +1017,42 @@ public sealed partial class MapService
             if (randSum != 0) break; // RM_RANDOM grants exactly one
         }
 
-        var otherRewards = new List<QuestReward>();
-        foreach (var rw in q.Rewards)
-        {
-            if (rw.RewardType is RtItem or RtMagicItem) continue;
-            bool take = rw.TakeMethod switch
-            {
-                RmSelect => rw.RewardType == reqRewardType && rw.RewardId == reqRewardId,
-                RmProb => QuestRng.Next(100) < rw.TakeData,
-                RmDefault => true,
-                _ => false,
-            };
-            if (!take) continue;
-            if (rw.RewardType is RtSkill or RtSkillUp && _templates.Skill((ushort)rw.RewardId) is null)
-                return QuestResult.Term;
-            if (rw.RewardType is not (RtGold or RtExp or RtSkill or RtSkillUp)) return QuestResult.Term;
-            otherRewards.Add(rw);
-        }
+        return QuestResult.Success;
+    }
 
-        if (!CanPush(ch, give)) return QuestResult.InventoryFull;
-
-        if (give.Count > 0)
-        {
-            var granted = give.Select(i => (i.TemplateId, i.Count)).ToList();
-            PushTItem(s, give);
-            foreach (var (id, count) in granted)
-                CheckQuest(s, 0, ch.PosX, ch.PosY, ch.PosZ, id, QttGetItem, TtGetItem, count);
-        }
-
+    private void ApplyOtherQuestRewards(ClientSession s, Character ch, List<QuestReward> otherRewards)
+    {
         foreach (var rw in otherRewards)
         {
             switch (rw.RewardType)
             {
                 case RtGold: ch.EarnMoney(rw.RewardId); SendCS_MONEY_ACK(s, ch); break;
-                case RtExp: GainExp(s, ch, rw.RewardId); break;                 // quest-exp buff deferred (0)
+                case RtExp:
+                    const byte questExpBuff = 63; // SDT_STATUS_QUESTEXP (NetCode.h)
+                    uint bonus = ItemProbBuff(ch, questExpBuff);
+                    GainExp(s, ch, (uint)Math.Min(uint.MaxValue, (ulong)rw.RewardId + (ulong)rw.RewardId * bonus / 100));
+                    break;
+                case RtSoul:
+                    // The client displays RT_SOUL's raw integer value (TQuestNewDlg.cpp:2589)
+                    // and reads the soul total from CS_EXP_ACK, independently of character EXP.
+                    // Retain the existing cap/overflow/full-bar rules and EXP reward behavior.
+                    uint previousSoul = ch.SoulLotExp;
+                    if (rw.RewardId != 0) FillSoulBar(s, ch, rw.RewardId);
+                    if (ch.SoulLotExp != previousSoul) SendCS_EXP_ACK(s, ch);
+                    break;
+                case RtPoint:
+                    // Achievement points are the spendable balance (client TSTR_MERIT).
+                    // Do not apply kill/companion bonuses, honour, monthly points or ladder effects.
+                    // PVPE_WIN is an existing silent balance notification in the client handler.
+                    if (rw.RewardId != 0)
+                    {
+                        ch.PvpUseablePoint += rw.RewardId;
+                        SendCS_PVPPOINT_ACK(s, ch, PvpeWin);
+                    }
+                    break;
                 case RtSkill:
                     var template = _templates.Skill((ushort)rw.RewardId)!;
-                    if (template.IsClassMatch(ch.Class))
-                    {
-                        if (ch.Skills.FirstOrDefault(k => k.SkillId == template.Id) is { Level: 0 } placeholder
-                            && template.MaxLevel != 0)
-                        {
-                            placeholder.Level = 1;
-                            placeholder.Template = template;
-                            SendCS_SKILLBUY_ACK(s, ch, SkillUseResult.Success, template.Id, 1);
-                        }
-                        else UpdateSkill(s, ch, template, template.Id, 1);
-                    }
+                    LearnQuestSkill(s, ch, template, 1);
                     break;
                 case RtSkillUp:
                     if (LearnedSkill(ch, (ushort)rw.RewardId) is { Level: < byte.MaxValue } skill)
@@ -917,9 +1064,6 @@ public sealed partial class MapService
             }
         }
 
-        ConsumeFetchItems(s, ch, q);
-        GetTitle(s, ch, QuestTitle, q.QuestId, start: true);
-        return QuestResult.Success;
     }
 
     /// <summary>The C++ turn-in item sink: remove each QTT_GETITEM term's required count from the bags
@@ -948,12 +1092,14 @@ public sealed partial class MapService
 
     private void OnCS_QUESTEXEC_REQ(ClientSession s, PacketReader r)
     {
-        if (s.State != EnterState.InGame || s.Char is not { } ch) return;
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch) return;
         uint questId = r.ReadUInt32();
         byte rewardType = r.ReadByte();
         uint rewardId = r.ReadUInt32();
 
         if (_templates.Quest(questId) is not { } q) return;
+        // Mail triggered by a level/war event must come from the server, never an arbitrary client quest ID.
+        if (q.Type == (byte)QuestType.SendPost && q.TriggerType != TtTalkNpc) return;
 
         if (q.TriggerType == TtTalkNpc)
         {
@@ -967,7 +1113,8 @@ public sealed partial class MapService
 
     private void OnCS_QUESTDROP_REQ(ClientSession s, PacketReader r)
     {
-        if (s.State != EnterState.InGame || s.Char is not { } ch) return;
+        if (s.State != EnterState.InGame || !s.IsMain || s.Char is not { } ch
+            || (_gameDb is not null && ch.DbLoaded && !_itemIdReady)) return;
         uint questId = r.ReadUInt32();
         DropQuest(ch, questId);
         SendCS_QUESTCOMPLETE_ACK(s, QuestResult.Drop, questId, 0, 0, questId);
@@ -1129,11 +1276,11 @@ public sealed partial class MapService
     }
 
     /// <summary>C++ <c>CTPlayer::SendQuestTimer</c> (TPlayer.cpp:3951), sent on enter right after
-    /// <c>CS_QUESTLIST_ACK</c>: for every quest with an active timer (<c>m_dwTick != 0</c>) emit
-    /// <c>CS_QUESTSTARTTIMER_ACK(dwQuestID, remaining)</c> so the client restores the countdown UI on relog.</summary>
+    /// <c>CS_QUESTLIST_ACK</c>: send the current remaining time of each active running timer. Unlike the
+    /// native duration-only send, this accounts for time spent waiting for the character-info step.</summary>
     private void SendQuestTimers(ClientSession s, Character ch)
     {
-        foreach (var qp in ch.Quests.Values.Where(q => q.TimerTick != 0).OrderBy(q => q.Template.QuestId))
-            SendCS_QUESTSTARTTIMER_ACK(s, qp.Template.QuestId, qp.TimerTick);
+        foreach (var qp in ch.Quests.Values.Where(q => q.IsRunning && q.HasTimer && !q.TimerExpired).OrderBy(q => q.Template.QuestId))
+            SendCS_QUESTSTARTTIMER_ACK(s, qp.Template.QuestId, qp.RemainingTimer(NowMs));
     }
 }

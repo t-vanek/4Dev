@@ -29,7 +29,9 @@ public sealed record MonsterTemplate(ushort Id, byte Level, ushort MonAttr,
     byte RecallType = 0, ushort SummonAttr = 0, byte Class = 0, byte Race = 0, byte IsSelf = 0, byte CanSelect = 0,
     byte CanAttack = 0,
     // m_bTame: the sorcerer's Enslave Monster can take it (old sources' SDT_TEMPT check, TObjBase.cpp).
-    byte Tame = 0)
+    byte Tame = 0,
+    // wKind groups monster variants under the same hunt objective; null is only a synthetic fixture fallback.
+    ushort? HuntKind = null)
 {
     /// <summary>The non-empty skill slots in chart order (wSkill1 first).</summary>
     public IEnumerable<ushort> Skills

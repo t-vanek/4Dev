@@ -21,8 +21,8 @@ namespace TMap.Server.Map;
 /// <item>Leaving a map drops its territory's zone buffs and item cap (C++ <c>EraseMissionSkill</c> in <c>ExitMAP</c>).</item>
 /// </list>
 /// <para>Wars run on the default channel (C++ <c>DEFAULT_CHANNEL</c>). <b>Deviations:</b> a dead monster of a suspended spawn
-/// leaves at its usual time (the C++ keeps the corpse) — it just does not come back until the spawn is released; and the capture
-/// goes on without waiting for the save (the C++ waits for the proc's answer).</para>
+/// leaves at its usual time (the C++ keeps the corpse) — it just does not come back until the spawn is released.
+/// Capture acknowledgements and rewards wait for the SQL procedure's successful return.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -106,7 +106,20 @@ public sealed partial class MapService
     /// gone, the winners rewarded, the new owner, and the world told.</summary>
     private void MissionOccupy(Territory m, byte type, byte country, uint charId)
     {
-        if (_gameDb is { } db) { ushort id = m.Id; _ = EnqueueDbWrite(() => db.SaveMissionOccupyAsync(id, type, charId, country)); }
+        if (TerritoryOccupationStore is { } db)
+        {
+            QueueTerritoryWrite(m, async () =>
+            {
+                int result = await SaveTerritoryResultAsync(() => db.SaveMissionOccupyAsync(m.Id, type, charId, country));
+                if (result == 0) OnMissionOccupied(m, type, country);
+            });
+            return;
+        }
+        OnMissionOccupied(m, type, country);
+    }
+
+    private void OnMissionOccupied(Territory m, byte type, byte country)
+    {
         foreach (var id in ZoneSpawnIds(m)) ReleaseWarSpawn(id);
         MissionReward(m, type, country);
         m.Country = country;
@@ -127,6 +140,7 @@ public sealed partial class MapService
             if (!s.IsMain || s.Channel != DefaultChannel || s.Char is not { } ch || ch.MapId != m.Zone.MapId || WarCountryOf(ch) != country) continue;
             if (reward is not null) _ = MailOperatorItem(ch.CharId, ch.Name, "Mission reward", "", reward, 5);
             GainPvPoint(s, ch, 200, PvpeGuild, PvpUseable);
+            ScheduleQuestCheckpoint(ch);
         }
     }
 
@@ -135,8 +149,37 @@ public sealed partial class MapService
         uint silver = 0) => MailOperator(recvId, recver, title, message, new[] { (tpl, count) }, 0, silver, 0);
 
     /// <summary>C++ <c>SendDM_POSTRECVFROMSVR_REQ</c>: a package from the operator with money and new items, one slot each.</summary>
-    private async Task MailOperator(uint recvId, string recver, string title, string message,
+    private Task MailOperator(uint recvId, string recver, string title, string message,
         IReadOnlyList<(ItemTemplate Tpl, byte Count)> items, uint gold, uint silver, uint cooper, byte type = PostPackage)
+    {
+        if (_gameDb is not null)
+        {
+            if (OperatorPostStore is null) throw new InvalidOperationException("Durable server reward mail store required.");
+            // Freeze and commit the complete intent to SQL synchronously before returning even an
+            // ignored Task. Recovery reuses this identity; a collected/deleted letter is never reissued.
+            var rows = new List<ItemSaveData>();
+            for (int i = 0; i < items.Count; i++)
+            {
+                var (tpl, count) = items[i];
+                var item = new Item { TemplateId = tpl.ItemId, Count = count, Template = tpl, DuraMax = tpl.DuraMax, DuraCur = tpl.DuraMax };
+                LinkItemAttr(item);
+                rows.Add(BuildItemSave(0, item) with { DlId = 0, StorageType = StoragePost, StorageId = 0, ItemSlot = checked((byte)i) });
+            }
+            var intent = new OperatorPostIntent(Guid.NewGuid(), recvId, recver, NetString(title), message, type, gold, silver, cooper, UnixNow(), rows);
+            if (OperatorPostEnqueue is { } enqueue)
+            {
+                enqueue(intent);
+                return Task.CompletedTask;
+            }
+            SaveQueue.Append(SaveQueueEntry.ServerPosts([intent]));
+            return EnqueueDbWrite(() => Task.CompletedTask);
+        }
+        return DeliverLegacyOperatorPostAsync(recvId, recver, title, message, items, gold, silver, cooper, type);
+    }
+
+    // DB-free store seam used by the existing gameplay fixtures. Configured SQL never uses this path.
+    private async Task DeliverLegacyOperatorPostAsync(uint recvId, string recver, string title, string message,
+        IReadOnlyList<(ItemTemplate Tpl, byte Count)> items, uint gold, uint silver, uint cooper, byte type)
     {
         if (PostStore is not { } db) return;
         long now = UnixNow();

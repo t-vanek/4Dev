@@ -105,7 +105,7 @@ public sealed partial class MapService
     /// <summary>C++ <c>SendDM_SAVECHAR_REQ</c>'s hotkey block (SSSender.cpp:1213): the page flag becomes the
     /// <c>TSaveHotkey</c> verb — an all-empty page 1 (delete), a new page 2 (insert), an edited page 3 (update),
     /// an untouched page is skipped — and every page sent drops back to <c>ITEM_SAVE_LOAD</c>.</summary>
-    public static List<HotkeySaveRow> BuildHotkeySaves(Character ch)
+    public static List<HotkeySaveRow> BuildHotkeySaves(Character ch, bool clearFlags = true)
     {
         var rows = new List<HotkeySaveRow>();
         foreach (var page in ch.HotkeyPages.OrderBy(p => p.InvenKey))
@@ -117,7 +117,7 @@ public sealed partial class MapService
             else continue;
 
             rows.Add(new HotkeySaveRow(verb, page.InvenKey, page.Slots.Select(k => (k.Type, k.Id)).ToArray()));
-            page.Save = HotkeyPage.SaveLoad;
+            if (clearFlags) page.Save = HotkeyPage.SaveLoad;
         }
         return rows;
     }

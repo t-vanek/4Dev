@@ -1,5 +1,56 @@
 # TWorldSvr.Net — Phases 1–4 (BoW + BR + battle-time + tournament config)
 
+2026-10-30 deployment: current cumulative source is built and deployed in Docker for Login, World,
+Map, Patch and Control. Migrations 041 through 046 are applied after checksum-verified game/global
+backups. Map/World/Control registration, public TCP ports, SQL queue ownership and the deployed data
+library pass startup/read-only checks. Real-client journeys remain unverified. Deployment evidence:
+`Gameforge/deployments/2026-10-30-wolverine.json`. Earlier entries retain their historical test scopes.
+
+Production reserved-mail processing now invokes shared Wolverine handlers. World alone consumes
+durable mail notifications, waits for its actor inbox and routes the existing native packet by the
+recipient's current ID/name/main. New server reward outbox envelopes commit with native mail/items
+and their permanent receipt. Migration 046 provisions SQL-only framework storage; auto-DDL/purge
+are disabled in production. See `Gameforge/wolverine-mail.json`. Source/images are deployed;
+full game exchanges, distributed topology, worker/client restart and publisher parity remain unverified.
+Validation: 220 World + 1,775 Map tests and 72 distinct native/framework SQL scenarios pass, including
+process-exit recovery. All 14 framework scenarios also pass from published output without an SDK.
+
+Castle applicant assignment, withdrawal and movement now await the native SQL write before changing
+the member/mercenary slot or publishing success/counts. Twelve held/failing-store socket cases cover
+these paths; all 219 World tests pass. Eleven new native territory/application SQL scenarios pass in
+the 44-scenario disposable fixture. See `Gameforge/territory-wars.json`. Source is not deployed;
+guild-stat/result/reward crash recovery and full war/client acceptance remain incomplete.
+
+World now delivers reserved quest mail through the native SQL procedure: up to 30 reservations per
+minute, offline recipients included, with atomic attachment/header/state writes and a database lock
+between .NET consumers. Online notifications follow the current main. Three new World regressions
+and eight isolated SQL scenarios cover delivery, concurrency, rollback and quest reload; all 207 World
+and 1,608 Map tests pass. See `Gameforge/quest-engine.json`. Source is not deployed; reference and
+real-client/restart verification remain pending.
+
+The existing `MW_MONSTERDIE_ACK` main-route relay now has its missing sender/receiver in Map. A full
+EXP/hunt payload test uses two real Map-peer TCP connections and confirms delivery to the new main
+with the body intact. World passes 204 tests; Map passes 1,568. See `Gameforge/monster-reward-relay.json`.
+The source changes are not deployed or verified with real game clients.
+
+TMS reopening now binds Map replies to pending server-owned messages and current main/key/object
+identities. Duplicate invitation targets retain native set semantics; a missing/disconnected peer
+returns the localized no-receiver notice, and leave/logout cancels pending requests. The earlier C#
+roster-recipient and logout fixes remain; byte-count roster overflow is refused before mutation.
+Validation: 28 new cases, 203 World + 1,550 Map tests and five preservation checks pass. Evidence:
+`Gameforge/tms-recovery.json`. This source is not deployed or verified with the real client.
+
+Player chat now selects party/guild/tactics/corps and remote-whisper recipients from live state and
+sends `MW_CHAT_REQ` to their main Map routes. Map/show messages fan out to Map peers; Map performs
+faction/block-list filtering. Sender key/name/main route and bans are checked; group targets and
+operator display cannot be forged. The operator alias uses the `TOPERATORTABLE` roster loaded at
+startup and returns the native offline notice when no same-country operator can receive it.
+Validation: 188 World and 1,537 Map tests pass, including 69 new cases versus the deployed baseline.
+The operator loader matches two live SQL IDs read-only. The old handshake/chat test now expects the
+translated REQ rather than the original ACK echo. See `Gameforge/chat-routing.json` for history,
+integrity extensions and remaining real-client/locale and BoW/BR match-server verification.
+These source changes are not deployed.
+
 ## Peer authentication
 
 The World listener requires mutual TLS before dispatching any game-server packet. Configure

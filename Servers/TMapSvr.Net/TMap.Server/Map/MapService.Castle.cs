@@ -31,9 +31,11 @@ namespace TMap.Server.Map;
 /// (<c>TSaveCastleOccupy</c>), and the world tells every map (<c>MW_CASTLEOCCUPY_REQ</c>): the owner, the forts' week wiped,
 /// the news (<c>SM_CASTLE_END</c>) and the points (<c>PVPE_ENTRY</c> / <c>WIN</c> / <c>DEFEND</c>, MapService.Fort.cs).</item>
 /// </list>
-/// <para>The castle guards' shop is in MapService.GuildTactics.cs. <b>Not ported:</b> the GM's free pass into a castle (<c>IsOperator</c>); sending a player out of a
-/// guild-only destination after a capture (<c>CheckMapGuild</c> — the last destination is not tracked). The proc's answer comes
-/// back on the next timer tick. The ball commands run on the 1-second timer.</para>
+/// <para>The castle guards' shop is in MapService.GuildTactics.cs. Operator entry and guild-destination eviction follow the
+/// native checks. SQL occupation succeeds before reward dispatch; the ball commands run on the 1-second timer.
+/// TODO(TERRITORY_BASELINE): persist settlement/reward delivery and active-war recovery in SQL before claiming restart safety;
+/// MailOperatorItem now has SQL queue/receipt recovery per accepted letter; occupation, all recipients, points and World
+/// result delivery still do not share an atomic settlement. See Gameforge/territory-wars.json.</para>
 /// </summary>
 public sealed partial class MapService
 {
@@ -148,13 +150,15 @@ public sealed partial class MapService
         var msg = w.ToArray();
         foreach (var s in PlayersOnMap(c.Zone.MapId)) if (s.IsMain) s.Send(msg);
 
-        CastleOccupy(c, win == c.Guild ? OccupyDefend : OccupyAccept, win, win == c.DefGuildId ? c.AtkGuildId : c.DefGuildId);
+        CastleOccupy(c, win == c.Guild ? OccupyDefend : OccupyAccept, win, win == c.DefGuildId ? c.AtkGuildId : c.DefGuildId, () =>
+        {
+            CastleReward(c, win);
+            foreach (var s in _state.AllInGame().ToList())
+                if (s.Char is { } ch && ch.LocalId == c.Id && ch.GuildId == win) IncreaseStatExp(ch, CastleOccupyStatExp / 2);
+        });
         EndMapWar(c);
         foreach (var id in ZoneSpawnIds(c)) ReleaseWarSpawn(id);
         c.Status = BsPeace;
-        CastleReward(c, win);
-        foreach (var s in _state.AllInGame().ToList())
-            if (s.Char is { } ch && ch.LocalId == c.Id && ch.GuildId == win) IncreaseStatExp(ch, CastleOccupyStatExp / 2);
     }
 
     /// <summary>C++ <c>CTMap::EndWar</c> (TMap.cpp:1813): no more war; the balls gone, their carriers relieved.</summary>
@@ -194,7 +198,7 @@ public sealed partial class MapService
 
     /// <summary>C++ <c>SendDM_CASTLEOCCUPY_REQ</c> → <c>TSaveCastleOccupy</c> → <c>OnDM_CASTLEOCCUPY_ACK</c>: saved, and the world
     /// told. DB-free, the proc's choice is made here (a castle taken by no guild is refused, as the proc does).</summary>
-    private void CastleOccupy(Territory c, byte type, uint guild, uint loseGuild)
+    private void CastleOccupy(Territory c, byte type, uint guild, uint loseGuild, Action? confirmed = null)
     {
         void Done(int ret, byte country)
         {
@@ -202,9 +206,10 @@ public sealed partial class MapService
             var w = new PacketWriter(Msg.MW_CASTLEOCCUPY_ACK);
             w.WriteByte(type); w.WriteUInt16(c.Id); w.WriteUInt32(guild); w.WriteByte(country); w.WriteUInt32(loseGuild);
             _world.Send(w);
+            confirmed?.Invoke();
             _log.LogInformation("Castle {Id} {How}: guild {Guild}, country {Country}.", c.Id, type == OccupyAccept ? "taken" : "held", guild, country);
         }
-        if (_gameDb is not { } db)
+        if (TerritoryOccupationStore is not { } db)
         {
             if (type == OccupyDefend) Done(0, c.Country);
             else if (guild != 0)
@@ -212,12 +217,10 @@ public sealed partial class MapService
             else Done(1, 0);
             return;
         }
-        _ = Task.Run(async () =>
+        QueueTerritoryWrite(c, async () =>
         {
-            (int ret, byte country) result;
-            try { result = await db.SaveCastleOccupyAsync(c.Id, type, guild); }
-            catch (Exception ex) { _log.LogWarning(ex, "TSaveCastleOccupy failed for castle {Id}.", c.Id); result = (CastleInternal, 0); }
-            _dbResults.Enqueue(() => Done(result.ret, result.country));
+            var result = await SaveTerritoryResultAsync(() => db.SaveCastleOccupyAsync(c.Id, type, guild));
+            Done(result.Ret, result.Country);
         });
     }
 
@@ -240,6 +243,9 @@ public sealed partial class MapService
         c.Points.Clear(); c.Top3[TcontryD].Clear(); c.Top3[TcontryC].Clear();
         foreach (var l in c.Locals) { Array.Clear(l.OccupyGuild); Array.Clear(l.OccupyType); }
         NotifyLocalInfo(SmCastleEnd, 0, 0, c.Zone.Name, guildName);
+        if (type == OccupyAccept)
+            foreach (var s in _state.AllInGame().ToList())
+                if (s.IsMain && s.Char is { } ch && CheckMapGuild(ch)) ReturnFromGuildDestination(s, ch);
         if (!c.Valid) return;
         PvPEntry(c);
         if (prev != guild) PvPWin(c, prev); else PvPDefend(c);
@@ -529,7 +535,7 @@ public sealed partial class MapService
     {
         if (CastleOfMap(ch.MapId) is not { } c) return;
         uint guild = GuildOf(ch);
-        if (CanEnterCastle(c) && (guild == c.DefGuildId || guild == c.AtkGuildId) && ch.Castle == c.Id && ch.Camp != CampNone)
+        if (IsOperator(ch.CharId) || (CanEnterCastle(c) && (guild == c.DefGuildId || guild == c.AtkGuildId) && ch.Castle == c.Id && ch.Camp != CampNone))
         {
             var w = new PacketWriter(Msg.CS_ENTERCASTLE_ACK, capacity: 32);
             w.WriteUInt16(ch.Castle); w.WriteByte(ch.Camp); w.WriteString(c.AtkName); w.WriteString(c.DefName);

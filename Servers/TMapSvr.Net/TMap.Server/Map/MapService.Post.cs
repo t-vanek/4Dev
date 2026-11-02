@@ -215,12 +215,12 @@ public sealed partial class MapService
 
         var items = post.Items.ToList();
         long money = ch.MoneyOf(post.Gold, post.Silver, post.Cooper);
+        // Release the mail's contents first: TPostGetItem deletes the post-storage rows these items still occupy.
+        bool released = await Safe(async () => { await db.PostGetItemAsync(ch.CharId, postId); return true; }, false);
+        if (s.Char != ch) return;
+        if (!released) { SendPostResult(s, Msg.CS_POSTGETITEM_ACK, PostInternal); return; }
         post.Items.Clear();
         post.Gold = post.Silver = post.Cooper = 0;
-
-        // Release the mail's contents first: TPostGetItem deletes the post-storage rows these items still occupy.
-        await Safe(async () => { await db.PostGetItemAsync(ch.CharId, postId); return 0; }, 0);
-        if (s.Char != ch) return;
 
         if (items.Count != 0)
         {

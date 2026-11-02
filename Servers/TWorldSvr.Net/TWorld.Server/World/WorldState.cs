@@ -11,6 +11,7 @@ public sealed class WorldState
 {
     public Dictionary<ushort, ServerSession> Servers { get; } = new();   // wID -> peer
     public Dictionary<uint, Character> Characters { get; } = new();      // charId -> character
+    public HashSet<uint> Operators { get; } = new();
     public Dictionary<string, Character> CharactersByName { get; } = new(StringComparer.OrdinalIgnoreCase);
     public HashSet<uint> ActiveUsers { get; } = new();
 

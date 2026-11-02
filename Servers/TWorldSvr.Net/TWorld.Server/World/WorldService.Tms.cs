@@ -8,42 +8,54 @@ namespace TWorld.Server.World;
 /// <c>SSHandler.cpp</c> (OnMW_TMSSEND/TMSINVITEASK/TMSINVITE/TMSOUT) + <c>SSSender.cpp</c>. A conversation
 /// (<see cref="Tms"/>) holds a member set; invites require the same war-country; a fresh 1:1 invite to
 /// someone who already opened an empty conversation toward you merges into it. The "no receiver" system
-/// message normally comes from the server-message table (not yet loaded here), so it's emitted as an empty
-/// net-string and noted.
+/// message uses the loaded server-message table. Reopening a conversation correlates the Map answer
+/// with a pending server-owned message; duplicate target IDs retain native set semantics.
 /// </summary>
 public sealed partial class WorldService
 {
+    private sealed record TmsPrompt(Character Sender, Character Target, string Message);
+    private readonly Dictionary<uint, List<TmsPrompt>> _tmsPrompts = new();
+
+    private Character? TmsActor(ServerSession session, uint id, uint key)
+        => _state.FindChar(id, key) is { Logout: false } ch && ch.MainId == session.ServerId && session.ServerType == 4 ? ch : null;
+
+    private bool TmsOnline(Character ch)
+        => !ch.Logout && _state.Characters.TryGetValue(ch.CharId, out var live) && ReferenceEquals(live, ch)
+           && _state.FindMapSvr(ch.MainId) is { ServerType: 4 };
+
     private bool DispatchTms(ServerSession session, PacketReader r)
     {
         switch (r.Id)
         {
-            case Msg.MW_TMSSEND_ACK: OnMW_TMSSEND_ACK(r); return true;
-            case Msg.MW_TMSINVITEASK_ACK: OnMW_TMSINVITEASK_ACK(r); return true;
-            case Msg.MW_TMSINVITE_ACK: OnMW_TMSINVITE_ACK(r); return true;
-            case Msg.MW_TMSOUT_ACK: OnMW_TMSOUT_ACK(r); return true;
+            case Msg.MW_TMSSEND_ACK: OnMW_TMSSEND_ACK(session, r); return true;
+            case Msg.MW_TMSINVITEASK_ACK: OnMW_TMSINVITEASK_ACK(session, r); return true;
+            case Msg.MW_TMSINVITE_ACK: OnMW_TMSINVITE_ACK(session, r); return true;
+            case Msg.MW_TMSOUT_ACK: OnMW_TMSOUT_ACK(session, r); return true;
         }
         return false;
     }
 
     /// <summary>Send a message into a conversation. A still-one-member conversation first prompts the saved
     /// peer to join (TMSINVITEASK); otherwise the message is delivered to all members. C++ OnMW_TMSSEND_ACK.</summary>
-    private void OnMW_TMSSEND_ACK(PacketReader r)
+    private void OnMW_TMSSEND_ACK(ServerSession session, PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
         uint tmsId = r.ReadUInt32();
         string message = r.ReadString();
 
-        var ch = _state.FindChar(charId, key);
+        var ch = TmsActor(session, charId, key);
         if (ch is null || !ch.TmsIds.Contains(tmsId)) return;
-        if (!_state.TmsMap.TryGetValue(tmsId, out var tms)) return;
+        if (!_state.TmsMap.TryGetValue(tmsId, out var tms) || !tms.Members.TryGetValue(charId, out var member) || !ReferenceEquals(member, ch)) return;
 
         if (tms.Members.Count == 1)
         {
             var target = FindByName(tms.LastMember);
-            if (target is null) message = NoReceiverMessage();
+            if (target is null || !TmsOnline(target) || GetWarCountry(ch) != GetWarCountry(target)) message = NoReceiverMessage();
             else
             {
+                if (!_tmsPrompts.TryGetValue(tmsId, out var prompts)) _tmsPrompts[tmsId] = prompts = new();
+                prompts.Add(new(ch, target, message));
                 var w = new PacketWriter(Msg.MW_TMSINVITEASK_REQ);
                 w.WriteUInt32(target.CharId); w.WriteUInt32(target.Key);
                 w.WriteUInt32(ch.CharId); w.WriteUInt32(ch.Key); w.WriteUInt32(tmsId); w.WriteString(message);
@@ -58,7 +70,7 @@ public sealed partial class WorldService
 
     /// <summary>The prompted peer accepted (or declined) the invite. On accept, add them and notify all members
     /// (TMSINVITE); then relay the original message to everyone. C++ OnMW_TMSINVITEASK_ACK.</summary>
-    private void OnMW_TMSINVITEASK_ACK(PacketReader r)
+    private void OnMW_TMSINVITEASK_ACK(ServerSession session, PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
@@ -73,6 +85,17 @@ public sealed partial class WorldService
         if (!_state.TmsMap.TryGetValue(tmsId, out var tms)) return;
 
         var target = _state.FindChar(targetId, targetKey);
+        // This answer comes from the prompted target's main, not from the original sender's Map.
+        if (target is null || TmsActor(session, targetId, targetKey) != target
+            || !_tmsPrompts.TryGetValue(tmsId, out var prompts)) return;
+        int pending = prompts.FindIndex(p => ReferenceEquals(p.Sender, ch) && ReferenceEquals(p.Target, target) && p.Message == message);
+        if (pending < 0) return;
+        message = prompts[pending].Message;
+        prompts.RemoveAt(pending);
+        if (prompts.Count == 0) _tmsPrompts.Remove(tmsId);
+        if (!TmsOnline(ch) || !tms.Members.TryGetValue(ch.CharId, out var member) || !ReferenceEquals(member, ch)) return;
+        if (GetWarCountry(ch) != GetWarCountry(target)) result = 0;
+        if (tms.Members.Count == byte.MaxValue && !tms.Members.ContainsKey(targetId)) result = 0;
         if (target is not null && result != 0)
         {
             tms.Members[target.CharId] = target;
@@ -94,36 +117,38 @@ public sealed partial class WorldService
     /// <summary>Invite one or more chars into a (new or existing) conversation — same war-country only.
     /// A 1:1 invite to someone who already opened an empty conversation toward me merges into it.
     /// C++ OnMW_TMSINVITE_ACK.</summary>
-    private void OnMW_TMSINVITE_ACK(PacketReader r)
+    private void OnMW_TMSINVITE_ACK(ServerSession session, PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
         uint tmsId = r.ReadUInt32();
         byte count = r.ReadByte();
 
-        var ch = _state.FindChar(charId, key);
+        var ch = TmsActor(session, charId, key);
         if (ch is null || count == 0) { for (byte i = 0; i < count; i++) r.ReadUInt32(); return; }
 
         Tms? tms = null;
         if (tmsId != 0)
         {
-            if (!ch.TmsIds.Contains(tmsId) || !_state.TmsMap.TryGetValue(tmsId, out tms)) { for (byte i = 0; i < count; i++) r.ReadUInt32(); return; }
+            if (!ch.TmsIds.Contains(tmsId) || !_state.TmsMap.TryGetValue(tmsId, out tms)
+                || !tms.Members.TryGetValue(charId, out var current) || !ReferenceEquals(current, ch))
+            { for (byte i = 0; i < count; i++) r.ReadUInt32(); return; }
         }
 
-        var targets = new List<Character>();
+        var targets = new SortedDictionary<uint, Character>();
         for (byte i = 0; i < count; i++)
         {
             uint targetId = r.ReadUInt32();
             if (!_state.Characters.TryGetValue(targetId, out var t)) continue;
-            if (GetWarCountry(ch) != GetWarCountry(t)) continue;
-            targets.Add(t);
+            if (!TmsOnline(t) || GetWarCountry(ch) != GetWarCountry(t)) continue;
+            targets[t.CharId] = t;
         }
         if (targets.Count == 0) return;
 
         // 1:1 to someone who already opened an empty conversation toward me -> join theirs.
         if (tms is null && targets.Count == 1)
         {
-            var target = targets[0];
+            var target = targets.Values.First();
             foreach (var existingId in target.TmsIds)
             {
                 if (!_state.TmsMap.TryGetValue(existingId, out var existing)) continue;
@@ -137,6 +162,10 @@ public sealed partial class WorldService
             }
         }
 
+        // The roster count is one byte on the wire. Refuse an unrepresentable roster atomically.
+        int currentCount = tms?.Members.Count ?? 1;
+        if (currentCount + targets.Keys.Count(id => tms is null ? id != ch.CharId : !tms.Members.ContainsKey(id)) > byte.MaxValue) return;
+
         if (tms is null)
         {
             tms = new Tms { Id = ++_state.TmsIndex };
@@ -145,7 +174,7 @@ public sealed partial class WorldService
             _state.TmsMap[tms.Id] = tms;
         }
 
-        foreach (var t in targets)
+        foreach (var t in targets.Values)
         {
             tms.Members[t.CharId] = t;
             t.TmsIds.Add(tms.Id);
@@ -157,15 +186,15 @@ public sealed partial class WorldService
 
     /// <summary>Leave a conversation: notify all members, remove the leaver, and dissolve an empty conversation.
     /// C++ OnMW_TMSOUT_ACK.</summary>
-    private void OnMW_TMSOUT_ACK(PacketReader r)
+    private void OnMW_TMSOUT_ACK(ServerSession session, PacketReader r)
     {
         uint charId = r.ReadUInt32();
         uint key = r.ReadUInt32();
         uint tmsId = r.ReadUInt32();
 
-        var ch = _state.FindChar(charId, key);
+        var ch = TmsActor(session, charId, key);
         if (ch is null || !ch.TmsIds.Contains(tmsId)) return;
-        if (!_state.TmsMap.TryGetValue(tmsId, out var tms)) return;
+        if (!_state.TmsMap.TryGetValue(tmsId, out var tms) || !tms.Members.TryGetValue(charId, out var member) || !ReferenceEquals(member, ch)) return;
 
         foreach (var m in tms.Members.Values.OrderBy(c => c.CharId))
         {
@@ -175,17 +204,33 @@ public sealed partial class WorldService
         }
 
         tms.Members.Remove(charId);
+        _tmsPrompts.Remove(tmsId);
         tms.LastMember = ch.Name;
         ch.TmsIds.Remove(tmsId);
         if (tms.Members.Count == 0) _state.TmsMap.Remove(tmsId);
     }
 
-    /// <summary>C++ <c>LeaveTMS</c> (TWorldSvr.cpp:2780): a logging-out char leaves every conversation it's in — the others are
-    /// told — and any that empty are dissolved. Called from CloseChar.</summary>
+    /// <summary>Cancel outstanding prompts even if this peer has not joined any conversation yet.</summary>
+    private void CancelTmsPrompts(Character ch)
+    {
+        // A prompted peer can disconnect without belonging to the conversation yet.
+        foreach (var (id, prompts) in _tmsPrompts.ToArray())
+        {
+            foreach (var pending in prompts.Where(p => ReferenceEquals(p.Target, ch)))
+                if (TmsOnline(pending.Sender) && _state.TmsMap.TryGetValue(id, out var tms)
+                    && tms.Members.ContainsKey(pending.Sender.CharId))
+                    SendToChar(pending.Sender, BuildTmsRecv(pending.Sender, id, pending.Sender.Name, NoReceiverMessage()));
+            prompts.RemoveAll(p => ReferenceEquals(p.Target, ch) || ReferenceEquals(p.Sender, ch));
+            if (prompts.Count == 0) _tmsPrompts.Remove(id);
+        }
+    }
+
+    /// <summary>C++ LeaveTMS: preserve the earlier C# logout notifications and LastMember tracking.</summary>
     private void TmsLeaveAll(Character ch)
     {
         foreach (var tmsId in ch.TmsIds.ToList())
         {
+            _tmsPrompts.Remove(tmsId);
             if (_state.TmsMap.TryGetValue(tmsId, out var tms))
             {
                 tms.LastMember = ch.Name;

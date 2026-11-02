@@ -2,15 +2,21 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY TMap.Protocol/TMap.Protocol.csproj TMap.Protocol/
-COPY TMap.Data/TMap.Data.csproj TMap.Data/
-COPY TMap.Server/TMap.Server.csproj TMap.Server/
-RUN dotnet restore TMap.Server/TMap.Server.csproj
+COPY FourDev.Mail/FourDev.Mail.csproj FourDev.Mail/
+COPY TMapSvr.Net/TMap.Protocol/TMap.Protocol.csproj TMapSvr.Net/TMap.Protocol/
+COPY TMapSvr.Net/TMap.Data/TMap.Data.csproj TMapSvr.Net/TMap.Data/
+COPY TMapSvr.Net/TMap.Server/TMap.Server.csproj TMapSvr.Net/TMap.Server/
+COPY TWorldSvr.Net/TWorld.Protocol/TWorld.Protocol.csproj TWorldSvr.Net/TWorld.Protocol/
+COPY TWorldSvr.Net/TWorld.Data/TWorld.Data.csproj TWorldSvr.Net/TWorld.Data/
+RUN dotnet restore TMapSvr.Net/TMap.Server/TMap.Server.csproj
 
-COPY TMap.Protocol/ TMap.Protocol/
-COPY TMap.Data/ TMap.Data/
-COPY TMap.Server/ TMap.Server/
-RUN dotnet publish TMap.Server/TMap.Server.csproj -c Release -o /app
+COPY FourDev.Mail/ FourDev.Mail/
+COPY TMapSvr.Net/TMap.Protocol/ TMapSvr.Net/TMap.Protocol/
+COPY TMapSvr.Net/TMap.Data/ TMapSvr.Net/TMap.Data/
+COPY TMapSvr.Net/TMap.Server/ TMapSvr.Net/TMap.Server/
+COPY TWorldSvr.Net/TWorld.Protocol/ TWorldSvr.Net/TWorld.Protocol/
+COPY TWorldSvr.Net/TWorld.Data/ TWorldSvr.Net/TWorld.Data/
+RUN dotnet publish TMapSvr.Net/TMap.Server/TMap.Server.csproj -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app

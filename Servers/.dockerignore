@@ -1,0 +1,13 @@
+**
+!FourDev.Mail/
+!FourDev.Mail/**
+!TMapSvr.Net/
+!TMapSvr.Net/**
+!TWorldSvr.Net/
+!TWorldSvr.Net/**
+**/bin
+**/obj
+**/.vs
+**/*.user
+**/TestResults
+**/publish

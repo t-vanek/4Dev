@@ -217,4 +217,30 @@ public class CashShopTests
         Assert.Contains("bonus 255 255 300", x.Cash.Log);
         Assert.Null(x.Ch.FindInven(Bag)!.FindItem(4));
     }
+
+    [Theory]
+    [InlineData((byte)1)] [InlineData((byte)3)]
+    public async Task CashBonusDispatchWaitsForTheStoreAfterConsumingExactlyOneItem(byte count)
+    {
+        var x = await Open(); var item = Give(x, BonusCard, 4); item.Count = count;
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        byte? observed = 255;
+        x.Cash.GainHandler = async () =>
+        {
+            observed = x.Ch.FindInven(Bag)!.FindItem(4)?.Count;
+            entered.TrySetResult(); await release.Task; return 0;
+        };
+        var use = x.H.Service.DispatchClientAsync(x.S, MapTestHarness.ItemUseReq(BonusCard, Bag, 4));
+        try
+        {
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            Assert.False(use.IsCompleted);
+            Assert.Equal(count == 1 ? null : (byte?)(count - 1), observed);
+            Assert.True(x.C.Has(Msg.CS_ITEMUSE_ACK));
+        }
+        finally { release.TrySetResult(); }
+        await use;
+        Assert.Single(x.Cash.Log, l => l.StartsWith("bonus "));
+    }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using TMap.Data;
 using TMap.Server.Map;
 using TMap.Server.Net;
+using FourDev.Mail;
 
 namespace TMap.Server;
 
@@ -24,12 +25,14 @@ public sealed class MapWorker : BackgroundService
     private readonly MapServerOptions _opt;
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<MapWorker> _log;
+    private readonly WolverineMailStore? _mail;
 
-    public MapWorker(IOptions<MapServerOptions> opt, ILoggerFactory loggerFactory)
+    public MapWorker(IOptions<MapServerOptions> opt, ILoggerFactory loggerFactory, WolverineMailStore? mail = null)
     {
         _opt = opt.Value;
         _loggerFactory = loggerFactory;
         _log = loggerFactory.CreateLogger<MapWorker>();
+        _mail = mail;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -99,6 +102,19 @@ public sealed class MapWorker : BackgroundService
         var state = new MapState();
         var worldLink = new WorldLink(_opt.WorldIp, _opt.WorldPort, _loggerFactory.CreateLogger<WorldLink>(), _opt.WorldTls);
         var service = new MapService(_opt, state, worldLink, gameDb, templates, _loggerFactory.CreateLogger<MapService>());
+        if (gameDb is not null)
+        {
+            var mail = _mail ?? throw new InvalidOperationException("Configured SQL mail requires Wolverine.");
+            service.PostStore = mail; service.QuestPostStore = mail; service.OperatorPostStore = mail;
+            service.OperatorPostEnqueue = mail.Enqueue;
+            service.LegacyOperatorPostForward = mail.ForwardLegacyIntentAsync;
+            service.WelcomeMailStore = gameDb;
+        }
+        using var saveQueue = service.OpenSaveQueue();
+        await service.VerifyOperatorPostStorageAsync(); // migration 045 is required before any new reward can be accepted
+        await service.RecoverPendingSavesAsync(); // before auction state, world registration or client acceptance
+        await service.VerifyWelcomeMailStorageAsync(); // migration 048: no silently missing first-entry records
+        await service.RecoverWelcomeMailAsync();
         // A configured DB failure must not silently turn off account protection via the DB-free game fallback.
         if (gameDb is null && (!string.IsNullOrWhiteSpace(_opt.Db.GameConnectionString) || !string.IsNullOrWhiteSpace(_opt.Db.GlobalConnectionString)))
             service.SecurityCodeStore = new GameDatabase(
@@ -161,7 +177,7 @@ public sealed class MapWorker : BackgroundService
                         if (item.Client!.State is Map.ClientSession cs) await service.DispatchClientAsync(cs, item.Packet!);
                         break;
                     case BatchKind.ClientDisconnected:
-                        if (item.Client!.State is Map.ClientSession ds) service.OnClientDisconnect(ds);
+                        if (item.Client!.State is Map.ClientSession ds) await service.OnClientDisconnectAsync(ds);
                         break;
                     case BatchKind.WorldConnected: await service.OnWorldConnectedAsync(); break;
                     case BatchKind.WorldPacket: await service.DispatchWorldAsync(item.Packet!); break;

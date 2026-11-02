@@ -34,4 +34,19 @@ public class DataSmokeTests
         if (string.IsNullOrWhiteSpace(Game)) { _out.WriteLine("TWORLD_TEST_GAME not set — skipping."); return; }
         await new GameDatabase(Game!).PingAsync();
     }
+
+    [Fact]
+    public async Task OperatorsMatchSql_ReadOnly()
+    {
+        if (string.IsNullOrWhiteSpace(Game)) { _out.WriteLine("TWORLD_TEST_GAME not set; no SQL assertions."); return; }
+        var actual = await new GameDatabase(Game!).LoadOperatorsAsync();
+        await using var connection = new Microsoft.Data.SqlClient.SqlConnection(Game);
+        await connection.OpenAsync();
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand("SELECT dwOperatorID FROM TOPERATORTABLE", connection);
+        await using var reader = await command.ExecuteReaderAsync();
+        var expected = new List<uint>();
+        while (await reader.ReadAsync()) expected.Add(unchecked((uint)reader.GetInt32(0)));
+        Assert.Equal(expected.Order(), actual.Order());
+        _out.WriteLine($"Verified {actual.Count} operator IDs against live SQL, read-only.");
+    }
 }

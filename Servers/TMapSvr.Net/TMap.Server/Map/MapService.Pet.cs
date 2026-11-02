@@ -46,18 +46,12 @@ public sealed partial class MapService
     private async Task LoadPetsAsync(ClientSession s, Character ch)
     {
         if (PetStore is not { } db || s.UserId == 0) return;
-        try
-        {
-            var saddle = await db.GetSaddleAsync(s.UserId);
-            ch.Saddle = saddle.ItemId != 0 ? saddle : null;
-            foreach (var row in await db.LoadPetsAsync(s.UserId))
-                if (_templates.Mounts.TryGetValue(row.PetId, out var tpl))
-                    ch.Pets[row.PetId] = new Pet { PetId = row.PetId, Name = row.Name, EndTime = row.EndTime, Effect = row.Effect, Template = tpl };
-        }
-        catch (Exception ex)
-        {
-            _log.LogWarning(ex, "Char {Char} pet load failed; continuing without pets.", ch.CharId);
-        }
+        var saddle = await db.GetSaddleAsync(s.UserId);
+        var pets = await db.LoadPetsAsync(s.UserId);
+        ch.Saddle = saddle.ItemId != 0 ? saddle : null;
+        foreach (var row in pets)
+            if (_templates.Mounts.TryGetValue(row.PetId, out var tpl))
+                ch.Pets[row.PetId] = new Pet { PetId = row.PetId, Name = row.Name, EndTime = row.EndTime, Effect = row.Effect, Template = tpl };
     }
 
     /// <summary>The pets part of the character save (C++ <c>OnDM_SAVECHAR_REQ</c>, SSHandler.cpp:7343): one
