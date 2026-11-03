@@ -52,6 +52,8 @@ enc_temp_folder/
 # ----- .NET build output (restore/build regenerate it) -----
 **/process-state/
 **/obj/
+# Game object packs are assets; Windows also matches OBJ against obj above.
+!/Game/Data/OBJ/
 **/bin/
 !/Lib/3rdParty/**/bin/
 
